@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, Image } from 'react-native';
 import Button from "../components/Button";
 import F
+import { auth } from "../firebase.js";
 
 export default function Login() {
 
@@ -15,14 +16,32 @@ export default function Login() {
     } else {
       setError('Invalid credentials');
     }
-  }
+  };
+
+  const logInWithEmail = async () => {
+    if (email && password) {
+      try {
+        const response = await auth().signInWithEmailAndPassword(email, password);
+        if (response.user) {
+          console.log('Login success');
+          // navigate.("home);
+        } else {
+          setError('Invalid credentials');
+        }
+
+      } catch (e) {
+
+      }
+    }
+  };
+
 
 
   return (
     <View style={styles.container}>
       <Image
         style={{ width: 100, height: 100, marginBottom: 20 }}
-        source={require('../assets/images/usedLogo.png')} 
+        source={require('../assets/images/usedLogo.png')}
       />
 
       <Text style={styles.title}>Wild Knight</Text>
@@ -42,7 +61,7 @@ export default function Login() {
         secureTextEntry
       />
 
-      <Button sytle={styles.loginIn} title='Login' onPress={handleLogin} />
+      <Button sytle={styles.loginIn} title='Log in' onPress={logInWithEmail} />
 
       {/** TODO: Forgot password **/}
       <Text>Forgot password?</Text>
