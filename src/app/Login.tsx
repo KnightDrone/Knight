@@ -20,10 +20,10 @@ export default function Login() {
     <View style={styles.container}>
       <Image 
         style={{ width: 100, height: 100, marginBottom: 20 }}
-        source={require('../assets/logo.png')} 
+        source={require('../assets/images/usedLogo.png')} 
       />
 
-      <Text style={styles.title}>Login</Text>
+      <Text style={styles.title}>Wild Knight</Text>
 
       <TextInput
         style={styles.input}
@@ -40,7 +40,7 @@ export default function Login() {
         secureTextEntry
       />
 
-      <Button title='Login' onPress={handleLogin} />
+      <Button sytle={styles.loginIn} title='Login' onPress={handleLogin} />
 
       {/** TODO: Forgot password **/}
       <Text>Forgot password?</Text>
@@ -90,7 +90,8 @@ const styles = StyleSheet.create({
   }
 
   text: {
-
+    color: 'black',
+    fontSize: 16,
   }
   
 });
