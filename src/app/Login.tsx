@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, Image } from 'react-native';
 import Button from "../components/Button";
-import F
-import { auth } from "../firebase.js";
+import { auth, GoogleAuthProvider, signInWithPopup } from '../firebase.js';
+// import { auth } from '../firebase.js';
 
 export default function Login() {
 
@@ -21,7 +21,7 @@ export default function Login() {
   const logInWithEmail = async () => {
     if (email && password) {
       try {
-        const response = await auth().signInWithEmailAndPassword(email, password);
+        const response = await auth.signInWithEmailAndPassword(email, password);
         if (response.user) {
           console.log('Login success');
           // navigate.("home);
@@ -32,6 +32,23 @@ export default function Login() {
       } catch (e) {
 
       }
+    }
+  };
+  const logInWithGoogle = async () => {
+    const provider = new GoogleAuthProvider();
+  
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+      if (user) {
+        console.log('Login success');
+        // navigate.("home);
+      } else {
+        setError('Failed to log in with Google');
+      }
+    } catch (error) {
+      setError('Failed to log in with Google');
+      console.error(error);
     }
   };
 
