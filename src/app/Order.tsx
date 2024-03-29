@@ -1,7 +1,8 @@
 import React from 'react';
-import Button from '../components/Button';
+import OrderButton from '../components/OrderButton';
 import {Text, StyleSheet, View} from 'react-native'
 import { useFonts } from 'expo-font';
+import { buttonStyles } from '../components/ButtonStyles';
 
 interface OrderProps {
     // Define your component props here
@@ -16,6 +17,7 @@ enum Item {
 }
 
 export default function Order() {
+    // Load custom fonts
     const [fontsLoaded] = useFonts({
         'Kaisei-Regular': require('../../assets/fonts/KaiseiDecol-Regular.ttf'),
         'Kaisei-Medium': require('../../assets/fonts/KaiseiDecol-Medium.ttf'),
@@ -25,6 +27,7 @@ export default function Order() {
     return (
         <View>
             <Text style={styles.title}>Place your Order</Text>
+            <OrderButton title="First Aid Kit" onPress={() => console.log('First Aid Kit')} />
         </View>
     );
 };

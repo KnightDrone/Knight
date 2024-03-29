@@ -9,7 +9,7 @@ interface ButtonProps {
 
 const Button: React.FC<ButtonProps> = ({ title, onPress }) => {
     return (
-        <TouchableOpacity style={buttonStyles.default_button} onPress={onPress}>
+        <TouchableOpacity style={buttonStyles.order_button} onPress={onPress}>
             <Text style={buttonStyles.text}>{title}</Text>
         </TouchableOpacity>
     );
