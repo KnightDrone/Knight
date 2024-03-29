@@ -27,3 +27,6 @@ const analytics = getAnalytics(app);
 export default app;
 export { auth, GoogleAuthProvider, signInWithPopup };
 //export { auth };
+
+// iOS ClientID for OAth: 983400403511-gi5mo0akb89fcecaivk4q509c63hrvtl.apps.googleusercontent.com
+// Android ClientID for OAth: 983400403511-i43set67i4o1e3kb7fl91vrh9r6aemcb.apps.googleusercontent.com

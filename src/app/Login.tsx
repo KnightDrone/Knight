@@ -1,14 +1,25 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TextInput, Image } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Image, TouchableOpacity } from 'react-native';
 import Button from "../components/Button";
-import { auth, GoogleAuthProvider, signInWithPopup } from '../firebase.js';
-// import { auth } from '../firebase.js';
+import {
+  GoogleAuthProvider,
+  onAuthStateChanged,
+  signInWithCredential,
+} from "firebase/auth";
+import {auth} from "../firebase";
+import * as Google from "expo-auth-session/providers/google";
+import * as WebBrowser from "expo-web-browser";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { signInWithEmailAndPassword } from 'firebase/auth';
 
-export default function Login() {
+
+
+export default function LoginScreen( {promptAsync}) {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+
 
   const handleLogin = () => {
     if (email === 'admin' && password === 'admin') {
@@ -21,7 +32,7 @@ export default function Login() {
   const logInWithEmail = async () => {
     if (email && password) {
       try {
-        const response = await auth.signInWithEmailAndPassword(auth, email, password);
+        const response = await signInWithEmailAndPassword(auth, email, password);
         if (response.user) {
           console.log('Login success');
           // navigate.("home);
@@ -34,25 +45,6 @@ export default function Login() {
       }
     }
   };
-  const logInWithGoogle = async () => {
-    const provider = new GoogleAuthProvider();
-  
-    try {
-      const result = await signInWithPopup(auth, provider);
-      const user = result.user;
-      if (user) {
-        console.log('Login success');
-        // navigate.("home);
-      } else {
-        setError('Failed to log in with Google');
-      }
-    } catch (error) {
-      setError('Failed to log in with Google');
-      console.error(error);
-    }
-  };
-
-
 
   return (
     <View style={styles.container}>
@@ -84,14 +76,16 @@ export default function Login() {
       <Text>Forgot password?</Text>
 
       {/** TODO: Add line **/}
-
+      
       <div style={{ height: 20 }}>
         <Image
           style={{ width: 100, height: 100, marginBottom: 20 }}
           source={require('../assets/logo.png')}
         />
 
-        <Text style={styles.text}>Continue with Google</Text>
+        <TouchableOpacity onPress={() => promptAsync()}> 
+          <Text style={styles.text}>Continue with Google</Text>
+        </TouchableOpacity>
       </div>
 
       {/** TODO: Add line **/}
@@ -125,7 +119,7 @@ const styles = StyleSheet.create({
   error: {
     color: 'red',
     marginTop: 10,
-  }
+  },
 
   text: {
     color: 'black',
