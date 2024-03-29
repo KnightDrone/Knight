@@ -21,7 +21,7 @@ export default function Login() {
   const logInWithEmail = async () => {
     if (email && password) {
       try {
-        const response = await auth.signInWithEmailAndPassword(email, password);
+        const response = await auth.signInWithEmailAndPassword(auth, email, password);
         if (response.user) {
           console.log('Login success');
           // navigate.("home);
