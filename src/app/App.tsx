@@ -19,10 +19,26 @@ export default function App() {
     const [count, setCount] = useState(0);
     const increment = () => setCount(count + 1);
     const [userInfo, setUserInfo] = React.useState<User | null>(null);
+    const [loading, setLoading] = React.useState(false);
     const [request, response, promptAsync] = Google.useAuthRequest({
         iosClientId: '983400403511-gi5mo0akb89fcecaivk4q509c63hrvtl.apps.googleusercontent.com',
         androidClientId: '983400403511-i43set67i4o1e3kb7fl91vrh9r6aemcb.apps.googleusercontent.com'
     });
+
+    const checkLocalUser = async () => {
+        try {
+            setLoading(true);
+            const userJSON = await AsyncStorage.getItem("@user");
+            const userData = userJSON != null ? JSON.parse(userJSON) : null;
+            console.log("local storage:", userData);
+            setUserInfo(userData);
+        } catch (e) {
+            alert(e);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     React.useEffect(() => {
         if (response?.type === 'success') {
             const { id_token } = response.params;
@@ -32,10 +48,16 @@ export default function App() {
     }, [response]);
 
     React.useEffect(() => {
+        checkLocalUser();
         const unsub = onAuthStateChanged(auth, async (user) => {
             if (user) {
                 console.log(JSON.stringify(user, null, 2));
                 setUserInfo(user);
+                try {
+                    await AsyncStorage.setItem("@user", JSON.stringify(user));
+                } catch (e) {
+                    alert(e);
+                }
             } else {
 
             }
@@ -43,7 +65,10 @@ export default function App() {
 
         return () => unsub(); // for performance
     }, []);
-
+    // TODO: Add a loading screen, also check for previous email login
+    if (loading) {
+        return <Text>Loading...</Text>; 
+    }
     return <LoginScreen promptAsync={promptAsync} />;
     /*return (
         <View style={styles.container}>
