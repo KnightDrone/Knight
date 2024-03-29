@@ -4,6 +4,7 @@ import {Text, StyleSheet, View} from 'react-native'
 import { useFonts } from 'expo-font';
 import { buttonStyles } from '../components/ButtonStyles';
 
+
 interface OrderProps {
     // Define your component props here
 }
@@ -22,15 +23,24 @@ export default function Order() {
         'Kaisei-Regular': require('../../assets/fonts/KaiseiDecol-Regular.ttf'),
         'Kaisei-Medium': require('../../assets/fonts/KaiseiDecol-Medium.ttf'),
         'Kaisei-Bold': require('../../assets/fonts/KaiseiDecol-Bold.ttf'),
-    });
+      });
+    
 
     return (
         <View>
-            <Text style={styles.title}>Place your Order</Text>
+            <Text style={{
+                fontSize: 36,
+                marginBottom: 33,
+                fontFamily: 'Kaisei-Regular',
+                lineHeight: 40,
+            }}>
+                Place your Order
+            </Text>
             <OrderButton title="First Aid Kit" onPress={() => console.log('First Aid Kit')} />
         </View>
     );
 };
+
 
 const styles = StyleSheet.create({
     container: {
@@ -39,10 +49,4 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       justifyContent: 'center',
     },
-    title: {
-      fontSize: 36,
-      marginBottom: 33,
-      fontFamily: 'Kaisei-Regular',
-      lineHeight: 40,
-    },  
   });

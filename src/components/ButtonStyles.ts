@@ -11,7 +11,7 @@ export const buttonStyles = StyleSheet.create({
         textAlign: "center",
     },
     order_button: {
-        backgroundColor: "green",
+        backgroundColor: "FFFBF1",
         padding: 15,
         borderRadius: 5,
     },
