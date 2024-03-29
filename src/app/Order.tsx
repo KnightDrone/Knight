@@ -1,6 +1,7 @@
 import React from 'react';
 import Button from '../components/Button';
 import {Text, StyleSheet, View} from 'react-native'
+import { useFonts } from 'expo-font';
 
 interface OrderProps {
     // Define your component props here
@@ -15,11 +16,15 @@ enum Item {
 }
 
 export default function Order() {
-    
+    const [fontsLoaded] = useFonts({
+        'Kaisei-Regular': require('../../assets/fonts/KaiseiDecol-Regular.ttf'),
+        'Kaisei-Medium': require('../../assets/fonts/KaiseiDecol-Medium.ttf'),
+        'Kaisei-Bold': require('../../assets/fonts/KaiseiDecol-Bold.ttf'),
+    });
 
     return (
-        <View style={styles.container}>
-            <Text style={styles.title}>Choose your Item</Text>
+        <View>
+            <Text style={styles.title}>Place your Order</Text>
         </View>
     );
 };
@@ -34,24 +39,7 @@ const styles = StyleSheet.create({
     title: {
       fontSize: 36,
       marginBottom: 33,
-      fontFamily: 'Kaisei-Decol',
-    },
-    input: {
-      width: '80%',
-      height: 40,
-      borderColor: 'gray',
-      borderWidth: 1,
-      marginBottom: 10,
-      padding: 10,
-    },
-    error: {
-      color: 'red',
-      marginTop: 10,
-    },
-  
-    text: {
-      color: 'black',
-      fontSize: 16,
-    }
-  
+      fontFamily: 'Kaisei-Regular',
+      lineHeight: 40,
+    },  
   });
