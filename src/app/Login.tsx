@@ -12,9 +12,12 @@ import * as WebBrowser from "expo-web-browser";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { signInWithEmailAndPassword } from 'firebase/auth';
 
-
-
-export default function LoginScreen( {promptAsync}) {
+// Navigation imports
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+export default function Login(
+  {promptAsync, navigation}: Props
+){
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -41,59 +44,80 @@ export default function LoginScreen( {promptAsync}) {
         }
 
       } catch (e) {
-
+        setError('Login failed. Please check your credentials.');
       }
     }
   };
 
+  const forgotPassword = () => {
+    // Add code to handle forgot password 
+    //Navigate to the forgot password screen
+    
+  };
+
   return (
-    <View style={styles.container}>
-      <Image
-        style={{ width: 100, height: 100, marginBottom: 20 }}
-        source={require('../assets/images/usedLogo.png')}
-      />
-
-      <Text style={styles.title}>Wild Knight</Text>
-
-      <TextInput
-        style={styles.input}
-        placeholder='Enter your username or email'
-        value={email}
-        onChangeText={setEmail}
-      />
-
-      <TextInput
-        style={styles.input}
-        placeholder='Enter your password'
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-      />
-
-      <Button sytle={styles.loginIn} title='Log in' onPress={logInWithEmail} />
-
-      {/** TODO: Forgot password **/}
-      <Text>Forgot password?</Text>
-
-      {/** TODO: Add line **/}
-      
-      <div style={{ height: 20 }}>
+      <View style={styles.container}>
         <Image
-          style={{ width: 100, height: 100, marginBottom: 20 }}
-          source={require('../assets/logo.png')}
+          style={styles.logo}
+          source={require('../../assets/images/usedLogo.png')}
         />
 
-        <TouchableOpacity onPress={() => promptAsync()}> 
-          <Text style={styles.text}>Continue with Google</Text>
+        <Text style={styles.title}>Wild Knight</Text>
+
+        <TextInput
+          style={styles.input}
+          placeholder='Enter your username or email'
+          value={email}
+          onChangeText={setEmail}
+        />
+
+        <TextInput
+          style={styles.input}
+          placeholder='Enter your password'
+          value={password}
+          onChangeText={setPassword}
+        />
+
+        <Button 
+          sytle={styles.button} 
+          title='Log in' 
+          onPress={logInWithEmail} 
+        />
+
+        <TouchableOpacity>
+          <Text style={styles.linkText} 
+            onPress={() =>
+              navigation.navigate('forgotPassword')
+            }
+          >
+            Forgot password?
+          </Text>
         </TouchableOpacity>
-      </div>
 
-      {/** TODO: Add line **/}
+        <View style={styles.lineContainer}>
+          <View style={styles.line} />
+          <Text style={styles.orText}>OR</Text>
+          <View style={styles.line} />
+        </View>
+        
+        <TouchableOpacity style={styles.button} onPress={() => promptAsync()}> 
+          <Text style={styles.googleButtonText}>Continue with Google</Text>
+        </TouchableOpacity>
 
-      <Text style={styles.text}>Don't have an account? Sign Up!</Text>
+        <TouchableOpacity>
+          <Text style={styles.text}> Don't have an account? </Text>
+          <Text 
+            style={styles.linkText} 
+            onPress={() =>
+              navigation.navigate('SignUp')
+            }
+          > 
+            Sign Up! 
+          </Text>
+        </TouchableOpacity>
 
-      <Text style={styles.error}>{error}</Text>
-    </View>
+        <Text style={styles.error}>{error}</Text>
+      </View>
   );
 }
 
@@ -104,9 +128,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  logo: {
+    width: 100,
+    height: 100,
+    marginBottom: 20,
+  },
   title: {
     fontSize: 24,
     marginBottom: 20,
+    textAlign: 'center',
   },
   input: {
     width: '80%',
@@ -120,12 +150,48 @@ const styles = StyleSheet.create({
     color: 'red',
     marginTop: 10,
   },
-
   text: {
     color: 'black',
     fontSize: 16,
-  }
-
+    textAlign: 'center', // Center the text
+    marginTop: 10,
+  },
+  lineContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: '80%',
+    marginVertical: 20,
+  },
+  line: {
+    flex: 1,
+    height: 1,
+    backgroundColor: 'gray',
+  },
+  orText: {
+    width: 30,
+    textAlign: 'center',
+  },
+  button: {
+    marginTop: 10,
+    width: '80%',
+    borderColor: 'black',
+    borderWidth: 1,
+    borderRadius: 5, // Adjust for desired roundness
+    padding: 10,
+  },
+  googleButtonText: {
+    color: 'black',
+    fontSize: 16,
+    textAlign: 'center',
+  },
+  linkText: {
+    color: 'blue', // Change as needed
+    fontSize: 16,
+    textAlign: 'center',
+    marginTop: 10,
+    textDecorationLine: 'underline', // Adds underline to indicate it's a link
+  },
+  // Add or modify other styles as needed
 });
 
 
