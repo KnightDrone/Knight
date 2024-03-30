@@ -4,9 +4,9 @@ on:
     push:
         branches:
             - 'setup-testing' # Runs on every push to setup-testing (Just for now to see if it works)
-    # pull_request:
-    #     branches:
-    #         - main # Runs on pull requests to the main branch
+    pull_request:
+        branches:
+            - main # Runs on pull requests to the main branch
 
 concurrency:
     group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
