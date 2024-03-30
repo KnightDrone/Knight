@@ -1,6 +1,5 @@
 import * as React from "react";
-import { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Text } from "react-native";
 import {
     GoogleAuthProvider,
     onAuthStateChanged,
@@ -15,8 +14,6 @@ import { User } from 'firebase/auth';
 // Imports for Navigation 
 import {NavigationContainer} from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RouteProp } from '@react-navigation/native';
 
 import Login from './Login';
 import SignUp from './SignUp';
@@ -32,13 +29,6 @@ type RootStackParamList = {
   Login: undefined;
   SignUp: undefined;
   ForgotPassword: undefined;
-};
-type LoginScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Login'>;
-type LoginScreenRouteProp = RouteProp<RootStackParamList, 'Login'>;
-type Props = {
-  navigation: LoginScreenNavigationProp;
-  route: LoginScreenRouteProp;
-  promptAsync: () => Promise<void>; // Adjust according to the actual type
 };
 
 export default function App() {
@@ -105,27 +95,14 @@ export default function App() {
         </Stack.Screen>
         <Stack.Screen 
           name="SignUp" 
-          component={SignUp} 
-        />
+        >
+          {props => <SignUp {...props} promptAsync={promptAsync} />}
+        </Stack.Screen>
         <Stack.Screen 
           name="ForgotPassword" 
-          component={ForgotPassword as any} 
+          component={ForgotPassword} 
         />
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
-
-function LoginFunc() {
-  return <Login promptAsync={promptAsync} />;
-}
-//
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 20,
-  },
-});

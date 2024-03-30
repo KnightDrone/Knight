@@ -13,29 +13,29 @@ export default function ForgotPasswordScreen() {
   };
 
   return (
-      <View style={styles.container}>
-        <Image
-          style={styles.logo}
-          source={require('../../assets/images/usedLogo.png')}
-        />
+    <View style={styles.container}>
+      <Image
+        style={styles.logo}
+        source={require('../../assets/images/usedLogo.png')}
+      />
 
-        <Text style={styles.title}>Wild Knight</Text>
+      <Text style={styles.title}>Wild Knight</Text>
 
-        <Text style={styles.label}>Email</Text>
-        <TextInput
-          style={styles.input}
-          onChangeText={setEmail}
-          value={email}
-          placeholder="Email"
-        />
+      <Text style={styles.label}>Give us your email</Text>
+      <TextInput
+        style={styles.input}
+        onChangeText={setEmail}
+        value={email}
+        placeholder="Please enter your email"
+      />
 
-        <Button
-          title="Reset Password"
-          onPress={handleForgotPassword}
-        />
+      <Button
+        title="Reset Password"
+        onPress={handleForgotPassword}
+      />
 
-        <Text style={styles.error}>{error}</Text>
-      </View>
+      <Text style={styles.error}>{error}</Text>
+    </View>
   );
 }
 
@@ -72,6 +72,6 @@ const styles = StyleSheet.create({
     color: 'black',
     fontSize: 16,
     textAlign: 'center', // Center the text
-    marginTop: 10,
+    marginBottom: 10,
   },
 });

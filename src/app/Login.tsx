@@ -16,7 +16,7 @@ import { signInWithEmailAndPassword } from 'firebase/auth';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 export default function Login(
-  {promptAsync, navigation}: Props
+  {promptAsync, navigation}: any
 ){
 
   const [email, setEmail] = useState('');
@@ -79,7 +79,6 @@ export default function Login(
         />
 
         <Button 
-          sytle={styles.button} 
           title='Log in' 
           onPress={logInWithEmail} 
         />
@@ -87,7 +86,7 @@ export default function Login(
         <TouchableOpacity>
           <Text style={styles.linkText} 
             onPress={() =>
-              navigation.navigate('forgotPassword')
+              navigation.navigate('ForgotPassword')
             }
           >
             Forgot password?

@@ -11,8 +11,13 @@ import * as Google from "expo-auth-session/providers/google";
 import * as WebBrowser from "expo-web-browser";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { signInWithEmailAndPassword } from 'firebase/auth';
+import {Icon} from 'react-icons-kit';
+import {eyeOff} from 'react-icons-kit/feather/eyeOff';
+import {eye} from 'react-icons-kit/feather/eye'
 
-export default function SignUpScreen({navigation}: {navigation: any}) {
+export default function SignUp(
+  {promptAsync, navigation}: any
+) {
 
   const [user, setUser] = useState('');
   const [email, setEmail] = useState('');
@@ -21,6 +26,9 @@ export default function SignUpScreen({navigation}: {navigation: any}) {
   const [password, setPassword] = useState(''); 
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [strength, setStrength] = useState(''); 
+
+  const [type, setType] = useState('password');
+  const [icon, setIcon] = useState(eyeOff);
 
   const validatePassword = (input: string) => { 
     let newSuggestions = []; 
@@ -59,6 +67,15 @@ export default function SignUpScreen({navigation}: {navigation: any}) {
     } 
   } 
 
+  const handleToggle = () => {
+     if (type==='password'){
+        setIcon(eye);
+        setType('text')
+     } else {
+        setIcon(eyeOff)
+        setType('password')
+     }
+  }
   // TODO: Implement handleSignUp using firebase
   const handleSignUp = () => {
 
@@ -87,44 +104,55 @@ export default function SignUpScreen({navigation}: {navigation: any}) {
         onChangeText={setEmail}
       />
 
-      <TextInput placeholder="Enter your password"
+      <TextInput 
+        style={styles.input} 
+        placeholder='Enter your password'
         onChangeText={(text) => { 
-         setPassword(text); 
-         validatePassword(text) 
+          setPassword(text); 
         }} 
-        style={styles.text} 
       /> 
+      { /** 
+      <View
+        style={styles.input}
+      >
+        <Icon
+          icon={icon}
+          style={styles.icon}>
+        </Icon>
+      </View>
+      **/}
 
-      <Text style={styles.strengthText}> 
-          Password Strength: {strength} 
-      </Text> 
-
-      <Text style={styles.suggestionsText}> 
+      <View>
         {suggestions.map((suggestion, index) => ( 
-          <Text key={index}> 
-            {suggestion}{'\n'} 
-          </Text>))} 
-      </Text> 
-
-      <View style={styles.strengthMeter}> 
-        <View style={{
-          width: `${
-            (strength === 'Very Strong' ? 100 : 
-            (strength === 'Strong' ? 75 : 
-            (strength === 'Moderate' ? 50 : 
-            (strength === 'Weak' ? 25 : 0))))}%`, 
-          height: 20, 
-          backgroundColor: 
-            strength === 'Too Weak' ? 'red' : 
-            (strength === 'Weak' ? 'orange' : 
-            (strength === 'Moderate' ? 'yellow' : 
-            (strength === 'Strong' ? 'green' : 'limegreen')))}}> 
-        </View> 
-      </View> 
+          <View key={index}>
+            <Text style={styles.strengthText}> 
+                Password Strength: {strength} 
+            </Text> 
+            <Text style={styles.suggestionsText}> 
+                <Text key={index}> 
+                  {suggestion}{'\n'} 
+                </Text>
+            </Text> 
+            <View style={styles.strengthMeter}> 
+              <View style={{
+                width: `${
+                  (strength === 'Very Strong' ? 100 : 
+                  (strength === 'Strong' ? 75 : 
+                  (strength === 'Moderate' ? 50 : 
+                  (strength === 'Weak' ? 25 : 0))))}%`, 
+                height: 20, 
+                backgroundColor: 
+                  strength === 'Too Weak' ? 'red' : 
+                  (strength === 'Weak' ? 'orange' : 
+                  (strength === 'Moderate' ? 'yellow' : 
+                  (strength === 'Strong' ? 'green' : 'limegreen')))}}> 
+              </View> 
+            </View>
+          </View> ))} 
+      </View>
 
       <Button 
-        sytle={styles.button} 
-        title='Sign Up' 
+        title='Sign Up'
         onPress={handleSignUp} 
       />
 
@@ -160,6 +188,14 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     textAlign: 'center',
   },
+  button: {
+      marginTop: 10,
+      width: '80%',
+      borderColor: 'black',
+      borderWidth: 1,
+      borderRadius: 5,
+      padding: 10,
+  },
   input: {
     width: '80%',
     height: 40,
@@ -167,6 +203,12 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginBottom: 10,
     padding: 10,
+  },
+  passwordText: {
+    color: 'black',
+    fontSize: 16,
+    textAlign: 'left',
+    marginTop: 10,
   },
   error: {
     color: 'red',
@@ -193,14 +235,6 @@ const styles = StyleSheet.create({
     width: 30,
     textAlign: 'center',
   },
-  button: {
-    marginTop: 10,
-    width: '80%',
-    borderColor: 'black',
-    borderWidth: 1,
-    borderRadius: 5,
-    padding: 10,
-  },
   googleButtonText: {
     color: 'black',
     fontSize: 16,
@@ -215,20 +249,27 @@ const styles = StyleSheet.create({
   },
   strengthText: { 
     fontWeight: 'bold', 
+    color : 'black',
     fontSize: 18, 
-    color: '#007700', 
+    marginBottom: 10,
+    marginTop: 10,
   }, 
   suggestionsText: { 
-    color: 'red', 
+    color: 'red',
   }, 
   strengthMeter: { 
     width: '80%', 
     height: 20, 
     backgroundColor: '#ccc', 
-    marginTop: 20, 
+    marginTop: 10, 
+    marginBottom: 10,
     borderRadius: 10, 
-    overflow: 'hidden', 
+    overflow: 'hidden',
   }, 
+  icon: {
+    position: 'absolute',
+    marginRight: 10,
+  },
 });
 
 
