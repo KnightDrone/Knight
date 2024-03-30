@@ -3,10 +3,10 @@ name: Code Quality Checks
 on:
     push:
         branches:
-            - 'setup-testing' # Runs on every push to setup-testing
-    pull_request:
-        branches:
-            - main # Runs on pull requests to the main branch
+            - 'setup-testing' # Runs on every push to setup-testing (Just for now to see if it works)
+    # pull_request:
+    #     branches:
+    #         - main # Runs on pull requests to the main branch
 
 concurrency:
     group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
@@ -39,14 +39,14 @@ jobs:
                 git diff --exit-code || echo "::set-output name=formatted::true"
               id: prettier
 
-            - name: Commit and push if there were changes
-              if: steps.prettier.outputs.formatted == 'true'
-              run: |
-                git config user.name "github-actions[bot]"
-                git config user.email "github-actions[bot]@users.noreply.github.com"
-                git add .
-                git commit -m "Apply Prettier formatting"
-                git push
+            # - name: Commit and push if there were changes # Waiting for access
+            #   if: steps.prettier.outputs.formatted == 'true'
+            #   run: |
+            #     git config user.name "github-actions[bot]"
+            #     git config user.email "github-actions[bot]@users.noreply.github.com"
+            #     git add .
+            #     git commit -m "Apply Prettier formatting"
+            #     git push
 
     # Jest testing job
     jest:
