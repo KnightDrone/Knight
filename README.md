@@ -22,7 +22,6 @@
 > registerRootComponent(App);
 > ```
 
-## Testing
 
 ### Setup
 
@@ -35,3 +34,15 @@ Additionally, you can run `npm run test:coverage` to view the test coverage of t
 
 To write tests, create a new file in the `__tests__` directory. Name the file after the file you want to test but append `.test.js` to the end. For example, to test `App.js`, create a file named `App.test.js`. Within this file, you can write tests using the Jest testing framework. Refer to the Jest documentation [here](https://jestjs.io/docs/getting-started) for guidance on how to write tests.  
 For more information on how to test React components, consult the React Testing Library documentation [here](https://testing-library.com/docs/react-testing-library/intro/), with practical examples available [here](https://testing-library.com/docs/react-native-testing-library/example-intro).
+
+### Navigation
+
+For navigation we use the react-navigation library, which is setup in the App.tx file. To be able to access a different screen one must go to the RootStackParamList type and add the name of the Screen. If th e screen doesn't take any parameters then we write it as undefined. We then add it to the Stack Navigator. eg.
+```javascript
+<Stack.Screen 
+  name="ForgotPassword" 
+  component={ForgotPassword} 
+/>
+```
+Note: Don't forget to import the component to the App.tsx
+
