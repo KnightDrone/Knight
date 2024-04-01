@@ -15,7 +15,7 @@ export const buttonStyles = StyleSheet.create({
         height: 90,
         backgroundColor: "#FFFBF1",
         borderRadius: 30,
-        borderColor: "black",
+        borderColor: "#A09A9A",
         borderWidth: 1, 
         marginBottom: 33,
         flexDirection: 'row', 

@@ -24,7 +24,8 @@ export default function OrderMenu() {
     
 
     return (
-        <View>
+        <View style={styles.container}>
+            <View style={styles.triangle}></View>
             <Text style={{
                 fontSize: 36,
                 marginBottom: 33,
@@ -32,7 +33,7 @@ export default function OrderMenu() {
                 lineHeight: 40,
                 alignSelf: 'center',
             }}>
-                Place your Order
+                Choose your item
             </Text>
             <OrderButton 
                 title="First Aid Kit" 
@@ -57,10 +58,26 @@ export default function OrderMenu() {
 
 const styles = StyleSheet.create({
     container: {
-      flex: 1,
-      backgroundColor: '#fff',
-      alignItems: 'center',
-      justifyContent: 'center',
+        flex: 1,
+        backgroundColor: '#fff',
+        alignItems: 'center',
+        justifyContent: 'center',
     },
-    
+    triangle: {
+        width: 0,
+        height: 0,
+        backgroundColor: 'transparent',
+        borderStyle: 'solid',
+        borderTopWidth: 0,
+        borderRightWidth: 460, // Width of the triangle
+        borderBottomWidth: 750, // Height of the triangle
+        borderLeftWidth: 0, // Width of the triangle
+        borderTopColor: 'transparent',
+        borderRightColor: 'transparent',
+        borderBottomColor: '#93D39D', // Color of the triangle
+        borderLeftColor: 'transparent',
+        position: 'absolute', // This ensures the triangle is in the background
+        bottom: -123,
+        left: -23,
+      },
   });
