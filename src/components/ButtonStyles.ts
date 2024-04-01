@@ -11,8 +11,18 @@ export const buttonStyles = StyleSheet.create({
         textAlign: "center",
     },
     order_button: {
-        backgroundColor: "FFFBF1",
-        padding: 15,
-        borderRadius: 5,
+        width: 340,
+        height: 90,
+        backgroundColor: "#FFFBF1",
+        borderRadius: 30,
+        borderColor: "black",
+        borderWidth: 1, 
+        marginBottom: 33,
+        flexDirection: 'row', 
+        alignItems: 'center'
     },
+    image:{
+        height: 90,
+        width: 90,
+    }
 });
