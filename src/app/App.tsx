@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
 import Button from "../components/Button";
-import Order from "./Order"; 
+import OrderMenu from "./OrderMenu"; 
 
 export default function App() {
     const [count, setCount] = useState(0);
@@ -14,7 +14,7 @@ export default function App() {
             <StatusBar style="auto" />
             <Button title="Press me" onPress={increment} />
             <Text>Count: {count}</Text> */}
-            <Order />
+            <OrderMenu />
         </View>
     );
 }

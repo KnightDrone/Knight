@@ -16,7 +16,7 @@ enum Items {
     POWER = 'Power Bank',
 }
 
-export default function Order() {
+export default function OrderMenu() {
     // Load custom fonts
     const [fontsLoaded] = useFonts({
         'Kaisei-Regular': require('../../assets/fonts/KaiseiDecol-Regular.ttf'),
