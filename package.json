@@ -8,14 +8,16 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "test": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "format": "prettier --write ."
   },
   "dependencies": {
     "expo": "~50.0.14",
+    "expo-font": "~11.10.3",
     "expo-status-bar": "~1.11.1",
+    "prettier": "^3.2.5",
     "react": "18.2.0",
-    "react-native": "0.73.6",
-    "expo-font": "~11.10.3"
+    "react-native": "0.73.6"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

@@ -11,9 +11,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },
@@ -27,16 +25,16 @@
       "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
-        [
-            "expo-font",
-            {
-                "fonts": [
-                    "./assets/fonts/KaiseiDecol-Regular.ttf",
-                    "./assets/fonts/KaiseiDecol-Medium.ttf",
-                    "./assets/fonts/KaiseiDecol-Bold.ttf"
-                ]
-            }
-        ]
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "./assets/fonts/KaiseiDecol-Regular.ttf",
+            "./assets/fonts/KaiseiDecol-Medium.ttf",
+            "./assets/fonts/KaiseiDecol-Bold.ttf"
+          ]
+        }
+      ]
     ]
   }
 }
