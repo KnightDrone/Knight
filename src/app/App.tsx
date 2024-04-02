@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
 import Button from "../components/Button";
-import OrderMenu from "./OrderMenu";
 
 export default function App() {
   const [count, setCount] = useState(0);
@@ -10,11 +9,10 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      {/* <Text>Tiberiu was here!</Text>
-            <StatusBar style="auto" />
-            <Button title="Press me" onPress={increment} />
-            <Text>Count: {count}</Text> */}
-      <OrderMenu />
+      <Text>Tiberiu was here!</Text>
+      <StatusBar style="auto" />
+      <Button title="Press me" onPress={increment} />
+      <Text>Count: {count}</Text>
     </View>
   );
 }
