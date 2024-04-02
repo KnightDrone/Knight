@@ -15,7 +15,7 @@ interface ButtonProps {
   onPress: () => void;
 }
 
-const Button: React.FC<ButtonProps> = ({ title, image, onPress }) => {
+const OrderButton: React.FC<ButtonProps> = ({ title, image, onPress }) => {
   const [fontsLoaded] = useFonts({
     "Kaisei-Regular": require("../../assets/fonts/KaiseiDecol-Regular.ttf"),
   });
@@ -26,7 +26,7 @@ const Button: React.FC<ButtonProps> = ({ title, image, onPress }) => {
 
   return (
     <TouchableOpacity style={buttonStyles.order_button} onPress={onPress}>
-      <Image style={buttonStyles.image} source={image} />
+      <Image style={buttonStyles.image} source={image} testID="image" />
       <Text
         style={{
           fontSize: 24,
@@ -41,4 +41,4 @@ const Button: React.FC<ButtonProps> = ({ title, image, onPress }) => {
   );
 };
 
-export default Button;
+export default OrderButton;

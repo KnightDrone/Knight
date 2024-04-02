@@ -17,4 +17,7 @@ module.exports = {
   collectCoverageFrom: ["src/**/*.{ts,tsx}"],
   coverageDirectory: "coverage",
   coverageReporters: ["text", "lcov"],
+  moduleNameMapper: {
+    "\\.(ttf|png|jpg)$": "<rootDir>/jestAssetTransformer.js",
+  },
 };
