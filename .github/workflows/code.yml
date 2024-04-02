@@ -1,0 +1,85 @@
+name: Code Quality Checks
+
+on:
+    push:
+        branches:
+            - 'setup-testing' # Runs on every push to setup-testing (Just for now to see if it works)
+    pull_request:
+        branches:
+            - main # Runs on pull requests to the main branch
+
+concurrency:
+    group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+    cancel-in-progress: true
+
+jobs:
+    # Prettier code formatting job
+    prettier:
+        name: Prettier Code Formatting
+        runs-on: ubuntu-22.04
+
+        steps:
+            - uses: actions/checkout@v3
+              with:
+                ref: ${{ github.head_ref }}
+                token: ${{ secrets.GITHUB_TOKEN }} # Required to push changes back to your repository
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v3
+              with:
+                  node-version: 20
+                  cache: 'npm'
+
+            - name: Install dependencies
+              run: npm install
+
+            - name: Check formatting with Prettier
+              run: |
+                npm run format
+                git diff --exit-code || echo "::set-output name=formatted::true"
+              id: prettier
+
+            # - name: Commit and push if there were changes # Waiting for access
+            #   if: steps.prettier.outputs.formatted == 'true'
+            #   run: |
+            #     git config user.name "github-actions[bot]"
+            #     git config user.email "github-actions[bot]@users.noreply.github.com"
+            #     git add .
+            #     git commit -m "Apply Prettier formatting"
+            #     git push
+
+    # Jest testing job
+    jest:
+        name: Jest Tests
+        runs-on: ubuntu-22.04
+        needs: prettier # Ensures Jest tests run after Prettier job
+
+        steps:
+            - uses: actions/checkout@v3
+
+            - name: Cache node modules
+              uses: actions/cache@v3
+              with:
+                  path: ~/.npm
+                  key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+                  restore-keys: |
+                      ${{ runner.os }}-node-
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v3
+              with:
+                  node-version: 20
+                  cache: 'npm'
+
+            - name: Install dependencies
+              if: steps.cache.outputs.cache-hit != 'true'
+              run: npm install
+
+            - name: Run Jest Tests
+              run: npm run test # This executes the "test" script defined in your package.json
+
+            # - name: Upload coverage reports to Codecov # Waiting for access
+            #   uses: codecov/codecov-action@v4.0.1
+            #   with:
+            #     token: ${{ secrets.CODECOV_TOKEN }}
+            #     slug:  ${{ github.repository }}
