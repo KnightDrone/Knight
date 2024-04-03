@@ -7,13 +7,43 @@ interface OrderProps {
   // Define your component props here
 }
 
-// Items available for order
-enum Items {
-  FIRST_AID = "First Aid Kit",
-  FLASHLIGHT = "Flashlight",
-  THERMAL = "Thermal Blanket",
-  POWER = "Power Bank",
+interface Product {
+  id: number;
+  title: string;
+  image: string;
 }
+
+interface ProductButton {
+  product: Product;
+  onPress: () => void;
+}
+
+const images: { [key: string]: any } = {
+  first_aid: require("../../assets/images/first_aid.png"),
+  flashlight: require("../../assets/images/flashlight.png"),
+  thermal_blanket: require("../../assets/images/thermal_blanket.png"),
+  powerbank: require("../../assets/images/powerbank.png"),
+};
+
+
+const productButtons: ProductButton[] = [
+  {
+      product: { id: 1, title: "First Aid Kit", image: "first_aid" },
+      onPress: () => console.log("First Aid Kit"),
+  },
+  {
+      product: { id: 2, title: "Flashlight", image: "flashlight" },
+      onPress: () => console.log("Flashlight"),
+  },
+  {
+      product: { id: 3, title: "Thermal Blanket", image: "thermal_blanket" },
+      onPress: () => console.log("Thermal Blanket"),
+  },
+  {
+      product: { id: 4, title: "Power Bank", image: "powerbank" },
+      onPress: () => console.log("Power Bank"),
+  },
+];
 
 export default function OrderMenu() {
   // Load custom fonts
@@ -35,26 +65,13 @@ export default function OrderMenu() {
       >
         Choose your item
       </Text>
-      <OrderButton
-        title="First Aid Kit"
-        image={require("../../assets/images/first_aid.png")}
-        onPress={() => console.log("First Aid Kit")}
-      />
-      <OrderButton
-        title="Thermal Blanket"
-        image={require("../../assets/images/thermal_blanket.png")}
-        onPress={() => console.log("Thermal Blanket")}
-      />
-      <OrderButton
-        title="Flashlight"
-        image={require("../../assets/images/flashlight.png")}
-        onPress={() => console.log("Flashlight")}
-      />
-      <OrderButton
-        title="Power Bank"
-        image={require("../../assets/images/powerbank.png")}
-        onPress={() => console.log("Power Bank")}
-      />
+      {productButtons.map((button) => (
+                <OrderButton
+                    title={button.product.title}
+                    image={images[button.product.image]}
+                    onPress={button.onPress}
+                />
+            ))}
     </View>
   );
 }
@@ -65,6 +82,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
+    flexDirection: "column",
   },
   triangle: {
     width: 0,
