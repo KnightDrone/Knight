@@ -23,18 +23,18 @@ const Button: React.FC<ButtonProps> = ({ title, image, onPress }) => {
   return (
     <TouchableOpacity style={buttonStyles.order_button} onPress={onPress}>
       <Image style={buttonStyles.image} source={image} />
-      <Text
-        style={{
-          fontSize: 24,
-          fontFamily: "Kaisei-Regular",
-          lineHeight: 33,
-          marginLeft: 20,
-        }}
-      >
-        {title}
-      </Text>
+      <Text style={styles.text}>{title}</Text>
     </TouchableOpacity>
   );
 };
 
 export default Button;
+
+const styles = StyleSheet.create({
+  text:{
+    fontSize: 24,
+        fontFamily: "Kaisei-Regular",
+        lineHeight: 33,
+        marginLeft: 20,
+  }
+});

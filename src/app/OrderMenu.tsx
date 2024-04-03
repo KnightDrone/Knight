@@ -25,28 +25,26 @@ const images: { [key: string]: any } = {
   powerbank: require("../../assets/images/powerbank.png"),
 };
 
-
 const productButtons: ProductButton[] = [
   {
-      product: { id: 1, title: "First Aid Kit", image: "first_aid" },
-      onPress: () => console.log("First Aid Kit"),
+    product: { id: 1, title: "First Aid Kit", image: "first_aid" },
+    onPress: () => console.log("First Aid Kit"),
   },
   {
-      product: { id: 2, title: "Flashlight", image: "flashlight" },
-      onPress: () => console.log("Flashlight"),
+    product: { id: 2, title: "Flashlight", image: "flashlight" },
+    onPress: () => console.log("Flashlight"),
   },
   {
-      product: { id: 3, title: "Thermal Blanket", image: "thermal_blanket" },
-      onPress: () => console.log("Thermal Blanket"),
+    product: { id: 3, title: "Thermal Blanket", image: "thermal_blanket" },
+    onPress: () => console.log("Thermal Blanket"),
   },
   {
-      product: { id: 4, title: "Power Bank", image: "powerbank" },
-      onPress: () => console.log("Power Bank"),
+    product: { id: 4, title: "Power Bank", image: "powerbank" },
+    onPress: () => console.log("Power Bank"),
   },
 ];
 
 export default function OrderMenu() {
-  // Load custom fonts
   const [fontsLoaded] = useFonts({
     "Kaisei-Regular": require("../../assets/fonts/KaiseiDecol-Regular.ttf"),
   });
@@ -54,24 +52,14 @@ export default function OrderMenu() {
   return (
     <View style={styles.container}>
       <View style={styles.triangle}></View>
-      <Text
-        style={{
-          fontSize: 36,
-          marginBottom: 33,
-          fontFamily: "Kaisei-Regular",
-          lineHeight: 40,
-          alignSelf: "center",
-        }}
-      >
-        Choose your item
-      </Text>
+      <Text style={styles.text}>Choose your item</Text>
       {productButtons.map((button) => (
-                <OrderButton
-                    title={button.product.title}
-                    image={images[button.product.image]}
-                    onPress={button.onPress}
-                />
-            ))}
+        <OrderButton
+          title={button.product.title}
+          image={images[button.product.image]}
+          onPress={button.onPress}
+        />
+      ))}
     </View>
   );
 }
@@ -101,4 +89,11 @@ const styles = StyleSheet.create({
     bottom: -123,
     left: -23,
   },
+  text:{
+    fontSize: 36,
+    marginBottom: 33,
+    fontFamily: "Kaisei-Regular",
+    lineHeight: 40,
+    alignSelf: "center",
+  }
 });
