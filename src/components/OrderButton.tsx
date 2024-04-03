@@ -20,10 +20,6 @@ const Button: React.FC<ButtonProps> = ({ title, image, onPress }) => {
     "Kaisei-Regular": require("../../assets/fonts/KaiseiDecol-Regular.ttf"),
   });
 
-  if (!fontsLoaded) {
-    return null;
-  }
-
   return (
     <TouchableOpacity style={buttonStyles.order_button} onPress={onPress}>
       <Image style={buttonStyles.image} source={image} />
