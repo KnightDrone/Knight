@@ -2,6 +2,7 @@ import React from "react";
 import OrderButton from "../components/OrderButton";
 import { Text, StyleSheet, View } from "react-native";
 import { useFonts } from "expo-font";
+import KaiseiRegular from "../../assets/fonts/KaiseiDecol-Regular.ttf";
 
 interface OrderProps {
   // Define your component props here
@@ -46,7 +47,7 @@ const productButtons: ProductButton[] = [
 
 export default function OrderMenu() {
   const [fontsLoaded] = useFonts({
-    "Kaisei-Regular": require("../../assets/fonts/KaiseiDecol-Regular.ttf"),
+    "Kaisei-Regular": KaiseiRegular,
   });
 
   return (

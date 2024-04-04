@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import { buttonStyles } from "./ButtonStyles";
 import { useFonts } from "expo-font";
+import KaiseiRegular from "../../assets/fonts/KaiseiDecol-Regular.ttf";
 
 interface ButtonProps {
   title: string;
@@ -17,7 +18,7 @@ interface ButtonProps {
 
 const Button: React.FC<ButtonProps> = ({ title, image, onPress }) => {
   const [fontsLoaded] = useFonts({
-    "Kaisei-Regular": require("../../assets/fonts/KaiseiDecol-Regular.ttf"),
+    "Kaisei-Regular": KaiseiRegular,
   });
 
   return (
