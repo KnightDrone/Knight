@@ -22,7 +22,7 @@ const Button: React.FC<ButtonProps> = ({ title, image, onPress }) => {
 
   return (
     <TouchableOpacity style={buttonStyles.order_button} onPress={onPress}>
-      <Image style={buttonStyles.image} source={image} />
+      <Image style={buttonStyles.image} source={image} testID="image" />
       <Text style={styles.text}>{title}</Text>
     </TouchableOpacity>
   );
