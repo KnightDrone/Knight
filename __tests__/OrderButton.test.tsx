@@ -4,10 +4,12 @@ import OrderButton from "../src/components/OrderButton";
 import { useFonts } from "../__mocks__/expo-font";
 
 describe("Order Button Component", () => {
-  
-  it("renders correctly", () => {
+  //set globally useFont to true
+  beforeEach(() => {
     useFonts.mockReturnValue([true]);
+  });
 
+  it("renders correctly", () => {
     const onPressMock = jest.fn();
     const { getByText, getByTestId } = render(
       <OrderButton

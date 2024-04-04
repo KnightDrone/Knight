@@ -1,8 +1,14 @@
 import React from "react";
 import { fireEvent, render, screen } from "@testing-library/react-native";
 import App from "../src/app/App";
+import { useFonts } from "../__mocks__/expo-font";
 
 describe("App", () => {
+  //set globally useFont to true
+  beforeEach(() => {
+    useFonts.mockReturnValue([true]);
+  });
+
   it("renders correctly", () => {
     const { getByText } = render(<App />);
     const appText = getByText("Tiberiu was here!");

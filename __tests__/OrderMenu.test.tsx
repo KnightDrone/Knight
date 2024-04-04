@@ -4,8 +4,12 @@ import OrderMenu from "../src/app/OrderMenu";
 import { useFonts } from "../__mocks__/expo-font";
 
 describe("Order Menu", () => {
-  it("renders correctly ", () => {
+  //set globally useFont to true
+  beforeEach(() => {
     useFonts.mockReturnValue([true]);
+  });
+
+  it("renders correctly ", () => {
     const { getByText } = render(<OrderMenu />);
 
     expect(getByText("Choose your item")).toBeTruthy();
@@ -16,7 +20,6 @@ describe("Order Menu", () => {
   });
 
   it("handles button presses", () => {
-    useFonts.mockReturnValue([true]);
     // Mock the console.log to test the onPress functionality
     const consoleSpy = jest.spyOn(console, "log");
     const { getByText } = render(<OrderMenu />);

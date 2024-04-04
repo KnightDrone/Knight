@@ -59,6 +59,7 @@ export default function OrderMenu() {
           title={button.product.title}
           image={images[button.product.image]}
           onPress={button.onPress}
+          key={button.product.id}
         />
       ))}
     </View>
