@@ -31,10 +31,10 @@ const Button: React.FC<ButtonProps> = ({ title, image, onPress }) => {
 export default Button;
 
 const styles = StyleSheet.create({
-  text:{
+  text: {
     fontSize: 24,
-        fontFamily: "Kaisei-Regular",
-        lineHeight: 33,
-        marginLeft: 20,
-  }
+    fontFamily: "Kaisei-Regular",
+    lineHeight: 33,
+    marginLeft: 20,
+  },
 });

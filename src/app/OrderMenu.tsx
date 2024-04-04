@@ -89,11 +89,11 @@ const styles = StyleSheet.create({
     bottom: -123,
     left: -23,
   },
-  text:{
+  text: {
     fontSize: 36,
     marginBottom: 33,
     fontFamily: "Kaisei-Regular",
     lineHeight: 40,
     alignSelf: "center",
-  }
+  },
 });
