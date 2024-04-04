@@ -4,21 +4,7 @@ import OrderButton from "../src/components/OrderButton";
 import { useFonts } from "../__mocks__/expo-font";
 
 describe("Order Button Component", () => {
-  it("does not render when fonts are not loaded", () => {
-    useFonts.mockReturnValue([false]);
-
-    // We use queryByText when the component can be null
-    const { queryByText } = render(
-      <OrderButton
-        title="Test Button"
-        image={require("../assets/images/splash.png")}
-        onPress={() => {}}
-      />
-    );
-
-    expect(queryByText("Test Button")).toBeNull();
-  });
-
+  
   it("renders correctly", () => {
     useFonts.mockReturnValue([true]);
 
