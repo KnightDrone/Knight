@@ -3,8 +3,7 @@ name: Code Quality Checks
 on:
     push:
         branches:
-            - 'setup-testing' # Runs on every push to setup-testing (Just for now to see if it works)
-            - 'feature/order-menu-with-testing' # Runs on every push to feature/order-menu-with-testing
+            - '*' # Runs format on all branches
     pull_request:
         branches:
             - main # Runs on pull requests to the main branch
