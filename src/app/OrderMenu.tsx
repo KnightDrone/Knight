@@ -28,20 +28,20 @@ const images: { [key: string]: any } = {
 
 const productButtons: ProductButton[] = [
   {
-    product: { id: 1, title: "First Aid Kit", image: "first_aid" },
-    onPress: () => console.log("First Aid Kit"),
+    product: { id: 1, title: "First aid kit", image: "first_aid" },
+    onPress: () => console.log("First aid kit"),
   },
   {
     product: { id: 2, title: "Flashlight", image: "flashlight" },
     onPress: () => console.log("Flashlight"),
   },
   {
-    product: { id: 3, title: "Thermal Blanket", image: "thermal_blanket" },
-    onPress: () => console.log("Thermal Blanket"),
+    product: { id: 3, title: "Thermal blanket", image: "thermal_blanket" },
+    onPress: () => console.log("Thermal blanket"),
   },
   {
-    product: { id: 4, title: "Power Bank", image: "powerbank" },
-    onPress: () => console.log("Power Bank"),
+    product: { id: 4, title: "Power bank", image: "powerbank" },
+    onPress: () => console.log("Power bank"),
   },
 ];
 
@@ -86,6 +86,7 @@ const styles = StyleSheet.create({
     borderTopColor: "transparent",
     borderRightColor: "transparent",
     borderBottomColor: "#93D39D", // Color of the triangle
+    opacity: 0.35,
     borderLeftColor: "transparent",
     position: "absolute", // This ensures the triangle is in the background
     bottom: -123,
