@@ -1,15 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
-import Button from "../components/Button";
+import { StyleSheet, View } from "react-native";
 import OrderMenu from "./OrderMenu";
 
 export default function App() {
-  const [count, setCount] = useState(0);
-  const increment = () => setCount(count + 1);
 
   return (
     <View style={styles.container}>
+      <StatusBar style="auto" />
       <OrderMenu />
     </View>
   );
