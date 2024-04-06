@@ -18,6 +18,5 @@ describe("App", () => {
     expect(screen.getByText("Flashlight")).toBeTruthy();
     expect(screen.getByText("Thermal blanket")).toBeTruthy();
     expect(screen.getByText("Power bank")).toBeTruthy();
-
   });
 });
