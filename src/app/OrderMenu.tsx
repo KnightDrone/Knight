@@ -12,7 +12,7 @@ interface OrderProps {
 interface Product {
   id: number;
   title: string;
-  image: string;
+  icon: string;
 }
 
 interface ProductButton {
@@ -20,28 +20,28 @@ interface ProductButton {
   onPress: () => void;
 }
 
-const images: { [key: string]: any } = {
-  first_aid: require("../../assets/images/first_aid.png"),
-  flashlight: require("../../assets/images/flashlight.png"),
-  thermal_blanket: require("../../assets/images/thermal_blanket.png"),
-  powerbank: require("../../assets/images/powerbank.png"),
+const icons: { [key: string]: any } = {
+  first_aid: require("../../assets/icons/first_aid_icon.png"),
+  flashlight: require("../../assets/icons/flashlight_icon.png"),
+  thermal_blanket: require("../../assets/icons/blanket_icon.png"),
+  powerbank: require("../../assets/icons/powerbank_icon.png"),
 };
 
 const productButtons: ProductButton[] = [
   {
-    product: { id: 1, title: "First aid kit", image: "first_aid" },
+    product: { id: 1, title: "First aid kit", icon: "first_aid" },
     onPress: () => console.log("First aid kit"),
   },
   {
-    product: { id: 2, title: "Flashlight", image: "flashlight" },
+    product: { id: 2, title: "Flashlight", icon: "flashlight" },
     onPress: () => console.log("Flashlight"),
   },
   {
-    product: { id: 3, title: "Thermal blanket", image: "thermal_blanket" },
+    product: { id: 3, title: "Thermal blanket", icon: "thermal_blanket" },
     onPress: () => console.log("Thermal blanket"),
   },
   {
-    product: { id: 4, title: "Power bank", image: "powerbank" },
+    product: { id: 4, title: "Power bank", icon: "powerbank" },
     onPress: () => console.log("Power bank"),
   },
 ];
@@ -58,7 +58,7 @@ export default function OrderMenu() {
       {productButtons.map((button) => (
         <OrderButton
           title={button.product.title}
-          image={images[button.product.image]}
+          icon={icons[button.product.icon]}
           onPress={button.onPress}
           key={button.product.id}
         />

@@ -20,7 +20,9 @@ export const buttonStyles = StyleSheet.create({
     alignItems: "center",
   },
   image: {
-    height: 90,
-    width: 90,
+    height: 60,
+    width: 60,
+    marginLeft: 10,
+    marginRight: 20,
   },
 });
