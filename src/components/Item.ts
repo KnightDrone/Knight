@@ -1,8 +1,8 @@
-class Item {
-    public name: string;
-    public description: string;
-    public image: string;
-    public price: number;
+export class Item {
+    private name: string;
+    private description: string;
+    private image: string;
+    private price: number;
 
 
     constructor(name: string, description: string, image: string, price: number) {
@@ -10,5 +10,21 @@ class Item {
         this.description = description;
         this.image = image;
         this.price = price;
+    }
+
+    getName(): string {
+        return this.name;
+    }
+
+    getDescription(): string {
+        return this.description;
+    }
+
+    getImage(): string {
+        return this.image;
+    }
+
+    getPrice(): number {
+        return this.price;
     }
 }

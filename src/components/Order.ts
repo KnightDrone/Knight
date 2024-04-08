@@ -1,4 +1,4 @@
-import Item from "./Item";
+import { Item } from "./Item";
 
 enum OrderStatus {
     Pending = "Pending",
@@ -7,7 +7,7 @@ enum OrderStatus {
     Cancelled = "Cancelled"
 }
 
-class Order {
+export class Order {
     private user: string;
     private item: Item;
     private orderDate: Date;
