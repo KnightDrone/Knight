@@ -1,15 +1,23 @@
 export class Item {
+    private id: number;
     private name: string;
     private description: string;
-    private image: string;
+    private icon: number;
+    private image: number;
     private price: number;
 
 
-    constructor(name: string, description: string, image: string, price: number) {
+    constructor(id: number, name: string, description: string, icon: number, image: number, price: number) {
+        this.id = id;
         this.name = name;
         this.description = description;
+        this.icon = icon;
         this.image = image;
         this.price = price;
+    }
+
+    getId(): number {
+        return this.id;
     }
 
     getName(): string {
@@ -20,7 +28,11 @@ export class Item {
         return this.description;
     }
 
-    getImage(): string {
+    getIcon(): number {
+        return this.icon;
+    }
+
+    getImage(): number {
         return this.image;
     }
 
