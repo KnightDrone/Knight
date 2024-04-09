@@ -12,18 +12,18 @@ import KaiseiRegular from "../../assets/fonts/KaiseiDecol-Regular.ttf";
 
 interface ButtonProps {
   title: string;
-  image: ImageSourcePropType;
+  icon: ImageSourcePropType;
   onPress: () => void;
 }
 
-const Button: React.FC<ButtonProps> = ({ title, image, onPress }) => {
+const Button: React.FC<ButtonProps> = ({ title, icon, onPress }) => {
   const [fontsLoaded] = useFonts({
     "Kaisei-Regular": KaiseiRegular,
   });
 
   return (
     <TouchableOpacity style={buttonStyles.order_button} onPress={onPress}>
-      <Image style={buttonStyles.image} source={image} testID="image" />
+      <Image style={buttonStyles.image} source={icon} testID="image" />
       <Text style={styles.text}>{title}</Text>
     </TouchableOpacity>
   );

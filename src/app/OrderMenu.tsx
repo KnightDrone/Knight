@@ -3,6 +3,7 @@ import OrderButton from "../components/OrderButton";
 import { Text, StyleSheet, View } from "react-native";
 import { useFonts } from "expo-font";
 import KaiseiRegular from "../../assets/fonts/KaiseiDecol-Regular.ttf";
+import TriangleBackground from "../components/TriangleBackground";
 
 interface OrderProps {
   // Define your component props here
@@ -11,7 +12,7 @@ interface OrderProps {
 interface Product {
   id: number;
   title: string;
-  image: string;
+  icon: string;
 }
 
 interface ProductButton {
@@ -19,29 +20,29 @@ interface ProductButton {
   onPress: () => void;
 }
 
-const images: { [key: string]: any } = {
-  first_aid: require("../../assets/images/first_aid.png"),
-  flashlight: require("../../assets/images/flashlight.png"),
-  thermal_blanket: require("../../assets/images/thermal_blanket.png"),
-  powerbank: require("../../assets/images/powerbank.png"),
+const icons: { [key: string]: any } = {
+  first_aid: require("../../assets/icons/first_aid_icon.png"),
+  flashlight: require("../../assets/icons/flashlight_icon.png"),
+  thermal_blanket: require("../../assets/icons/blanket_icon.png"),
+  powerbank: require("../../assets/icons/powerbank_icon.png"),
 };
 
 const productButtons: ProductButton[] = [
   {
-    product: { id: 1, title: "First Aid Kit", image: "first_aid" },
-    onPress: () => console.log("First Aid Kit"),
+    product: { id: 1, title: "First aid kit", icon: "first_aid" },
+    onPress: () => console.log("First aid kit"),
   },
   {
-    product: { id: 2, title: "Flashlight", image: "flashlight" },
+    product: { id: 2, title: "Flashlight", icon: "flashlight" },
     onPress: () => console.log("Flashlight"),
   },
   {
-    product: { id: 3, title: "Thermal Blanket", image: "thermal_blanket" },
-    onPress: () => console.log("Thermal Blanket"),
+    product: { id: 3, title: "Thermal blanket", icon: "thermal_blanket" },
+    onPress: () => console.log("Thermal blanket"),
   },
   {
-    product: { id: 4, title: "Power Bank", image: "powerbank" },
-    onPress: () => console.log("Power Bank"),
+    product: { id: 4, title: "Power bank", icon: "powerbank" },
+    onPress: () => console.log("Power bank"),
   },
 ];
 
@@ -52,12 +53,12 @@ export default function OrderMenu() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.triangle}></View>
+      <TriangleBackground />
       <Text style={styles.text}>Choose your item</Text>
       {productButtons.map((button) => (
         <OrderButton
           title={button.product.title}
-          image={images[button.product.image]}
+          icon={icons[button.product.icon]}
           onPress={button.onPress}
           key={button.product.id}
         />
@@ -73,23 +74,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     flexDirection: "column",
-  },
-  triangle: {
-    width: 0,
-    height: 0,
-    backgroundColor: "transparent",
-    borderStyle: "solid",
-    borderTopWidth: 0,
-    borderRightWidth: 460, // Width of the triangle
-    borderBottomWidth: 750, // Height of the triangle
-    borderLeftWidth: 0, // Width of the triangle
-    borderTopColor: "transparent",
-    borderRightColor: "transparent",
-    borderBottomColor: "#93D39D", // Color of the triangle
-    borderLeftColor: "transparent",
-    position: "absolute", // This ensures the triangle is in the background
-    bottom: -123,
-    left: -23,
   },
   text: {
     fontSize: 36,

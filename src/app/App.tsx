@@ -1,19 +1,18 @@
-import React, { useState } from "react";
+import React from "react";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
-import Button from "../components/Button";
+import { StyleSheet, View } from "react-native";
 import OrderMenu from "./OrderMenu";
+import { useFonts } from "expo-font";
+import KaiseiRegular from "../../assets/fonts/KaiseiDecol-Regular.ttf";
 
 export default function App() {
-  const [count, setCount] = useState(0);
-  const increment = () => setCount(count + 1);
+  const [fontsLoaded] = useFonts({
+    "Kaisei-Regular": KaiseiRegular,
+  });
 
   return (
     <View style={styles.container}>
-      <Text>Tiberiu was here!</Text>
       <StatusBar style="auto" />
-      <Button title="Press me" onPress={increment} />
-      <Text>Count: {count}</Text>
       <OrderMenu />
     </View>
   );

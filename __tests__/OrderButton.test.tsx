@@ -14,7 +14,7 @@ describe("Order Button Component", () => {
     const { getByText, getByTestId } = render(
       <OrderButton
         title="Test Button"
-        image={require("../assets/images/splash.png")} // random image
+        icon={require("../assets/images/splash.png")} // random image
         onPress={onPressMock}
       />
     );

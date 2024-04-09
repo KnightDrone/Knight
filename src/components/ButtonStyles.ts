@@ -15,14 +15,14 @@ export const buttonStyles = StyleSheet.create({
     height: 90,
     backgroundColor: "#FFFBF1",
     borderRadius: 30,
-    borderColor: "#A09A9A",
-    borderWidth: 1,
     marginBottom: 33,
     flexDirection: "row",
     alignItems: "center",
   },
   image: {
-    height: 90,
-    width: 90,
+    height: 60,
+    width: 60,
+    marginLeft: 10,
+    marginRight: 20,
   },
 });

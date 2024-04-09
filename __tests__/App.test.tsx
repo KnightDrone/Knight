@@ -9,37 +9,14 @@ describe("App", () => {
     useFonts.mockReturnValue([true]);
   });
 
-  it("renders correctly", () => {
-    const { getByText } = render(<App />);
-    const appText = getByText("Tiberiu was here!");
-
-    expect(appText).toBeTruthy();
-
-    const button = getByText("Press me");
-    expect(button).toBeTruthy();
-
-    const count = getByText("Count: 0");
-    expect(count).toBeTruthy();
-  });
-
-  it("increments the count when the button is pressed once", () => {
+  it("renders OrderMenu", () => {
     render(<App />);
-    fireEvent.press(screen.getByText("Press me"));
-    expect(screen.getByText("Count: 1")).toBeTruthy();
-  });
+    expect(screen.getByText("Choose your item")).toBeTruthy();
 
-  it("increments the count when the button is pressed multiple times", () => {
-    const { getByText } = render(<App />);
-
-    const button = getByText("Press me");
-
-    fireEvent.press(button);
-    expect(getByText("Count: 1")).toBeTruthy();
-
-    fireEvent.press(button);
-    expect(getByText("Count: 2")).toBeTruthy();
-
-    fireEvent.press(button);
-    expect(getByText("Count: 3")).toBeTruthy();
+    // Check if all buttons are rendered
+    expect(screen.getByText("First aid kit")).toBeTruthy();
+    expect(screen.getByText("Flashlight")).toBeTruthy();
+    expect(screen.getByText("Thermal blanket")).toBeTruthy();
+    expect(screen.getByText("Power bank")).toBeTruthy();
   });
 });
