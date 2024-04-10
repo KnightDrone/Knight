@@ -22,7 +22,6 @@
 > registerRootComponent(App);
 > ```
 
-
 ### Setup
 
 To run the tests, execute the command `npm run test` in this directory. This will run the tests in the `__tests__` directory.  
@@ -38,15 +37,11 @@ For more information on how to test React components, consult the React Testing 
 ### Navigation
 
 For navigation we use the react-navigation library, which is setup in the App.tx file. To be able to access a different screen one must go to the RootStackParamList type and add the name of the Screen. If th e screen doesn't take any parameters then we write it as undefined. We then add it to the Stack Navigator. eg.
+
 ```javascript
-<Stack.Screen 
-  name="ForgotPassword" 
-  component={ForgotPassword} 
-/>
+<Stack.Screen name="ForgotPassword" component={ForgotPassword} />
 ```
+
 Note: Don't forget to import the component to the App.tsx
 
-For more information on how to use the react-navigation libray here are some links:
--[React Navigation](https://reactnavigation.org/docs/getting-started)
--[Using Typescript with React Navigation](https://react.dev/learn/typescript)
-
+For more information on how to use the react-navigation libray here are some links: -[React Navigation](https://reactnavigation.org/docs/getting-started) -[Using Typescript with React Navigation](https://react.dev/learn/typescript)

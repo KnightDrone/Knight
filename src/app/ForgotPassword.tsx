@@ -1,14 +1,21 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, TextInput, Image, TouchableOpacity } from 'react-native';
+import React, { useState } from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  Image,
+  TouchableOpacity,
+} from "react-native";
 import Button from "../components/Button";
 
 export default function ForgotPasswordScreen() {
-  const [email, setEmail] = useState('');
-  const [error, setError] = useState('');
+  const [email, setEmail] = useState("");
+  const [error, setError] = useState("");
 
   // TODO: handle forgot password
   const handleForgotPassword = () => {
-    // Add code to handle forgot password 
+    // Add code to handle forgot password
     //Navigate to the forgot password screen
   };
 
@@ -16,7 +23,7 @@ export default function ForgotPasswordScreen() {
     <View style={styles.container}>
       <Image
         style={styles.logo}
-        source={require('../../assets/images/usedLogo.png')}
+        source={require("../../assets/images/usedLogo.png")}
       />
 
       <Text style={styles.title}>Wild Knight</Text>
@@ -29,10 +36,7 @@ export default function ForgotPasswordScreen() {
         placeholder="Please enter your email"
       />
 
-      <Button
-        title="Reset Password"
-        onPress={handleForgotPassword}
-      />
+      <Button title="Reset Password" onPress={handleForgotPassword} />
 
       <Text style={styles.error}>{error}</Text>
     </View>
@@ -42,9 +46,9 @@ export default function ForgotPasswordScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
   },
   logo: {
     width: 100,
@@ -54,24 +58,24 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     marginBottom: 20,
-    textAlign: 'center',
+    textAlign: "center",
   },
   input: {
-    width: '80%',
+    width: "80%",
     height: 40,
-    borderColor: 'gray',
+    borderColor: "gray",
     borderWidth: 1,
     marginBottom: 10,
     padding: 10,
   },
   error: {
-    color: 'red',
+    color: "red",
     marginTop: 10,
   },
   label: {
-    color: 'black',
+    color: "black",
     fontSize: 16,
-    textAlign: 'center', // Center the text
+    textAlign: "center", // Center the text
     marginBottom: 10,
   },
 });

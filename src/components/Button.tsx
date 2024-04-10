@@ -16,19 +16,19 @@ const Button: React.FC<ButtonProps> = ({ title, onPress }) => {
 };
 
 const styles = StyleSheet.create({
-    button: {
-        marginTop: 10,
-        width: '80%',
-        borderColor: 'black',
-        borderWidth: 1,
-        borderRadius: 5,
-        backgroundColor: 'white',
-        padding: 10,
-    },
-    text: {
-        color: "black",
-        textAlign: "center",
-    },
+  button: {
+    marginTop: 10,
+    width: "80%",
+    borderColor: "black",
+    borderWidth: 1,
+    borderRadius: 5,
+    backgroundColor: "white",
+    padding: 10,
+  },
+  text: {
+    color: "black",
+    textAlign: "center",
+  },
 });
 
 export default Button;
