@@ -1,36 +1,34 @@
 {
-  "expo": {
-    "name": "knight",
-    "slug": "knight",
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
-    "userInterfaceStyle": "light",
-    "splash": {
-      "image": "./assets/images/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
-    "ios": {
-      "googleServicesFile": "./GoogleService-Info.plist",
+    "expo": {
+        "name": "knight",
+        "slug": "knight",
+        "version": "1.0.0",
+        "orientation": "portrait",
+        "icon": "./assets/images/icon.png",
+        "userInterfaceStyle": "light",
+        "splash": {
+            "image": "./assets/images/splash.png",
+            "resizeMode": "contain",
+            "backgroundColor": "#ffffff"
+        },
+        "assetBundlePatterns": ["**/*"],
+        "ios": {
+          "googleServicesFile": "./GoogleService-Info.plist",
       "supportsTablet": true,
       "bundleIdentifier": "com.swent.knight"
-    },
-    "android": {
-      "googleServicesFile": "google-services.json",
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      },
-      "package": "com.swent.knight"
-    },
-    "web": {
-      "favicon": "./assets/images/favicon.png"
-    },
-    "plugins": [
+        },
+        "android": {
+          "googleServicesFile": "google-services.json",
+            "adaptiveIcon": {
+                "foregroundImage": "./assets/images/adaptive-icon.png",
+                "backgroundColor": "#ffffff"
+            },
+            "package": "com.swent.knight"
+        },
+        "web": {
+            "favicon": "./assets/images/favicon.png"
+        },
+        "plugins": [
       "@react-native-firebase/app",
       [
         "expo-build-properties",
@@ -38,6 +36,16 @@
           "ios": {
             "userFrameworks": "static"
           }
+        }
+      ],
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "./assets/fonts/KaiseiDecol-Regular.ttf",
+            "./assets/fonts/KaiseiDecol-Medium.ttf",
+            "./assets/fonts/KaiseiDecol-Bold.ttf"
+          ]
         }
       ]
     ],
