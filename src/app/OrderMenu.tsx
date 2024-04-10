@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import OrderButton from "../components/OrderButton";
 import { Text, StyleSheet, View } from "react-native";
 import { useFonts } from "expo-font";
@@ -6,6 +6,7 @@ import { Item } from "../components/Item";
 import KaiseiRegular from "../../assets/fonts/KaiseiDecol-Regular.ttf";
 import TriangleBackground from "../components/TriangleBackground";
 import { productButtons } from "../components/ProductButtons";
+import ItemCard from "../components/ItemCard";
 
 interface OrderProps {
   // Define your component props here
@@ -17,6 +18,20 @@ export default function OrderMenu() {
     "Kaisei-Regular": KaiseiRegular,
   });
 
+  const [visibleItemId, setVisibleItemId] = useState<number | null>(null);
+
+  if (!fontsLoaded) {
+    return <Text>Loading...</Text>;
+  }
+
+  const handleOpenCard = (itemId: number) => {
+    setVisibleItemId(itemId);
+  };
+
+  const handleCloseCard = () => {
+    setVisibleItemId(null);
+  };
+
   return (
     <View style={styles.container}>
       <TriangleBackground />
@@ -24,11 +39,23 @@ export default function OrderMenu() {
       {productButtons.map((button) => (
         <OrderButton
           title={button.item.getName()}
-          icon={button.item.getIcon()} // this is incorrect
-          onPress={button.onPress}
+          icon={button.item.getIcon()} // Assuming you correct the logic to retrieve the icon
+          onPress={() => handleOpenCard(button.item.getId())}
           key={button.item.getId()}
         />
       ))}
+      {productButtons.map((button) => {
+        const isVisible = button.item.getId() === visibleItemId;
+        return (
+          <ItemCard
+            isVisible={isVisible}
+            handleClose={handleCloseCard}
+            handleOrder={() => {}}
+            item={button.item}
+            key={`card-${button.item.getId()}`} // Ensure unique key for each card
+          />
+        );
+      })}
     </View>
   );
 }
@@ -36,10 +63,13 @@ export default function OrderMenu() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
+    width: "100%",
+    height: "100%",
+    display: "flex",
     flexDirection: "column",
+    alignItems: "center",
+    //justifyContent: "flex-start",
+    paddingTop: 80,
   },
   text: {
     fontSize: 36,

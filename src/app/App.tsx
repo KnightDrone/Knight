@@ -9,6 +9,7 @@ export default function App() {
   const [fontsLoaded] = useFonts({
     "Kaisei-Regular": KaiseiRegular,
   });
+
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
@@ -21,8 +22,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 20,
+    width: "100%",
+    height: "100%",
   },
 });
