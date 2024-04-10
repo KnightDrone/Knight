@@ -45,7 +45,8 @@ export default function Login({ promptAsync, navigation }: any) {
         );
         if (response.user) {
           console.log("Login success");
-          // navigate.("home);
+          // Navigate to the order menu screen
+          navigation.navigate("OrderMenu");
         } else {
           setError("Invalid credentials");
         }
@@ -74,6 +75,8 @@ export default function Login({ promptAsync, navigation }: any) {
         placeholder="Enter your username or email"
         value={email}
         onChangeText={setEmail}
+        autoCapitalize="none"
+        autoCorrect={false}
       />
 
       <TextInput
@@ -81,6 +84,8 @@ export default function Login({ promptAsync, navigation }: any) {
         placeholder="Enter your password"
         value={password}
         onChangeText={setPassword}
+        autoCapitalize="none"
+        autoCorrect={false}
       />
 
       <Button title="Log in" onPress={logInWithEmail} />
