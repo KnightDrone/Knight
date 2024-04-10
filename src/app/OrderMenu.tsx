@@ -7,14 +7,10 @@ import KaiseiRegular from "../../assets/fonts/KaiseiDecol-Regular.ttf";
 import TriangleBackground from "../components/TriangleBackground";
 import { productButtons } from "../components/ProductButtons";
 
-
 interface OrderProps {
   // Define your component props here
   // will pass location and maybe user info here
 }
-
-
-
 
 export default function OrderMenu() {
   const [fontsLoaded] = useFonts({
@@ -28,7 +24,7 @@ export default function OrderMenu() {
       {productButtons.map((button) => (
         <OrderButton
           title={button.item.getName()}
-          icon={(button.item.getIcon())} // this is incorrect
+          icon={button.item.getIcon()} // this is incorrect
           onPress={button.onPress}
           key={button.item.getId()}
         />
