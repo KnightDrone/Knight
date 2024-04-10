@@ -16,7 +16,8 @@
     ],
     "ios": {
       "googleServicesFile": "./GoogleService-Info.plist",
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.swent.knight"
     },
     "android": {
       "googleServicesFile": "google-services.json",
