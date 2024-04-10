@@ -18,6 +18,10 @@ import { createStackNavigator } from "@react-navigation/stack";
 import Login from "./Login";
 import SignUp from "./SignUp";
 import ForgotPassword from "./ForgotPassword";
+import OrderMenu from "./OrderMenu";
+
+import { useFonts } from "expo-font";
+import KaiseiRegular from "../../assets/fonts/KaiseiDecol-Regular.ttf";
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -29,6 +33,7 @@ type RootStackParamList = {
   Login: undefined;
   SignUp: undefined;
   ForgotPassword: undefined;
+  OrderMenu: undefined;
 };
 
 export default function App() {
@@ -37,7 +42,12 @@ export default function App() {
       "983400403511-gi5mo0akb89fcecaivk4q509c63hrvtl.apps.googleusercontent.com",
     androidClientId:
       "983400403511-i43set67i4o1e3kb7fl91vrh9r6aemcb.apps.googleusercontent.com",
+    redirectUri: "com.googleusercontent.apps.983400403511-gi5mo0akb89fcecaivk4q509c63hrvtl:/oauth2redirect/google",
   });
+
+      const [fontsLoaded] = useFonts({
+        "Kaisei-Regular": KaiseiRegular,
+      });
 
   const [userInfo, setUserInfo] = React.useState<User | null>(null);
   const [loading, setLoading] = React.useState(false);
@@ -95,6 +105,9 @@ export default function App() {
           {(props) => <SignUp {...props} promptAsync={promptAsync} />}
         </Stack.Screen>
         <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
+          <Stack.Screen name="OrderMenu">
+            {(props) => <OrderMenu/>}
+          </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
   );
