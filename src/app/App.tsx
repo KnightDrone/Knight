@@ -23,6 +23,8 @@ import OrderMenu from "./OrderMenu";
 import { useFonts } from "expo-font";
 import KaiseiRegular from "../../assets/fonts/KaiseiDecol-Regular.ttf";
 
+import { registerRootComponent } from "expo";
+
 WebBrowser.maybeCompleteAuthSession();
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -36,7 +38,7 @@ type RootStackParamList = {
   OrderMenu: undefined;
 };
 
-export default function App() {
+function App() {
   const [request, response, promptAsync] = Google.useAuthRequest({
     iosClientId:
       "983400403511-gi5mo0akb89fcecaivk4q509c63hrvtl.apps.googleusercontent.com",
@@ -111,3 +113,5 @@ export default function App() {
     </NavigationContainer>
   );
 }
+
+export default registerRootComponent(App);
