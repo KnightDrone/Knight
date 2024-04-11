@@ -1,4 +1,5 @@
-import * as React from "react";
+import React from "react";
+import { StatusBar } from "expo-status-bar";
 import { Text } from "react-native";
 import {
   GoogleAuthProvider,
@@ -10,6 +11,7 @@ import * as Google from "expo-auth-session/providers/google";
 import * as WebBrowser from "expo-web-browser";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { User } from "firebase/auth";
+import { StyleSheet, View } from "react-native";
 
 // Imports for Navigation
 import { NavigationContainer } from "@react-navigation/native";
