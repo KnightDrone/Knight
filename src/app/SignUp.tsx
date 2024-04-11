@@ -79,6 +79,8 @@ export default function SignUp({ promptAsync, navigation }: any) {
   // TODO: Implement handleSignUp using firebase
   const handleSignUp = () => {};
 
+  const [showPassword, setShowPassword] = useState(false);
+
   return (
     <View style={styles.container}>
       <Image
@@ -105,10 +107,20 @@ export default function SignUp({ promptAsync, navigation }: any) {
       <TextInput
         style={styles.input}
         placeholder="Enter your password"
+        secureTextEntry={!showPassword}
         onChangeText={(text) => {
           setPassword(text);
         }}
       />
+
+      <TouchableOpacity>
+        <Text
+          style={styles.showPassword}
+          onPress={() => setShowPassword(!showPassword)}
+        >
+          {showPassword ? "Hide password" : "Show password"}
+        </Text>
+      </TouchableOpacity>
       {/** 
       <View
         style={styles.input}
@@ -279,5 +291,12 @@ const styles = StyleSheet.create({
   icon: {
     position: "absolute",
     marginRight: 10,
+  },
+  showPassword: {
+    color: "blue", // Change as needed
+    fontSize: 16,
+    textAlign: "center",
+    marginBottom: 10,
+    textDecorationLine: "underline", // Adds underline to indicate it's a link
   },
 });
