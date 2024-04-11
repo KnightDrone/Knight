@@ -34,3 +34,9 @@ yarn-error.*
 
 # jest
 coverage/
+
+# local caches
+.DS_Store
+
+# VSCode
+.vscode/
