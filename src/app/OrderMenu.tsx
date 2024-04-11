@@ -39,7 +39,7 @@ export default function OrderMenu() {
       {productButtons.map((button) => (
         <OrderButton
           title={button.item.getName()}
-          icon={button.item.getIcon()} // Assuming you correct the logic to retrieve the icon
+          icon={button.item.getIcon()}
           onPress={() => handleOpenCard(button.item.getId())}
           key={button.item.getId()}
         />
@@ -52,7 +52,7 @@ export default function OrderMenu() {
             handleClose={handleCloseCard}
             handleOrder={() => {}}
             item={button.item}
-            key={`card-${button.item.getId()}`} // Ensure unique key for each card
+            key={`card-${button.item.getId()}`}
           />
         );
       })}
