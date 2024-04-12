@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
     width: "90%",
-    height: "65%",
+    height: "55%",
     alignSelf: "center",
   },
   closeButton: {

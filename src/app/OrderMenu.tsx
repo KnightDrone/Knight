@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     alignItems: "center",
     //justifyContent: "flex-start",
-    paddingTop: 80,
+    paddingTop: 160,
   },
   text: {
     fontSize: 36,
