@@ -14,6 +14,7 @@ import { User } from "firebase/auth";
 // Imports for Navigation
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+import { HeaderBackButton } from "@react-navigation/elements";
 
 import Login from "./Login";
 import SignUp from "./SignUp";
@@ -25,6 +26,7 @@ import { useFonts } from "expo-font";
 import KaiseiRegular from "../../assets/fonts/KaiseiDecol-Regular.ttf";
 
 import { registerRootComponent } from "expo";
+import Icon from "react-native-vector-icons/MaterialIcons";
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -113,10 +115,26 @@ export default function App() {
           {(props) => <SignUp {...props} promptAsync={promptAsync} />}
         </Stack.Screen>
         <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
-        <Stack.Screen name="Map">
-          {(props) => <MapView />}
+        <Stack.Screen name="Map">{(props) => <MapView />}</Stack.Screen>
+        <Stack.Screen
+          name="OrderMenu"
+          options={({ navigation }) => ({
+            headerShown: true,
+            headerTransparent: true, // Makes the header background transparent
+            headerTitle: "", // Hides the title
+            headerLeft: () => (
+              <HeaderBackButton
+                onPress={() => navigation.goBack()}
+                backImage={() => (
+                  <Icon name="arrow-back" size={24} color="black" />
+                )} // Custom back icon
+                labelVisible={false}
+              />
+            ),
+          })}
+        >
+          {(props) => <OrderMenu />}
         </Stack.Screen>
-        <Stack.Screen name="OrderMenu">{(props) => <OrderMenu />}</Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
   );
