@@ -31,6 +31,9 @@ yarn-error.*
 # local env files
 .env*.local
 
+# env file
+.env
+
 # typescript
 *.tsbuildinfo
 
@@ -42,3 +45,6 @@ coverage/
 
 # VSCode
 .vscode/
+
+# package lock
+package-lock.json

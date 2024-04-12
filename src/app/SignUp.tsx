@@ -156,8 +156,6 @@ export default function SignUp({ navigation }: any) {
     }
   };
 
-
-
   //TODO: need to fix password strength meter colors, suggestions and password hiding
 
   return (

@@ -14,16 +14,19 @@ import { User } from "firebase/auth";
 // Imports for Navigation
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+import { HeaderBackButton } from "@react-navigation/elements";
 
 import Login from "./Login";
 import SignUp from "./SignUp";
 import ForgotPassword from "./ForgotPassword";
 import OrderMenu from "./OrderMenu";
+import MapView from "./Map";
 
 import { useFonts } from "expo-font";
 import KaiseiRegular from "../../assets/fonts/KaiseiDecol-Regular.ttf";
 
 import { registerRootComponent } from "expo";
+import Icon from "react-native-vector-icons/MaterialIcons";
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -34,6 +37,7 @@ type RootStackParamList = {
   SignUp: undefined;
   ForgotPassword: undefined;
   OrderMenu: undefined;
+  Map: undefined;
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -49,11 +53,10 @@ function App() {
 
   const checkLocalUser = async () => {
     try {
-      // setLoading(true);
-      // const userJSON = await AsyncStorage.getItem("@user");
-      // const userData = userJSON != null ? JSON.parse(userJSON) : null;
-      // console.log("local storage:", userData);
-      // setUserInfo(userData);
+      setLoading(true);
+      const userJSON = await AsyncStorage.getItem("@user");
+      const userData = userJSON != null ? JSON.parse(userJSON) : null;
+      setUserInfo(userData);
     } catch (e) {
       alert(e);
     } finally {
@@ -85,7 +88,10 @@ function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName={userInfo ? "OrderMenu" : "Login"}>
+      <Stack.Navigator
+        initialRouteName={userInfo ? "Map" : "Login"}
+        headerMode="none"
+      >
         <Stack.Screen name="Login" options={{ title: "Login to Wild Knight" }}>
           {(props) => <Login {...props} />}
         </Stack.Screen>
@@ -93,7 +99,26 @@ function App() {
           {(props) => <SignUp {...props} />}
         </Stack.Screen>
         <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
-        <Stack.Screen name="OrderMenu">{(props) => <OrderMenu />}</Stack.Screen>
+        <Stack.Screen name="Map">{(props) => <MapView />}</Stack.Screen>
+        <Stack.Screen
+          name="OrderMenu"
+          options={({ navigation }) => ({
+            headerShown: true,
+            headerTransparent: true, // Makes the header background transparent
+            headerTitle: "", // Hides the title
+            headerLeft: () => (
+              <HeaderBackButton
+                onPress={() => navigation.goBack()}
+                backImage={() => (
+                  <Icon name="arrow-back" size={24} color="black" />
+                )} // Custom back icon
+                labelVisible={false}
+              />
+            ),
+          })}
+        >
+          {(props) => <OrderMenu />}
+        </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
   );
