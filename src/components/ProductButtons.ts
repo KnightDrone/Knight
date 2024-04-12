@@ -12,6 +12,9 @@ const names: string[] = [
   "Power bank",
 ];
 
+
+// require is used to import images,
+// it returns a number that can be used to display the image
 const icons: number[] = [
   require("../../assets/icons/first_aid_icon.png"),
   require("../../assets/icons/flashlight_icon.png"),
