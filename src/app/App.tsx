@@ -1,6 +1,4 @@
 import React from "react";
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, View } from "react-native";
 import OrderMenu from "./OrderMenu";
 import { useFonts } from "expo-font";
 import KaiseiRegular from "../../assets/fonts/KaiseiDecol-Regular.ttf";
@@ -18,10 +16,11 @@ export default function App() {
 
   return (
     <NavigationContainer>
-    <Drawer.Navigator initialRouteName="Order Menu">
-        <Drawer.Screen name="Order Menu" component={OrderMenu} />
+    <Drawer.Navigator initialRouteName="Home">
         <Drawer.Screen name="Home" component={MapOverview} />
+        <Drawer.Screen name="Order Menu" component={OrderMenu} />
     </Drawer.Navigator>
     </NavigationContainer>
 );
+
 }
