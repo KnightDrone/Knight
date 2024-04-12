@@ -102,7 +102,10 @@ function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName={userInfo ? "Map" : "Login"}headerMode="none">
+      <Stack.Navigator
+        initialRouteName={userInfo ? "Map" : "Login"}
+        headerMode="none"
+      >
         <Stack.Screen name="Login" options={{ title: "Login to Wild Knight" }}>
           {(props) => <Login {...props} promptAsync={promptAsync} />}
         </Stack.Screen>
@@ -110,7 +113,9 @@ function App() {
           {(props) => <SignUp {...props} promptAsync={promptAsync} />}
         </Stack.Screen>
         <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
-        <Stack.Screen name="Map">{props => <MapView {...props} />}</Stack.Screen>
+        <Stack.Screen name="Map">
+          {(props) => <MapView {...props} />}
+        </Stack.Screen>
         <Stack.Screen name="OrderMenu">{(props) => <OrderMenu />}</Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
