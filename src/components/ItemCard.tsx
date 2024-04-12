@@ -40,20 +40,10 @@ function ItemCard({
           </TouchableOpacity>
           <Text style={styles.title}>{item.getName()}</Text>
           <Text style={styles.description}>{item.getDescription()}</Text>
-          <Image
-            style={styles.image}
-            source={item.getImage()}
-            testID="item-image"
-          />
+          <Image style={styles.image} source={item.getImage()} testID="item-image" />
           <View style={styles.bottomRow}>
-            <Text style={styles.price} testID="price-text">
-              Price: {item.getPrice()} CHF
-            </Text>
-            <TouchableOpacity
-              style={styles.orderButton}
-              onPress={handleOrder}
-              testID="order-button"
-            >
+            <Text style={styles.price} testID="price-text">Price: {item.getPrice()} CHF</Text>
+            <TouchableOpacity style={styles.orderButton} onPress={handleOrder} testID="order-button">
               <Text style={styles.orderButtonText}>Order</Text>
             </TouchableOpacity>
           </View>
