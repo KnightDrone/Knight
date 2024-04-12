@@ -25,9 +25,7 @@ import * as Google from "expo-auth-session/providers/google";
 import * as WebBrowser from "expo-web-browser";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { Icon } from "react-icons-kit";
-import { eyeOff } from "react-icons-kit/feather/eyeOff";
-import { eye } from "react-icons-kit/feather/eye";
+import Icon from "react-native-vector-icons/FontAwesome";
 
 export default function SignUp({ promptAsync, navigation }: any) {
   const [user, setUser] = useState("");
@@ -38,8 +36,11 @@ export default function SignUp({ promptAsync, navigation }: any) {
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [strength, setStrength] = useState("");
 
-  const [type, setType] = useState("password");
-  const [icon, setIcon] = useState(eyeOff);
+  const [showPassword, setShowPassword] = useState(false);
+
+  React.useEffect(() => {
+    validatePassword(password);
+  }, [password]);
 
   const validatePassword = (input: string) => {
     let newSuggestions = [];
@@ -74,16 +75,6 @@ export default function SignUp({ promptAsync, navigation }: any) {
     }
   };
 
-  const handleToggle = () => {
-    if (type === "password") {
-      setIcon(eye);
-      setType("text");
-    } else {
-      setIcon(eyeOff);
-      setType("password");
-    }
-  };
-
   const writeUserData = async (response: UserCredential) => {
     // TODO: modify this function to write meaningful user data to firebase realtime databse
     set(ref(database, "users/" + response.user.uid), {
@@ -110,6 +101,42 @@ export default function SignUp({ promptAsync, navigation }: any) {
     }
   };
 
+  const getStrengthColor = () => {
+    switch (strength) {
+      case "Too Weak":
+        return "red";
+      case "Weak":
+        return "orange";
+      case "Moderate":
+        return "yellow";
+      case "Strong":
+        return "green";
+      case "Very Strong":
+        return "limegreen";
+      default:
+        return "#ccc";
+    }
+  };
+
+  const getStrengthWidth = () => {
+    switch (strength) {
+      case "Very Strong":
+        return "100%";
+      case "Strong":
+        return "75%";
+      case "Moderate":
+        return "50%";
+      case "Weak":
+        return "25%";
+      default:
+        return "0%";
+    }
+  };
+
+
+
+  //TODO: need to fix password strength meter colors, suggestions and password hiding
+
   return (
     <View style={styles.container}>
       <Image
@@ -124,6 +151,8 @@ export default function SignUp({ promptAsync, navigation }: any) {
         placeholder="Enter your username"
         value={user}
         onChangeText={setUser}
+        autoCapitalize="none"
+        autoCorrect={false}
       />
 
       <TextInput
@@ -131,68 +160,58 @@ export default function SignUp({ promptAsync, navigation }: any) {
         placeholder="Enter your email"
         value={email}
         onChangeText={setEmail}
+        autoCapitalize="none"
+        autoCorrect={false}
       />
 
-      <TextInput
-        style={styles.input}
-        placeholder="Enter your password"
-        onChangeText={(text) => {
-          setPassword(text);
-        }}
-      />
-      {/** 
-      <View
-        style={styles.input}
-      >
-        <Icon
-          icon={icon}
-          style={styles.icon}>
-        </Icon>
+      <View style={styles.passwordContainer}>
+        <TextInput
+          style={styles.input}
+          placeholder="Enter your password"
+          value={password}
+          onChangeText={(text) => {
+            setPassword(text);
+          }}
+          autoCapitalize="none"
+          autoCorrect={false}
+          passwordRules={
+            "required: lower; required: upper; required: digit; required: special; minlength: 8;"
+          }
+          secureTextEntry={!showPassword}
+        />
+        <TouchableOpacity
+          style={styles.eyeIcon}
+          onPress={() => {
+            setShowPassword(!showPassword);
+          }}
+        >
+          <Icon
+            name={showPassword ? "eye" : "eye-slash"}
+            size={20}
+            color="#000"
+            testID="eye-icon"
+          />
+        </TouchableOpacity>
       </View>
-      **/}
 
       <View>
-        {suggestions.map((suggestion, index) => (
-          <View key={index}>
-            <Text style={styles.strengthText}>
-              Password Strength: {strength}
+        <Text style={styles.strengthText}>Password Strength: {strength}</Text>
+        <View style={styles.strengthMeter}>
+          <View
+            style={{
+              width: getStrengthWidth(),
+              height: 20,
+              backgroundColor: getStrengthColor(),
+            }}
+          />
+        </View>
+        <View>
+          {suggestions.map((suggestion, index) => (
+            <Text key={index} style={styles.suggestionsText}>
+              {suggestion}
             </Text>
-            <Text style={styles.suggestionsText}>
-              <Text key={index}>
-                {suggestion}
-                {"\n"}
-              </Text>
-            </Text>
-            <View style={styles.strengthMeter}>
-              <View
-                style={{
-                  width: `${
-                    strength === "Very Strong"
-                      ? 100
-                      : strength === "Strong"
-                        ? 75
-                        : strength === "Moderate"
-                          ? 50
-                          : strength === "Weak"
-                            ? 25
-                            : 0
-                  }%`,
-                  height: 20,
-                  backgroundColor:
-                    strength === "Too Weak"
-                      ? "red"
-                      : strength === "Weak"
-                        ? "orange"
-                        : strength === "Moderate"
-                          ? "yellow"
-                          : strength === "Strong"
-                            ? "green"
-                            : "limegreen",
-                }}
-              ></View>
-            </View>
-          </View>
-        ))}
+          ))}
+        </View>
       </View>
 
       <Button title="Sign Up" onPress={signUpWithEmail} />
@@ -310,5 +329,14 @@ const styles = StyleSheet.create({
   icon: {
     position: "absolute",
     marginRight: 10,
+  },
+  passwordContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    width: "80%",
+  },
+  eyeIcon: {
+    position: "absolute",
+    right: 10,
   },
 });
