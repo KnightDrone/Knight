@@ -65,10 +65,6 @@ const MapOverview: React.FC = () => {
       >
         <Marker coordinate={marker} title="Current Location" />
       </MapView>
-      <TouchableOpacity style={[styles.button, styles.buttonTopLeft]}>
-        {/* top left button */}
-        <Icon name="menu" size={24} color="#000" />
-      </TouchableOpacity>
 
       <TouchableOpacity
         style={[styles.button, styles.buttonTopRight]}
