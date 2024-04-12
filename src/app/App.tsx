@@ -5,7 +5,7 @@ import {
   onAuthStateChanged,
   signInWithCredential,
 } from "firebase/auth";
-import { auth } from "../firebase";
+import { auth } from "../services/firebase";
 import * as Google from "expo-auth-session/providers/google";
 import * as WebBrowser from "expo-web-browser";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -40,9 +40,19 @@ type RootStackParamList = {
   Map: undefined;
 };
 
+
 const Stack = createStackNavigator<RootStackParamList>();
 
 function App() {
+  const [request, response, promptAsync] = Google.useAuthRequest({
+    iosClientId:
+      "983400403511-gi5mo0akb89fcecaivk4q509c63hrvtl.apps.googleusercontent.com",
+    androidClientId:
+      "983400403511-i43set67i4o1e3kb7fl91vrh9r6aemcb.apps.googleusercontent.com",
+    redirectUri:
+      "com.googleusercontent.apps.983400403511-gi5mo0akb89fcecaivk4q509c63hrvtl:/oauth2redirect/google",
+  });
+
 
   const [fontsLoaded] = useFonts({
     "Kaisei-Regular": KaiseiRegular,
@@ -124,4 +134,4 @@ function App() {
   );
 }
 
-export default registerRootComponent(App);
+registerRootComponent(App);
