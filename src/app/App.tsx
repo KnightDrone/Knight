@@ -102,7 +102,7 @@ function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login">
+      <Stack.Navigator initialRouteName={userInfo ? "OrderMenu" : "Login"}>
         <Stack.Screen name="Login" options={{ title: "Login to Wild Knight" }}>
           {(props) => <Login {...props} promptAsync={promptAsync} />}
         </Stack.Screen>
