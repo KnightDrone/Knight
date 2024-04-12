@@ -4,7 +4,12 @@ import { StyleSheet, View } from "react-native";
 import OrderMenu from "./OrderMenu";
 import { useFonts } from "expo-font";
 import KaiseiRegular from "../../assets/fonts/KaiseiDecol-Regular.ttf";
-import MapOverview from "./Map";
+import MapOverview from "./MapOverview";
+import 'react-native-gesture-handler';
+import {NavigationContainer} from '@react-navigation/native';
+import {createDrawerNavigator} from '@react-navigation/drawer';
+
+const Drawer = createDrawerNavigator();
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -12,20 +17,11 @@ export default function App() {
   });
 
   return (
-    <View style={styles.container}>
-      <StatusBar style="auto" />
-      <OrderMenu />
-      <MapOverview />
-    </View>
-  );
+    <NavigationContainer>
+    <Drawer.Navigator initialRouteName="Order Menu">
+        <Drawer.Screen name="Order Menu" component={OrderMenu} />
+        <Drawer.Screen name="Home" component={MapOverview} />
+    </Drawer.Navigator>
+    </NavigationContainer>
+);
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 20,
-  },
-});
