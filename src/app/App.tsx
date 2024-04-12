@@ -4,6 +4,7 @@ import { StyleSheet, View } from "react-native";
 import OrderMenu from "./OrderMenu";
 import { useFonts } from "expo-font";
 import KaiseiRegular from "../../assets/fonts/KaiseiDecol-Regular.ttf";
+import MapOverview from "./Map";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -14,6 +15,7 @@ export default function App() {
     <View style={styles.container}>
       <StatusBar style="auto" />
       <OrderMenu />
+      <MapOverview />
     </View>
   );
 }
