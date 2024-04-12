@@ -95,7 +95,9 @@ export default function Login({ promptAsync, navigation }: any) {
         </Text>
       </TouchableOpacity>
 
-      <Button title="Log in" onPress={logInWithEmail} />
+      <TouchableOpacity style={styles.login} onPress={logInWithEmail}>
+        <Text style={styles.googleButtonText}>Log in</Text>
+      </TouchableOpacity>
 
       <TouchableOpacity>
         <Text
@@ -113,7 +115,13 @@ export default function Login({ promptAsync, navigation }: any) {
       </View>
 
       <TouchableOpacity style={styles.button} onPress={() => promptAsync()}>
-        <Text style={styles.googleButtonText}>Continue with Google</Text>
+        <View style={styles.GbuttonContent}>
+          <Image
+            source={require("../../assets/images/google-icon.png")} // Replace with the path to your Google icon
+            style={styles.icon}
+          />
+          <Text style={styles.googleButtonText}>Continue with Google</Text>
+        </View>
       </TouchableOpacity>
 
       <TouchableOpacity>
@@ -148,6 +156,16 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     textAlign: "center",
   },
+  icon: {
+    width: 30, // Adjust as needed
+    height: 30, // Adjust as needed
+    marginRight: 10, // Adds some space between the icon and the text
+  },
+  GbuttonContent: {
+    flexDirection: "row", // Aligns the children horizontally
+    alignItems: "center", // Centers the children vertically
+    paddingLeft: 30,
+  },
   input: {
     width: "80%",
     height: 40,
@@ -155,6 +173,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginBottom: 10,
     padding: 10,
+    borderRadius: 5,
+    backgroundColor: "#FFFBF1",
   },
   error: {
     color: "red",
@@ -186,7 +206,15 @@ const styles = StyleSheet.create({
     width: "80%",
     borderColor: "black",
     borderWidth: 1,
-    borderRadius: 5, // Adjust for desired roundness
+    borderRadius: 50, // Adjust for desired roundness
+    padding: 10,
+  },
+  login: {
+    marginTop: 10,
+    width: "50%",
+    borderColor: "black",
+    borderWidth: 1,
+    borderRadius: 50, // Adjust for desired roundness
     padding: 10,
   },
   googleButtonText: {
