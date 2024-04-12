@@ -6,14 +6,21 @@ import {
   TextInput,
   Image,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 import Button from "../components/Button";
+// ------------- FIREBASE IMPORTS ----------------
 import {
   GoogleAuthProvider,
   onAuthStateChanged,
   signInWithCredential,
 } from "firebase/auth";
 import { auth } from "../firebase";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { database } from "../firebase";
+import { UserCredential } from "firebase/auth";
+import { ref, set } from "firebase/database";
+// -----------------------------------------------
 import * as Google from "expo-auth-session/providers/google";
 import * as WebBrowser from "expo-web-browser";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -76,8 +83,32 @@ export default function SignUp({ promptAsync, navigation }: any) {
       setType("password");
     }
   };
-  // TODO: Implement handleSignUp using firebase
-  const handleSignUp = () => {};
+
+  const writeUserData = async (response: UserCredential) => {
+    // TODO: modify this function to write meaningful user data to firebase realtime databse
+    set(ref(database, "users/" + response.user.uid), {
+      username: user,
+      email: email,
+      orders: [], // This will create an empty list for orders
+    });
+  };
+
+  const signUpWithEmail = async () => {
+    if (email && password) {
+      createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          const user = userCredential.user;
+          // TODO: Navigate to the home screen
+          navigation.navigate("OrderMenu");
+        })
+        .catch((error) => {
+          // Alert.alert('Sign Up failed. Please check your credentials.'); - I'm unsure about setError usage so I'm not sure if using Alert is redundant
+          setError("Sign Up failed. Please check your credentials.");
+        });
+    } else {
+      setError("Please input email and password.");
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -164,7 +195,7 @@ export default function SignUp({ promptAsync, navigation }: any) {
         ))}
       </View>
 
-      <Button title="Sign Up" onPress={handleSignUp} />
+      <Button title="Sign Up" onPress={signUpWithEmail} />
 
       <View style={styles.lineContainer}>
         <View style={styles.line} />
