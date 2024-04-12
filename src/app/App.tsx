@@ -104,7 +104,7 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator
         initialRouteName={userInfo ? "Map" : "Login"}
-        headerMode="none"
+        screenOptions={{ headerShown: false }}
       >
         <Stack.Screen name="Login" options={{ title: "Login to Wild Knight" }}>
           {(props) => <Login {...props} promptAsync={promptAsync} />}
