@@ -8,8 +8,8 @@ import {
   TouchableOpacity,
 } from "react-native";
 import Button from "../components/Button";
-import { sendPasswordResetEmail } from 'firebase/auth';
-import { auth } from '../firebase';
+import { sendPasswordResetEmail } from "firebase/auth";
+import { auth } from "../firebase";
 
 export default function ForgotPasswordScreen() {
   const [email, setEmail] = useState("");
@@ -25,7 +25,6 @@ export default function ForgotPasswordScreen() {
         setError(error.message);
         alert("Please enter a valid email address");
       });
-
   };
 
   return (
