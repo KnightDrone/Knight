@@ -61,6 +61,8 @@ export default function Login({ promptAsync, navigation }: any) {
     //Navigate to the forgot password screen
   };
 
+  const [showPassword, setShowPassword] = useState(false);
+
   return (
     <View style={styles.container}>
       <Image
@@ -83,10 +85,20 @@ export default function Login({ promptAsync, navigation }: any) {
         style={styles.input}
         placeholder="Enter your password"
         value={password}
+        secureTextEntry={!showPassword}
         onChangeText={setPassword}
         autoCapitalize="none"
         autoCorrect={false}
       />
+
+      <TouchableOpacity>
+        <Text
+          style={styles.showPassword}
+          onPress={() => setShowPassword(!showPassword)}
+        >
+          {showPassword ? "Hide password" : "Show password"}
+        </Text>
+      </TouchableOpacity>
 
       <Button title="Log in" onPress={logInWithEmail} />
 
@@ -192,6 +204,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textAlign: "center",
     marginTop: 10,
+    textDecorationLine: "underline", // Adds underline to indicate it's a link
+  },
+  showPassword: {
+    color: "blue", // Change as needed
+    fontSize: 16,
+    textAlign: "center",
+    marginBottom: 10,
     textDecorationLine: "underline", // Adds underline to indicate it's a link
   },
   // Add or modify other styles as needed
