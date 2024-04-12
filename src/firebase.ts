@@ -2,6 +2,7 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { getDatabase } from "firebase/database";
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -21,11 +22,12 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const analytics = getAnalytics(app);
+const  database = getDatabase(app);
 
 // Initialize Firebase Authentication and get a reference to the service
 // export const auth = getAuth(app);
 export default app;
-export { auth, GoogleAuthProvider, signInWithPopup };
+export { auth, GoogleAuthProvider, signInWithPopup , database, analytics};
 //export { auth };
 
 // iOS ClientID for OAth: 983400403511-gi5mo0akb89fcecaivk4q509c63hrvtl.apps.googleusercontent.com

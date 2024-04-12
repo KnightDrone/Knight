@@ -1,5 +1,5 @@
 import React from "react";
-import { fireEvent, render } from "@testing-library/react-native";
+import { fireEvent, render, waitFor } from "@testing-library/react-native";
 import SignUp from "../src/app/SignUp"; // Adjust the import path to your SignUp component
 
 // Mock AsyncStorage
@@ -21,6 +21,16 @@ jest.mock("expo-auth-session/providers/google", () => ({
 const mockPromptAsync = jest.fn();
 
 describe("SignUp Component", () => {
+  it("renders correctly", () => {
+    const { getByText, getByPlaceholderText } = render(
+      <SignUp promptAsync={mockPromptAsync} navigation={{}} />
+    );
+    expect(getByText("Sign Up")).toBeTruthy();
+    expect(getByPlaceholderText("Enter your email")).toBeTruthy();
+    expect(getByPlaceholderText("Enter your password")).toBeTruthy();
+  }
+  );
+  
   it("updates email and password fields correctly", () => {
     const { getByPlaceholderText } = render(
       <SignUp promptAsync={mockPromptAsync} navigation={{}} />
