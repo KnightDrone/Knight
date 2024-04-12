@@ -3,6 +3,7 @@
     "name": "knight",
     "slug": "knight",
     "version": "1.0.0",
+    "scheme": "knight",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "userInterfaceStyle": "light",
@@ -47,9 +48,6 @@
             "./assets/fonts/KaiseiDecol-Bold.ttf"
           ]
         }
-      ],
-      [
-        "@react-native-google-signin/google-signin"
       ]
     ],
     "extra": {
