@@ -46,7 +46,7 @@ export default function Login({ promptAsync, navigation }: any) {
         if (response.user) {
           console.log("Login success");
           // Navigate to the order menu screen
-          navigation.navigate("OrderMenu");
+          navigation.navigate("Map");
         } else {
           setError("Invalid credentials");
         }
