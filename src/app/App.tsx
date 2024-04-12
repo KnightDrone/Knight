@@ -114,7 +114,7 @@ export default function App() {
         </Stack.Screen>
         <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
         <Stack.Screen name="Map">
-          {(props) => <MapView {...props} />}
+          {(props) => <MapView />}
         </Stack.Screen>
         <Stack.Screen name="OrderMenu">{(props) => <OrderMenu />}</Stack.Screen>
       </Stack.Navigator>
