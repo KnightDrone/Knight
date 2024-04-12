@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import Button from "../components/Button";
 import {
+  createUserWithEmailAndPassword,
   GoogleAuthProvider,
   onAuthStateChanged,
   signInWithCredential,
@@ -76,8 +77,23 @@ export default function SignUp({ promptAsync, navigation }: any) {
       setType("password");
     }
   };
-  // TODO: Implement handleSignUp using firebase
-  const handleSignUp = () => {};
+  const signUpWithEmail = async () => {
+    if (email && password) {
+      createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          const user = userCredential.user;
+          // TODO: Navigate to the home screen
+        })
+        .catch((error) => {
+          // Alert.alert('Sign Up failed. Please check your credentials.'); - I'm unsure about setError usage so I'm not sure if using Alert is redundant
+          setError('Sign Up failed. Please check your credentials.');
+
+        })
+    } else {
+
+      setError('Please input email and password.');
+    }
+  };
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -176,7 +192,7 @@ export default function SignUp({ promptAsync, navigation }: any) {
         ))}
       </View>
 
-      <Button title="Sign Up" onPress={handleSignUp} />
+      <Button title="Sign Up" onPress={signUpWithEmail} />
 
       <View style={styles.lineContainer}>
         <View style={styles.line} />
