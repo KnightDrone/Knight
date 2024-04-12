@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -22,18 +22,33 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 // Navigation imports
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-export default function Login({ promptAsync, navigation }: any) {
+export default function Login({ navigation }: any) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const handleLogin = () => {
-    if (email === "admin" && password === "admin") {
-      console.log("Login success");
-    } else {
-      setError("Invalid credentials");
+  const [request, response, promptAsync] = Google.useAuthRequest({
+    iosClientId:
+      "983400403511-gi5mo0akb89fcecaivk4q509c63hrvtl.apps.googleusercontent.com",
+    androidClientId:
+      "983400403511-i43set67i4o1e3kb7fl91vrh9r6aemcb.apps.googleusercontent.com",
+    redirectUri:
+      "com.googleusercontent.apps.983400403511-gi5mo0akb89fcecaivk4q509c63hrvtl:/oauth2redirect/google",
+  });
+
+  useEffect(() => {
+    if (response?.type === "success") {
+      const { id_token } = response.params;
+      const credential = GoogleAuthProvider.credential(id_token);
+      signInWithCredential(auth, credential)
+        .then(() => {
+          navigation.navigate("OrderMenu"); // Navigate after successful login
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     }
-  };
+  }, [response]);
 
   const logInWithEmail = async () => {
     if (email && password) {

@@ -1,4 +1,4 @@
-import React, { SetStateAction, useState } from "react";
+import React, { SetStateAction, useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -27,7 +27,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import Icon from "react-native-vector-icons/FontAwesome";
 
-export default function SignUp({ promptAsync, navigation }: any) {
+export default function SignUp({ navigation }: any) {
   const [user, setUser] = useState("");
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
@@ -37,6 +37,29 @@ export default function SignUp({ promptAsync, navigation }: any) {
   const [strength, setStrength] = useState("");
 
   const [showPassword, setShowPassword] = useState(false);
+
+  const [request, response, promptAsync] = Google.useAuthRequest({
+    iosClientId:
+      "983400403511-gi5mo0akb89fcecaivk4q509c63hrvtl.apps.googleusercontent.com",
+    androidClientId:
+      "983400403511-i43set67i4o1e3kb7fl91vrh9r6aemcb.apps.googleusercontent.com",
+    redirectUri:
+      "com.googleusercontent.apps.983400403511-gi5mo0akb89fcecaivk4q509c63hrvtl:/oauth2redirect/google",
+  });
+
+  useEffect(() => {
+    if (response?.type === "success") {
+      const { id_token } = response.params;
+      const credential = GoogleAuthProvider.credential(id_token);
+      signInWithCredential(auth, credential)
+        .then(() => {
+          navigation.navigate("OrderMenu"); // Navigate after successful login
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  }, [response]);
 
   React.useEffect(() => {
     validatePassword(password);
