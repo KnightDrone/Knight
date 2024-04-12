@@ -6,7 +6,7 @@ import {
   Image,
   ImageSourcePropType,
 } from "react-native";
-import { buttonStyles } from "./ButtonStyles";
+import { buttonStyles } from "../types/ButtonStyles";
 import { useFonts } from "expo-font";
 import KaiseiRegular from "../../assets/fonts/KaiseiDecol-Regular.ttf";
 

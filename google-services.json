@@ -15,14 +15,6 @@
       },
       "oauth_client": [
         {
-          "client_id": "983400403511-i43set67i4o1e3kb7fl91vrh9r6aemcb.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.swent.knight",
-            "certificate_hash": "370b6d93a5358b4573c2d090e41128a5e5254f86"
-          }
-        },
-        {
           "client_id": "983400403511-ff4ntmj4f9qvmmcc6nqh68tn524bp740.apps.googleusercontent.com",
           "client_type": 3
         }

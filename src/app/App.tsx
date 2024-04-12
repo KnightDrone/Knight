@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import { Text } from "react-native";
 import {
   GoogleAuthProvider,
@@ -30,8 +30,6 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 
 WebBrowser.maybeCompleteAuthSession();
 
-const Stack = createStackNavigator<RootStackParamList>();
-
 // Types for navigation handling
 // Should navigation be handled in a separate file??
 type RootStackParamList = {
@@ -42,7 +40,10 @@ type RootStackParamList = {
   Map: undefined;
 };
 
-export default function App() {
+
+const Stack = createStackNavigator<RootStackParamList>();
+
+function App() {
   const [request, response, promptAsync] = Google.useAuthRequest({
     iosClientId:
       "983400403511-gi5mo0akb89fcecaivk4q509c63hrvtl.apps.googleusercontent.com",
@@ -51,6 +52,7 @@ export default function App() {
     redirectUri:
       "com.googleusercontent.apps.983400403511-gi5mo0akb89fcecaivk4q509c63hrvtl:/oauth2redirect/google",
   });
+
 
   const [fontsLoaded] = useFonts({
     "Kaisei-Regular": KaiseiRegular,
@@ -64,7 +66,6 @@ export default function App() {
       setLoading(true);
       const userJSON = await AsyncStorage.getItem("@user");
       const userData = userJSON != null ? JSON.parse(userJSON) : null;
-      console.log("local storage:", userData);
       setUserInfo(userData);
     } catch (e) {
       alert(e);
@@ -73,13 +74,6 @@ export default function App() {
     }
   };
 
-  React.useEffect(() => {
-    if (response?.type === "success") {
-      const { id_token } = response.params;
-      const credential = GoogleAuthProvider.credential(id_token);
-      signInWithCredential(auth, credential);
-    }
-  }, [response]);
 
   React.useEffect(() => {
     checkLocalUser();
@@ -109,10 +103,10 @@ export default function App() {
         headerMode="none"
       >
         <Stack.Screen name="Login" options={{ title: "Login to Wild Knight" }}>
-          {(props) => <Login {...props} promptAsync={promptAsync} />}
+          {(props) => <Login {...props} />}
         </Stack.Screen>
         <Stack.Screen name="SignUp">
-          {(props) => <SignUp {...props} promptAsync={promptAsync} />}
+          {(props) => <SignUp {...props} />}
         </Stack.Screen>
         <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
         <Stack.Screen name="Map">{(props) => <MapView />}</Stack.Screen>

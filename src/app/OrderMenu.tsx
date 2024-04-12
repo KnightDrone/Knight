@@ -1,55 +1,35 @@
-import React from "react";
+import React, { useState } from "react";
 import OrderButton from "../components/OrderButton";
 import { Text, StyleSheet, View } from "react-native";
 import { useFonts } from "expo-font";
 import KaiseiRegular from "../../assets/fonts/KaiseiDecol-Regular.ttf";
 import TriangleBackground from "../components/TriangleBackground";
+import { productButtons } from "../types/ProductButtons";
+import ItemCard from "../components/ItemCard";
 
 interface OrderProps {
   // Define your component props here
+  // will pass location and maybe user info here
 }
-
-interface Product {
-  id: number;
-  title: string;
-  icon: string;
-}
-
-interface ProductButton {
-  product: Product;
-  onPress: () => void;
-}
-
-const icons: { [key: string]: any } = {
-  first_aid: require("../../assets/icons/first_aid_icon.png"),
-  flashlight: require("../../assets/icons/flashlight_icon.png"),
-  thermal_blanket: require("../../assets/icons/blanket_icon.png"),
-  powerbank: require("../../assets/icons/powerbank_icon.png"),
-};
-
-const productButtons: ProductButton[] = [
-  {
-    product: { id: 1, title: "First aid kit", icon: "first_aid" },
-    onPress: () => console.log("First aid kit"),
-  },
-  {
-    product: { id: 2, title: "Flashlight", icon: "flashlight" },
-    onPress: () => console.log("Flashlight"),
-  },
-  {
-    product: { id: 3, title: "Thermal blanket", icon: "thermal_blanket" },
-    onPress: () => console.log("Thermal blanket"),
-  },
-  {
-    product: { id: 4, title: "Power bank", icon: "powerbank" },
-    onPress: () => console.log("Power bank"),
-  },
-];
 
 export default function OrderMenu() {
   const [fontsLoaded] = useFonts({
     "Kaisei-Regular": KaiseiRegular,
   });
+
+  const [visibleItemId, setVisibleItemId] = useState<number | null>(null);
+
+  if (!fontsLoaded) {
+    return <Text>Loading...</Text>;
+  }
+
+  const handleOpenCard = (itemId: number) => {
+    setVisibleItemId(itemId);
+  };
+
+  const handleCloseCard = () => {
+    setVisibleItemId(null);
+  };
 
   return (
     <View style={styles.container}>
@@ -57,12 +37,24 @@ export default function OrderMenu() {
       <Text style={styles.text}>Choose your item</Text>
       {productButtons.map((button) => (
         <OrderButton
-          title={button.product.title}
-          icon={icons[button.product.icon]}
-          onPress={button.onPress}
-          key={button.product.id}
+          title={button.item.getName()}
+          icon={button.item.getIcon()}
+          onPress={() => handleOpenCard(button.item.getId())}
+          key={button.item.getId()}
         />
       ))}
+      {productButtons.map((button) => {
+        const isVisible = button.item.getId() === visibleItemId;
+        return (
+          <ItemCard
+            isVisible={isVisible}
+            handleClose={handleCloseCard}
+            handleOrder={() => {}}
+            item={button.item}
+            key={`card-${button.item.getId()}`}
+          />
+        );
+      })}
     </View>
   );
 }
@@ -70,10 +62,13 @@ export default function OrderMenu() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
+    width: "100%",
+    height: "100%",
+    display: "flex",
     flexDirection: "column",
+    alignItems: "center",
+    //justifyContent: "flex-start",
+    paddingTop: 160,
   },
   text: {
     fontSize: 36,
