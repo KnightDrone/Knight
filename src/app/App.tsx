@@ -19,6 +19,7 @@ import Login from "./Login";
 import SignUp from "./SignUp";
 import ForgotPassword from "./ForgotPassword";
 import OrderMenu from "./OrderMenu";
+import MapView from "./Map";
 
 import { useFonts } from "expo-font";
 import KaiseiRegular from "../../assets/fonts/KaiseiDecol-Regular.ttf";
@@ -36,6 +37,7 @@ type RootStackParamList = {
   SignUp: undefined;
   ForgotPassword: undefined;
   OrderMenu: undefined;
+  Map: undefined;
 };
 
 export default function App() {
@@ -100,7 +102,10 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login">
+      <Stack.Navigator
+        initialRouteName={userInfo ? "Map" : "Login"}
+        headerMode="none"
+      >
         <Stack.Screen name="Login" options={{ title: "Login to Wild Knight" }}>
           {(props) => <Login {...props} promptAsync={promptAsync} />}
         </Stack.Screen>
@@ -108,6 +113,9 @@ export default function App() {
           {(props) => <SignUp {...props} promptAsync={promptAsync} />}
         </Stack.Screen>
         <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
+        <Stack.Screen name="Map">
+          {(props) => <MapView />}
+        </Stack.Screen>
         <Stack.Screen name="OrderMenu">{(props) => <OrderMenu />}</Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
