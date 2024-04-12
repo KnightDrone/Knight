@@ -196,7 +196,6 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginBottom: 10,
     backgroundColor: "#FFFBF1",
-    padding: 10,
   },
   enterPswrd: {
     height: 40,
@@ -238,16 +237,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 50, // Adjust for desired roundness
     padding: 10,
-  },
-  inputContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    width: "80%",
-    borderColor: "gray",
-    borderWidth: 1,
-    borderRadius: 10,
-    marginBottom: 10,
-    backgroundColor: "#FFFBF1",
   },
   login: {
     marginTop: 10,
