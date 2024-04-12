@@ -56,11 +56,6 @@ export default function Login({ promptAsync, navigation }: any) {
     }
   };
 
-  const forgotPassword = () => {
-    // Add code to handle forgot password
-    //Navigate to the forgot password screen
-  };
-
   const [showPassword, setShowPassword] = useState(false);
 
   return (
