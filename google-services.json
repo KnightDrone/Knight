@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "983400403511",
+    "firebase_url": "https://swent-g25-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "swent-g25",
+    "storage_bucket": "swent-g25.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:983400403511:android:d201f5d27cc7c5724ae5b2",
+        "android_client_info": {
+          "package_name": "com.swent.knight"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "983400403511-i43set67i4o1e3kb7fl91vrh9r6aemcb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.swent.knight",
+            "certificate_hash": "370b6d93a5358b4573c2d090e41128a5e5254f86"
+          }
+        },
+        {
+          "client_id": "983400403511-ff4ntmj4f9qvmmcc6nqh68tn524bp740.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDKXKAaeGe_crJPwY3HRceG4cfSAyT3qRk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "983400403511-ff4ntmj4f9qvmmcc6nqh68tn524bp740.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "983400403511-gi5mo0akb89fcecaivk4q509c63hrvtl.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.swent.knight"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
