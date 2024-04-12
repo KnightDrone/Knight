@@ -1,5 +1,5 @@
 import React from "react";
-import { fireEvent, render } from "@testing-library/react-native";
+import { fireEvent, render, waitFor } from "@testing-library/react-native";
 import SignUp from "../src/app/SignUp"; // Adjust the import path to your SignUp component
 
 // Mock AsyncStorage

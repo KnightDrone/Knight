@@ -8,15 +8,23 @@ import {
   TouchableOpacity,
 } from "react-native";
 import Button from "../components/Button";
+import { sendPasswordResetEmail } from "firebase/auth";
+import { auth } from "../services/firebase";
 
 export default function ForgotPasswordScreen() {
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
 
-  // TODO: handle forgot password
   const handleForgotPassword = () => {
-    // Add code to handle forgot password
-    //Navigate to the forgot password screen
+    sendPasswordResetEmail(auth, email)
+      .then(() => {
+        // Password reset email sent!
+        alert("Password reset email sent!");
+      })
+      .catch((error) => {
+        setError(error.message);
+        alert("Please enter a valid email address");
+      });
   };
 
   return (

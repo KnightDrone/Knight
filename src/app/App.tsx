@@ -5,7 +5,7 @@ import {
   onAuthStateChanged,
   signInWithCredential,
 } from "firebase/auth";
-import { auth } from "../firebase";
+import { auth } from "../services/firebase";
 import * as Google from "expo-auth-session/providers/google";
 import * as WebBrowser from "expo-web-browser";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -38,7 +38,7 @@ type RootStackParamList = {
   OrderMenu: undefined;
 };
 
-function App() {
+export default function App() {
   const [request, response, promptAsync] = Google.useAuthRequest({
     iosClientId:
       "983400403511-gi5mo0akb89fcecaivk4q509c63hrvtl.apps.googleusercontent.com",
@@ -114,4 +114,4 @@ function App() {
   );
 }
 
-export default registerRootComponent(App);
+registerRootComponent(App);

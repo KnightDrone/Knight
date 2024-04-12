@@ -2,7 +2,7 @@ import React from "react";
 import { fireEvent, render, screen } from "@testing-library/react-native";
 import Login from "../src/app/Login";
 import { GoogleAuthProvider, signInWithCredential } from "firebase/auth";
-import { auth } from "../src/firebase";
+import { auth } from "../src/services/firebase";
 
 const mockNavigate = jest.fn();
 const mockGoBack = jest.fn();
