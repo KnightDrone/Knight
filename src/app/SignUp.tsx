@@ -5,9 +5,8 @@ import {
   auth,
   GoogleAuthProvider,
   signInWithCredential,
-  createUserWithEmailAndPassword,
-} from "../services/Firebase";
-// -----------------------------------------------
+} from "firebase/auth";
+import { auth } from "../services/firebase";
 import * as Google from "expo-auth-session/providers/google";
 import GoogleAuthConfig from "../types/GoogleAuthConfig";
 import { TextField } from "../ui/TextField";

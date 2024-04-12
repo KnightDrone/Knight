@@ -4,8 +4,8 @@ import {
   auth,
   GoogleAuthProvider,
   signInWithCredential,
-  signInWithEmailAndPassword,
-} from "../services/Firebase";
+} from "firebase/auth";
+import { auth } from "../services/firebase";
 import * as Google from "expo-auth-session/providers/google";
 import * as WebBrowser from "expo-web-browser";
 import AsyncStorage from "@react-native-async-storage/async-storage";

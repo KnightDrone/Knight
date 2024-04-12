@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Text } from "react-native";
-import { User, onAuthStateChanged, auth } from "../services/Firebase";
+import {
+  GoogleAuthProvider,
+  onAuthStateChanged,
+  signInWithCredential,
+} from "firebase/auth";
+import { auth } from "../services/firebase";
+import * as Google from "expo-auth-session/providers/google";
 import * as WebBrowser from "expo-web-browser";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Icon from "react-native-vector-icons/MaterialIcons";

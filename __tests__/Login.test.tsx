@@ -6,75 +6,15 @@ import {
   waitFor,
 } from "@testing-library/react-native";
 import Login from "../src/app/Login";
-import {
-  GoogleAuthProvider,
-  signInWithCredential,
-  signInWithEmailAndPassword,
-} from "../src/services/Firebase";
-import * as Google from "expo-auth-session/providers/google";
-import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
-import { Text } from "react-native";
+import { GoogleAuthProvider, signInWithCredential } from "firebase/auth";
+import { auth } from "../src/services/firebase";
 
-const Stack = createStackNavigator();
-
-// Avoid useless error messages
-beforeAll(() => {
-  jest.spyOn(console, "error").mockImplementation(() => {});
-});
-
-// Setup mock implementations
-beforeEach(() => {
-  const mockPromptAsync = jest.fn();
-
-  // Mock the Google authentication request setup
-  (Google.useAuthRequest as jest.Mock).mockReturnValue([
-    {}, // Mocked request
-    { type: "success", params: { id_token: "mock-id-token" } }, // Mocked response
-    mockPromptAsync, // Mocked promptAsync function
-  ]);
-});
-
-const LoginTest = () => {
-  return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName={"Login"}>
-        <Stack.Screen name="Login">
-          {(props) => <Login {...props} />}
-        </Stack.Screen>
-        <Stack.Screen name="Map">
-          {() => (
-            <>
-              <Text testID="map-screen">Map screen</Text>
-            </>
-          )}
-        </Stack.Screen>
-        <Stack.Screen name="ForgotPassword">
-          {() => (
-            <>
-              <Text testID="forgot-password-screen">
-                Forgot Password Screen
-              </Text>
-            </>
-          )}
-        </Stack.Screen>
-        <Stack.Screen name="SignUp">
-          {() => (
-            <>
-              <Text testID="sign-up-screen">Sign Up Screen</Text>
-            </>
-          )}
-        </Stack.Screen>
-        <Stack.Screen name="OrderMenu">
-          {() => (
-            <>
-              <Text testID="order-menu">Order Menu</Text>
-            </>
-          )}
-        </Stack.Screen>
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
+const mockNavigate = jest.fn();
+const mockGoBack = jest.fn();
+const mockNavigation = {
+  navigate: mockNavigate,
+  goBack: mockGoBack,
+  // Add other navigation actions as needed
 };
 
 describe("Login Component", () => {
