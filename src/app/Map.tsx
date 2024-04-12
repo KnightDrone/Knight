@@ -2,7 +2,7 @@
 import React from "react";
 import { StyleSheet, View, TouchableOpacity, Text } from "react-native";
 import MapView from 'react-native-maps';
-import Geolocation from '@react-native-community/geolocation';
+//import Geolocation from '@react-native-community/geolocation';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const topButtonPadding = 60;

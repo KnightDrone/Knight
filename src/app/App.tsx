@@ -5,7 +5,7 @@ import OrderMenu from "./OrderMenu";
 import MapView from "./Map";
 import { useFonts } from "expo-font";
 import KaiseiRegular from "../../assets/fonts/KaiseiDecol-Regular.ttf";
-import MapOverview from "./Map";
+
 
 export default function App() {
   const [fontsLoaded] = useFonts({
