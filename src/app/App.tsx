@@ -19,7 +19,7 @@ import Login from "./Login";
 import SignUp from "./SignUp";
 import ForgotPassword from "./ForgotPassword";
 import OrderMenu from "./OrderMenu";
-import MapView from "./Map";
+import MapOverview from "./Map";
 
 import { useFonts } from "expo-font";
 import KaiseiRegular from "../../assets/fonts/KaiseiDecol-Regular.ttf";
@@ -114,7 +114,7 @@ export default function App() {
         </Stack.Screen>
         <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
         <Stack.Screen name="Map">
-          {(props) => <MapView />}
+          {(props) => <MapOverview {...props.navigation} />}
         </Stack.Screen>
         <Stack.Screen name="OrderMenu">{(props) => <OrderMenu />}</Stack.Screen>
       </Stack.Navigator>
