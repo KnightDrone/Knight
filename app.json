@@ -18,7 +18,7 @@
       "bundleIdentifier": "com.swent.knight"
     },
     "android": {
-      "googleServicesFile": "google-services.json",
+      "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
@@ -47,6 +47,9 @@
             "./assets/fonts/KaiseiDecol-Bold.ttf"
           ]
         }
+      ],
+      [
+        "@react-native-google-signin/google-signin"
       ]
     ],
     "extra": {

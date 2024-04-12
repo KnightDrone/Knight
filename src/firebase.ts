@@ -12,11 +12,12 @@ import { getDatabase } from "firebase/database";
 const firebaseConfig = {
   apiKey: "AIzaSyCDjeBhSsVZsZnO4gQ2xU9rlRdaJt6K1ZI",
   authDomain: "swent-g25.firebaseapp.com",
+  databaseURL: "https://swent-g25-default-rtdb.europe-west1.firebasedatabase.app",
   projectId: "swent-g25",
   storageBucket: "swent-g25.appspot.com",
   messagingSenderId: "983400403511",
   appId: "1:983400403511:web:04caa117a0e3e7424ae5b2",
-  measurementId: "G-N04Q2KKH95",
+  measurementId: "G-N04Q2KKH95"
 };
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
