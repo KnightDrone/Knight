@@ -1,4 +1,4 @@
-import { Item } from "../components/Item";
+import { Item } from "./Item";
 
 interface ProductButton {
   item: Item;
@@ -11,7 +11,6 @@ const names: string[] = [
   "Thermal blanket",
   "Power bank",
 ];
-
 
 // require is used to import images,
 // it returns a number that can be used to display the image

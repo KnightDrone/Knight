@@ -4,7 +4,7 @@ import { Text, StyleSheet, View } from "react-native";
 import { useFonts } from "expo-font";
 import KaiseiRegular from "../../assets/fonts/KaiseiDecol-Regular.ttf";
 import TriangleBackground from "../components/TriangleBackground";
-import { productButtons } from "../components/ProductButtons";
+import { productButtons } from "../types/ProductButtons";
 import ItemCard from "../components/ItemCard";
 
 interface OrderProps {

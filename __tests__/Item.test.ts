@@ -1,4 +1,4 @@
-import { Item } from "../src/components/Item";
+import { Item } from "../src/types/Item";
 
 describe("Item", () => {
   let item: Item;
