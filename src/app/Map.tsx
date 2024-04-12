@@ -4,11 +4,13 @@ import { StyleSheet, View, TouchableOpacity, Text } from "react-native";
 import MapView from 'react-native-maps';
 //import Geolocation from '@react-native-community/geolocation';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { useNavigation } from "@react-navigation/native";
 
 const topButtonPadding = 60;
 const sideButtonPadding = 30;
 
 const MapOverview: React.FC<{ }> = ({  }) => {
+  const navigation = useNavigation();
   return (
     <View style={styles.container}>
       <MapView
@@ -31,8 +33,10 @@ const MapOverview: React.FC<{ }> = ({  }) => {
       </TouchableOpacity>
 
       {/* order button */}
-      <TouchableOpacity style={[styles.button, styles.buttonBottomRight]} onPress={() => console.log('Order')
-      }>
+      <TouchableOpacity
+        style={[styles.button, styles.buttonBottomRight]}
+        onPress={() => navigation.navigate('OrderMenu')}
+      >
         <Text style={styles.buttonText}>Order</Text>
       </TouchableOpacity>
     </View>
@@ -73,6 +77,8 @@ const styles = StyleSheet.create({
 });
 
 export default MapOverview;
+
+//------------------------
 
 // import React, { useEffect, useState } from "react";
 // import {
