@@ -76,24 +76,30 @@ export default function Login({ promptAsync, navigation }: any) {
         autoCorrect={false}
       />
 
-      <TextInput
-        style={styles.input}
-        placeholder="Enter your password"
-        value={password}
-        secureTextEntry={!showPassword}
-        onChangeText={setPassword}
-        autoCapitalize="none"
-        autoCorrect={false}
-      />
-
-      <TouchableOpacity>
-        <Text
-          style={styles.showPassword}
+      <View style={styles.inputContainer}>
+        <TextInput
+          style={styles.enterPswrd}
+          placeholder="Enter your password"
+          value={password}
+          secureTextEntry={!showPassword}
+          onChangeText={setPassword}
+          autoCapitalize="none"
+          autoCorrect={false}
+        />
+        <TouchableOpacity
+          style={styles.iconContainer}
           onPress={() => setShowPassword(!showPassword)}
         >
-          {showPassword ? "Hide password" : "Show password"}
-        </Text>
-      </TouchableOpacity>
+          <Image
+            source={
+              showPassword
+                ? require("../../assets/images/eye-hide.png")
+                : require("../../assets/images/eye-show.png")
+            }
+            style={styles.eye}
+          />
+        </TouchableOpacity>
+      </View>
 
       <TouchableOpacity style={styles.login} onPress={logInWithEmail}>
         <Text style={styles.googleButtonText}>Log in</Text>
@@ -104,7 +110,7 @@ export default function Login({ promptAsync, navigation }: any) {
           style={styles.linkText}
           onPress={() => navigation.navigate("ForgotPassword")}
         >
-          Forgot password?
+          Forgot your password?
         </Text>
       </TouchableOpacity>
 
@@ -161,6 +167,10 @@ const styles = StyleSheet.create({
     height: 30, // Adjust as needed
     marginRight: 10, // Adds some space between the icon and the text
   },
+  eye: {
+    width: 20, // Adjust as needed
+    height: 20, // Adjust as needed
+  },
   GbuttonContent: {
     flexDirection: "row", // Aligns the children horizontally
     alignItems: "center", // Centers the children vertically
@@ -175,6 +185,26 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 5,
     backgroundColor: "#FFFBF1",
+  },
+  inputContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    width: "80%",
+    height: 40,
+    borderColor: "gray",
+    borderWidth: 1,
+    borderRadius: 5,
+    marginBottom: 10,
+    backgroundColor: "#FFFBF1",
+    padding: 10,
+  },
+  enterPswrd: {
+    height: 40,
+    padding: 10,
+  },
+  iconContainer: {
+    position: "absolute",
+    right: 10,
   },
   error: {
     color: "red",
@@ -209,6 +239,16 @@ const styles = StyleSheet.create({
     borderRadius: 50, // Adjust for desired roundness
     padding: 10,
   },
+  inputContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    width: "80%",
+    borderColor: "gray",
+    borderWidth: 1,
+    borderRadius: 10,
+    marginBottom: 10,
+    backgroundColor: "#FFFBF1",
+  },
   login: {
     marginTop: 10,
     width: "50%",
@@ -223,7 +263,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   linkText: {
-    color: "blue", // Change as needed
+    color: "#00BAD3", // Change as needed
     fontSize: 16,
     textAlign: "center",
     marginTop: 10,
