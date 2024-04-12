@@ -31,15 +31,15 @@ function ItemCard({
     <View style={styles.visibleCard}>
       <BlurView intensity={10} style={styles.blurContainer}>
         <View style={styles.card}>
-          <TouchableOpacity style={styles.closeButton} onPress={handleClose}>
-            <Icon name="close" size={20} color="#000" />
+          <TouchableOpacity style={styles.closeButton} onPress={handleClose} testID="close-button">
+            <Icon name="close" size={20} color="#000" testID="close-icon"/>
           </TouchableOpacity>
           <Text style={styles.title}>{item.getName()}</Text>
           <Text style={styles.description}>{item.getDescription()}</Text>
-          <Image style={styles.image} source={item.getImage()} />
+          <Image style={styles.image} source={item.getImage()} testID="item-image" />
           <View style={styles.bottomRow}>
-            <Text style={styles.price}>Price: {item.getPrice()} CHF</Text>
-            <TouchableOpacity style={styles.orderButton} onPress={handleOrder}>
+            <Text style={styles.price} testID="price-text">Price: {item.getPrice()} CHF</Text>
+            <TouchableOpacity style={styles.orderButton} onPress={handleOrder} testID="order-button">
               <Text style={styles.orderButtonText}>Order</Text>
             </TouchableOpacity>
           </View>
