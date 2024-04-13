@@ -46,3 +46,4 @@ describe("test", () => {
 ```
 
 - If your component uses useEffect, you need to see this link: https://callstack.github.io/react-native-testing-library/docs/understanding-act, there are many ways to do it. We think using fake timers is a good way to do it.
+- If you have this error `TypeError: Font.isLoaded is not a function`, you need to mock the react-native-icon most of the time.
