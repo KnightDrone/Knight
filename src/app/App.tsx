@@ -102,11 +102,40 @@ function App() {
         <Stack.Screen name="Login" options={{ title: "Login to Wild Knight" }}>
           {(props) => <Login {...props} />}
         </Stack.Screen>
-        <Stack.Screen name="SignUp">
+        <Stack.Screen
+          name="SignUp"
+          options={({ navigation }) => ({
+            headerShown: true,
+            headerTransparent: true, // Makes the header background transparent
+            headerTitle: "", // Hides the title
+            headerLeft: () => (
+              <HeaderBackButton
+                onPress={() => navigation.goBack()}
+                labelVisible={false}
+              />
+            ),
+          })}
+        >
           {(props) => <SignUp {...props} />}
         </Stack.Screen>
-        <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
-        <Stack.Screen name="Map">{(props) => <MapView  {...props} />}</Stack.Screen>
+        <Stack.Screen
+          name="ForgotPassword"
+          component={ForgotPassword}
+          options={({ navigation }) => ({
+            headerShown: true,
+            headerTransparent: true, // Makes the header background transparent
+            headerTitle: "", // Hides the title
+            headerLeft: () => (
+              <HeaderBackButton
+                onPress={() => navigation.goBack()}
+                labelVisible={false}
+              />
+            ),
+          })}
+        />
+        <Stack.Screen name="Map">
+          {(props) => <MapView {...props} />}
+        </Stack.Screen>
         <Stack.Screen
           name="OrderMenu"
           options={({ navigation }) => ({
