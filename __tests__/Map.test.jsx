@@ -42,10 +42,9 @@ jest.mock("react-native-vector-icons/MaterialIcons", () => {
   };
 });
 
-describe("MapOverview Component", () => {
-  it("renders correctly", () => {
-    const { getByTestId } = render(
-      <NavigationContainer>
+const MapTest = () => {
+  return (
+    <NavigationContainer>
         <Stack.Navigator initialRouteName={"Map"}>
           <Stack.Screen name="Map">
             {(props) => <MapOverview {...props} />}
@@ -58,7 +57,14 @@ describe("MapOverview Component", () => {
             )}
           </Stack.Screen>
         </Stack.Navigator>
-      </NavigationContainer>
+    </NavigationContainer>
+  );
+};
+
+describe("MapOverview Component", () => {
+  it("renders correctly", () => {
+    const { getByTestId } = render(
+       <MapTest />
     );
 
     expect(getByTestId("map-view")).toBeTruthy();
@@ -68,20 +74,7 @@ describe("MapOverview Component", () => {
 
   it("navigates to OrderMenu when order button is pressed", async () => {
     const { getByTestId } = render(
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName={"Map"}>
-          <Stack.Screen name="Map">
-            {(props) => <MapOverview {...props} />}
-          </Stack.Screen>
-          <Stack.Screen name="OrderMenu">
-            {() => (
-              <>
-                <Text testID="order-menu-screen">Order Menu Screen</Text>
-              </>
-            )}
-          </Stack.Screen>
-        </Stack.Navigator>
-      </NavigationContainer>
+      <MapTest />
     );
 
     fireEvent.press(getByTestId("order-button"));
@@ -94,20 +87,7 @@ describe("MapOverview Component", () => {
   it("fails to fetch location when location permission is denied", async () => {
     jest.useFakeTimers();
     const { getByTestId } = render(
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName={"Map"}>
-          <Stack.Screen name="Map">
-            {(props) => <MapOverview {...props} />}
-          </Stack.Screen>
-          <Stack.Screen name="OrderMenu">
-            {() => (
-              <>
-                <Text testID="order-menu-screen">Order Menu Screen</Text>
-              </>
-            )}
-          </Stack.Screen>
-        </Stack.Navigator>
-      </NavigationContainer>
+      <MapTest />
     );
 
     act(() => {
@@ -144,20 +124,7 @@ describe("MapOverview Component", () => {
   it("updates region and marker on successful location fetch", async () => {
     jest.useFakeTimers();
     const { getByTestId } = render(
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName={"Map"}>
-          <Stack.Screen name="Map">
-            {(props) => <MapOverview {...props} />}
-          </Stack.Screen>
-          <Stack.Screen name="OrderMenu">
-            {() => (
-              <>
-                <Text testID="order-menu-screen">Order Menu Screen</Text>
-              </>
-            )}
-          </Stack.Screen>
-        </Stack.Navigator>
-      </NavigationContainer>
+      <MapTest />
     );
 
     act(() => {

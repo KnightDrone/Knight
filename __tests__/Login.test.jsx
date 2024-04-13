@@ -30,26 +30,52 @@ beforeEach(() => {
   ]);
 });
 
+const LoginTest = () => {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName={"Login"}>
+        <Stack.Screen name="Login">
+          {(props) => <Login {...props} />}
+        </Stack.Screen>
+        <Stack.Screen name="Map">
+          {() => (
+            <>
+              <Text testID="map-screen">Map screen</Text>
+            </>
+          )}
+        </Stack.Screen>
+        <Stack.Screen name="ForgotPassword">
+          {() => (
+            <>
+              <Text testID="forgot-password-screen">
+                Forgot Password Screen
+              </Text>
+            </>
+          )}
+        </Stack.Screen>
+        <Stack.Screen name="SignUp">
+          {() => (
+            <>
+              <Text testID="sign-up-screen">Sign Up Screen</Text>
+            </>
+          )}
+        </Stack.Screen>
+        <Stack.Screen name="OrderMenu">
+          {() => (
+            <>
+              <Text testID="order-menu">Order Menu</Text>
+            </>
+          )}
+        </Stack.Screen>
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+};
+
 describe("Login Component", () => {
   it("allows email login", async () => {
     const rendered = render(
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName={"Login"}>
-          <Stack.Screen name="Login">
-            {(props) => <Login {...props} />}
-          </Stack.Screen>
-          <Stack.Screen name="Map">
-            {() => (
-              <>
-                <Text testID="map-screen">Map screen</Text>
-              </>
-            )}
-          </Stack.Screen>
-          <Stack.Screen name="ForgotPassword">{() => <></>}</Stack.Screen>
-          <Stack.Screen name="SignUp">{() => <></>}</Stack.Screen>
-          <Stack.Screen name="OrderMenu">{() => <></>}</Stack.Screen>
-        </Stack.Navigator>
-      </NavigationContainer>
+      <LoginTest />
     );
 
     getByPlaceholderText = rendered.getByPlaceholderText;
@@ -73,23 +99,7 @@ describe("Login Component", () => {
 
   it("sets showPassword to true when the eye icon is pressed", async () => {
     const rendered = render(
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName={"Login"}>
-          <Stack.Screen name="Login">
-            {(props) => <Login {...props} />}
-          </Stack.Screen>
-          <Stack.Screen name="Map">
-            {() => (
-              <>
-                <Text testID="map-screen">Map screen</Text>
-              </>
-            )}
-          </Stack.Screen>
-          <Stack.Screen name="ForgotPassword">{() => <></>}</Stack.Screen>
-          <Stack.Screen name="SignUp">{() => <></>}</Stack.Screen>
-          <Stack.Screen name="OrderMenu">{() => <></>}</Stack.Screen>
-        </Stack.Navigator>
-      </NavigationContainer>
+      <LoginTest />
     );
 
     fireEvent.press(rendered.getByTestId("password-toggle"));
@@ -100,23 +110,7 @@ describe("Login Component", () => {
 
   // it("calls login when login button is pressed", async () => {
   //   const rendered = render(
-  //     <NavigationContainer>
-  //       <Stack.Navigator initialRouteName={"Login"}>
-  //         <Stack.Screen name="Login">
-  //           {(props) => <Login {...props} />}
-  //         </Stack.Screen>
-  //         <Stack.Screen name="Map">
-  //           {() => (
-  //             <>
-  //               <Text testID="map-screen">Map screen</Text>
-  //             </>
-  //           )}
-  //         </Stack.Screen>
-  //         <Stack.Screen name="ForgotPassword">{() => <></>}</Stack.Screen>
-  //         <Stack.Screen name="SignUp">{() => <></>}</Stack.Screen>
-  //         <Stack.Screen name="OrderMenu">{() => <></>}</Stack.Screen>
-  //       </Stack.Navigator>
-  //     </NavigationContainer>
+  //    <LoginTest />
   //   );
 
   //   fireEvent.press(rendered.getByText("Log in"));
@@ -125,31 +119,7 @@ describe("Login Component", () => {
 
   it("navigates to the forgot password screen when the link is pressed", async () => {
     const { getByTestId } = render(
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName={"Login"}>
-          <Stack.Screen name="Login">
-            {(props) => <Login {...props} />}
-          </Stack.Screen>
-          <Stack.Screen name="Map">
-            {() => (
-              <>
-                <Text testID="map-screen">Map screen</Text>
-              </>
-            )}
-          </Stack.Screen>
-          <Stack.Screen name="ForgotPassword">
-            {() => (
-              <>
-                <Text testID="forgot-password-screen">
-                  Forgot Password Screen
-                </Text>
-              </>
-            )}
-          </Stack.Screen>
-          <Stack.Screen name="SignUp">{() => <></>}</Stack.Screen>
-          <Stack.Screen name="OrderMenu">{() => <></>}</Stack.Screen>
-        </Stack.Navigator>
-      </NavigationContainer>
+      <LoginTest />
     );
 
     fireEvent.press(getByTestId("forgot-password-link"));
@@ -160,29 +130,7 @@ describe("Login Component", () => {
 
   it("navigates to the sign up screen when the link is pressed", async () => {
     const { getByTestId } = render(
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName={"Login"}>
-          <Stack.Screen name="Login">
-            {(props) => <Login {...props} />}
-          </Stack.Screen>
-          <Stack.Screen name="Map">
-            {() => (
-              <>
-                <Text testID="map-screen">Map screen</Text>
-              </>
-            )}
-          </Stack.Screen>
-          <Stack.Screen name="ForgotPassword">{() => <></>}</Stack.Screen>
-          <Stack.Screen name="SignUp">
-            {() => (
-              <>
-                <Text testID="sign-up-screen">Sign Up Screen</Text>
-              </>
-            )}
-          </Stack.Screen>
-          <Stack.Screen name="OrderMenu">{() => <></>}</Stack.Screen>
-        </Stack.Navigator>
-      </NavigationContainer>
+      <LoginTest />
     );
 
     fireEvent.press(getByTestId("sign-up-link"));
@@ -198,29 +146,7 @@ describe("Login Component", () => {
   it("handles Google login correctly", async () => {
     const mockNavigate = jest.fn();
     const { getByText } = render(
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName={"Login"}>
-          <Stack.Screen name="Login">
-            {(props) => <Login {...props} />}
-          </Stack.Screen>
-          <Stack.Screen name="Map">
-            {() => (
-              <>
-                <Text testID="map-screen">Map screen</Text>
-              </>
-            )}
-          </Stack.Screen>
-          <Stack.Screen name="ForgotPassword">{() => <></>}</Stack.Screen>
-          <Stack.Screen name="SignUp">{() => <></>}</Stack.Screen>
-          <Stack.Screen name="OrderMenu">
-            {() => (
-              <>
-                <Text testID="order-menu">Order Menu</Text>
-              </>
-            )}
-          </Stack.Screen>
-        </Stack.Navigator>
-      </NavigationContainer>
+      <LoginTest />
     );
 
     fireEvent.press(getByText("Continue with Google"));

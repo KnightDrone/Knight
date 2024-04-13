@@ -3,46 +3,6 @@ import { fireEvent, render, waitFor } from "@testing-library/react-native";
 import ForgotPasswordScreen from "../src/app/ForgotPassword";
 import { sendPasswordResetEmail } from "firebase/auth";
 
-jest.mock("firebase/app", () => ({
-  initializeApp: jest.fn(),
-}));
-
-jest.mock("firebase/analytics", () => ({
-  getAnalytics: jest.fn(),
-}));
-
-jest.mock("firebase/database", () => ({
-  getDatabase: jest.fn(),
-}));
-
-jest.mock("expo-auth-session/providers/google", () => ({
-  useAuthRequest: jest.fn(),
-}));
-
-jest.mock("firebase/auth", () => ({
-  getAuth: jest.fn(),
-  GoogleAuthProvider: {
-    credential: jest.fn(() => "mock-credential"), // Ensure this returns a mock credential as expected
-  },
-  onAuthStateChanged: jest.fn(),
-  signInWithCredential: jest.fn(() => Promise.resolve({ user: true })), // Explicitly return a resolved promise
-  signInWithEmailAndPassword: jest.fn(() => Promise.resolve({ user: true })), // Explicitly return a resolved promise
-  signOut: jest.fn(() => Promise.resolve()), // Explicitly return a resolved promise
-  createUserWithEmailAndPassword: jest.fn(() =>
-    Promise.resolve({ user: true })
-  ), // Explicitly return a resolved promise
-  signInWithPopup: jest.fn(() => Promise.resolve({ user: true })), // Explicitly return a resolved promise
-  signInWithRedirect: jest.fn(() => Promise.resolve({ user: true })), // Explicitly return a resolved promise
-  sendPasswordResetEmail: jest.fn(() => Promise.resolve()), // Explicitly return a resolved promise
-}));
-
-jest.mock("@react-navigation/native", () => ({
-  ...jest.requireActual("@react-navigation/native"),
-  useNavigation: () => ({
-    navigate: jest.fn(),
-  }),
-}));
-
 describe("ForgotPasswordScreen Component", () => {
   it("renders correctly", () => {
     const { getByTestId, getByText } = render(<ForgotPasswordScreen />);
