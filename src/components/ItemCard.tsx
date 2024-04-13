@@ -28,7 +28,7 @@ function ItemCard({
   }
 
   return (
-    <View style={styles.visibleCard}>
+    <View style={styles.visibleCard} testID={`item-card-view-${item.getId()}`}>
       <BlurView intensity={10} style={styles.blurContainer} testID="blur-view">
         <View style={styles.card}>
           <TouchableOpacity

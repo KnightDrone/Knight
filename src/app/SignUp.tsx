@@ -157,6 +157,7 @@ export default function SignUp({ navigation }: any) {
 
       <TextInput
         style={styles.input}
+        testID="username-input"
         placeholder="Enter your username"
         value={user}
         onChangeText={setUser}
@@ -166,6 +167,7 @@ export default function SignUp({ navigation }: any) {
 
       <TextInput
         style={styles.input}
+        testID="email-input"
         placeholder="Enter your email"
         value={email}
         onChangeText={setEmail}
@@ -176,6 +178,7 @@ export default function SignUp({ navigation }: any) {
       <View style={styles.passwordContainer}>
         <TextInput
           style={styles.input}
+          testID="password-input"
           placeholder="Enter your password"
           value={password}
           onChangeText={(text) => {
@@ -238,7 +241,7 @@ export default function SignUp({ navigation }: any) {
         <Text style={styles.googleButtonText}>Continue with Google</Text>
       </TouchableOpacity>
 
-      <Text style={styles.error}>{error}</Text>
+      <Text style={styles.error} testID="signup-error-message">{error}</Text>
     </View>
   );
 }
