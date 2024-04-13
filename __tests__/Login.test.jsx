@@ -125,7 +125,114 @@ describe("Login Component", () => {
       
   });
 
-  it.only("handles Google login correctly", async () => {
+
+  it("sets showPassword to true when the eye icon is pressed", async () => { 
+
+    const rendered = render(
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName={"Login"}>
+          <Stack.Screen name="Login">
+            {(props) => <Login {...props} />}
+          </Stack.Screen>
+          <Stack.Screen name="Map">
+            {() => (
+              <>
+                <Text testID="map-screen">Map screen</Text>
+              </>
+            )}
+          </Stack.Screen>
+          <Stack.Screen name="ForgotPassword">{() => <></>}</Stack.Screen>
+          <Stack.Screen name="SignUp">{() => <></>}</Stack.Screen>
+          <Stack.Screen name="OrderMenu">{() => <></>}</Stack.Screen>
+        </Stack.Navigator>
+      </NavigationContainer>
+    );
+
+    fireEvent.press(rendered.getByTestId("password-toggle"));
+    expect(rendered.getByPlaceholderText("Enter your password").props.secureTextEntry).toBe(false);
+
+  });
+
+  // it("calls login when login button is pressed", async () => {
+  //   const rendered = render(
+  //     <NavigationContainer>
+  //       <Stack.Navigator initialRouteName={"Login"}>
+  //         <Stack.Screen name="Login">
+  //           {(props) => <Login {...props} />}
+  //         </Stack.Screen>
+  //         <Stack.Screen name="Map">
+  //           {() => (
+  //             <>
+  //               <Text testID="map-screen">Map screen</Text>
+  //             </>
+  //           )}
+  //         </Stack.Screen>
+  //         <Stack.Screen name="ForgotPassword">{() => <></>}</Stack.Screen>
+  //         <Stack.Screen name="SignUp">{() => <></>}</Stack.Screen>
+  //         <Stack.Screen name="OrderMenu">{() => <></>}</Stack.Screen>
+  //       </Stack.Navigator>
+  //     </NavigationContainer>
+  //   );
+
+  //   fireEvent.press(rendered.getByText("Log in"));
+  //   expect(signInWithEmailAndPassword).toHaveBeenCalled();
+  //  });
+
+  it("navigates to the forgot password screen when the link is pressed", async () => {
+    const { getByTestId } = render(
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName={"Login"}>
+          <Stack.Screen name="Login">
+            {(props) => <Login {...props} />}
+          </Stack.Screen>
+          <Stack.Screen name="Map">
+            {() => (
+              <>
+                <Text testID="map-screen">Map screen</Text>
+              </>
+            )}
+          </Stack.Screen>
+          <Stack.Screen name="ForgotPassword">{() => <><Text testID="forgot-password-screen">Forgot Password Screen</Text></>}</Stack.Screen>
+          <Stack.Screen name="SignUp">{() => <></>}</Stack.Screen>
+          <Stack.Screen name="OrderMenu">{() => <></>}</Stack.Screen>
+        </Stack.Navigator>
+      </NavigationContainer>
+    );
+
+    fireEvent.press(getByTestId("forgot-password-link"));
+    await waitFor(() => expect(screen.queryByTestId("forgot-password-screen")).toBeTruthy());
+   });
+
+  it("navigates to the sign up screen when the link is pressed", async () => {
+    const { getByTestId } = render(
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName={"Login"}>
+          <Stack.Screen name="Login">
+            {(props) => <Login {...props} />}
+          </Stack.Screen>
+          <Stack.Screen name="Map">
+            {() => (
+              <>
+                <Text testID="map-screen">Map screen</Text>
+              </>
+            )}
+          </Stack.Screen>
+          <Stack.Screen name="ForgotPassword">{() => <></>}</Stack.Screen>
+          <Stack.Screen name="SignUp">{() => <><Text testID="sign-up-screen">Sign Up Screen</Text></>}</Stack.Screen>
+          <Stack.Screen name="OrderMenu">{() => <></>}</Stack.Screen>
+        </Stack.Navigator>
+      </NavigationContainer>
+    );
+
+    fireEvent.press(getByTestId("sign-up-link"));
+    await waitFor(() => expect(screen.queryByTestId("sign-up-screen")).toBeTruthy());
+   });
+
+  // it("catches signInWithEmailAndPassword error", async () => { });
+
+  // it("sets error for invalid credentials (signInWithEmailAndPassword has no user object)", async () => { });
+
+  it("handles Google login correctly", async () => {
     const mockNavigate = jest.fn();
     const { getByText } = render(
       <NavigationContainer>
