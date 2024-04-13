@@ -2,6 +2,7 @@
 
 - First please use .jsx for testing the RN components. It is easier to test the components with .jsx files.
 - Render all the app components if you need the navigation to work. Here is an example of how to render the app components.
+
 ```jsx
 import React from "react";
 import { fireEvent, render, waitFor } from "@testing-library/react-native";
@@ -45,5 +46,3 @@ describe("test", () => {
 ```
 
 - If your component uses useEffect, you need to see this link: https://callstack.github.io/react-native-testing-library/docs/understanding-act, there are many ways to do it. We think using fake timers is a good way to do it.
-
-
