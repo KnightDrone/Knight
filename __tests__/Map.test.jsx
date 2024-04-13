@@ -1,5 +1,11 @@
 import React from "react";
-import { screen, render, fireEvent, waitFor,act } from "@testing-library/react-native";
+import {
+  screen,
+  render,
+  fireEvent,
+  waitFor,
+  act,
+} from "@testing-library/react-native";
 import MapOverview from "../src/app/Map";
 import * as Location from "expo-location";
 import { Text } from "react-native";
@@ -8,7 +14,6 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 const Stack = createStackNavigator();
 
-
 jest.mock("react-native-maps", () => {
   const { View } = require("react-native");
   return {
@@ -16,10 +21,11 @@ jest.mock("react-native-maps", () => {
     default: jest
       .fn()
       .mockImplementation((props) => <View {...props} testID="map-view" />),
-    Marker: jest.fn().mockImplementation((props) => <View {...props} testID="map-marker" />),
+    Marker: jest
+      .fn()
+      .mockImplementation((props) => <View {...props} testID="map-marker" />),
   };
 });
-
 
 const fakeLocation = {
   coords: {
@@ -41,23 +47,22 @@ const initialRegion = {
   longitudeDelta: 0.0421,
 };
 
-
 jest.mock("expo-location", () => ({
   requestForegroundPermissionsAsync: jest.fn(() =>
     Promise.resolve({ status: "granted" })
   ),
-  getCurrentPositionAsync: jest.fn().mockResolvedValue( {
-      coords: {
-        latitude: 34.0522,
-        longitude: -118.2437,
-        altitude: 0,
-        accuracy: 5,
-        altitudeAccuracy: 5,
-        heading: null,
-        speed: null,
-      },
-      timestamp: Date.now(),
-    }),
+  getCurrentPositionAsync: jest.fn().mockResolvedValue({
+    coords: {
+      latitude: 34.0522,
+      longitude: -118.2437,
+      altitude: 0,
+      accuracy: 5,
+      altitudeAccuracy: 5,
+      heading: null,
+      speed: null,
+    },
+    timestamp: Date.now(),
+  }),
 }));
 
 jest.mock("react-native-vector-icons/MaterialIcons", () => {
@@ -67,7 +72,6 @@ jest.mock("react-native-vector-icons/MaterialIcons", () => {
     default: jest.fn().mockImplementation((props) => <View {...props} />),
   };
 });
-
 
 describe("MapOverview Component", () => {
   it("renders correctly", () => {
@@ -113,7 +117,9 @@ describe("MapOverview Component", () => {
 
     fireEvent.press(getByTestId("order-button"));
 
-    await waitFor(() => expect(screen.getByTestId("order-menu-screen")).toBeTruthy());
+    await waitFor(() =>
+      expect(screen.getByTestId("order-menu-screen")).toBeTruthy()
+    );
   });
 
   it("fails to fetch location when location permission is denied", async () => {
@@ -149,8 +155,12 @@ describe("MapOverview Component", () => {
     fireEvent.press(locationButton);
 
     // Wait for the effects to apply
-    await waitFor(() => expect(Location.requestForegroundPermissionsAsync).toHaveBeenCalled());
-    await waitFor(() => expect(Location.getCurrentPositionAsync).not.toHaveBeenCalled());
+    await waitFor(() =>
+      expect(Location.requestForegroundPermissionsAsync).toHaveBeenCalled()
+    );
+    await waitFor(() =>
+      expect(Location.getCurrentPositionAsync).not.toHaveBeenCalled()
+    );
 
     // Check if the map region and marker have not been updated
     expect(getByTestId("map-view").props.region).toEqual(initialRegion);
@@ -190,8 +200,12 @@ describe("MapOverview Component", () => {
     fireEvent.press(locationButton);
 
     // Wait for the effects to apply
-    await waitFor(() => expect(Location.requestForegroundPermissionsAsync).toHaveBeenCalled());
-    await waitFor(() => expect(Location.getCurrentPositionAsync).toHaveBeenCalled());
+    await waitFor(() =>
+      expect(Location.requestForegroundPermissionsAsync).toHaveBeenCalled()
+    );
+    await waitFor(() =>
+      expect(Location.getCurrentPositionAsync).toHaveBeenCalled()
+    );
 
     // Check if the map region and marker have been updated
     expect(getByTestId("map-view").props.region).toEqual({

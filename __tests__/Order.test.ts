@@ -43,7 +43,7 @@ describe("Order", () => {
   it("getStatus should return the correct status", () => {
     expect(order.getStatus()).toBe(OrderStatus.Pending);
   });
-    
+
   it("getDeliveryDate should return the correct delivery date", () => {
     expect(order.getDeliveryDate().getTime()).toBeCloseTo(
       deliveryDate.getTime(),
