@@ -106,7 +106,7 @@ function App() {
           {(props) => <SignUp {...props} />}
         </Stack.Screen>
         <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
-        <Stack.Screen name="Map">{(props) => <MapView />}</Stack.Screen>
+        <Stack.Screen name="Map">{(props) => <MapView  {...props} />}</Stack.Screen>
         <Stack.Screen
           name="OrderMenu"
           options={({ navigation }) => ({

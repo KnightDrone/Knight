@@ -4,13 +4,12 @@ import { StyleSheet, View, TouchableOpacity, Text, Alert } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
 import Icon from "react-native-vector-icons/MaterialIcons";
-import { useNavigation } from "@react-navigation/native";
 
 const topButtonPadding = 60;
 const sideButtonPadding = 30;
 
-const MapOverview: React.FC = () => {
-  const navigation = useNavigation();
+// Use the navigation prop to navigate to another screen
+const MapOverview = ({ navigation }: any) => {
 
   const [currentRegion, setCurrentRegion] = useState({
     latitude: 37.789,
@@ -26,19 +25,29 @@ const MapOverview: React.FC = () => {
 
   const [locationPermission, setLocationPermission] = useState(false);
 
+  const checkPermissions = async () => {
+    console.log("Requesting location permission in checkPermissions");
+    let { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== "granted") {
+      console.log("  - Location permission denied");
+      setLocationPermission(false);
+      Alert.alert("Permission to access location was denied");
+      return false;
+    }
+    console.log("  - Location permission granted");
+    setLocationPermission(true);
+
+    return true;
+  }
+
   useEffect(() => {
-    (async () => {
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== "granted") {
-        Alert.alert("Permission to access location was denied");
-        return;
-      }
-      setLocationPermission(true);
-    })();
+    checkPermissions();
   }, []);
 
   const getCurrentLocation = async () => {
-    if (locationPermission) {
+    const allowed = await checkPermissions();
+    if (allowed) {
+      console.log("Getting current location");
       let location = await Location.getCurrentPositionAsync({});
       const newRegion = {
         latitude: location.coords.latitude,
@@ -52,6 +61,7 @@ const MapOverview: React.FC = () => {
         longitude: location.coords.longitude,
       });
     } else {
+      console.log("Location permission not granted");
       Alert.alert("Location permission not granted");
     }
   };
@@ -59,14 +69,18 @@ const MapOverview: React.FC = () => {
   return (
     <View style={styles.container}>
       <MapView
+        testID="map-view"
         style={styles.map}
         region={currentRegion}
         onRegionChangeComplete={(region) => setCurrentRegion(region)}
       >
-        <Marker coordinate={marker} title="Current Location" />
+        <Marker
+          testID="map-marker"
+          coordinate={marker} title="Current Location" />
       </MapView>
 
       <TouchableOpacity
+        testID="get-location-button"
         style={[styles.button, styles.buttonTopRight]}
         onPress={getCurrentLocation}
       >
@@ -75,6 +89,7 @@ const MapOverview: React.FC = () => {
       </TouchableOpacity>
 
       <TouchableOpacity
+        testID="order-button"
         style={[styles.button, styles.buttonBottomRight]}
         onPress={() => navigation.navigate("OrderMenu")}
       >
