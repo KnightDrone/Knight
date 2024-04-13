@@ -1,0 +1,161 @@
+import React from "react";
+import {
+  screen,
+  render,
+  fireEvent,
+  waitFor,
+} from "@testing-library/react-native";
+import Login from "../src/app/Login";
+import { auth, GoogleAuthProvider } from "../src/services/firebase";
+import * as Google from "expo-auth-session/providers/google";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import { HeaderBackButton } from "@react-navigation/elements";
+import { signInWithEmailAndPassword, signInWithCredential } from "firebase/auth";
+import { View, Text } from "react-native";
+import { act } from "@testing-library/react-native";
+
+const Stack = createStackNavigator();
+
+// Mock necessary Firebase and Google functions
+// jest.mock("../src/services/firebase", () => {
+//   return {
+//     auth: jest.fn(),
+//     GoogleAuthProvider: {
+//       credential: jest.fn(() => "mock-credential"), // Ensure this returns a mock credential as expected
+//     },
+//   };
+// });
+
+
+jest.mock("firebase/app", () => ({
+  initializeApp: jest.fn(),
+}));
+
+jest.mock("firebase/analytics", () => ({
+  getAnalytics: jest.fn(),
+}));
+
+jest.mock("firebase/database", () => ({
+  getDatabase: jest.fn(),
+}));
+
+
+jest.mock("expo-auth-session/providers/google", () => ({
+  useAuthRequest: jest.fn(),
+}));
+
+jest.mock("firebase/auth", () => ({
+  getAuth: jest.fn(),
+  GoogleAuthProvider: {
+    credential: jest.fn(() => "mock-credential"), // Ensure this returns a mock credential as expected
+  },
+  onAuthStateChanged: jest.fn(),
+  signInWithCredential: jest.fn(() => Promise.resolve({ user: true })), // Explicitly return a resolved promise
+  signInWithEmailAndPassword: jest.fn(() => Promise.resolve({ user: true })), // Explicitly return a resolved promise
+  signOut: jest.fn(() => Promise.resolve()), // Explicitly return a resolved promise
+  createUserWithEmailAndPassword: jest.fn(() => Promise.resolve({ user: true })), // Explicitly return a resolved promise
+  signInWithPopup: jest.fn(() => Promise.resolve({ user: true })), // Explicitly return a resolved promise
+  signInWithRedirect: jest.fn(() => Promise.resolve({ user: true })), // Explicitly return a resolved promise
+}));
+
+jest.mock("@react-navigation/native", () => ({
+  ...jest.requireActual("@react-navigation/native"),
+  useNavigation: () => ({
+    navigate: jest.fn(),
+  }),
+}));
+
+import { cleanup } from "@testing-library/react-native";
+
+afterEach(cleanup);
+
+// Setup mock implementations
+beforeEach(() => {
+  const mockPromptAsync = jest.fn();
+
+  // Mock the Google authentication request setup
+  Google.useAuthRequest.mockReturnValue([
+    {}, // Mocked request
+    { type: "success", params: { id_token: "mock-id-token" } }, // Mocked response
+    mockPromptAsync, // Mocked promptAsync function
+  ]);
+});
+
+describe("Login Component", () => {
+  it("allows email login", async () => {
+      const rendered = render(
+        <NavigationContainer>
+          <Stack.Navigator initialRouteName={"Login"}>
+            <Stack.Screen name="Login">
+              {(props) => <Login {...props} />}
+            </Stack.Screen>
+            <Stack.Screen name="Map">
+              {() => (
+                <>
+                  <Text testID="map-screen">Map screen</Text>
+                </>
+              )}
+            </Stack.Screen>
+            <Stack.Screen name="ForgotPassword">{() => <></>}</Stack.Screen>
+            <Stack.Screen name="SignUp">{() => <></>}</Stack.Screen>
+            <Stack.Screen name="OrderMenu">{() => <></>}</Stack.Screen>
+          </Stack.Navigator>
+        </NavigationContainer>
+      );
+
+      getByPlaceholderText = rendered.getByPlaceholderText;
+      getByText = rendered.getByText;
+      queryByTestId = rendered.queryByTestId;
+
+      
+        fireEvent.changeText(
+          getByPlaceholderText("Enter your username or email"),
+          "test@example.com"
+        );
+        fireEvent.changeText(
+          getByPlaceholderText("Enter your password"),
+          "password123"
+        );
+    
+      fireEvent.press(getByText("Log in"));
+
+    expect(signInWithEmailAndPassword).toHaveBeenCalled();
+    await waitFor(() => expect(queryByTestId("map-screen")).toBeTruthy());
+      
+  });
+
+  it.only("handles Google login correctly", async () => {
+    const mockNavigate = jest.fn();
+    const { getByText } = render(
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName={"Login"}>
+          <Stack.Screen name="Login">
+            {(props) => <Login {...props} />}
+          </Stack.Screen>
+          <Stack.Screen name="Map">
+            {() => (
+              <>
+                <Text testID="map-screen">Map screen</Text>
+              </>
+            )}
+          </Stack.Screen>
+          <Stack.Screen name="ForgotPassword">{() => <></>}</Stack.Screen>
+          <Stack.Screen name="SignUp">{() => <></>}</Stack.Screen>
+          <Stack.Screen name="OrderMenu">{() => <>
+            <Text testID="order-menu">Order Menu</Text>
+          </>}</Stack.Screen>
+        </Stack.Navigator>
+      </NavigationContainer>
+    );
+
+    fireEvent.press(getByText("Continue with Google"));
+
+
+      expect(Google.useAuthRequest()[2]).toHaveBeenCalled();
+    expect(GoogleAuthProvider.credential).toHaveBeenCalled();
+    expect(signInWithCredential).toHaveBeenCalled();
+    await waitFor(() => expect(screen.queryByTestId("map-screen")).toBeTruthy());
+    
+  });
+});
