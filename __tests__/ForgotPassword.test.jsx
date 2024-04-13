@@ -2,7 +2,6 @@ import React from "react";
 import { fireEvent, render, waitFor } from "@testing-library/react-native";
 import ForgotPasswordScreen from "../src/app/ForgotPassword";
 import { sendPasswordResetEmail } from "firebase/auth";
-// import { sendPasswordResetEmail } from "firebase/auth";
 
 jest.mock("firebase/app", () => ({
   initializeApp: jest.fn(),
@@ -72,7 +71,6 @@ describe("ForgotPasswordScreen Component", () => {
     const resetButton = getByText("Reset Password");
     fireEvent.press(resetButton);
     const errorMessage = getByTestId("error-message");
-    console.log(errorMessage, "errorMessage");
     expect(errorMessage).toBeTruthy();
   });
 });

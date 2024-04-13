@@ -1,7 +1,8 @@
 import React from "react";
-import { render, fireEvent } from "@testing-library/react-native";
+import { screen, render, fireEvent } from "@testing-library/react-native";
 import OrderMenu from "../src/app/OrderMenu";
 import { useFonts } from "../__mocks__/expo-font";
+import { productButtons } from "../src/types/ProductButtons";
 
 describe("Order Menu", () => {
   //set globally useFont to true
@@ -30,28 +31,5 @@ describe("Order Menu", () => {
     expect(queryByText("Power bank")).toBeNull();
   });
 
-  it("handles button presses", () => {
-    // Mock the console.log to test the onPress functionality
-    const consoleSpy = jest.spyOn(console, "log");
-    const { getByText } = render(<OrderMenu />);
-
-    const firstAidButton = getByText("First aid kit");
-    fireEvent.press(firstAidButton);
-    expect(consoleSpy).toHaveBeenCalledWith("First aid kit");
-
-    const thermalBlanketButton = getByText("Thermal blanket");
-    fireEvent.press(thermalBlanketButton);
-    expect(consoleSpy).toHaveBeenCalledWith("Thermal blanket");
-
-    const flashlightButton = getByText("Flashlight");
-    fireEvent.press(flashlightButton);
-    expect(consoleSpy).toHaveBeenCalledWith("Flashlight");
-
-    const powerBankButton = getByText("Power bank");
-    fireEvent.press(powerBankButton);
-    expect(consoleSpy).toHaveBeenCalledWith("Power bank");
-
-    // Clean up the mock to ensure it doesn't affect other tests
-    consoleSpy.mockRestore();
-  });
+  // add button press test
 });

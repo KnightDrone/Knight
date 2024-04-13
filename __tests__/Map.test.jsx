@@ -14,19 +14,6 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 const Stack = createStackNavigator();
 
-jest.mock("react-native-maps", () => {
-  const { View } = require("react-native");
-  return {
-    __esModule: true,
-    default: jest
-      .fn()
-      .mockImplementation((props) => <View {...props} testID="map-view" />),
-    Marker: jest
-      .fn()
-      .mockImplementation((props) => <View {...props} testID="map-marker" />),
-  };
-});
-
 const fakeLocation = {
   coords: {
     latitude: 34.0522,
@@ -46,24 +33,6 @@ const initialRegion = {
   latitudeDelta: 0.0922,
   longitudeDelta: 0.0421,
 };
-
-jest.mock("expo-location", () => ({
-  requestForegroundPermissionsAsync: jest.fn(() =>
-    Promise.resolve({ status: "granted" })
-  ),
-  getCurrentPositionAsync: jest.fn().mockResolvedValue({
-    coords: {
-      latitude: 34.0522,
-      longitude: -118.2437,
-      altitude: 0,
-      accuracy: 5,
-      altitudeAccuracy: 5,
-      heading: null,
-      speed: null,
-    },
-    timestamp: Date.now(),
-  }),
-}));
 
 jest.mock("react-native-vector-icons/MaterialIcons", () => {
   const { View } = require("react-native");
