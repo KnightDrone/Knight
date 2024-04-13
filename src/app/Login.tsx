@@ -39,15 +39,13 @@ export default function Login({ navigation }: any) {
       "com.googleusercontent.apps.983400403511-gi5mo0akb89fcecaivk4q509c63hrvtl:/oauth2redirect/google"
   });
 
-  
-
   useEffect(() => {
     if (response?.type === "success") {
       const { id_token } = response.params;
       const credential = GoogleAuthProvider.credential(id_token);
       signInWithCredential(auth, credential)
         .then(() => {
-          navigation.navigate("OrderMenu"); // Navigate after successful login
+          navigation.navigate("Map"); // Navigate after successful login
         })
         .catch((error) => {
           console.error(error);
