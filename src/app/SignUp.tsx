@@ -99,25 +99,22 @@ export default function SignUp({ navigation }: any) {
     }
   };
 
-  const writeUserData = async (response: UserCredential) => {
-    // TODO: modify this function to write meaningful user data to firebase realtime databse
-    set(ref(database, "users/" + response.user.uid), {
-      username: user,
-      email: email,
-      orders: [], // This will create an empty list for orders
-    });
-  };
+  // const writeUserData = async (response: UserCredential) => {
+  //   set(ref(database, "users/" + response.user.uid), {
+  //     username: user,
+  //     email: email,
+  //     orders: [], // This will create an empty list for orders
+  //   });
+  // };
 
   const signUpWithEmail = async () => {
     if (email && password) {
       createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
           const user = userCredential.user;
-          // TODO: Navigate to the home screen
-          navigation.navigate("OrderMenu");
+          navigation.navigate("Map");
         })
         .catch((error) => {
-          // Alert.alert('Sign Up failed. Please check your credentials.'); - I'm unsure about setError usage so I'm not sure if using Alert is redundant
           setError("Sign Up failed. Please check your credentials.");
         });
     } else {
@@ -156,8 +153,6 @@ export default function SignUp({ navigation }: any) {
         return "0%";
     }
   };
-
-  //TODO: need to fix password strength meter colors, suggestions and password hiding
 
   return (
     <View style={styles.container}>
