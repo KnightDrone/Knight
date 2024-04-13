@@ -10,7 +10,6 @@ const sideButtonPadding = 30;
 
 // Use the navigation prop to navigate to another screen
 const MapOverview = ({ navigation }: any) => {
-
   const [currentRegion, setCurrentRegion] = useState({
     latitude: 37.789,
     longitude: -122.4324,
@@ -26,19 +25,16 @@ const MapOverview = ({ navigation }: any) => {
   const [locationPermission, setLocationPermission] = useState(false);
 
   const checkPermissions = async () => {
-    console.log("Requesting location permission in checkPermissions");
     let { status } = await Location.requestForegroundPermissionsAsync();
     if (status !== "granted") {
-      console.log("  - Location permission denied");
       setLocationPermission(false);
       Alert.alert("Permission to access location was denied");
       return false;
     }
-    console.log("  - Location permission granted");
     setLocationPermission(true);
 
     return true;
-  }
+  };
 
   useEffect(() => {
     checkPermissions();
@@ -47,7 +43,6 @@ const MapOverview = ({ navigation }: any) => {
   const getCurrentLocation = async () => {
     const allowed = await checkPermissions();
     if (allowed) {
-      console.log("Getting current location");
       let location = await Location.getCurrentPositionAsync({});
       const newRegion = {
         latitude: location.coords.latitude,
@@ -76,7 +71,9 @@ const MapOverview = ({ navigation }: any) => {
       >
         <Marker
           testID="map-marker"
-          coordinate={marker} title="Current Location" />
+          coordinate={marker}
+          title="Current Location"
+        />
       </MapView>
 
       <TouchableOpacity
