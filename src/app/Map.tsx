@@ -62,7 +62,7 @@ const MapOverview = ({ navigation }: any) => {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={styles.container} testID="map-overview-screen">
       <MapView
         testID="map-view"
         style={styles.map}

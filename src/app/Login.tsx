@@ -77,7 +77,7 @@ export default function Login({ navigation }: any) {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <View style={styles.container}>
+    <View style={styles.container} testID="login-screen">
       <Image
         style={styles.logo}
         source={require("../../assets/images/usedLogo.png")}
@@ -120,7 +120,11 @@ export default function Login({ navigation }: any) {
         </TouchableOpacity>
       </View>
 
-      <TouchableOpacity style={styles.login} onPress={logInWithEmail}>
+      <TouchableOpacity
+        style={styles.login}
+        onPress={logInWithEmail}
+        testID="login-button"
+      >
         <Text style={styles.googleButtonText}>Log in</Text>
       </TouchableOpacity>
 

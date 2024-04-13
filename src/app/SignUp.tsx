@@ -1,4 +1,4 @@
-import React, { SetStateAction, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -6,26 +6,18 @@ import {
   TextInput,
   Image,
   TouchableOpacity,
-  Alert,
 } from "react-native";
 import Button from "../components/Button";
 // ------------- FIREBASE IMPORTS ----------------
 import {
   createUserWithEmailAndPassword,
   GoogleAuthProvider,
-  onAuthStateChanged,
   signInWithCredential,
 } from "firebase/auth";
 
 import { auth } from "../services/firebase";
-import { database } from "../services/firebase";
-import { UserCredential } from "firebase/auth";
-import { ref, set } from "firebase/database";
 // -----------------------------------------------
 import * as Google from "expo-auth-session/providers/google";
-import * as WebBrowser from "expo-web-browser";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { signInWithEmailAndPassword } from "firebase/auth";
 import Icon from "react-native-vector-icons/FontAwesome";
 
 export default function SignUp({ navigation }: any) {
@@ -54,7 +46,7 @@ export default function SignUp({ navigation }: any) {
       const credential = GoogleAuthProvider.credential(id_token);
       signInWithCredential(auth, credential)
         .then(() => {
-          navigation.navigate("OrderMenu"); // Navigate after successful login
+          navigation.navigate("Map");
         })
         .catch((error) => {
           console.error(error);
@@ -197,6 +189,7 @@ export default function SignUp({ navigation }: any) {
           secureTextEntry={!showPassword}
         />
         <TouchableOpacity
+          testID="password-toggle"
           style={styles.eyeIcon}
           onPress={() => {
             setShowPassword(!showPassword);
@@ -212,7 +205,9 @@ export default function SignUp({ navigation }: any) {
       </View>
 
       <View>
-        <Text style={styles.strengthText}>Password Strength: {strength}</Text>
+        <Text testID="pw-strength" style={styles.strengthText}>
+          Password Strength: {strength}
+        </Text>
         <View style={styles.strengthMeter}>
           <View
             style={{
