@@ -5,7 +5,6 @@ import {
   View,
   TextInput,
   Image,
-  TouchableOpacity,
 } from "react-native";
 import Button from "../components/Button";
 import { sendPasswordResetEmail } from "firebase/auth";
@@ -14,16 +13,20 @@ import { auth } from "../services/firebase";
 export default function ForgotPasswordScreen() {
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
 
   const handleForgotPassword = () => {
     sendPasswordResetEmail(auth, email)
       .then(() => {
         // Password reset email sent!
-        alert("Password reset email sent!");
+        // showing a toast is better (library: react-native-toast-message, react-native-notifier)
+        setSuccess(true);
+        setError("");
+        setSuccessMessage("Password reset email sent!");
       })
       .catch((error) => {
         setError(error.message);
-        alert("Please enter a valid email address");
       });
   };
 
@@ -34,19 +37,22 @@ export default function ForgotPasswordScreen() {
         source={require("../../assets/images/usedLogo.png")}
       />
 
-      <Text style={styles.title}>Wild Knight</Text>
+      <Text style={styles.title} testID="title-text">Wild Knight</Text>
 
-      <Text style={styles.label}>Give us your email</Text>
+      <Text style={styles.label} testID="email-text">Give us your email</Text>
       <TextInput
+        testID="email-input"
         style={styles.input}
         onChangeText={setEmail}
         value={email}
         placeholder="Please enter your email"
       />
 
-      <Button title="Reset Password" onPress={handleForgotPassword} />
+      <Button title="Reset Password"
+        onPress={handleForgotPassword} />
 
-      <Text style={styles.error}>{error}</Text>
+      <Text testID="error-message" style={styles.error}>{error}</Text>
+      {success && <Text testID="success-message" style={styles.error}>{successMessage}</Text>}
     </View>
   );
 }
