@@ -14,7 +14,8 @@ module.exports = {
   },
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
   collectCoverage: true,
-  collectCoverageFrom: ["src/**/*.{ts,tsx}"],
+  // ignore the src/services/ folder
+  collectCoverageFrom: ["src/**/*.{ts,tsx}", "!src/services/**"],
   coverageDirectory: "coverage",
   coverageReporters: ["text", "lcov"],
   moduleNameMapper: {
