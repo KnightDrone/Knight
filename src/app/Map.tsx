@@ -56,7 +56,6 @@ const MapOverview = ({ navigation }: any) => {
         longitude: location.coords.longitude,
       });
     } else {
-      console.log("Location permission not granted");
       Alert.alert("Location permission not granted");
     }
   };

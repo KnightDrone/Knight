@@ -62,8 +62,6 @@ export default function Login({ navigation }: any) {
           password
         );
         if (response.user) {
-          console.log("Login success");
-          // Navigate to the order menu screen
           navigation.navigate("Map");
         } else {
           setError("Invalid credentials");
