@@ -79,9 +79,7 @@ describe("ForgotPasswordScreen Component", () => {
 
 describe("More ForgotPassword Component Tests", () => {
   it("informs the user after a successful email submission", async () => {
-    const { getByText, getByTestId } = render(
-      <ForgotPasswordScreen />
-    );
+    const { getByText, getByTestId } = render(<ForgotPasswordScreen />);
 
     const emailInput = getByTestId("email-input");
     fireEvent.changeText(emailInput, "user@example.com");
@@ -92,7 +90,9 @@ describe("More ForgotPassword Component Tests", () => {
 
   it("displays an error message if the email is not recognized", async () => {
     // Mock the API call within handleForgotPassword to reject
-    sendPasswordResetEmail.mockImplementationOnce(() => Promise.reject(new Error("User not found")));
+    sendPasswordResetEmail.mockImplementationOnce(() =>
+      Promise.reject(new Error("User not found"))
+    );
 
     // Adjust this based on your actual implementation
     const { getByText, getByTestId, findByText } = render(
@@ -110,6 +110,9 @@ describe("More ForgotPassword Component Tests", () => {
     expect(errorMessage).toBeTruthy();
     // args are: (auth, email)
     // auth is undefined
-    expect(sendPasswordResetEmail).toHaveBeenCalledWith(undefined, "unknown@example.com");
+    expect(sendPasswordResetEmail).toHaveBeenCalledWith(
+      undefined,
+      "unknown@example.com"
+    );
   });
 });

@@ -28,9 +28,8 @@ describe("SignUp Component", () => {
     expect(getByText("Sign Up")).toBeTruthy();
     expect(getByPlaceholderText("Enter your email")).toBeTruthy();
     expect(getByPlaceholderText("Enter your password")).toBeTruthy();
-  }
-  );
-  
+  });
+
   it("updates email and password fields correctly", () => {
     const { getByPlaceholderText } = render(
       <SignUp promptAsync={mockPromptAsync} navigation={{}} />

@@ -40,7 +40,6 @@ type RootStackParamList = {
   Map: undefined;
 };
 
-
 const Stack = createStackNavigator<RootStackParamList>();
 
 function App() {
@@ -52,7 +51,6 @@ function App() {
     redirectUri:
       "com.googleusercontent.apps.983400403511-gi5mo0akb89fcecaivk4q509c63hrvtl:/oauth2redirect/google",
   });
-
 
   const [fontsLoaded] = useFonts({
     "Kaisei-Regular": KaiseiRegular,
@@ -73,7 +71,6 @@ function App() {
       setLoading(false);
     }
   };
-
 
   React.useEffect(() => {
     checkLocalUser();

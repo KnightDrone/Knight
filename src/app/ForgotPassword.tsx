@@ -1,11 +1,5 @@
 import React, { useState } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-  Image,
-} from "react-native";
+import { StyleSheet, Text, View, TextInput, Image } from "react-native";
 import Button from "../components/Button";
 import { sendPasswordResetEmail } from "firebase/auth";
 import { auth } from "../services/firebase";
@@ -37,9 +31,13 @@ export default function ForgotPasswordScreen() {
         source={require("../../assets/images/usedLogo.png")}
       />
 
-      <Text style={styles.title} testID="title-text">Wild Knight</Text>
+      <Text style={styles.title} testID="title-text">
+        Wild Knight
+      </Text>
 
-      <Text style={styles.label} testID="email-text">Give us your email</Text>
+      <Text style={styles.label} testID="email-text">
+        Give us your email
+      </Text>
       <TextInput
         testID="email-input"
         style={styles.input}
@@ -48,11 +46,16 @@ export default function ForgotPasswordScreen() {
         placeholder="Please enter your email"
       />
 
-      <Button title="Reset Password"
-        onPress={handleForgotPassword} />
+      <Button title="Reset Password" onPress={handleForgotPassword} />
 
-      <Text testID="error-message" style={styles.error}>{error}</Text>
-      {success && <Text testID="success-message" style={styles.error}>{successMessage}</Text>}
+      <Text testID="error-message" style={styles.error}>
+        {error}
+      </Text>
+      {success && (
+        <Text testID="success-message" style={styles.error}>
+          {successMessage}
+        </Text>
+      )}
     </View>
   );
 }
