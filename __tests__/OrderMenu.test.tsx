@@ -19,6 +19,17 @@ describe("Order Menu", () => {
     expect(getByText("Power bank")).toBeTruthy();
   });
 
+  it("does not render when fonts are not loaded", () => {
+    useFonts.mockReturnValue([false]);
+    const { queryByText } = render(<OrderMenu />);
+
+    expect(queryByText("Choose your item")).toBeNull();
+    expect(queryByText("First aid kit")).toBeNull();
+    expect(queryByText("Thermal blanket")).toBeNull();
+    expect(queryByText("Flashlight")).toBeNull();
+    expect(queryByText("Power bank")).toBeNull();
+  });
+
   it("handles button presses", () => {
     // Mock the console.log to test the onPress functionality
     const consoleSpy = jest.spyOn(console, "log");
