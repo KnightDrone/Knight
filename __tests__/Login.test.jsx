@@ -6,27 +6,14 @@ import {
   waitFor,
 } from "@testing-library/react-native";
 import Login from "../src/app/Login";
-import { auth, GoogleAuthProvider } from "../src/services/firebase";
+import { GoogleAuthProvider } from "../src/services/firebase";
 import * as Google from "expo-auth-session/providers/google";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { HeaderBackButton } from "@react-navigation/elements";
 import { signInWithEmailAndPassword, signInWithCredential } from "firebase/auth";
-import { View, Text } from "react-native";
-import { act } from "@testing-library/react-native";
+import { Text } from "react-native";
 
 const Stack = createStackNavigator();
-
-// Mock necessary Firebase and Google functions
-// jest.mock("../src/services/firebase", () => {
-//   return {
-//     auth: jest.fn(),
-//     GoogleAuthProvider: {
-//       credential: jest.fn(() => "mock-credential"), // Ensure this returns a mock credential as expected
-//     },
-//   };
-// });
-
 
 jest.mock("firebase/app", () => ({
   initializeApp: jest.fn(),
