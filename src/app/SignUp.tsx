@@ -17,9 +17,8 @@ import {
   signInWithCredential,
 } from "firebase/auth";
 
-import { auth } from "../firebase";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { database } from "../firebase";
+import { auth } from "../services/firebase";
+import { database } from "../services/firebase";
 import { UserCredential } from "firebase/auth";
 import { ref, set } from "firebase/database";
 // -----------------------------------------------
@@ -123,25 +122,6 @@ export default function SignUp({ navigation }: any) {
         });
     } else {
       setError("Please input email and password.");
-    }
-  };
-
-
-  const signUpWithEmail = async () => {
-    if (email && password) {
-      createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-          const user = userCredential.user;
-          // TODO: Navigate to the home screen
-        })
-        .catch((error) => {
-          // Alert.alert('Sign Up failed. Please check your credentials.'); - I'm unsure about setError usage so I'm not sure if using Alert is redundant
-          setError('Sign Up failed. Please check your credentials.');
-
-        })
-    } else {
-
-      setError('Please input email and password.');
     }
   };
 
