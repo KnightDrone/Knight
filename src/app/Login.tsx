@@ -105,6 +105,7 @@ export default function Login({ navigation }: any) {
           autoCorrect={false}
         />
         <TouchableOpacity
+          testID="password-toggle"
           style={styles.iconContainer}
           onPress={() => setShowPassword(!showPassword)}
         >
@@ -125,6 +126,7 @@ export default function Login({ navigation }: any) {
 
       <TouchableOpacity>
         <Text
+          testID="forgot-password-link"
           style={styles.linkText}
           onPress={() => navigation.navigate("ForgotPassword")}
         >
@@ -153,6 +155,7 @@ export default function Login({ navigation }: any) {
         <Text
           style={styles.linkText}
           onPress={() => navigation.navigate("SignUp")}
+          testID="sign-up-link"
         >
           Sign Up!
         </Text>
