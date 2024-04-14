@@ -77,7 +77,76 @@ function App() {
 
   return (
     <NavigationContainer>
-      {userInfo ? <UserStack /> : <AuthStack />}
+      <Stack.Navigator
+        initialRouteName={userInfo ? "Map" : "Login"}
+        screenOptions={{
+          headerShown: false,
+          headerStyle: {
+            backgroundColor: "#f9f9f9",
+          },
+          headerTintColor: "#000",
+          headerTitleStyle: {
+            fontWeight: "bold",
+          },
+        }}
+      >
+        <Stack.Screen name="Login" options={{ title: "Login to Wild Knight" }}>
+          {(props) => <Login {...props} />}
+        </Stack.Screen>
+        <Stack.Screen
+          name="SignUp"
+          options={({ navigation }) => ({
+            headerShown: true,
+            headerTransparent: true,
+            headerTitle: "",
+            headerLeft: () => (
+              <HeaderBackButton
+                onPress={() => navigation.goBack()}
+                labelVisible={false}
+              />
+            ),
+          })}
+        >
+          {(props) => <SignUp {...props} />}
+        </Stack.Screen>
+        <Stack.Screen
+          name="ForgotPassword"
+          component={ForgotPassword}
+          options={({ navigation }) => ({
+            headerShown: true,
+            headerTransparent: true,
+            headerTitle: "",
+            headerLeft: () => (
+              <HeaderBackButton
+                onPress={() => navigation.goBack()}
+                labelVisible={false}
+              />
+            ),
+          })}
+        />
+        <Stack.Screen name="Map">
+          {(props) => <MapOverview {...props} />}
+        </Stack.Screen>
+        <Stack.Screen
+          name="OrderMenu"
+          options={({ navigation }) => ({
+            headerShown: true,
+            headerTransparent: true,
+            headerTitle: "",
+            headerLeft: () => (
+              <HeaderBackButton
+                onPress={() => navigation.goBack()}
+                backImage={() => (
+                  <Icon name="arrow-back" size={24} color="black" />
+                )}
+                labelVisible={false}
+              />
+            ),
+          })}
+        >
+          {(props) => <OrderMenu {...props} />}
+        </Stack.Screen>
+      </Stack.Navigator>
     </NavigationContainer>
   );
 }
