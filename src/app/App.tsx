@@ -86,6 +86,7 @@ function App() {
 
     return unsub;
   }, []);
+
   if (loading) {
     return <Text>Loading...</Text>;
   }

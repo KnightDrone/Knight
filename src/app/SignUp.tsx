@@ -147,7 +147,7 @@ export default function SignUp({ navigation }: any) {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={styles.container} testID="signup-screen">
       <Image
         style={styles.logo}
         source={require("../../assets/images/usedLogo.png")}

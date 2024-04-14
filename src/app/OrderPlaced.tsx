@@ -4,8 +4,11 @@ import "./global.css";
 
 const OrderPlaced = ({ navigation }: any) => {
   return (
-    <View className="h-full p-4 justify-center items-center">
-      <Text className="text-xl font-bold">Your order is on its way</Text>
+    <View
+      className="h-full p-4 justify-center items-center"
+      testID="order-placed-screen"
+    >
+      <Text className="text-xl font-bold">Your order has been placed.</Text>
       <Text className="text-lg my-2">Arriving at 12:15</Text>
       <View className="my-2">
         <Text className="text-center">🚁</Text>
