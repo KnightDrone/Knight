@@ -9,10 +9,8 @@ import { NavigationProp, RouteProp, useNavigation } from "@react-navigation/nati
 const topButtonPadding = 60;
 const sideButtonPadding = 30;
 
-
-const MapOverview: React.FC = ({navigation}: any) => {
-  // const navigation = useNavigation();
-
+// Use the navigation prop to navigate to another screen
+const MapOverview = ({ navigation }: any) => {
   const [currentRegion, setCurrentRegion] = useState({
     latitude: 37.789,
     longitude: -122.4324,
@@ -27,19 +25,25 @@ const MapOverview: React.FC = ({navigation}: any) => {
 
   const [locationPermission, setLocationPermission] = useState(false);
 
+  const checkPermissions = async () => {
+    let { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== "granted") {
+      setLocationPermission(false);
+      Alert.alert("Permission to access location was denied");
+      return false;
+    }
+    setLocationPermission(true);
+
+    return true;
+  };
+
   useEffect(() => {
-    (async () => {
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== "granted") {
-        Alert.alert("Permission to access location was denied");
-        return;
-      }
-      setLocationPermission(true);
-    })();
+    checkPermissions();
   }, []);
 
   const getCurrentLocation = async () => {
-    if (locationPermission) {
+    const allowed = await checkPermissions();
+    if (allowed) {
       let location = await Location.getCurrentPositionAsync({});
       const newRegion = {
         latitude: location.coords.latitude,
@@ -58,16 +62,22 @@ const MapOverview: React.FC = ({navigation}: any) => {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={styles.container} testID="map-overview-screen">
       <MapView
+        testID="map-view"
         style={styles.map}
         region={currentRegion}
         onRegionChangeComplete={(region) => setCurrentRegion(region)}
       >
-        <Marker coordinate={marker} title="Current Location" />
+        <Marker
+          testID="map-marker"
+          coordinate={marker}
+          title="Current Location"
+        />
       </MapView>
 
       <TouchableOpacity
+        testID="get-location-button"
         style={[styles.button, styles.buttonTopRight]}
         onPress={getCurrentLocation}
       >
@@ -76,6 +86,7 @@ const MapOverview: React.FC = ({navigation}: any) => {
       </TouchableOpacity>
 
       <TouchableOpacity
+        testID="order-button"
         style={[styles.button, styles.buttonBottomRight]}
         onPress={() => navigation.navigate("OrderMenu")}
       >

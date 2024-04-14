@@ -1,7 +1,8 @@
 import React from "react";
-import { render, fireEvent } from "@testing-library/react-native";
+import { screen, render, fireEvent } from "@testing-library/react-native";
 import OrderMenu from "../src/app/OrderMenu";
 import { useFonts } from "../__mocks__/expo-font";
+import { productButtons } from "../src/types/ProductButtons";
 
 describe("Order Menu", () => {
   //set globally useFont to true
@@ -13,34 +14,56 @@ describe("Order Menu", () => {
     const { getByText } = render(<OrderMenu />);
 
     expect(getByText("Choose your item")).toBeTruthy();
-    expect(getByText("First aid kit")).toBeTruthy();
-    expect(getByText("Thermal blanket")).toBeTruthy();
-    expect(getByText("Flashlight")).toBeTruthy();
-    expect(getByText("Power bank")).toBeTruthy();
+    productButtons.forEach((button) => {
+      expect(getByText(button.item.getName())).toBeTruthy();
+    });
   });
 
-  it("handles button presses", () => {
-    // Mock the console.log to test the onPress functionality
-    const consoleSpy = jest.spyOn(console, "log");
+  it("does not render when fonts are not loaded", () => {
+    useFonts.mockReturnValue([false]);
+    const { queryByText } = render(<OrderMenu />);
+
+    productButtons.forEach((button) => {
+      expect(queryByText(button.item.getName())).toBeNull();
+    });
+  });
+
+
+  it("opens card when button is pressed", () => {
     const { getByText } = render(<OrderMenu />);
+    const button = productButtons[0];
+    fireEvent.press(getByText(button.item.getName()));
 
-    const firstAidButton = getByText("First aid kit");
-    fireEvent.press(firstAidButton);
-    expect(consoleSpy).toHaveBeenCalledWith("First aid kit");
+    expect(screen.getByTestId(`item-card-view-${button.item.getId()}`)).toBeTruthy();
+  });
 
-    const thermalBlanketButton = getByText("Thermal blanket");
-    fireEvent.press(thermalBlanketButton);
-    expect(consoleSpy).toHaveBeenCalledWith("Thermal blanket");
+  it("closes card when close button is pressed", () => {
+    const { getByText, queryByTestId } = render(<OrderMenu />);
+    const button = productButtons[0];
+    fireEvent.press(getByText(button.item.getName()));
+    fireEvent.press(screen.getByTestId("close-button"));
 
-    const flashlightButton = getByText("Flashlight");
-    fireEvent.press(flashlightButton);
-    expect(consoleSpy).toHaveBeenCalledWith("Flashlight");
+    expect(queryByTestId(`item-card-view-${button.item.getId()}`)).toBeNull();
+  });
 
-    const powerBankButton = getByText("Power bank");
-    fireEvent.press(powerBankButton);
-    expect(consoleSpy).toHaveBeenCalledWith("Power bank");
+  it("opens only one card at a time", () => {
+    const { getByText, queryByTestId } = render(<OrderMenu />);
+    const button = productButtons[0];
+    const button2 = productButtons[1];
+    fireEvent.press(getByText(button.item.getName()));
+    fireEvent.press(getByText(button2.item.getName()));
 
-    // Clean up the mock to ensure it doesn't affect other tests
-    consoleSpy.mockRestore();
+    expect(queryByTestId(`item-card-view-${button.item.getId()}`)).toBeNull();
+    expect(screen.getByTestId(`item-card-view-${button2.item.getId()}`)).toBeTruthy();
+  });
+
+  it("can open and close every card", () => {
+    const { getByText, queryByTestId } = render(<OrderMenu />);
+    productButtons.forEach((button) => {
+      fireEvent.press(getByText(button.item.getName()));
+      expect(screen.getByTestId(`item-card-view-${button.item.getId()}`)).toBeTruthy();
+      fireEvent.press(screen.getByTestId("close-button"));
+      expect(screen.queryByTestId(`item-card-view-${button.item.getId()}`)).toBeNull();
+    });
   });
 });

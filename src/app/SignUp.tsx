@@ -1,4 +1,4 @@
-import React, { SetStateAction, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -6,14 +6,12 @@ import {
   TextInput,
   Image,
   TouchableOpacity,
-  Alert,
 } from "react-native";
 import Button from "../components/Button";
 // ------------- FIREBASE IMPORTS ----------------
 import {
   createUserWithEmailAndPassword,
   GoogleAuthProvider,
-  onAuthStateChanged,
   signInWithCredential,
 } from "firebase/auth";
 
@@ -24,9 +22,6 @@ import { UserCredential } from "firebase/auth";
 import { ref, set } from "firebase/database";
 // -----------------------------------------------
 import * as Google from "expo-auth-session/providers/google";
-import * as WebBrowser from "expo-web-browser";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { signInWithEmailAndPassword } from "firebase/auth";
 import Icon from "react-native-vector-icons/FontAwesome";
 
 export default function SignUp({ navigation }: any) {
@@ -55,7 +50,7 @@ export default function SignUp({ navigation }: any) {
       const credential = GoogleAuthProvider.credential(id_token);
       signInWithCredential(auth, credential)
         .then(() => {
-          navigation.navigate("OrderMenu"); // Navigate after successful login
+          navigation.navigate("Map");
         })
         .catch((error) => {
           console.error(error);
@@ -100,48 +95,26 @@ export default function SignUp({ navigation }: any) {
     }
   };
 
-  const writeUserData = async (response: UserCredential) => {
-    // TODO: modify this function to write meaningful user data to firebase realtime databse
-    set(ref(database, "users/" + response.user.uid), {
-      username: user,
-      email: email,
-      orders: [], // This will create an empty list for orders
-    });
-  };
+  // const writeUserData = async (response: UserCredential) => {
+  //   set(ref(database, "users/" + response.user.uid), {
+  //     username: user,
+  //     email: email,
+  //     orders: [], // This will create an empty list for orders
+  //   });
+  // };
 
   const signUpWithEmail = async () => {
     if (email && password) {
       createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
           const user = userCredential.user;
-          // TODO: Navigate to the home screen
-          navigation.navigate("OrderMenu");
+          navigation.navigate("Map");
         })
         .catch((error) => {
-          // Alert.alert('Sign Up failed. Please check your credentials.'); - I'm unsure about setError usage so I'm not sure if using Alert is redundant
           setError("Sign Up failed. Please check your credentials.");
         });
     } else {
       setError("Please input email and password.");
-    }
-  };
-
-
-  const signUpWithEmail = async () => {
-    if (email && password) {
-      createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-          const user = userCredential.user;
-          // TODO: Navigate to the home screen
-        })
-        .catch((error) => {
-          // Alert.alert('Sign Up failed. Please check your credentials.'); - I'm unsure about setError usage so I'm not sure if using Alert is redundant
-          setError('Sign Up failed. Please check your credentials.');
-
-        })
-    } else {
-
-      setError('Please input email and password.');
     }
   };
 
@@ -177,8 +150,6 @@ export default function SignUp({ navigation }: any) {
     }
   };
 
-  //TODO: need to fix password strength meter colors, suggestions and password hiding
-
   return (
     <View style={styles.container}>
       <Image
@@ -190,6 +161,7 @@ export default function SignUp({ navigation }: any) {
 
       <TextInput
         style={styles.input}
+        testID="username-input"
         placeholder="Enter your username"
         value={user}
         onChangeText={setUser}
@@ -199,6 +171,7 @@ export default function SignUp({ navigation }: any) {
 
       <TextInput
         style={styles.input}
+        testID="email-input"
         placeholder="Enter your email"
         value={email}
         onChangeText={setEmail}
@@ -209,6 +182,7 @@ export default function SignUp({ navigation }: any) {
       <View style={styles.passwordContainer}>
         <TextInput
           style={styles.input}
+          testID="password-input"
           placeholder="Enter your password"
           value={password}
           onChangeText={(text) => {
@@ -222,6 +196,7 @@ export default function SignUp({ navigation }: any) {
           secureTextEntry={!showPassword}
         />
         <TouchableOpacity
+          testID="password-toggle"
           style={styles.eyeIcon}
           onPress={() => {
             setShowPassword(!showPassword);
@@ -237,7 +212,9 @@ export default function SignUp({ navigation }: any) {
       </View>
 
       <View>
-        <Text style={styles.strengthText}>Password Strength: {strength}</Text>
+        <Text testID="pw-strength" style={styles.strengthText}>
+          Password Strength: {strength}
+        </Text>
         <View style={styles.strengthMeter}>
           <View
             style={{
@@ -268,7 +245,7 @@ export default function SignUp({ navigation }: any) {
         <Text style={styles.googleButtonText}>Continue with Google</Text>
       </TouchableOpacity>
 
-      <Text style={styles.error}>{error}</Text>
+      <Text style={styles.error} testID="signup-error-message">{error}</Text>
     </View>
   );
 }

@@ -4,15 +4,6 @@ import ItemCard from "../src/components/ItemCard";
 import { Item } from "../src/types/Item";
 import { useFonts } from "../__mocks__/expo-font";
 
-jest.mock("react-native-vector-icons/FontAwesome", () => {
-  const { Text } = require("react-native");
-  return ({ name, size, color, testID }: any) => (
-    <Text testID={testID}>
-      {name} {size} {color}
-    </Text>
-  );
-});
-
 describe("ItemCard", () => {
   beforeEach(() => {
     useFonts.mockReturnValue([true]);
