@@ -4,7 +4,7 @@ module.exports = {
   ...tsjPreset,
   preset: "jest-expo",
   transform: {
-    "^.+\\.jsx$": "babel-jest",
+    "^.+\\.(js|jsx|ts)$": "babel-jest",
     "^.+\\.tsx?$": [
       "ts-jest",
       {
@@ -12,6 +12,9 @@ module.exports = {
       },
     ],
   },
+  transformIgnorePatterns: [
+    "node_modules/(?!react-native|react-navigation)/"
+  ],
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
   collectCoverage: true,
   collectCoverageFrom: ["src/**/*.{ts,tsx}"],
@@ -21,3 +24,11 @@ module.exports = {
     "\\.(ttf|png|jpg)$": "<rootDir>/jestAssetTransformer.js",
   },
 };
+
+
+
+  // setupFiles: [
+  //   "./node_modules/react-native-gesture-handler/jestSetup.js"
+  // ],
+
+  

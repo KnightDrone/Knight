@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -22,18 +22,38 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 // Navigation imports
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-export default function Login({ promptAsync, navigation }: any) {
+
+export default function Login({ navigation }: any) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const handleLogin = () => {
-    if (email === "admin" && password === "admin") {
-      console.log("Login success");
-    } else {
-      setError("Invalid credentials");
+  const [request, response, promptAsync] = Google.useAuthRequest({
+    iosClientId:
+      "983400403511-gi5mo0akb89fcecaivk4q509c63hrvtl.apps.googleusercontent.com",
+    androidClientId:
+      "983400403511-i43set67i4o1e3kb7fl91vrh9r6aemcb.apps.googleusercontent.com",
+    webClientId:
+      "983400403511-ff4ntmj4f9qvmmcc6nqh68tn524bp740.apps.googleusercontent.com",
+    redirectUri:
+      "com.googleusercontent.apps.983400403511-gi5mo0akb89fcecaivk4q509c63hrvtl:/oauth2redirect/google"
+  });
+
+  
+
+  useEffect(() => {
+    if (response?.type === "success") {
+      const { id_token } = response.params;
+      const credential = GoogleAuthProvider.credential(id_token);
+      signInWithCredential(auth, credential)
+        .then(() => {
+          navigation.navigate("OrderMenu"); // Navigate after successful login
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     }
-  };
+  }, [response]);
 
   const logInWithEmail = async () => {
     if (email && password) {
@@ -46,7 +66,7 @@ export default function Login({ promptAsync, navigation }: any) {
         if (response.user) {
           console.log("Login success");
           // Navigate to the order menu screen
-          navigation.navigate("OrderMenu");
+          navigation.navigate("Map");
         } else {
           setError("Invalid credentials");
         }
@@ -54,11 +74,6 @@ export default function Login({ promptAsync, navigation }: any) {
         setError("Login failed. Please check your credentials.");
       }
     }
-  };
-
-  const forgotPassword = () => {
-    // Add code to handle forgot password
-    //Navigate to the forgot password screen
   };
 
   const [showPassword, setShowPassword] = useState(false);
@@ -81,33 +96,41 @@ export default function Login({ promptAsync, navigation }: any) {
         autoCorrect={false}
       />
 
-      <TextInput
-        style={styles.input}
-        placeholder="Enter your password"
-        value={password}
-        secureTextEntry={!showPassword}
-        onChangeText={setPassword}
-        autoCapitalize="none"
-        autoCorrect={false}
-      />
-
-      <TouchableOpacity>
-        <Text
-          style={styles.showPassword}
+      <View style={styles.inputContainer}>
+        <TextInput
+          style={styles.enterPswrd}
+          placeholder="Enter your password"
+          value={password}
+          secureTextEntry={!showPassword}
+          onChangeText={setPassword}
+          autoCapitalize="none"
+          autoCorrect={false}
+        />
+        <TouchableOpacity
+          style={styles.iconContainer}
           onPress={() => setShowPassword(!showPassword)}
         >
-          {showPassword ? "Hide password" : "Show password"}
-        </Text>
-      </TouchableOpacity>
+          <Image
+            source={
+              showPassword
+                ? require("../../assets/images/eye-hide.png")
+                : require("../../assets/images/eye-show.png")
+            }
+            style={styles.eye}
+          />
+        </TouchableOpacity>
+      </View>
 
-      <Button title="Log in" onPress={logInWithEmail} />
+      <TouchableOpacity style={styles.login} onPress={logInWithEmail}>
+        <Text style={styles.googleButtonText}>Log in</Text>
+      </TouchableOpacity>
 
       <TouchableOpacity>
         <Text
           style={styles.linkText}
           onPress={() => navigation.navigate("ForgotPassword")}
         >
-          Forgot password?
+          Forgot your password?
         </Text>
       </TouchableOpacity>
 
@@ -118,7 +141,13 @@ export default function Login({ promptAsync, navigation }: any) {
       </View>
 
       <TouchableOpacity style={styles.button} onPress={() => promptAsync()}>
-        <Text style={styles.googleButtonText}>Continue with Google</Text>
+        <View style={styles.GbuttonContent}>
+          <Image
+            source={require("../../assets/images/google-icon.png")} // Replace with the path to your Google icon
+            style={styles.icon}
+          />
+          <Text style={styles.googleButtonText}>Continue with Google</Text>
+        </View>
       </TouchableOpacity>
 
       <TouchableOpacity>
@@ -153,6 +182,20 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     textAlign: "center",
   },
+  icon: {
+    width: 30, // Adjust as needed
+    height: 30, // Adjust as needed
+    marginRight: 10, // Adds some space between the icon and the text
+  },
+  eye: {
+    width: 20, // Adjust as needed
+    height: 20, // Adjust as needed
+  },
+  GbuttonContent: {
+    flexDirection: "row", // Aligns the children horizontally
+    alignItems: "center", // Centers the children vertically
+    paddingLeft: 30,
+  },
   input: {
     width: "80%",
     height: 40,
@@ -160,6 +203,27 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginBottom: 10,
     padding: 10,
+    borderRadius: 5,
+    backgroundColor: "#FFFBF1",
+  },
+  inputContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    width: "80%",
+    height: 40,
+    borderColor: "gray",
+    borderWidth: 1,
+    borderRadius: 5,
+    marginBottom: 10,
+    backgroundColor: "#FFFBF1",
+  },
+  enterPswrd: {
+    height: 40,
+    padding: 10,
+  },
+  iconContainer: {
+    position: "absolute",
+    right: 10,
   },
   error: {
     color: "red",
@@ -191,7 +255,15 @@ const styles = StyleSheet.create({
     width: "80%",
     borderColor: "black",
     borderWidth: 1,
-    borderRadius: 5, // Adjust for desired roundness
+    borderRadius: 50, // Adjust for desired roundness
+    padding: 10,
+  },
+  login: {
+    marginTop: 10,
+    width: "50%",
+    borderColor: "black",
+    borderWidth: 1,
+    borderRadius: 50, // Adjust for desired roundness
     padding: 10,
   },
   googleButtonText: {
@@ -200,7 +272,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   linkText: {
-    color: "blue", // Change as needed
+    color: "#00BAD3", // Change as needed
     fontSize: 16,
     textAlign: "center",
     marginTop: 10,
