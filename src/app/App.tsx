@@ -119,6 +119,7 @@ function App() {
               <HeaderBackButton
                 onPress={() => navigation.goBack()}
                 labelVisible={false}
+                testID="sign-up-back-button"
               />
             ),
           })}
@@ -136,6 +137,7 @@ function App() {
               <HeaderBackButton
                 onPress={() => navigation.goBack()}
                 labelVisible={false}
+                testID="forgot-password-back-button"
               />
             ),
           })}
@@ -156,6 +158,7 @@ function App() {
                   <Icon name="arrow-back" size={24} color="black" />
                 )}
                 labelVisible={false}
+                testID="back-button"
               />
             ),
           })}

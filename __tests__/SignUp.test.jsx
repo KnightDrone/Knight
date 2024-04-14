@@ -14,6 +14,7 @@ const Stack = createStackNavigator();
 import { useFonts } from "../__mocks__/expo-font";
 import Login from "../src/app/Login";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import passwordsForTesting from "../src/types/Passwords";
 
 useFonts.mockReturnValue([true]);
 
@@ -83,7 +84,7 @@ describe("SignUp Component", () => {
 
     const passwordMap = [
       {
-        password: "pass",
+        password: passwordsForTesting[0],
         strength: "Too Weak",
         suggestions: [
           "Password should be at least 8 characters long",
@@ -93,7 +94,7 @@ describe("SignUp Component", () => {
         ],
       },
       {
-        password: "password",
+        password: passwordsForTesting[1],
         strength: "Weak",
         suggestions: [
           "Add at least one number",
@@ -102,7 +103,7 @@ describe("SignUp Component", () => {
         ],
       },
       {
-        password: "password1",
+        password: passwordsForTesting[2],
         strength: "Moderate",
         suggestions: [
           "Include both upper and lower case letters",
@@ -110,22 +111,22 @@ describe("SignUp Component", () => {
         ],
       },
       {
-        password: "Pass123",
+        password: passwordsForTesting[3],
         strength: "Moderate",
         suggestions: ["Include at least one special character"],
       },
       {
-        password: "Password@1",
+        password: passwordsForTesting[4],
         strength: "Very Strong",
         suggestions: [],
       },
       {
-        password: "P@ssw0rd",
+        password: passwordsForTesting[5],
         strength: "Very Strong",
         suggestions: [],
       },
       {
-        password: "p@Ss1",
+        password: passwordsForTesting[6],
         strength: "Strong",
         suggestions: ["Password should be at least 8 characters long"],
       },
