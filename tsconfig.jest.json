@@ -5,6 +5,7 @@
     "module": "commonjs"
   },
   "moduleNameMapper": {
-    "\\.(ttf|png|jpg)$": "<rootDir>/jestAssetTransformer.js"
+    "\\.(ttf|png|jpg)$": "<rootDir>/jestAssetTransformer.js",
+    "\\.(css)$": "identity-obj-proxy"
   }
 }
