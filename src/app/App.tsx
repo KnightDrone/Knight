@@ -5,6 +5,7 @@ import { auth } from "../services/firebase";
 import * as WebBrowser from "expo-web-browser";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { User } from "firebase/auth";
+import "./global.css";
 
 // Imports for Navigation
 import { NavigationContainer } from "@react-navigation/native";
@@ -22,6 +23,7 @@ import KaiseiRegular from "../../assets/fonts/KaiseiDecol-Regular.ttf";
 
 import { registerRootComponent } from "expo";
 import Icon from "react-native-vector-icons/MaterialIcons";
+import OrderPlaced from "./OrderPlaced";
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -33,6 +35,7 @@ type RootStackParamList = {
   ForgotPassword: undefined;
   OrderMenu: undefined;
   Map: undefined;
+  OrderPlaced: undefined;
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -47,10 +50,10 @@ function App() {
 
   const checkLocalUser = async () => {
     try {
-      // setLoading(true);
-      // const userJSON = await AsyncStorage.getItem("@user");
-      // const userData = userJSON != null ? JSON.parse(userJSON) : null;
-      // setUserInfo(userData);
+      setLoading(true);
+      const userJSON = await AsyncStorage.getItem("@user");
+      const userData = userJSON != null ? JSON.parse(userJSON) : null;
+      setUserInfo(userData);
     } catch (e) {
       alert(e);
     } finally {
@@ -148,6 +151,9 @@ function App() {
           })}
         >
           {(props) => <OrderMenu {...props} />}
+        </Stack.Screen>
+        <Stack.Screen name="OrderPlaced">
+          {(props) => <OrderPlaced {...props} />}
         </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
