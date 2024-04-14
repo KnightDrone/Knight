@@ -3,6 +3,11 @@ import { fireEvent, render, waitFor } from "@testing-library/react-native";
 import ForgotPasswordScreen from "../src/app/ForgotPassword";
 import { sendPasswordResetEmail } from "firebase/auth";
 
+// Avoid useless error messages
+beforeAll(() => {
+  jest.spyOn(console, "error").mockImplementation(() => {});
+});
+
 describe("ForgotPasswordScreen Component", () => {
   it("renders correctly", () => {
     const { getByTestId, getByText } = render(<ForgotPasswordScreen />);

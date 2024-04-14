@@ -17,6 +17,11 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 
 useFonts.mockReturnValue([true]);
 
+// Avoid useless error messages
+beforeAll(() => {
+  jest.spyOn(console, "error").mockImplementation(() => {});
+});
+
 const SignUpTest = () => {
   return (
     <NavigationContainer>
