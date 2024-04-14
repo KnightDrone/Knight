@@ -12,7 +12,7 @@ interface OrderProps {
   // will pass location and maybe user info here
 }
 
-export default function OrderMenu() {
+export default function OrderMenu({ navigation }: any) {
   const [fontsLoaded] = useFonts({
     "Kaisei-Regular": KaiseiRegular,
   });

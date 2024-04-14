@@ -27,10 +27,8 @@ export default function Login({ navigation }: any) {
     webClientId:
       "983400403511-ff4ntmj4f9qvmmcc6nqh68tn524bp740.apps.googleusercontent.com",
     redirectUri:
-      "com.googleusercontent.apps.983400403511-gi5mo0akb89fcecaivk4q509c63hrvtl:/oauth2redirect/google"
+      "com.googleusercontent.apps.983400403511-gi5mo0akb89fcecaivk4q509c63hrvtl:/oauth2redirect/google",
   });
-
-  
 
   useEffect(() => {
     if (response?.type === "success") {
@@ -38,7 +36,7 @@ export default function Login({ navigation }: any) {
       const credential = GoogleAuthProvider.credential(id_token);
       signInWithCredential(auth, credential)
         .then(() => {
-          navigation.navigate("OrderMenu"); // Navigate after successful login
+          navigation.navigate("Map"); // Navigate after successful login
         })
         .catch((error) => {
           console.error(error);
@@ -55,8 +53,6 @@ export default function Login({ navigation }: any) {
           password
         );
         if (response.user) {
-          console.log("Login success");
-          // Navigate to the order menu screen
           navigation.navigate("Map");
         } else {
           setError("Invalid credentials");
@@ -70,7 +66,7 @@ export default function Login({ navigation }: any) {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <View style={styles.container}>
+    <View style={styles.container} testID="login-screen">
       <Image
         style={styles.logo}
         source={require("../../assets/images/usedLogo.png")}
@@ -113,12 +109,17 @@ export default function Login({ navigation }: any) {
         </TouchableOpacity>
       </View>
 
-      <TouchableOpacity style={styles.login} onPress={logInWithEmail}>
+      <TouchableOpacity
+        style={styles.login}
+        onPress={logInWithEmail}
+        testID="login-button"
+      >
         <Text style={styles.googleButtonText}>Log in</Text>
       </TouchableOpacity>
 
       <TouchableOpacity>
         <Text
+          testID="forgot-password-link"
           style={styles.linkText}
           onPress={() => navigation.navigate("ForgotPassword")}
         >
@@ -147,6 +148,7 @@ export default function Login({ navigation }: any) {
         <Text
           style={styles.linkText}
           onPress={() => navigation.navigate("SignUp")}
+          testID="sign-up-link"
         >
           Sign Up!
         </Text>
