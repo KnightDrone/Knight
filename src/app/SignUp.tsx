@@ -211,18 +211,9 @@ export default function SignUp({ navigation }: any) {
         style="secondary"
       />
 
-      {/* <Text style={styles.error} testID="signup-error-message">
+      <Text style={styles.error} testID="signup-error-message">
         {error}
-      </Text> */}
-      {error && (
-        <MessageBox
-          message={error}
-          style="error"
-          onClose={() => setError("")}
-          testID="signup-error-message"
-          className="mt-8"
-        />
-      )}
+      </Text>
     </View>
   );
 }
