@@ -1,8 +1,9 @@
 import React from "react";
-import { fireEvent, render, screen } from "@testing-library/react-native";
+import { fireEvent, render, waitFor } from "@testing-library/react-native";
 import Login from "../src/app/Login";
 import { GoogleAuthProvider, signInWithCredential } from "firebase/auth";
 import { auth } from "../src/services/firebase";
+import * as Google from "expo-auth-session/providers/google";
 
 const mockNavigate = jest.fn();
 const mockGoBack = jest.fn();
@@ -32,8 +33,16 @@ jest.mock("@react-navigation/native", () => ({
   }),
 }));
 jest.mock("expo-auth-session/providers/google", () => ({
-  useAuthRequest: jest.fn(),
+  useAuthRequest: jest.fn(() => {
+    const mockPromptAsync = jest.fn(() => Promise.resolve({ type: "success" }));
+    const request = {};
+    const response = {};
+    return [request, response, mockPromptAsync];
+  }),
 }));
+/*jest.mock("expo-auth-session/providers/google", () => ({
+  useAuthRequest: jest.fn(),
+}));*/
 
 describe("Login", () => {
   it("renders correctly", () => {
@@ -83,35 +92,124 @@ describe("Login", () => {
 });
 
 describe("Login Component", () => {
+  it("renders correctly", () => {
+    const { getByText, getByPlaceholderText } = render(
+      <Login navigation={{}} />
+    );
+    expect(getByText("Login to Wild Knight")).toBeTruthy();
+    expect(getByPlaceholderText("Enter your username or email")).toBeTruthy();
+    expect(getByPlaceholderText("Enter your password")).toBeTruthy();
+  });
+
   it("updates email and password fields correctly", () => {
-    const { getByPlaceholderText } = render(<Login promptAsync={() => {}} />);
+    const { getByPlaceholderText } = render(<Login navigation={{}} />);
     const emailInput = getByPlaceholderText("Enter your username or email");
     const passwordInput = getByPlaceholderText("Enter your password");
+
     fireEvent.changeText(emailInput, "test@example.com");
     fireEvent.changeText(passwordInput, "password123");
+
     expect(emailInput.props.value).toBe("test@example.com");
     expect(passwordInput.props.value).toBe("password123");
   });
 
-  it('navigates to ForgotPassword screen on "Forgot password?" press', () => {
-    const { getByText } = render(<Login promptAsync={() => {}} />);
-    const forgotPasswordLink = getByText("Forgot password?");
-    fireEvent.press(forgotPasswordLink);
-    // Assuming you have access to the mock navigation object
-    expect(mockNavigation.navigate).toHaveBeenCalledWith("ForgotPassword");
-  });
-  it('navigates to SignUp screen on "Sign Up!" press', () => {
-    const { getByText } = render(<Login promptAsync={() => {}} />);
-    const signUpLink = getByText("Sign Up!");
-    fireEvent.press(signUpLink);
-    expect(mockNavigation.navigate).toHaveBeenCalledWith("SignUp");
+  it("shows error when trying to log in with empty fields", () => {
+    const { getByText } = render(<Login navigation={{}} />);
+    const loginButton = getByText("Log in");
+
+    fireEvent.press(loginButton);
+    expect(getByText("Please input email and password.")).toBeTruthy();
   });
 
+  it("calls logInWithEmail when the Log in button is pressed", () => {
+    const mockLogInWithEmail = jest.fn();
+    const { getByText } = render(<Login navigation={{}} />);
+    const loginButton = getByText("Log in");
+
+    // Mock the logInWithEmail method
+    jest
+      .spyOn(Login.prototype, "logInWithEmail")
+      .mockImplementation(mockLogInWithEmail);
+
+    fireEvent.press(loginButton);
+
+    expect(mockLogInWithEmail).toHaveBeenCalled();
+  });
+
+  it("navigates to the Map screen after successful login", async () => {
+    const mockLogInWithEmail = jest.fn(() => Promise.resolve({ user: {} }));
+    const mockNavigation = { navigate: jest.fn() };
+    const { getByText } = render(<Login navigation={mockNavigation} />);
+
+    // Mock the logInWithEmail method
+    jest
+      .spyOn(Login.prototype, "logInWithEmail")
+      .mockImplementation(mockLogInWithEmail);
+
+    const loginButton = getByText("Log in");
+    fireEvent.press(loginButton);
+
+    // Wait for any async actions to complete
+    await waitFor(() => {
+      expect(mockNavigation.navigate).toHaveBeenCalledWith("Map");
+    });
+  });
+
+  it('navigates to ForgotPassword screen when "Forgot password?" is pressed', () => {
+    const mockNavigation = { navigate: jest.fn() };
+    const { getByText } = render(<Login navigation={mockNavigation} />);
+    const forgotPasswordLink = getByText("Forgot your password?");
+
+    fireEvent.press(forgotPasswordLink);
+
+    expect(mockNavigation.navigate).toHaveBeenCalledWith("ForgotPassword");
+  });
+
+  it('navigates to SignUp screen when "Sign Up" is pressed', () => {
+    const mockNavigation = { navigate: jest.fn() };
+    const { getByText } = render(<Login navigation={mockNavigation} />);
+    const signUpLink = getByText("Sign Up!");
+
+    fireEvent.press(signUpLink);
+
+    expect(mockNavigation.navigate).toHaveBeenCalledWith("SignUp");
+  });
+  it("toggles password visibility when the visibility icon is pressed", () => {
+    const { getByPlaceholderText, getByTestId } = render(
+      <Login navigation={mockNavigation} />
+    );
+    const passwordInput = getByPlaceholderText("Enter your password");
+    const togglePasswordVisibilityButton = getByTestId("showPasswordButton");
+
+    // Initially, the password should be hidden
+    expect(passwordInput.props.secureTextEntry).toBe(true);
+
+    // Press the visibility icon
+    fireEvent.press(togglePasswordVisibilityButton);
+
+    // The password should now be visible
+    expect(passwordInput.props.secureTextEntry).toBe(false);
+
+    // Press the visibility icon again
+    fireEvent.press(togglePasswordVisibilityButton);
+
+    // The password should be hidden again
+    expect(passwordInput.props.secureTextEntry).toBe(true);
+  });
+
+  /* We replace the expo-auth-session/providers/google module with a mock module. 
+     We're providing a mock implementation for useAuthRequest that returns a mock promptAsync function, 
+     as well as request and response as empty objects. This way, we can test the Google sign-in process 
+     without making actual requests to Google's servers.
+  */
   it("initiates Google sign-in process on button press", () => {
-    const { getByText } = render(<Login promptAsync={() => {}} />);
+    const { getByText } = render(<Login navigation={mockNavigation} />);
     const googleSignInButton = getByText("Continue with Google");
+
     fireEvent.press(googleSignInButton);
-    // Assuming promptAsync is mocked to check if it's called
-    expect(mockPromptAsync).toHaveBeenCalled();
+
+    // Check if the promptAsync function was called, indicating that the Google sign-in process was initiated
+    const [, , promptAsync] = Google.useAuthRequest();
+    expect(promptAsync).toHaveBeenCalled();
   });
 });

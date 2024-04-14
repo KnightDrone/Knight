@@ -98,6 +98,7 @@ export default function Login({ navigation }: any) {
           autoCorrect={false}
         />
         <TouchableOpacity
+        testID="showPasswordButton"
           style={styles.iconContainer}
           onPress={() => setShowPassword(!showPassword)}
         >

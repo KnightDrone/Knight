@@ -20,86 +20,117 @@ jest.mock("expo-auth-session/providers/google", () => ({
 // Mock promptAsync
 const mockPromptAsync = jest.fn();
 
-describe("SignUp Component", () => {
+describe("SignUp Component (Basic)", () => {
   it("renders correctly", () => {
     const { getByText, getByPlaceholderText } = render(
-      <SignUp promptAsync={mockPromptAsync} navigation={{}} />
+      <SignUp navigation={{}} />
     );
-    expect(getByText("Sign Up")).toBeTruthy();
+    expect(getByText("Wild Knight")).toBeTruthy();
+    expect(getByPlaceholderText("Enter your username")).toBeTruthy();
     expect(getByPlaceholderText("Enter your email")).toBeTruthy();
     expect(getByPlaceholderText("Enter your password")).toBeTruthy();
-  }
-  );
-  
-  it("updates email and password fields correctly", () => {
-    const { getByPlaceholderText } = render(
-      <SignUp promptAsync={mockPromptAsync} navigation={{}} />
-    );
+  });
+
+  it("updates username, email and password fields correctly", () => {
+    const { getByPlaceholderText } = render(<SignUp navigation={{}} />);
+    const usernameInput = getByPlaceholderText("Enter your username");
     const emailInput = getByPlaceholderText("Enter your email");
     const passwordInput = getByPlaceholderText("Enter your password");
+
+    fireEvent.changeText(usernameInput, "testuser");
     fireEvent.changeText(emailInput, "test@example.com");
     fireEvent.changeText(passwordInput, "password123");
+
+    expect(usernameInput.props.value).toBe("testuser");
     expect(emailInput.props.value).toBe("test@example.com");
     expect(passwordInput.props.value).toBe("password123");
   });
 
   it("displays password strength and suggestions correctly", () => {
     const { getByPlaceholderText, getByText } = render(
-      <SignUp promptAsync={mockPromptAsync} navigation={{}} />
+      <SignUp navigation={{}} />
+    );
+    const passwordInput = getByPlaceholderText("Enter your password");
+
+    fireEvent.changeText(passwordInput, "password123");
+    expect(getByText("Password Strength: Moderate")).toBeTruthy();
+    expect(getByText("Include at least one special character")).toBeTruthy();
+
+    fireEvent.changeText(passwordInput, "password123!");
+    expect(getByText("Password Strength: Strong")).toBeTruthy();
+  });
+
+  it("displays password strength and suggestions correctly", () => {
+    const { getByPlaceholderText, getByText } = render(
+      <SignUp navigation={{}} />
     );
     const passwordInput = getByPlaceholderText("Enter your password");
     fireEvent.changeText(passwordInput, "pass");
     expect(getByText("Password Strength:")).toBeTruthy();
     expect(
-      getByText("Password should be at least 8 characters long")
+      getByText("Password should be at least 8 characters long") // Still need to make sure we display suggestions within component
     ).toBeTruthy();
   });
+  it("shows error when trying to sign up with empty fields", () => {
+    const { getByText } = render(<SignUp navigation={{}} />);
+    const signUpButton = getByText("Sign Up");
 
-  it('initiates Google sign-in process on "Continue with Google" button press', async () => {
-    const { getByText } = render(
-      <SignUp promptAsync={mockPromptAsync} navigation={{}} />
-    );
-    fireEvent.press(getByText("Continue with Google"));
-    expect(mockPromptAsync).toHaveBeenCalled();
+    fireEvent.press(signUpButton);
+    expect(getByText("Please input email and password.")).toBeTruthy();
   });
 });
 
-describe("More SignUp Component Tests", () => {
-  //it('toggles password visibility when the visibility icon is pressed', () => {
-  //  const { getByPlaceholderText, getByTestId } = render(<SignUp promptAsync={mockPromptAsync} navigation={{}} />);
-  //  const passwordInput = getByPlaceholderText('Enter your password');
-  //  const visibilityToggle = getByTestId('passwordVisibilityToggle'); // Add testID to your visibility toggle component for this to work
-  //  // Initial state should be 'password' (hidden)
-  //  expect(passwordInput.props.secureTextEntry).toBe(true);
-  //  fireEvent.press(visibilityToggle);
-  //  // After toggle, password should be visible
-  //  expect(passwordInput.props.secureTextEntry).toBe(false);
-  //  fireEvent.press(visibilityToggle);
-  //  // Toggle back to hidden
-  //  expect(passwordInput.props.secureTextEntry).toBe(true);
-  //});
+// TODO: Add more tests for successful sign up, Google sign in, navigation on successful sign up, etc.
+describe("SignUp Component (Extended)", () => {
+  it("toggles password visibility when the visibility icon is pressed", () => {
+    const { getByTestId } = render(<SignUp navigation={{}} />);
+    const visibilityToggle = getByTestId("eye-icon");
 
-  it("calls handleSignUp when the Sign Up button is pressed", () => {
-    const mockHandleSignUp = jest.fn();
-    SignUp.prototype.handleSignUp = mockHandleSignUp; // Mock the handleSignUp method
-    const { getByText } = render(
-      <SignUp promptAsync={mockPromptAsync} navigation={{}} />
-    );
-    fireEvent.press(getByText("Sign Up"));
-    expect(mockHandleSignUp).toHaveBeenCalled();
+    // Initial state should be 'password' (hidden)
+    expect(visibilityToggle.props.name).toBe("eye-slash");
+
+    fireEvent.press(visibilityToggle);
+
+    // After toggle, password should be visible
+    expect(visibilityToggle.props.name).toBe("eye");
+
+    fireEvent.press(visibilityToggle);
+
+    // Toggle back to hidden
+    expect(visibilityToggle.props.name).toBe("eye-slash");
   });
 
-  it("navigates to the Login screen after successful sign-up", async () => {
-    // Assuming handleSignUp is async and navigates upon success
+  it("calls signUpWithEmail when the Sign Up button is pressed", () => {
+    const mockSignUpWithEmail = jest.fn();
+    const { getByText } = render(<SignUp navigation={{}} />);
+    const signUpButton = getByText("Sign Up");
+
+    // Mock the signUpWithEmail method
+    jest
+      .spyOn(SignUp.prototype, "signUpWithEmail")
+      .mockImplementation(mockSignUpWithEmail);
+
+    fireEvent.press(signUpButton);
+
+    expect(mockSignUpWithEmail).toHaveBeenCalled();
+  });
+
+  it("navigates to the Login screen after successful sign up", async () => {
+    const mockSignUpWithEmail = jest.fn(() => Promise.resolve({ user: {} }));
     const mockNavigation = { navigate: jest.fn() };
-    const { getByText } = render(
-      <SignUp promptAsync={mockPromptAsync} navigation={mockNavigation} />
-    );
-    // Simulate successful sign-up
-    fireEvent.press(getByText("Sign Up"));
+    const { getByText } = render(<SignUp navigation={mockNavigation} />);
+
+    // Mock the signUpWithEmail method
+    jest
+      .spyOn(SignUp.prototype, "signUpWithEmail")
+      .mockImplementation(mockSignUpWithEmail);
+
+    const signUpButton = getByText("Sign Up");
+    fireEvent.press(signUpButton);
+
     // Wait for any async actions to complete
     await waitFor(() => {
-      expect(mockNavigation.navigate).toHaveBeenCalledWith("Login"); // Adjust 'Login' as needed based on your navigation flow
+      expect(mockNavigation.navigate).toHaveBeenCalledWith("Login");
     });
   });
 });
