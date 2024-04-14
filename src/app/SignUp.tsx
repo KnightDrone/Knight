@@ -241,7 +241,9 @@ export default function SignUp({ navigation }: any) {
         <Text style={styles.googleButtonText}>Continue with Google</Text>
       </TouchableOpacity>
 
-      <Text style={styles.error} testID="signup-error-message">{error}</Text>
+      <Text style={styles.error} testID="signup-error-message">
+        {error}
+      </Text>
     </View>
   );
 }

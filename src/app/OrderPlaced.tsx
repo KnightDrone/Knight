@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import "./global.css";
 
-const OrderPlaced = ({navigation}: any) => {
+const OrderPlaced = ({ navigation }: any) => {
   return (
     <View className="h-full p-4 justify-center items-center">
       <Text className="text-xl font-bold">Your order is on its way</Text>
