@@ -27,7 +27,8 @@
       "package": "com.swent.knight"
     },
     "web": {
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./assets/images/favicon.png",
+      "bundler": "metro"
     },
     "plugins": [
       "@react-native-firebase/app",
