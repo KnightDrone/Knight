@@ -3,6 +3,7 @@
     "name": "knight",
     "slug": "knight",
     "version": "1.0.0",
+    "scheme": "knight",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "userInterfaceStyle": "light",
@@ -18,7 +19,7 @@
       "bundleIdentifier": "com.swent.knight"
     },
     "android": {
-      "googleServicesFile": "google-services.json",
+      "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"

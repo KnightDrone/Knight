@@ -45,3 +45,7 @@ For navigation we use the react-navigation library, which is setup in the App.tx
 Note: Don't forget to import the component to the App.tsx
 
 For more information on how to use the react-navigation libray here are some links: -[React Navigation](https://reactnavigation.org/docs/getting-started) -[Using Typescript with React Navigation](https://react.dev/learn/typescript)
+
+### Architecture Diagram
+
+![](architecure_diag.jpg)

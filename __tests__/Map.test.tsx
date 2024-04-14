@@ -52,4 +52,57 @@ describe("MapOverview Component", () => {
     fireEvent.press(getByText("Order"));
     expect(navigation.navigate).toHaveBeenCalledWith("OrderMenu");
   });
+
+  it("updates region and marker on successful location fetch", async () => {
+    const fakeLocation = {
+      coords: {
+        latitude: 34.0522,
+        longitude: -118.2437,
+        altitude: 0,
+        accuracy: 5,
+        altitudeAccuracy: 5,
+        heading: null,
+        speed: null,
+      },
+      timestamp: Date.now(),
+    };
+
+    // Mock the permission request to be granted
+    (Location.requestForegroundPermissionsAsync as jest.Mock).mockResolvedValue(
+      {
+        status: "granted",
+      }
+    );
+
+    // Mock getting the current location to return fakeLocation
+    (Location.getCurrentPositionAsync as jest.Mock).mockResolvedValue(
+      fakeLocation
+    );
+
+    const { getByTestId } = render(<MapOverview />);
+
+    // Invoke the location fetch action
+    const locationButton = getByTestId("locationButton"); // Ensure your button has the 'testID' prop
+    fireEvent.press(locationButton);
+
+    // Wait for the effects to apply
+    await waitFor(() => {
+      expect(Location.requestForegroundPermissionsAsync).toHaveBeenCalled();
+      expect(Location.getCurrentPositionAsync).toHaveBeenCalled();
+    });
+
+    // Check if the map region and marker have been updated
+    expect(getByTestId("mapView").props.region).toEqual({
+      latitude: fakeLocation.coords.latitude,
+      longitude: fakeLocation.coords.longitude,
+      latitudeDelta: 0.005,
+      longitudeDelta: 0.005,
+    });
+
+    // Assuming Marker component is also receiving the updated props
+    expect(getByTestId("mapMarker").props.coordinate).toEqual({
+      latitude: fakeLocation.coords.latitude,
+      longitude: fakeLocation.coords.longitude,
+    });
+  });
 });

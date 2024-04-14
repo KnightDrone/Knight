@@ -21,6 +21,16 @@ jest.mock("expo-auth-session/providers/google", () => ({
 const mockPromptAsync = jest.fn();
 
 describe("SignUp Component", () => {
+  it("renders correctly", () => {
+    const { getByText, getByPlaceholderText } = render(
+      <SignUp promptAsync={mockPromptAsync} navigation={{}} />
+    );
+    expect(getByText("Sign Up")).toBeTruthy();
+    expect(getByPlaceholderText("Enter your email")).toBeTruthy();
+    expect(getByPlaceholderText("Enter your password")).toBeTruthy();
+  }
+  );
+  
   it("updates email and password fields correctly", () => {
     const { getByPlaceholderText } = render(
       <SignUp promptAsync={mockPromptAsync} navigation={{}} />
