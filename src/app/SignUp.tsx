@@ -16,8 +16,7 @@ import {
 } from "firebase/auth";
 
 import { auth } from "../services/firebase";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { database } from "../firebase";
+import { database } from "../services/firebase";
 import { UserCredential } from "firebase/auth";
 import { ref, set } from "firebase/database";
 // -----------------------------------------------
