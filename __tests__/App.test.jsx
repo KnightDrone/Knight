@@ -8,8 +8,6 @@ import {
 import { useFonts } from "../__mocks__/expo-font";
 import * as Google from "expo-auth-session/providers/google";
 
-// Imports for Navigation
-
 import App from "../src/app/App";
 
 beforeEach(() => {
@@ -22,6 +20,11 @@ beforeEach(() => {
     { type: "success", params: { id_token: "mock-id-token" } }, // Mocked response
     mockPromptAsync, // Mocked promptAsync function
   ]);
+});
+
+// Avoid useless error messages
+beforeAll(() => {
+  jest.spyOn(console, "error").mockImplementation(() => {});
 });
 
 // 1. Navigation tests

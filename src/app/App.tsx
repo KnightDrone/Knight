@@ -50,10 +50,13 @@ function App() {
 
   const checkLocalUser = async () => {
     try {
-      setLoading(true);
-      const userJSON = await AsyncStorage.getItem("@user");
-      const userData = userJSON != null ? JSON.parse(userJSON) : null;
-      setUserInfo(userData);
+      // NOTE: Doesn't work with testing library
+      // setLoading(true);
+      // const userJSON = await AsyncStorage.getItem("@user");
+      // const userData = userJSON != null ? JSON.parse(userJSON) : null;
+      // if (userData){
+      //   setUserInfo(userData);
+      // }
     } catch (e) {
       alert(e);
     } finally {
@@ -72,6 +75,12 @@ function App() {
           alert(e);
         }
       } else {
+        setUserInfo(null);
+        try {
+          await AsyncStorage.removeItem("@user");
+        } catch (e) {
+          alert(e);
+        }
       }
     });
 

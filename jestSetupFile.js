@@ -99,3 +99,7 @@ jest.mock("expo-location", () => ({
     timestamp: Date.now(),
   }),
 }));
+
+jest.mock("@react-native-async-storage/async-storage", () =>
+  require("@react-native-async-storage/async-storage/jest/async-storage-mock")
+);
