@@ -19,6 +19,8 @@ import { auth } from "../services/firebase";
 // -----------------------------------------------
 import * as Google from "expo-auth-session/providers/google";
 import Icon from "react-native-vector-icons/FontAwesome";
+import { Platform } from "react-native";
+import GoogleAuthConfig from "../types/GoogleAuthConfig";
 
 export default function SignUp({ navigation }: any) {
   const [user, setUser] = useState("");
@@ -31,14 +33,13 @@ export default function SignUp({ navigation }: any) {
 
   const [showPassword, setShowPassword] = useState(false);
 
-  const [request, response, promptAsync] = Google.useAuthRequest({
-    iosClientId:
-      "983400403511-gi5mo0akb89fcecaivk4q509c63hrvtl.apps.googleusercontent.com",
-    androidClientId:
-      "983400403511-i43set67i4o1e3kb7fl91vrh9r6aemcb.apps.googleusercontent.com",
-    redirectUri:
-      "com.googleusercontent.apps.983400403511-gi5mo0akb89fcecaivk4q509c63hrvtl:/oauth2redirect/google",
+  const config = Platform.select({
+    ios: GoogleAuthConfig.ios,
+    android: GoogleAuthConfig.android,
+    default: GoogleAuthConfig.web,
   });
+
+  const [request, response, promptAsync] = Google.useAuthRequest(config);
 
   useEffect(() => {
     if (response?.type === "success") {

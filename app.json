@@ -24,6 +24,7 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
+      "permissions": ["android.permission.DETECT_SCREEN_CAPTURE"],
       "package": "com.swent.knight"
     },
     "web": {
@@ -53,8 +54,9 @@
     ],
     "extra": {
       "eas": {
-        "projectId": "49333a30-0940-48d8-afca-d7c1be15c2ac"
+        "projectId": "142c7bbe-0be4-436f-a8dc-428931c2c284"
       }
-    }
+    },
+    "owner": "kalil0321" //
   }
 }
