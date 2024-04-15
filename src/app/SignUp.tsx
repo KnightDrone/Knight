@@ -19,6 +19,7 @@ import { auth } from "../services/firebase";
 // -----------------------------------------------
 import * as Google from "expo-auth-session/providers/google";
 import Icon from "react-native-vector-icons/FontAwesome";
+import { Platform } from "react-native";
 import GoogleAuthConfig from "../types/GoogleAuthConfig";
 
 export default function SignUp({ navigation }: any) {
@@ -32,8 +33,13 @@ export default function SignUp({ navigation }: any) {
 
   const [showPassword, setShowPassword] = useState(false);
 
-  const [request, response, promptAsync] =
-    Google.useAuthRequest(GoogleAuthConfig);
+  const config = Platform.select({
+    ios: GoogleAuthConfig.ios,
+    android: GoogleAuthConfig.android,
+    default: GoogleAuthConfig.web,
+  });
+
+  const [request, response, promptAsync] = Google.useAuthRequest(config);
 
   useEffect(() => {
     if (response?.type === "success") {

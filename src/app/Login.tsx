@@ -23,14 +23,20 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import GoogleAuthConfig from "../types/GoogleAuthConfig";
+import { Platform } from "react-native";
 
 export default function Login({ navigation }: any) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const [request, response, promptAsync] =
-    Google.useAuthRequest(GoogleAuthConfig);
+  const config = Platform.select({
+    ios: GoogleAuthConfig.ios,
+    android: GoogleAuthConfig.android,
+    default: GoogleAuthConfig.web,
+  });
+
+  const [request, response, promptAsync] = Google.useAuthRequest(config);
 
   useEffect(() => {
     if (response?.type === "success") {
