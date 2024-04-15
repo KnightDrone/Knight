@@ -128,7 +128,7 @@ function App() {
           })}
         />
         <Stack.Screen name="Map">
-          {(props) => <MapView {...props} />}
+          {(props) => <MapOverview {...props} />}
         </Stack.Screen>
         <Stack.Screen
           name="OrderMenu"
