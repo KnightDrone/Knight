@@ -48,3 +48,6 @@ coverage/
 
 # package lock
 package-lock.json
+
+# environment file
+.env
