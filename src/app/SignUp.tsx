@@ -15,8 +15,8 @@ import {
   signInWithCredential,
 } from "firebase/auth";
 
-import { auth } from "../services/firebase";
-import { database } from "../services/firebase";
+import { auth } from "../services/Firebase";
+import { database } from "../services/Firebase";
 import { UserCredential } from "firebase/auth";
 import { ref, set } from "firebase/database";
 // -----------------------------------------------
