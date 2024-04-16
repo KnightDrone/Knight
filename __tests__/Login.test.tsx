@@ -107,10 +107,10 @@ describe("Login Component", () => {
     ).toBe(false);
   });
 
-  it.only("calls login when login button is pressed", async () => {
-    const rendered = render(<LoginTest />);
+  it("calls login when login button is pressed", async () => {
+    const { getByText } = render(<LoginTest />);
 
-    fireEvent.press(rendered.getByText("Log in"));
+    fireEvent.press(getByText("Log in"));
     expect(signInWithEmailAndPassword).toHaveBeenCalled();
   });
 
