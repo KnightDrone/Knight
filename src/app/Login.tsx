@@ -8,7 +8,8 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { auth } from "../services/firebase";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { GoogleAuthProvider, signInWithCredential, signInWithEmailAndPassword } from "firebase/auth";
+import * as Google from "expo-auth-session/providers/google";
 
 // Navigation imports
 import { NavigationContainer } from "@react-navigation/native";
