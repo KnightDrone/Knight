@@ -53,7 +53,7 @@ describe("More ForgotPassword Component Tests", () => {
 
   it("displays an error message if the email is not recognized", async () => {
     // Mock the API call within handleForgotPassword to reject
-    sendPasswordResetEmail.mockImplementationOnce(() =>
+    (sendPasswordResetEmail as jest.Mock).mockImplementationOnce(() =>
       Promise.reject(new Error("User not found"))
     );
 

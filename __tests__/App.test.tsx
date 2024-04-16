@@ -15,7 +15,7 @@ beforeEach(() => {
   useFonts.mockReturnValue([true]);
 
   // Mock the Google authentication request setup
-  Google.useAuthRequest.mockReturnValue([
+  (Google.useAuthRequest as jest.Mock).mockReturnValue([
     {}, // Mocked request
     { type: "success", params: { id_token: "mock-id-token" } }, // Mocked response
     mockPromptAsync, // Mocked promptAsync function

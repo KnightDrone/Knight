@@ -28,7 +28,7 @@ beforeEach(() => {
   const mockPromptAsync = jest.fn();
 
   // Mock the Google authentication request setup
-  Google.useAuthRequest.mockReturnValue([
+  (Google.useAuthRequest as jest.Mock).mockReturnValue([
     {}, // Mocked request
     { type: "success", params: { id_token: "mock-id-token" } }, // Mocked response
     mockPromptAsync, // Mocked promptAsync function
@@ -79,11 +79,9 @@ const LoginTest = () => {
 
 describe("Login Component", () => {
   it("allows email login", async () => {
-    const rendered = render(<LoginTest />);
-
-    getByPlaceholderText = rendered.getByPlaceholderText;
-    getByText = rendered.getByText;
-    queryByTestId = rendered.queryByTestId;
+    const { getByPlaceholderText, getByText, queryByTestId } = render(
+      <LoginTest />
+    );
 
     fireEvent.changeText(
       getByPlaceholderText("Enter your username or email"),
@@ -109,14 +107,12 @@ describe("Login Component", () => {
     ).toBe(false);
   });
 
-  // it("calls login when login button is pressed", async () => {
-  //   const rendered = render(
-  //    <LoginTest />
-  //   );
+  it.only("calls login when login button is pressed", async () => {
+    const rendered = render(<LoginTest />);
 
-  //   fireEvent.press(rendered.getByText("Log in"));
-  //   expect(signInWithEmailAndPassword).toHaveBeenCalled();
-  //  });
+    fireEvent.press(rendered.getByText("Log in"));
+    expect(signInWithEmailAndPassword).toHaveBeenCalled();
+  });
 
   it("navigates to the forgot password screen when the link is pressed", async () => {
     const { getByTestId } = render(<LoginTest />);
