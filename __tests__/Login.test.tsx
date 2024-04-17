@@ -6,7 +6,7 @@ import {
   waitFor,
 } from "@testing-library/react-native";
 import Login from "../src/app/Login";
-import { GoogleAuthProvider } from "../src/services/firebase";
+import { GoogleAuthProvider } from "../src/services/Firebase";
 import * as Google from "expo-auth-session/providers/google";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";

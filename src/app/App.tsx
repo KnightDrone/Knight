@@ -1,7 +1,7 @@
 import React from "react";
 import { Text } from "react-native";
 import { onAuthStateChanged, User } from "firebase/auth";
-import { auth } from "../services/firebase";
+import { auth } from "../services/Firebase";
 import * as WebBrowser from "expo-web-browser";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Icon from "react-native-vector-icons/MaterialIcons";
@@ -23,6 +23,7 @@ import { useFonts } from "expo-font";
 import KaiseiRegular from "../../assets/fonts/KaiseiDecol-Regular.ttf";
 
 import { registerRootComponent } from "expo";
+import MapOverview from "./Map";
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -142,7 +143,7 @@ function App() {
           })}
         />
         <Stack.Screen name="Map">
-          {(props) => <MapView {...props} />}
+          {(props) => <MapOverview {...props} />}
         </Stack.Screen>
         <Stack.Screen
           name="OrderMenu"

@@ -13,7 +13,7 @@ import {
   signInWithCredential,
   signInWithEmailAndPassword,
 } from "firebase/auth";
-import { auth } from "../services/firebase";
+import { auth } from "../services/Firebase";
 import * as Google from "expo-auth-session/providers/google";
 
 // Navigation imports

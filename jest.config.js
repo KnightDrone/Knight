@@ -6,7 +6,7 @@ module.exports = {
   setupFiles: ["<rootDir>/jestSetupFile.js"],
   setupFilesAfterEnv: ["@testing-library/jest-native/extend-expect"],
   transform: {
-    "^.+\\.jsx$": "babel-jest",
+    "^.+\\.(js|jsx|ts)$": "babel-jest",
     "^.+\\.tsx?$": [
       "ts-jest",
       {
@@ -14,6 +14,7 @@ module.exports = {
       },
     ],
   },
+  transformIgnorePatterns: ["node_modules/(?!react-native|react-navigation)/"],
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
   collectCoverage: true,
   // ignore the src/services/ folder
@@ -28,3 +29,7 @@ module.exports = {
     "node_modules/(?!(jest-)?react-native|@react-native-community|expo(nent)?|@expo(nent)?/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|react-native|@react-native|@react-navigation|@firebase|firebase|@react-native-async-storage)",
   ],
 };
+
+// setupFiles: [
+//   "./node_modules/react-native-gesture-handler/jestSetup.js"
+// ],
