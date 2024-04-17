@@ -2,10 +2,11 @@ import { Item } from "../src/types/Item";
 
 describe("Item", () => {
   let item: Item;
-  let image = require("../assets/images/splash.png");
+  let imageDir: string = "../assets/images/splash.png";
+  let image: number = require(imageDir);
 
   beforeEach(() => {
-    item = new Item(1, "Test Item", "This is a test item", image, image, 100);
+    item = new Item(1, "Test Item", "This is a test item", image, imageDir, image, imageDir, 100);
   });
 
   test("getId returns the correct id", () => {
@@ -30,5 +31,17 @@ describe("Item", () => {
 
   test("getPrice returns the correct price", () => {
     expect(item.getPrice()).toBe(100);
+  });
+
+  test("toDict returns the correct dictionary", () => {
+    const expectedDict = {
+      id: "1",
+      name: "Test Item",
+      description: "This is a test item",
+      icon: imageDir,
+      image: imageDir,
+      price: "100",
+    };
+    expect(item.toDict()).toEqual(expectedDict);
   });
 });

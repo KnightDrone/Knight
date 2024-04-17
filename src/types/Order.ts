@@ -56,6 +56,17 @@ class Order {
   getLocation(): Location {
     return this.location;
   }
+
+  toDict(): { [key: string]: string } {
+    return {
+      user: this.user,
+      item: JSON.stringify(this.item.toDict()),
+      orderDate: this.orderDate.toString(),
+      status: this.status,
+      deliveryDate: this.deliveryDate.toString(),
+      location: JSON.stringify(this.location),
+    };
+  }
 }
 
 
