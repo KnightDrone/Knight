@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  screen,
-  render,
-  waitFor,
-  fireEvent,
-} from "@testing-library/react-native";
+import { render, waitFor, fireEvent } from "@testing-library/react-native";
 import { useFonts } from "../__mocks__/expo-font";
 import * as Google from "expo-auth-session/providers/google";
 
@@ -31,37 +26,51 @@ beforeAll(() => {
   jest.spyOn(console, "error").mockImplementation(() => {});
 });
 
+// Helper function to simulate login actions
+async function simulateLogin(
+  getByPlaceholderText: any,
+  getByTestId: any,
+  queryByTestId: any
+) {
+  const emailInput = getByPlaceholderText("Enter your username or email");
+  const passwordInput = getByPlaceholderText("Enter your password");
+  fireEvent.changeText(emailInput, "random@gmail.com");
+  fireEvent.changeText(passwordInput, "password");
+  fireEvent.press(getByTestId("login-button"));
+
+  await waitFor(() => {
+    expect(queryByTestId("map-overview-screen")).toBeTruthy();
+  });
+}
+
 describe("App Navigation", () => {
   it("renders the login screen as the initial route", () => {
     const { getByTestId } = render(<App />);
-
     expect(getByTestId("login-screen")).toBeTruthy();
   });
 
   it("directly logs in with Google due to the mock implementation", async () => {
-    const { getByTestId } = render(<App />);
+    const { queryByTestId } = render(<App />);
     await waitFor(() => {
-      expect(screen.queryByTestId("map-overview-screen")).toBeTruthy();
+      expect(queryByTestId("map-overview-screen")).toBeTruthy();
     });
   });
 
   it("navigates to sign up screen when the sign up button is pressed", async () => {
-    const { getByText } = render(<App />);
-    const signUpButton = getByText("Sign Up!");
-    fireEvent.press(signUpButton);
-
+    const { getByText, queryByTestId } = render(<App />);
+    fireEvent.press(getByText("Sign Up!"));
     await waitFor(() => {
-      expect(screen.queryByTestId("sign-up-screen")).toBeTruthy();
+      expect(queryByTestId("sign-up-screen")).toBeTruthy();
     });
   });
 
   it("navigates to forgot password screen when the forgot password button is pressed", async () => {
-    const { getByText } = render(<App />);
+    const { getByText, queryByTestId } = render(<App />);
     const forgotPasswordButton = getByText("Forgot your password?");
     fireEvent.press(forgotPasswordButton);
 
     await waitFor(() => {
-      expect(screen.queryByTestId("forgot-password-screen")).toBeTruthy();
+      expect(queryByTestId("forgot-password-screen")).toBeTruthy();
     });
   });
 
@@ -72,20 +81,11 @@ describe("App Navigation", () => {
       jest.fn(),
     ]);
 
-    const { getByTestId, getByPlaceholderText } = render(<App />);
+    const { getByTestId, getByPlaceholderText, queryByTestId } = render(
+      <App />
+    );
 
-    const emailInput = getByPlaceholderText("Enter your username or email");
-    const passwordInput = getByPlaceholderText("Enter your password");
-
-    fireEvent.changeText(emailInput, "random@gmail.com");
-    fireEvent.changeText(passwordInput, "password");
-
-    const loginButton = getByTestId("login-button");
-    fireEvent.press(loginButton);
-
-    await waitFor(() => {
-      expect(screen.queryByTestId("map-overview-screen")).toBeTruthy();
-    });
+    await simulateLogin(getByPlaceholderText, getByTestId, queryByTestId);
   });
 
   it("logs in, go to map overview, and then go to order menu", async () => {
@@ -95,63 +95,54 @@ describe("App Navigation", () => {
       jest.fn(),
     ]);
 
-    const { getByTestId, getByPlaceholderText } = render(<App />);
+    const { getByTestId, getByPlaceholderText, queryByTestId } = render(
+      <App />
+    );
 
-    const emailInput = getByPlaceholderText("Enter your username or email");
-    const passwordInput = getByPlaceholderText("Enter your password");
-
-    fireEvent.changeText(emailInput, "random@gmail.com");
-    fireEvent.changeText(passwordInput, "password");
-
-    const loginButton = getByTestId("login-button");
-    fireEvent.press(loginButton);
-
-    await waitFor(() => {
-      expect(screen.queryByTestId("map-overview-screen")).toBeTruthy();
-    });
+    await simulateLogin(getByPlaceholderText, getByTestId, queryByTestId);
 
     const orderMenuButton = getByTestId("order-button");
     fireEvent.press(orderMenuButton);
 
     await waitFor(() => {
-      expect(screen.queryByTestId("order-menu-screen")).toBeTruthy();
+      expect(queryByTestId("order-menu-screen")).toBeTruthy();
     });
   });
 
   it("goes to order menu, then goes back", async () => {
-    const { getByTestId, getByPlaceholderText, getByText } = render(<App />);
+    const { getByTestId, queryByTestId } = render(<App />);
 
     await waitFor(() => {
-      expect(screen.queryByTestId("map-overview-screen")).toBeTruthy();
+      expect(queryByTestId("map-overview-screen")).toBeTruthy();
     });
 
     const orderMenuButton = getByTestId("order-button");
     fireEvent.press(orderMenuButton);
 
     await waitFor(() => {
-      expect(screen.queryByTestId("order-menu-screen")).toBeTruthy();
+      expect(queryByTestId("order-menu-screen")).toBeTruthy();
     });
 
     const backButton = getByTestId("back-button");
     fireEvent.press(backButton);
 
     await waitFor(() => {
-      expect(screen.queryByTestId("map-overview-screen")).toBeTruthy();
+      expect(queryByTestId("map-overview-screen")).toBeTruthy();
     });
   });
 
   it("goes to order menu, place an order and then goes to order placed", async () => {
-    const { getByTestId, getByPlaceholderText, getByText } = render(<App />);
+    const { getByTestId, getByText, queryByTestId } = render(<App />);
 
     await waitFor(() => {
-      expect(screen.queryByTestId("map-overview-screen")).toBeTruthy();
+      expect(queryByTestId("map-overview-screen")).toBeTruthy();
     });
 
     const orderMenuButton = getByTestId("order-button");
     fireEvent.press(orderMenuButton);
 
     await waitFor(() => {
-      expect(screen.queryByTestId("order-menu-screen")).toBeTruthy();
+      expect(queryByTestId("order-menu-screen")).toBeTruthy();
     });
 
     const placeOrderButton = getByText("First aid kit");
@@ -161,7 +152,26 @@ describe("App Navigation", () => {
     fireEvent.press(orderButton);
 
     await waitFor(() => {
-      expect(screen.queryByTestId("order-placed-screen")).toBeTruthy();
+      expect(queryByTestId("order-placed-screen")).toBeTruthy();
+    });
+  });
+
+  it("logs in and navigates through the app", async () => {
+    const { getByPlaceholderText, getByTestId, queryByTestId } = render(
+      <App />
+    );
+    await simulateLogin(getByPlaceholderText, getByTestId, queryByTestId);
+
+    const orderMenuButton = getByTestId("order-button");
+    fireEvent.press(orderMenuButton);
+
+    await waitFor(() => {
+      expect(queryByTestId("order-menu-screen")).toBeTruthy();
+    });
+
+    fireEvent.press(getByTestId("back-button"));
+    await waitFor(() => {
+      expect(queryByTestId("map-overview-screen")).toBeTruthy();
     });
   });
 
@@ -172,10 +182,10 @@ describe("App Navigation", () => {
       return jest.fn();
     });
 
-    const { getByPlaceholderText, getByTestId } = render(<App />);
+    const { queryByTestId } = render(<App />);
 
     await waitFor(() => {
-      expect(screen.queryByTestId("map-overview-screen")).toBeTruthy();
+      expect(queryByTestId("map-overview-screen")).toBeTruthy();
       expect(onAuthStateChanged).toHaveBeenCalled();
       expect(AsyncStorage.setItem).toHaveBeenCalledWith(
         "@user",
@@ -192,9 +202,9 @@ describe("App Navigation", () => {
       return jest.fn();
     });
 
-    const { getByTestId } = render(<App />);
+    const { queryByTestId } = render(<App />);
     await waitFor(() => {
-      expect(screen.queryByTestId("map-overview-screen")).toBeTruthy();
+      expect(queryByTestId("map-overview-screen")).toBeTruthy();
       expect(onAuthStateChanged).toHaveBeenCalled();
       expect(AsyncStorage.removeItem).toHaveBeenCalledWith("@user");
     });
@@ -215,9 +225,9 @@ describe("App Navigation", () => {
       new Error("AsyncStorage error")
     );
 
-    const { getByPlaceholderText, getByTestId } = render(<App />);
+    const { queryByTestId } = render(<App />);
     await waitFor(() => {
-      expect(screen.queryByTestId("map-overview-screen")).toBeTruthy();
+      expect(queryByTestId("map-overview-screen")).toBeTruthy();
       expect(onAuthStateChanged).toHaveBeenCalled();
       expect(AsyncStorage.setItem).toHaveBeenCalledWith(
         "@user",
@@ -239,9 +249,9 @@ describe("App Navigation", () => {
       new Error("AsyncStorage error")
     );
 
-    const { getByTestId } = render(<App />);
+    const { queryByTestId } = render(<App />);
     await waitFor(() => {
-      expect(screen.queryByTestId("map-overview-screen")).toBeTruthy();
+      expect(queryByTestId("map-overview-screen")).toBeTruthy();
       expect(onAuthStateChanged).toHaveBeenCalled();
       expect(AsyncStorage.removeItem).toHaveBeenCalledWith("@user");
       expect(alert).toHaveBeenCalledWith(new Error("AsyncStorage error"));
@@ -255,19 +265,19 @@ describe("App Navigation", () => {
       jest.fn(),
     ]);
 
-    const { getByText, getByTestId } = render(<App />);
+    const { getByText, getByTestId, queryByTestId } = render(<App />);
     const signUpButton = getByText("Sign Up!");
     fireEvent.press(signUpButton);
 
     await waitFor(() => {
-      expect(screen.queryByTestId("sign-up-screen")).toBeTruthy();
+      expect(queryByTestId("sign-up-screen")).toBeTruthy();
     });
 
     const signUpBackButton = getByTestId("sign-up-back-button");
     fireEvent.press(signUpBackButton);
 
     await waitFor(() => {
-      expect(screen.queryByTestId("login-screen")).toBeTruthy();
+      expect(queryByTestId("login-screen")).toBeTruthy();
     });
   });
 
@@ -278,19 +288,19 @@ describe("App Navigation", () => {
       jest.fn(),
     ]);
 
-    const { getByText, getByTestId } = render(<App />);
+    const { getByText, getByTestId, queryByTestId } = render(<App />);
     const forgotPasswordButton = getByText("Forgot your password?");
     fireEvent.press(forgotPasswordButton);
 
     await waitFor(() => {
-      expect(screen.queryByTestId("forgot-password-screen")).toBeTruthy();
+      expect(queryByTestId("forgot-password-screen")).toBeTruthy();
     });
 
     const forgotPasswordBackButton = getByTestId("forgot-password-back-button");
     fireEvent.press(forgotPasswordBackButton);
 
     await waitFor(() => {
-      expect(screen.queryByTestId("login-screen")).toBeTruthy();
+      expect(queryByTestId("login-screen")).toBeTruthy();
     });
   });
 });
