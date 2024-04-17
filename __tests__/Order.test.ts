@@ -1,39 +1,21 @@
 import { Item } from "../src/types/Item";
-import {
-  Order,
-  OrderStatus,
-  OrderLocation,
-  orderConverter,
-} from "../src/types/Order";
+import { Order, OrderStatus, Location } from "../src/types/Order";
 
 describe("Order", () => {
   let order: Order;
   const user = "John Doe";
   const imageDir = "../assets/images/splash.png";
-  const image = require(imageDir);
-  const item = new Item(1, "Test Item", "Test Description", 10, image, image);
+  const image = require("../assets/images/splash.png");
+  const item = new Item(1, "Test Item", "Test Description", image, imageDir, image, imageDir, 10);
   const orderDate = new Date();
   const deliveryDate = new Date();
-  const operator = "Hospital";
-  const location: OrderLocation = {
+  const location: Location = {
     latitude: 0,
     longitude: 0,
   };
-  const operatorLocation: OrderLocation = {
-    latitude: -999,
-    longitude: -999,
-  };
 
   beforeEach(() => {
-    order = new Order(
-      user,
-      item,
-      location,
-      orderDate,
-      deliveryDate,
-      operator,
-      operatorLocation
-    );
+    order = new Order(user, item, location);
   });
 
   it("should create an instance of Order", () => {
@@ -81,6 +63,19 @@ describe("Order", () => {
       id: order.getId(),
       user: user,
       operator: "Hospital",
+      item: JSON.stringify(item.toDict()),
+      orderDate: orderDate.toString(),
+      status: OrderStatus.Pending,
+      deliveryDate: deliveryDate.toString(),
+      location: JSON.stringify(location),
+    };
+
+    expect(order.toDict()).toEqual(expectedDict);
+  });
+
+  it("returns the correct dictionary", () => {
+    const expectedDict = {
+      user: user,
       item: JSON.stringify(item.toDict()),
       orderDate: orderDate.toString(),
       status: OrderStatus.Pending,

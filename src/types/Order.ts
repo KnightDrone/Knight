@@ -58,37 +58,15 @@ class Order {
     return this.location;
   }
 
-  getOpName(): string {
-    return this.operator;
-  }
-
-  getOperatorLocation(): OrderLocation {
-    return this.operatorLoc;
-  }
-
-  setStatus(newStatus: OrderStatus): void {
-    this.status = newStatus;
-  }
-
   toDict(): { [key: string]: string } {
     return {
-      id: this.id,
       user: this.user,
-      operator: this.operator,
       item: JSON.stringify(this.item.toDict()),
       orderDate: this.orderDate.toString(),
       status: this.status,
       deliveryDate: this.deliveryDate.toString(),
       location: JSON.stringify(this.location),
     };
-  }
-  // Temporary method for testing, should NOT be used in production
-  private generateId(): string {
-    const timestamp = Date.now().toString();
-    const randomNumber = Math.floor(secureRandom() * 1000)
-      .toString()
-      .padStart(3, "0");
-    return timestamp + randomNumber;
   }
 }
 

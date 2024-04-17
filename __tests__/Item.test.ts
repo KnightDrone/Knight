@@ -6,7 +6,7 @@ describe("Item", () => {
   let image: number = require(imageDir);
 
   beforeEach(() => {
-    item = new Item(1, "Test Item", "This is a test item", 100, image, image);
+    item = new Item(1, "Test Item", "This is a test item", image, imageDir, image, imageDir, 100);
   });
 
   test("getId returns the correct id", () => {
@@ -38,6 +38,8 @@ describe("Item", () => {
       id: "1",
       name: "Test Item",
       description: "This is a test item",
+      icon: imageDir,
+      image: imageDir,
       price: "100",
     };
     expect(item.toDict()).toEqual(expectedDict);

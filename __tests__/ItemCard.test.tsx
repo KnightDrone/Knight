@@ -38,7 +38,10 @@ describe("ItemCard", () => {
     "Test Description",
     10,
     image,
-    image
+    imageDir,
+    image,
+    imageDir,
+    10
   );
 
   it("renders correctly when isVisible is true", () => {
