@@ -1,7 +1,7 @@
 import React from "react";
 import { Text } from "react-native";
 import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "../services/firebase";
+import { auth } from "../services/Firebase";
 import * as WebBrowser from "expo-web-browser";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { User } from "firebase/auth";

@@ -15,7 +15,7 @@ import {
   signInWithCredential,
 } from "firebase/auth";
 
-import { auth } from "../services/firebase";
+import { auth } from "../services/Firebase";
 // -----------------------------------------------
 import * as Google from "expo-auth-session/providers/google";
 import Icon from "react-native-vector-icons/FontAwesome";
