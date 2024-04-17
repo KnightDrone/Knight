@@ -1,34 +1,36 @@
 import { Item } from "./Item";
 
-export enum OrderStatus {
+enum OrderStatus {
   Pending = "Pending",
   Shipped = "Shipped",
   Delivered = "Delivered",
   Cancelled = "Cancelled",
 }
 
-export class Order {
+interface Location {
+  latitude: number,
+  longitude: number
+}
+
+class Order {
   private user: string;
   private item: Item;
   private orderDate: Date;
   private status: OrderStatus;
   private deliveryDate: Date;
-  private location: number[]; // [latitude, longitude]
+  private location: Location;
 
   constructor(
     user: string,
     item: Item,
-    orderDate: Date,
-    status: OrderStatus,
-    deliveryDate: Date,
-    location: number[]
+    location: Location
   ) {
     this.user = user;
     this.item = item;
     this.orderDate = new Date();
     this.status = OrderStatus.Pending;
     this.deliveryDate = new Date();
-    this.location = [0, 0];
+    this.location = location;
   }
 
   getUser(): string {
@@ -51,7 +53,10 @@ export class Order {
     return this.deliveryDate;
   }
 
-  getLocation(): number[] {
+  getLocation(): Location {
     return this.location;
   }
 }
+
+
+export {OrderStatus, Location, Order}
