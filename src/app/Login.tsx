@@ -31,10 +31,10 @@ export default function Login({ navigation }: any) {
   const [error, setError] = useState("");
 
   const [request, response, promptAsync] = Google.useAuthRequest({
-    iosClientId: process.env.IOS_CLIENT_ID_OAUTH,
-    androidClientId: process.env.ANDROID_CLIENT_ID_OAUTH,
-    webClientId: process.env.WEB_CLIENT_ID_OAUTH,
-    redirectUri: process.env.REDIRECT_URI,
+    iosClientId: process.env.EXPO_PUBLIC_IOS_CLIENT_ID_OAUTH,
+    androidClientId: process.env.EXPO_PUBLIC_ANDROID_CLIENT_ID_OAUTH,
+    webClientId: process.env.EXPO_PUBLIC_WEB_CLIENT_ID_OAUTH,
+    redirectUri: process.env.EXPO_PUBLIC_REDIRECT_URI,
   });
 
   useEffect(() => {
@@ -43,7 +43,8 @@ export default function Login({ navigation }: any) {
       const credential = GoogleAuthProvider.credential(id_token);
       signInWithCredential(auth, credential)
         .then(() => {
-          navigation.navigate("UserStack", { screen: "MapOverview" });
+          console.log("Signed in successfully");
+          navigation.navigate("Map"); // Navigate after successful login
         })
         .catch((error: any) => {
           console.error(error);
@@ -60,7 +61,8 @@ export default function Login({ navigation }: any) {
           password
         );
         if (response.user) {
-          navigation.navigate("UserStack", { screen: "MapOverview" });
+          console.log(response.user, " signed in successfully");
+          navigation.navigate("Map");
         } else {
           setError("Invalid credentials");
         }
