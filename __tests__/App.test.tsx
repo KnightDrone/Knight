@@ -9,6 +9,8 @@ import { useFonts } from "../__mocks__/expo-font";
 import * as Google from "expo-auth-session/providers/google";
 
 import App from "../src/app/App";
+import { onAuthStateChanged } from "firebase/auth";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 beforeEach(() => {
   const mockPromptAsync = jest.fn();
@@ -160,4 +162,49 @@ describe("App Navigation", () => {
       expect(screen.queryByTestId("order-placed-screen")).toBeTruthy();
     });
   });
+
+  it("onAuthStateChanged is called when the user logs in", async () => {
+    const mockUser = { uid: "123", email: "random@gmail.com" };
+
+    // Setup the onAuthStateChanged mock to call the callback with a user
+    (onAuthStateChanged as jest.Mock).mockImplementation((auth, callback) => {
+      callback(mockUser);
+      return jest.fn();
+    });
+
+    const { getByPlaceholderText, getByTestId } = render(<App />);
+    const loginButton = getByTestId("login-button");
+    fireEvent.press(loginButton);
+
+    await waitFor(() => {
+      expect(screen.queryByTestId("map-overview-screen")).toBeTruthy();
+      expect(onAuthStateChanged).toHaveBeenCalled();
+      expect(AsyncStorage.setItem).toHaveBeenCalledWith(
+        "@user",
+        JSON.stringify(mockUser)
+      );
+    });
+  });
+
+  it("onAuthChanged is called when the user logs out", async () => {
+    //mock null user (logged out)
+    const mockUser = null;
+    (onAuthStateChanged as jest.Mock).mockImplementation((auth, callback) => {
+      callback(mockUser);
+      return jest.fn();
+    });
+
+    const { getByTestId } = render(<App />);
+    const loginButton = getByTestId("login-button");
+    fireEvent.press(loginButton);
+
+    await waitFor(() => {
+      expect(screen.queryByTestId("map-overview-screen")).toBeTruthy();
+      expect(onAuthStateChanged).toHaveBeenCalled();
+      expect(AsyncStorage.removeItem).toHaveBeenCalledWith("@user");
+    });
+  });
+
+  //sign-up-back-button
+  //forgot-password-back-button
 });
