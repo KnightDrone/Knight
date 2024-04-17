@@ -29,14 +29,10 @@ export default function Login({ navigation }: any) {
   const [error, setError] = useState("");
 
   const [request, response, promptAsync] = Google.useAuthRequest({
-    iosClientId:
-      "983400403511-gi5mo0akb89fcecaivk4q509c63hrvtl.apps.googleusercontent.com",
-    androidClientId:
-      "983400403511-i43set67i4o1e3kb7fl91vrh9r6aemcb.apps.googleusercontent.com",
-    webClientId:
-      "983400403511-ff4ntmj4f9qvmmcc6nqh68tn524bp740.apps.googleusercontent.com",
-    redirectUri:
-      "com.googleusercontent.apps.983400403511-gi5mo0akb89fcecaivk4q509c63hrvtl:/oauth2redirect/google",
+    iosClientId: process.env.EXPO_PUBLIC_IOS_CLIENT_ID_OAUTH,
+    androidClientId: process.env.EXPO_PUBLIC_ANDROID_CLIENT_ID_OAUTH,
+    webClientId: process.env.EXPO_PUBLIC_WEB_CLIENT_ID_OAUTH,
+    redirectUri: process.env.EXPO_PUBLIC_REDIRECT_URI,
   });
 
   useEffect(() => {
@@ -45,6 +41,7 @@ export default function Login({ navigation }: any) {
       const credential = GoogleAuthProvider.credential(id_token);
       signInWithCredential(auth, credential)
         .then(() => {
+          console.log("Signed in successfully");
           navigation.navigate("Map"); // Navigate after successful login
         })
         .catch((error) => {
@@ -62,6 +59,7 @@ export default function Login({ navigation }: any) {
           password
         );
         if (response.user) {
+          console.log(response.user, " signed in successfully");
           navigation.navigate("Map");
         } else {
           setError("Invalid credentials");
