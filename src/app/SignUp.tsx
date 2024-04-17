@@ -45,7 +45,7 @@ export default function SignUp({ navigation }: any) {
       const credential = GoogleAuthProvider.credential(id_token);
       signInWithCredential(auth, credential)
         .then(() => {
-          console.log("Sign up successful")
+          console.log("Sign up successful");
           navigation.navigate("Map");
         })
         .catch((error) => {
@@ -103,7 +103,7 @@ export default function SignUp({ navigation }: any) {
     if (email && password) {
       createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
-          console.log(email, "sign up with email successful.")
+          console.log(email, "sign up with email successful.");
           navigation.navigate("Map");
         })
         .catch((error) => {

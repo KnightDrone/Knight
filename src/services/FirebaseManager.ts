@@ -11,9 +11,9 @@ class FirebaseManager {
   }
 
   // Method to read data from a specific path in the database
-    async generateOrderId(): number {
-        return Math.floor(Math.random() * 1000); // Generate a random number between 0 and 999
-    }
+  async generateOrderId(): number {
+    return Math.floor(Math.random() * 1000); // Generate a random number between 0 and 999
+  }
 
   async readData(path: string): Promise<Order> {
     const snapshot = await this.database.ref(path).once("value");
