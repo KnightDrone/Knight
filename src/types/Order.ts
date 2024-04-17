@@ -59,17 +59,8 @@ class Order {
     return this.location;
   }
 
-  getOpName(): string {
-    return this.op_name;
-  }
-
-  getOpLocation(): OrderLocation {
-    return this.op_location;
-  }
-
   toDict(): { [key: string]: string } {
     return {
-      id: this.id,
       user: this.user,
       item: JSON.stringify(this.item.toDict()),
       orderDate: this.orderDate.toString(),
@@ -77,14 +68,6 @@ class Order {
       deliveryDate: this.deliveryDate.toString(),
       location: JSON.stringify(this.location),
     };
-  }
-  // Temporary method for testing, should NOT be used in production
-  private generateId(): string {
-    const timestamp = Date.now().toString();
-    const randomNumber = Math.floor(Math.random() * 1000)
-      .toString()
-      .padStart(3, "0");
-    return timestamp + randomNumber;
   }
 }
 

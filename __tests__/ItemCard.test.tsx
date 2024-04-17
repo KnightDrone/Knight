@@ -28,13 +28,16 @@ describe("ItemCard", () => {
 
   const mockHandleClose = jest.fn();
   const mockHandleOrder = jest.fn();
-  const image = require("../assets/images/splash.png");
+  const imageDir = "../assets/images/splash.png";
+  const image = require(imageDir);
   const mockItem = new Item(
     1,
     "Test Item",
     "Test Description",
     image,
+    imageDir,
     image,
+    imageDir,
     10
   );
 
