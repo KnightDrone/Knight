@@ -6,16 +6,7 @@ describe("Item", () => {
   let image: number = require(imageDir);
 
   beforeEach(() => {
-    item = new Item(
-      1,
-      "Test Item",
-      "This is a test item",
-      image,
-      imageDir,
-      image,
-      imageDir,
-      100
-    );
+    item = new Item(1, "Test Item", "This is a test item", image, imageDir, image, imageDir, 100);
   });
 
   test("getId returns the correct id", () => {
