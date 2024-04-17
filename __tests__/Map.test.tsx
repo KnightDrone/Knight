@@ -94,7 +94,9 @@ describe("MapOverview Component", () => {
     });
 
     // Deny location permission
-    Location.requestForegroundPermissionsAsync.mockResolvedValueOnce({
+    (
+      Location.requestForegroundPermissionsAsync as jest.Mock
+    ).mockResolvedValueOnce({
       status: "denied",
     });
 

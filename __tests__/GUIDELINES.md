@@ -1,6 +1,6 @@
 ## How to test with mocks and navigation
 
-- First please use .jsx for testing the RN components. It is easier to test the components with .jsx files.
+- When using typescript, cast to jest.Mock to avoid typescript errors.
 - Render all the app components if you need the navigation to work. Here is an example of how to render the app components.
 
 ```jsx

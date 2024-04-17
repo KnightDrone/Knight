@@ -50,7 +50,7 @@ describe("SignUp Component", () => {
   beforeEach(() => {
     const mockPromptAsync = jest.fn();
     // Mock the Google authentication request setup
-    Google.useAuthRequest.mockReturnValue([
+    (Google.useAuthRequest as jest.Mock).mockReturnValue([
       {}, // Mocked request
       { type: "success", params: { id_token: "mock-id-token" } }, // Mocked response
       mockPromptAsync, // Mocked promptAsync function
@@ -182,11 +182,15 @@ describe("SignUp Component", () => {
 
   it("can handle failed responses from the sign-up API", async () => {
     // Mock the API call within handleSignUp to reject
-    createUserWithEmailAndPassword.mockImplementationOnce(() =>
+    (
+      createUserWithEmailAndPassword as jest.MockedFunction<
+        typeof createUserWithEmailAndPassword
+      >
+    ).mockImplementationOnce(() =>
       Promise.reject(new Error("User already exists"))
     );
 
-    Google.useAuthRequest.mockReturnValue([
+    (Google.useAuthRequest as jest.Mock).mockReturnValue([
       {}, // Mocked request
       { type: "fail", params: {} }, // Mocked response
       jest.fn(), // Mocked promptAsync function
