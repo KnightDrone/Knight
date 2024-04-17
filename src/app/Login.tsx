@@ -7,21 +7,12 @@ import {
   Image,
   TouchableOpacity,
 } from "react-native";
-import Button from "../components/Button";
-import {
-  GoogleAuthProvider,
-  onAuthStateChanged,
-  signInWithCredential,
-} from "firebase/auth";
+import { GoogleAuthProvider, signInWithCredential } from "firebase/auth";
 import { auth } from "../services/firebase";
 import * as Google from "expo-auth-session/providers/google";
-import * as WebBrowser from "expo-web-browser";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { signInWithEmailAndPassword } from "firebase/auth";
 
 // Navigation imports
-import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import GoogleAuthConfig from "../types/GoogleAuthConfig";
 import { Platform } from "react-native";
 
