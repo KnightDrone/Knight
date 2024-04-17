@@ -16,7 +16,7 @@ beforeEach(() => {
   const mockPromptAsync = jest.fn();
   useFonts.mockReturnValue([true]);
 
-  // Mock the Google authentication request setup
+  // Mock the Google authentication request setup, makes the user sign in automatically with google
   (Google.useAuthRequest as jest.Mock).mockReturnValue([
     {}, // Mocked request
     { type: "success", params: { id_token: "mock-id-token" } }, // Mocked response
@@ -24,17 +24,25 @@ beforeEach(() => {
   ]);
 });
 
-// Avoid useless error messages
 beforeAll(() => {
+  global.alert = jest.fn();
+
+  // Avoid useless error messages
   jest.spyOn(console, "error").mockImplementation(() => {});
 });
 
-// 1. Navigation tests
 describe("App Navigation", () => {
   it("renders the login screen as the initial route", () => {
     const { getByTestId } = render(<App />);
 
     expect(getByTestId("login-screen")).toBeTruthy();
+  });
+
+  it("directly logs in with Google due to the mock implementation", async () => {
+    const { getByTestId } = render(<App />);
+    await waitFor(() => {
+      expect(screen.queryByTestId("map-overview-screen")).toBeTruthy();
+    });
   });
 
   it("navigates to sign up screen when the sign up button is pressed", async () => {
@@ -58,6 +66,12 @@ describe("App Navigation", () => {
   });
 
   it("logs in when the login button is pressed", async () => {
+    (Google.useAuthRequest as jest.Mock).mockReturnValue([
+      {},
+      { type: "fail", params: { id_token: "" } },
+      jest.fn(),
+    ]);
+
     const { getByTestId, getByPlaceholderText } = render(<App />);
 
     const emailInput = getByPlaceholderText("Enter your username or email");
@@ -75,6 +89,12 @@ describe("App Navigation", () => {
   });
 
   it("logs in, go to map overview, and then go to order menu", async () => {
+    (Google.useAuthRequest as jest.Mock).mockReturnValue([
+      {},
+      { type: "fail", params: { id_token: "" } },
+      jest.fn(),
+    ]);
+
     const { getByTestId, getByPlaceholderText } = render(<App />);
 
     const emailInput = getByPlaceholderText("Enter your username or email");
@@ -101,15 +121,6 @@ describe("App Navigation", () => {
   it("goes to order menu, then goes back", async () => {
     const { getByTestId, getByPlaceholderText, getByText } = render(<App />);
 
-    const emailInput = getByPlaceholderText("Enter your username or email");
-    const passwordInput = getByPlaceholderText("Enter your password");
-
-    fireEvent.changeText(emailInput, "random@gmail.com");
-    fireEvent.changeText(passwordInput, "password");
-
-    const loginButton = getByTestId("login-button");
-    fireEvent.press(loginButton);
-
     await waitFor(() => {
       expect(screen.queryByTestId("map-overview-screen")).toBeTruthy();
     });
@@ -131,15 +142,6 @@ describe("App Navigation", () => {
 
   it("goes to order menu, place an order and then goes to order placed", async () => {
     const { getByTestId, getByPlaceholderText, getByText } = render(<App />);
-
-    const emailInput = getByPlaceholderText("Enter your username or email");
-    const passwordInput = getByPlaceholderText("Enter your password");
-
-    fireEvent.changeText(emailInput, "random@gmail.com");
-    fireEvent.changeText(passwordInput, "password");
-
-    const loginButton = getByTestId("login-button");
-    fireEvent.press(loginButton);
 
     await waitFor(() => {
       expect(screen.queryByTestId("map-overview-screen")).toBeTruthy();
@@ -165,16 +167,12 @@ describe("App Navigation", () => {
 
   it("onAuthStateChanged is called when the user logs in", async () => {
     const mockUser = { uid: "123", email: "random@gmail.com" };
-
-    // Setup the onAuthStateChanged mock to call the callback with a user
     (onAuthStateChanged as jest.Mock).mockImplementation((auth, callback) => {
       callback(mockUser);
       return jest.fn();
     });
 
     const { getByPlaceholderText, getByTestId } = render(<App />);
-    const loginButton = getByTestId("login-button");
-    fireEvent.press(loginButton);
 
     await waitFor(() => {
       expect(screen.queryByTestId("map-overview-screen")).toBeTruthy();
@@ -195,9 +193,6 @@ describe("App Navigation", () => {
     });
 
     const { getByTestId } = render(<App />);
-    const loginButton = getByTestId("login-button");
-    fireEvent.press(loginButton);
-
     await waitFor(() => {
       expect(screen.queryByTestId("map-overview-screen")).toBeTruthy();
       expect(onAuthStateChanged).toHaveBeenCalled();
@@ -205,6 +200,97 @@ describe("App Navigation", () => {
     });
   });
 
-  //sign-up-back-button
-  //forgot-password-back-button
+  it("alerts due to setItem error", async () => {
+    const mockUser = {
+      uid: "123",
+      email: "random@gmail.com",
+    };
+    (onAuthStateChanged as jest.Mock).mockImplementation((auth, callback) => {
+      callback(mockUser);
+      return jest.fn();
+    });
+
+    // Mock the AsyncStorage error
+    (AsyncStorage.setItem as jest.Mock).mockRejectedValue(
+      new Error("AsyncStorage error")
+    );
+
+    const { getByPlaceholderText, getByTestId } = render(<App />);
+    await waitFor(() => {
+      expect(screen.queryByTestId("map-overview-screen")).toBeTruthy();
+      expect(onAuthStateChanged).toHaveBeenCalled();
+      expect(AsyncStorage.setItem).toHaveBeenCalledWith(
+        "@user",
+        JSON.stringify(mockUser)
+      );
+      expect(alert).toHaveBeenCalledWith(new Error("AsyncStorage error"));
+    });
+  });
+
+  it("alerts due to removeItem error", async () => {
+    const mockUser = null;
+    (onAuthStateChanged as jest.Mock).mockImplementation((auth, callback) => {
+      callback(mockUser);
+      return jest.fn();
+    });
+
+    // Mock the AsyncStorage error
+    (AsyncStorage.removeItem as jest.Mock).mockRejectedValue(
+      new Error("AsyncStorage error")
+    );
+
+    const { getByTestId } = render(<App />);
+    await waitFor(() => {
+      expect(screen.queryByTestId("map-overview-screen")).toBeTruthy();
+      expect(onAuthStateChanged).toHaveBeenCalled();
+      expect(AsyncStorage.removeItem).toHaveBeenCalledWith("@user");
+      expect(alert).toHaveBeenCalledWith(new Error("AsyncStorage error"));
+    });
+  });
+
+  it("navigates back to login screen when the sign up back button is pressed", async () => {
+    (Google.useAuthRequest as jest.Mock).mockReturnValue([
+      {},
+      { type: "fail", params: { id_token: "" } },
+      jest.fn(),
+    ]);
+
+    const { getByText, getByTestId } = render(<App />);
+    const signUpButton = getByText("Sign Up!");
+    fireEvent.press(signUpButton);
+
+    await waitFor(() => {
+      expect(screen.queryByTestId("sign-up-screen")).toBeTruthy();
+    });
+
+    const signUpBackButton = getByTestId("sign-up-back-button");
+    fireEvent.press(signUpBackButton);
+
+    await waitFor(() => {
+      expect(screen.queryByTestId("login-screen")).toBeTruthy();
+    });
+  });
+
+  it("navigates back to login screen when the forgot password back button is pressed", async () => {
+    (Google.useAuthRequest as jest.Mock).mockReturnValue([
+      {},
+      { type: "fail", params: { id_token: "" } },
+      jest.fn(),
+    ]);
+
+    const { getByText, getByTestId } = render(<App />);
+    const forgotPasswordButton = getByText("Forgot your password?");
+    fireEvent.press(forgotPasswordButton);
+
+    await waitFor(() => {
+      expect(screen.queryByTestId("forgot-password-screen")).toBeTruthy();
+    });
+
+    const forgotPasswordBackButton = getByTestId("forgot-password-back-button");
+    fireEvent.press(forgotPasswordBackButton);
+
+    await waitFor(() => {
+      expect(screen.queryByTestId("login-screen")).toBeTruthy();
+    });
+  });
 });
