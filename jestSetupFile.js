@@ -23,7 +23,6 @@ jest.mock("firebase/auth", () => ({
   GoogleAuthProvider: {
     credential: jest.fn(() => "mock-credential"), // Ensure this returns a mock credential as expected
   },
-  onAuthStateChanged: jest.fn(),
   signInWithCredential: jest.fn(() => Promise.resolve({ user: true })), // Explicitly return a resolved promise
   signInWithEmailAndPassword: jest.fn(() => Promise.resolve({ user: true })), // Explicitly return a resolved promise
   signOut: jest.fn(() => Promise.resolve()), // Explicitly return a resolved promise
