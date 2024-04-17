@@ -62,6 +62,6 @@ export class Item {
       icon: this.iconDir,
       image: this.imageDir,
       price: this.price.toString(),
-    }
+    };
   }
 }
