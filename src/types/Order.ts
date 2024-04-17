@@ -10,29 +10,22 @@ enum OrderStatus {
 }
 
 interface Location {
-  latitude: number;
-  longitude: number;
+  latitude: number,
+  longitude: number
 }
 
 class Order {
-  private id: string;
   private user: string;
   private item: Item;
   private orderDate: Date;
   private status: OrderStatus;
   private deliveryDate: Date;
-  private location: OrderLocation;
-  private op_name: string;
-  private op_location: OrderLocation;
+  private location: Location;
 
   constructor(
     user: string,
     item: Item,
-    location: OrderLocation,
-    orderDate?: Date,
-    deliveryDate?: Date,
-    op_name?: string,
-    op_location?: OrderLocation
+    location: Location
   ) {
     this.id = autoId();
     this.user = user;
@@ -40,10 +33,6 @@ class Order {
     this.status = OrderStatus.Pending;
     this.deliveryDate = new Date();
     this.location = location;
-  }
-
-  getId(): string {
-    return this.id;
   }
 
   getUser(): string {
@@ -95,40 +84,5 @@ class Order {
   }
 }
 
-const orderConverter = {
-  toFirestore: (order: Order) => {
-    return {
-      user: order.getUser(),
-      operator: order.getOpName(),
-      item: order.getItem().toDict(),
-      orderDate: order.getOrderDate(),
-      status: order.getStatus(),
-      deliveryDate: order.getDeliveryDate(),
-      location: JSON.stringify(order.getOrderLocation()),
-    };
-  },
-  fromFirestore: (data: any) => {
-    // const data = snapshot.data();
-    const item = new Item(
-      data.item.id,
-      data.item.name,
-      data.item.description,
-      data.item.price
-    );
-    return new Order(
-      data.user,
-      item,
-      { latitude: data.location.latitude, longitude: data.location.longitude },
-      data.orderDate,
-      data.deliveryDate,
-      data.operator,
-      {
-        latitude: data.op_location.latitude,
-        longitude: data.op_location.longitude,
-      },
-      data.id
-    );
-  },
-};
 
-export { OrderStatus, OrderLocation, Order, orderConverter };
+export {OrderStatus, Location, Order}
