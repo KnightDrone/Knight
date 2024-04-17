@@ -43,6 +43,10 @@ describe("Order", () => {
     });
   });
 
+  it("getId should return the correct id", () => {
+    expect(order.getId()).toBeTruthy();
+  });
+
   it("getStatus should return the correct status", () => {
     expect(order.getStatus()).toBe(OrderStatus.Pending);
   });
@@ -60,6 +64,7 @@ describe("Order", () => {
 
   it("returns the correct dictionary", () => {
     const expectedDict = {
+      id: order.getId(),
       user: user,
       item: JSON.stringify(item.toDict()),
       orderDate: orderDate.toString(),
