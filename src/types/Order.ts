@@ -13,7 +13,8 @@ export class Order {
   private orderDate: Date;
   private status: OrderStatus;
   private deliveryDate: Date;
-  private location: number[]; // [latitude, longitude]
+  private latitude: number; 
+  private longitude: number;
 
   constructor(
     user: string,
@@ -21,14 +22,16 @@ export class Order {
     orderDate: Date,
     status: OrderStatus,
     deliveryDate: Date,
-    location: number[]
+    latitude: number,
+    longitude: number
   ) {
     this.user = user;
     this.item = item;
     this.orderDate = new Date();
     this.status = OrderStatus.Pending;
     this.deliveryDate = new Date();
-    this.location = [0, 0];
+    this.latitude = latitude;
+    this.longitude = longitude;
   }
 
   getUser(): string {
@@ -51,7 +54,11 @@ export class Order {
     return this.deliveryDate;
   }
 
-  getLocation(): number[] {
-    return this.location;
+  getLatitude(): number {
+    return this.latitude;
+  }
+
+  getLongitude(): number {
+    return this.longitude;
   }
 }
