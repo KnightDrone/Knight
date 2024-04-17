@@ -105,7 +105,7 @@ export default function SignUp({ navigation }: any) {
     if (email && password) {
       createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
-          console.log(userCredential, "sign up with email successful.")
+          console.log(email, "sign up with email successful.")
           navigation.navigate("Map");
         })
         .catch((error) => {
