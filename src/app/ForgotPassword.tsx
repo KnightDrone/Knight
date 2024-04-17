@@ -1,8 +1,10 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, TextInput, Image } from "react-native";
-import Button from "../components/Button";
+import { Text, View } from "react-native";
 import { sendPasswordResetEmail } from "firebase/auth";
 import { auth } from "../services/Firebase";
+import { TextField } from "../ui/TextField";
+import { Button } from "../ui/Button";
+import { MessageBox } from "../ui/MessageBox";
 
 export default function ForgotPasswordScreen() {
   const [email, setEmail] = useState("");
@@ -25,74 +27,50 @@ export default function ForgotPasswordScreen() {
   };
 
   return (
-    <View style={styles.container} testID="forgot-password-screen">
-      <Image
-        style={styles.logo}
-        source={require("../../assets/images/usedLogo.png")}
-      />
-
-      <Text style={styles.title} testID="title-text">
-        Wild Knight
+    <View
+      className="flex flex-col p-8 bg-white items-center justify-center h-full"
+      testID="forgot-password-screen"
+    >
+      <Text className="text-3xl font-bold mb-12 text-center">
+        Reset Password
       </Text>
 
-      <Text style={styles.label} testID="email-text">
-        Give us your email
+      <Text className="mb-12 text-xl text-center" testID="email-text">
+        Give us your email and we'll
+        {"\n"}
+        send you a password reset link.
       </Text>
-      <TextInput
-        testID="email-input"
-        style={styles.input}
+      <TextField
+        placeholder="Enter your email"
         onChangeText={setEmail}
         value={email}
-        placeholder="Please enter your email"
+        type="email"
       />
 
-      <Button title="Reset Password" onPress={handleForgotPassword} />
+      <Button
+        text="Reset Password"
+        onPress={handleForgotPassword}
+        style="primary"
+        testID="reset-password-button"
+        className="mt-3"
+      />
 
-      <Text testID="error-message" style={styles.error}>
-        {error}
-      </Text>
+      {error && (
+        <MessageBox
+          message={error}
+          style="error"
+          className="mt-8"
+          onClose={() => setError("")}
+        />
+      )}
       {success && (
-        <Text testID="success-message" style={styles.error}>
-          {successMessage}
-        </Text>
+        <MessageBox
+          message={successMessage}
+          style="success"
+          className="mt-8"
+          onClose={() => setSuccess(false)}
+        />
       )}
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  logo: {
-    width: 100,
-    height: 100,
-    marginBottom: 20,
-  },
-  title: {
-    fontSize: 24,
-    marginBottom: 20,
-    textAlign: "center",
-  },
-  input: {
-    width: "80%",
-    height: 40,
-    borderColor: "gray",
-    borderWidth: 1,
-    marginBottom: 10,
-    padding: 10,
-  },
-  error: {
-    color: "red",
-    marginTop: 10,
-  },
-  label: {
-    color: "black",
-    fontSize: 16,
-    textAlign: "center", // Center the text
-    marginBottom: 10,
-  },
-});
