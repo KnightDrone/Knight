@@ -20,6 +20,9 @@ import * as Google from "expo-auth-session/providers/google";
 
 // Navigation imports
 import GoogleAuthConfig from "../types/GoogleAuthConfig";
+import { TextField } from "../ui/TextField";
+import { Button } from "../ui/Button";
+import { MessageBox } from "../ui/MessageBox";
 
 export default function Login({ navigation }: any) {
   const [email, setEmail] = useState("");
@@ -78,57 +81,38 @@ export default function Login({ navigation }: any) {
         className="w-64 h-64"
         source={require("../../assets/images/usedLogo.png")}
       />
-
       <Text className="text-4xl font-bold mb-16 text-center">Wild Knight</Text>
 
       {error && (
-        <Text className="text-red-700 font-bold bg-red-100 w-full text-center p-4 rounded mb-8">
-          {error}
-        </Text>
+        <MessageBox
+          message={error}
+          style="error"
+          onClose={() => setError("")}
+        />
       )}
 
-      <TextInput
-        className="w-full h-12 border border-gray-400 mb-2.5 px-4 rounded-full bg-gray-50"
-        placeholder="Enter your username or email"
-        value={email}
-        onChangeText={setEmail}
-        autoCapitalize="none"
-        autoCorrect={false}
-      />
+      <View className="flex flex-col gap-3 w-full">
+        <TextField
+          placeholder="Enter your username or email"
+          value={email}
+          onChangeText={setEmail}
+          type="email"
+        />
 
-      <View className="flex-row items-center w-full h-12 px-4 border border-gray-400 rounded-full mb-2.5 bg-gray-50">
-        <TextInput
-          className="h-12 w-full"
+        <TextField
           placeholder="Enter your password"
           value={password}
-          secureTextEntry={!showPassword}
           onChangeText={setPassword}
-          autoCapitalize="none"
-          autoCorrect={false}
+          type="password"
         />
-        <TouchableOpacity
-          testID="password-toggle"
-          className="absolute right-2.5"
-          onPress={() => setShowPassword(!showPassword)}
-        >
-          <Image
-            source={
-              showPassword
-                ? require("../../assets/images/eye-hide.png")
-                : require("../../assets/images/eye-show.png")
-            }
-            className="w-5 h-5"
-          />
-        </TouchableOpacity>
-      </View>
 
-      <TouchableHighlight
-        className="rounded-full overflow-hidden bg-primary-400 w-full h-12  flex items-center justify-center"
-        onPress={logInWithEmail}
-        testID="login-button"
-      >
-        <Text className="text-white font-bold">Log in</Text>
-      </TouchableHighlight>
+        <Button
+          text="Log in"
+          onPress={logInWithEmail}
+          style="primary"
+          testID="login-button"
+        />
+      </View>
 
       <View className="flex-row items-center justify-center gap-8 w-full px-6">
         <TouchableOpacity>
@@ -158,20 +142,12 @@ export default function Login({ navigation }: any) {
         <View className="flex-1 h-[2px] rounded bg-gray-200" />
       </View>
 
-      <TouchableOpacity
-        className="w-full bg-gray-200 rounded-full"
+      <Button
+        text="Continue with Google"
+        imgSrc={require("../../assets/images/google-icon.png")}
         onPress={() => promptAsync()}
-      >
-        <View className="flex-row items-center justify-center h-12">
-          <Image
-            source={require("../../assets/images/google-icon.png")} // Replace with the path to your Google icon
-            className="w-7 h-7 mr-2.5"
-          />
-          <Text className="text-black text-lg text-center">
-            Continue with Google
-          </Text>
-        </View>
-      </TouchableOpacity>
+        style="secondary"
+      />
     </View>
   );
 }
