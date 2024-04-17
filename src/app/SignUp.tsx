@@ -35,12 +35,10 @@ export default function SignUp({ navigation }: any) {
   const [showPassword, setShowPassword] = useState(false);
 
   const [request, response, promptAsync] = Google.useAuthRequest({
-    iosClientId:
-      "983400403511-gi5mo0akb89fcecaivk4q509c63hrvtl.apps.googleusercontent.com",
-    androidClientId:
-      "983400403511-i43set67i4o1e3kb7fl91vrh9r6aemcb.apps.googleusercontent.com",
-    redirectUri:
-      "com.googleusercontent.apps.983400403511-gi5mo0akb89fcecaivk4q509c63hrvtl:/oauth2redirect/google",
+    iosClientId: process.env.EXPO_PUBLIC_IOS_CLIENT_ID_OAUTH,
+    androidClientId: process.env.EXPO_PUBLIC_ANDROID_CLIENT_ID_OAUTH,
+    webClientId: process.env.EXPO_PUBLIC_WEB_CLIENT_ID_OAUTH,
+    redirectUri: process.env.EXPO_PUBLIC_REDIRECT_URI,
   });
 
   useEffect(() => {
@@ -49,6 +47,7 @@ export default function SignUp({ navigation }: any) {
       const credential = GoogleAuthProvider.credential(id_token);
       signInWithCredential(auth, credential)
         .then(() => {
+          console.log("Sign up successful")
           navigation.navigate("Map");
         })
         .catch((error) => {
@@ -106,7 +105,7 @@ export default function SignUp({ navigation }: any) {
     if (email && password) {
       createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
-          const user = userCredential.user;
+          console.log(userCredential, "sign up with email successful.")
           navigation.navigate("Map");
         })
         .catch((error) => {
