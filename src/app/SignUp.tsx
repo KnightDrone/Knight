@@ -30,10 +30,11 @@ export default function SignUp({ navigation }: any) {
 
   const [showPassword, setShowPassword] = useState(false);
 
-  const config = Platform.select({
-    ios: GoogleAuthConfig.ios,
-    android: GoogleAuthConfig.android,
-    default: GoogleAuthConfig.web,
+  const [request, response, promptAsync] = Google.useAuthRequest({
+    iosClientId: process.env.EXPO_PUBLIC_IOS_CLIENT_ID_OAUTH,
+    androidClientId: process.env.EXPO_PUBLIC_ANDROID_CLIENT_ID_OAUTH,
+    webClientId: process.env.EXPO_PUBLIC_WEB_CLIENT_ID_OAUTH,
+    redirectUri: process.env.EXPO_PUBLIC_REDIRECT_URI,
   });
 
   const [request, response, promptAsync] = Google.useAuthRequest(config);
@@ -44,7 +45,8 @@ export default function SignUp({ navigation }: any) {
       const credential = GoogleAuthProvider.credential(id_token);
       signInWithCredential(auth, credential)
         .then(() => {
-          navigation.navigate("UserStack", { screen: "MapOverview" });
+          console.log("Sign up successful")
+          navigation.navigate("Map");
         })
         .catch((error) => {
           console.error(error);
@@ -101,8 +103,8 @@ export default function SignUp({ navigation }: any) {
     if (email && password) {
       createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
-          const user = userCredential.user;
-          navigation.navigate("UserStack", { screen: "MapOverview" });
+          console.log(userCredential, "sign up with email successful.")
+          navigation.navigate("Map");
         })
         .catch((error) => {
           setError("Sign Up failed. Please check your credentials.");
