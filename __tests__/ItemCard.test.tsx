@@ -4,6 +4,11 @@ import ItemCard from "../src/components/ItemCard";
 import { Item } from "../src/types/Item";
 import { useFonts } from "../__mocks__/expo-font";
 
+// Avoid useless error messages
+beforeAll(() => {
+  jest.spyOn(console, "error").mockImplementation(() => {});
+});
+
 describe("ItemCard", () => {
   beforeEach(() => {
     useFonts.mockReturnValue([true]);

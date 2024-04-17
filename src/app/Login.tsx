@@ -6,30 +6,31 @@ import {
   TextInput,
   Image,
   TouchableOpacity,
+  Platform,
 } from "react-native";
+import {
+  GoogleAuthProvider,
+  signInWithCredential,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 import { auth } from "../services/Firebase";
-import { GoogleAuthProvider, signInWithCredential, signInWithEmailAndPassword } from "firebase/auth";
 import * as Google from "expo-auth-session/providers/google";
 
 // Navigation imports
-import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import GoogleAuthConfig from "../types/GoogleAuthConfig";
 
 export default function Login({ navigation }: any) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const [request, response, promptAsync] = Google.useAuthRequest({
-    iosClientId:
-      "983400403511-gi5mo0akb89fcecaivk4q509c63hrvtl.apps.googleusercontent.com",
-    androidClientId:
-      "983400403511-i43set67i4o1e3kb7fl91vrh9r6aemcb.apps.googleusercontent.com",
-    webClientId:
-      "983400403511-ff4ntmj4f9qvmmcc6nqh68tn524bp740.apps.googleusercontent.com",
-    redirectUri:
-      "com.googleusercontent.apps.983400403511-gi5mo0akb89fcecaivk4q509c63hrvtl:/oauth2redirect/google",
+  const config = Platform.select({
+    ios: GoogleAuthConfig.ios,
+    android: GoogleAuthConfig.android,
+    default: GoogleAuthConfig.web,
   });
+
+  const [request, response, promptAsync] = Google.useAuthRequest(config);
 
   useEffect(() => {
     if (response?.type === "success") {

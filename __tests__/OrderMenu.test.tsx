@@ -28,13 +28,14 @@ describe("Order Menu", () => {
     });
   });
 
-
   it("opens card when button is pressed", () => {
     const { getByText } = render(<OrderMenu />);
     const button = productButtons[0];
     fireEvent.press(getByText(button.item.getName()));
 
-    expect(screen.getByTestId(`item-card-view-${button.item.getId()}`)).toBeTruthy();
+    expect(
+      screen.getByTestId(`item-card-view-${button.item.getId()}`)
+    ).toBeTruthy();
   });
 
   it("closes card when close button is pressed", () => {
@@ -54,16 +55,22 @@ describe("Order Menu", () => {
     fireEvent.press(getByText(button2.item.getName()));
 
     expect(queryByTestId(`item-card-view-${button.item.getId()}`)).toBeNull();
-    expect(screen.getByTestId(`item-card-view-${button2.item.getId()}`)).toBeTruthy();
+    expect(
+      screen.getByTestId(`item-card-view-${button2.item.getId()}`)
+    ).toBeTruthy();
   });
 
   it("can open and close every card", () => {
     const { getByText, queryByTestId } = render(<OrderMenu />);
     productButtons.forEach((button) => {
       fireEvent.press(getByText(button.item.getName()));
-      expect(screen.getByTestId(`item-card-view-${button.item.getId()}`)).toBeTruthy();
+      expect(
+        screen.getByTestId(`item-card-view-${button.item.getId()}`)
+      ).toBeTruthy();
       fireEvent.press(screen.getByTestId("close-button"));
-      expect(screen.queryByTestId(`item-card-view-${button.item.getId()}`)).toBeNull();
+      expect(
+        screen.queryByTestId(`item-card-view-${button.item.getId()}`)
+      ).toBeNull();
     });
   });
 });

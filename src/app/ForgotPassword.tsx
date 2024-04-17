@@ -25,7 +25,7 @@ export default function ForgotPasswordScreen() {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={styles.container} testID="forgot-password-screen">
       <Image
         style={styles.logo}
         source={require("../../assets/images/usedLogo.png")}
