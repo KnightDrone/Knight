@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, TextInput, Image } from "react-native";
+import { Text, View } from "react-native";
 import { sendPasswordResetEmail } from "firebase/auth";
 import { auth } from "../services/Firebase";
 import { TextField } from "../ui/TextField";

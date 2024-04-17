@@ -1,13 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-  Image,
-  TouchableOpacity,
-  Platform,
-} from "react-native";
+import { StyleSheet, Text, View, Platform } from "react-native";
 // ------------- FIREBASE IMPORTS ----------------
 import {
   createUserWithEmailAndPassword,
@@ -18,7 +10,6 @@ import {
 import { auth } from "../services/Firebase";
 // -----------------------------------------------
 import * as Google from "expo-auth-session/providers/google";
-import Icon from "react-native-vector-icons/FontAwesome";
 import GoogleAuthConfig from "../types/GoogleAuthConfig";
 import { TextField } from "../ui/TextField";
 import { Button } from "../ui/Button";

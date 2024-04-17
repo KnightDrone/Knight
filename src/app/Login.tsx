@@ -1,15 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-  Image,
-  TouchableOpacity,
-  Platform,
-  TouchableHighlight,
-  TouchableWithoutFeedback,
-} from "react-native";
+import { Text, View, Image, TouchableOpacity, Platform } from "react-native";
 import {
   GoogleAuthProvider,
   signInWithCredential,
