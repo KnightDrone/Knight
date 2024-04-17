@@ -23,6 +23,7 @@ import GoogleAuthConfig from "../types/GoogleAuthConfig";
 import { TextField } from "../ui/TextField";
 import { Button } from "../ui/Button";
 import { MessageBox } from "../ui/MessageBox";
+import { OrSeparator } from "../components/OrSeparator";
 
 export default function Login({ navigation }: any) {
   const [email, setEmail] = useState("");
@@ -136,11 +137,7 @@ export default function Login({ navigation }: any) {
         </TouchableOpacity>
       </View>
 
-      <View className="flex-row items-center w-full my-8">
-        <View className="flex-1 h-[2px] rounded bg-gray-200" />
-        <Text className="mx-4 text-gray-400 font-bold">OR</Text>
-        <View className="flex-1 h-[2px] rounded bg-gray-200" />
-      </View>
+      <OrSeparator />
 
       <Button
         text="Continue with Google"

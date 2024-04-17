@@ -8,7 +8,6 @@ import {
   TouchableOpacity,
   Platform,
 } from "react-native";
-import Button from "../components/Button";
 // ------------- FIREBASE IMPORTS ----------------
 import {
   createUserWithEmailAndPassword,
@@ -21,6 +20,10 @@ import { auth } from "../services/Firebase";
 import * as Google from "expo-auth-session/providers/google";
 import Icon from "react-native-vector-icons/FontAwesome";
 import GoogleAuthConfig from "../types/GoogleAuthConfig";
+import { TextField } from "../ui/TextField";
+import { Button } from "../ui/Button";
+import { OrSeparator } from "../components/OrSeparator";
+import { MessageBox } from "../ui/MessageBox";
 
 export default function SignUp({ navigation }: any) {
   const [user, setUser] = useState("");
@@ -124,9 +127,9 @@ export default function SignUp({ navigation }: any) {
       case "Moderate":
         return "yellow";
       case "Strong":
-        return "green";
+        return "yellowgreen";
       case "Very Strong":
-        return "limegreen";
+        return "green";
       default:
         return "#ccc";
     }
@@ -148,68 +151,37 @@ export default function SignUp({ navigation }: any) {
   };
 
   return (
-    <View style={styles.container} testID="sign-up-screen">
-      <Image
-        style={styles.logo}
-        source={require("../../assets/images/usedLogo.png")}
-      />
+    <View
+      className="flex-1 bg-white items-center justify-center px-8"
+      testID="sign-up-screen"
+    >
+      <Text className="text-4xl font-bold mb-16 text-center">Sign Up</Text>
 
-      <Text style={styles.title}>Wild Knight</Text>
+      <View className="flex flex-col gap-3">
+        <TextField
+          placeholder="Enter your username"
+          value={user}
+          onChangeText={setUser}
+          type="text"
+        />
 
-      <TextInput
-        style={styles.input}
-        testID="username-input"
-        placeholder="Enter your username"
-        value={user}
-        onChangeText={setUser}
-        autoCapitalize="none"
-        autoCorrect={false}
-      />
+        <TextField
+          placeholder="Enter your email"
+          value={email}
+          onChangeText={setEmail}
+          type="email"
+        />
 
-      <TextInput
-        style={styles.input}
-        testID="email-input"
-        placeholder="Enter your email"
-        value={email}
-        onChangeText={setEmail}
-        autoCapitalize="none"
-        autoCorrect={false}
-      />
-
-      <View style={styles.passwordContainer}>
-        <TextInput
-          style={styles.input}
-          testID="password-input"
+        <TextField
           placeholder="Enter your password"
           value={password}
-          onChangeText={(text) => {
-            setPassword(text);
-          }}
-          autoCapitalize="none"
-          autoCorrect={false}
-          passwordRules={
-            "required: lower; required: upper; required: digit; required: special; minlength: 8;"
-          }
-          secureTextEntry={!showPassword}
+          onChangeText={setPassword}
+          type="password"
         />
-        <TouchableOpacity
-          testID="password-toggle"
-          style={styles.eyeIcon}
-          onPress={() => {
-            setShowPassword(!showPassword);
-          }}
-        >
-          <Icon
-            name={showPassword ? "eye" : "eye-slash"}
-            size={20}
-            color="#000"
-            testID="eye-icon"
-          />
-        </TouchableOpacity>
       </View>
 
-      <View>
-        <Text testID="pw-strength" style={styles.strengthText}>
+      <View className="w-full my-8 flex flex-col items-center bg-gray-100 p-4 rounded-lg">
+        <Text testID="pw-strength" className="text-lg text-center">
           Password Strength: {strength}
         </Text>
         <View style={styles.strengthMeter}>
@@ -230,21 +202,29 @@ export default function SignUp({ navigation }: any) {
         </View>
       </View>
 
-      <Button title="Sign Up" onPress={signUpWithEmail} />
+      <Button text="Sign Up" onPress={signUpWithEmail} style="primary" />
 
-      <View style={styles.lineContainer}>
-        <View style={styles.line} />
-        <Text style={styles.orText}>OR</Text>
-        <View style={styles.line} />
-      </View>
+      <OrSeparator />
 
-      <TouchableOpacity style={styles.button} onPress={() => promptAsync()}>
-        <Text style={styles.googleButtonText}>Continue with Google</Text>
-      </TouchableOpacity>
+      <Button
+        text="Continue with Google"
+        imgSrc={require("../../assets/images/google-icon.png")}
+        onPress={() => promptAsync()}
+        style="secondary"
+      />
 
-      <Text style={styles.error} testID="signup-error-message">
+      {/* <Text style={styles.error} testID="signup-error-message">
         {error}
-      </Text>
+      </Text> */}
+      {error && (
+        <MessageBox
+          message={error}
+          style="error"
+          onClose={() => setError("")}
+          testID="signup-error-message"
+          className="mt-8"
+        />
+      )}
     </View>
   );
 }

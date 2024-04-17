@@ -6,11 +6,13 @@ export function MessageBox({
   message,
   style,
   onClose,
+  testID,
 }: {
   className?: string;
   message: string;
   style: "error" | "success";
   onClose?: () => void;
+  testID?: string;
 }) {
   return (
     <Text
@@ -22,6 +24,7 @@ export function MessageBox({
         className
       )}
       onPress={onClose}
+      testID={testID}
     >
       {message}
     </Text>
