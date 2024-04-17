@@ -1,5 +1,5 @@
 import { Item } from "./Item";
-import {autoId} from "@google-cloud/firestore/build/src/util";
+import { autoId } from "@google-cloud/firestore/build/src/util";
 
 enum OrderStatus {
   Pending = "Pending",
@@ -9,8 +9,8 @@ enum OrderStatus {
 }
 
 interface Location {
-  latitude: number,
-  longitude: number
+  latitude: number;
+  longitude: number;
 }
 
 class Order {
@@ -22,11 +22,7 @@ class Order {
   private deliveryDate: Date;
   private location: Location;
 
-  constructor(
-    user: string,
-    item: Item,
-    location: Location
-  ) {
+  constructor(user: string, item: Item, location: Location) {
     this.id = autoId();
     this.user = user;
     this.item = item;
@@ -77,5 +73,4 @@ class Order {
   }
 }
 
-
-export {OrderStatus, Location, Order}
+export { OrderStatus, Location, Order };

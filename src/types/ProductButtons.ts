@@ -52,7 +52,16 @@ const descriptions: string[] = [
 ];
 
 const items: Item[] = names.map((name, i) => {
-  return new Item(i, name, descriptions[i], icons[i], iconDirs[i], images[i], imageDirs[i], prices[i]);
+  return new Item(
+    i,
+    name,
+    descriptions[i],
+    icons[i],
+    iconDirs[i],
+    images[i],
+    imageDirs[i],
+    prices[i]
+  );
 });
 
 export const productButtons: ProductButton[] = [
