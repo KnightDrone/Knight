@@ -6,6 +6,7 @@ import {
   TextInput,
   Image,
   TouchableOpacity,
+  Platform,
 } from "react-native";
 import Button from "../components/Button";
 // ------------- FIREBASE IMPORTS ----------------
@@ -22,6 +23,7 @@ import { ref, set } from "firebase/database";
 // -----------------------------------------------
 import * as Google from "expo-auth-session/providers/google";
 import Icon from "react-native-vector-icons/FontAwesome";
+import GoogleAuthConfig from "../types/GoogleAuthConfig";
 
 export default function SignUp({ navigation }: any) {
   const [user, setUser] = useState("");
@@ -47,7 +49,7 @@ export default function SignUp({ navigation }: any) {
       const credential = GoogleAuthProvider.credential(id_token);
       signInWithCredential(auth, credential)
         .then(() => {
-          console.log("Sign up successful")
+          console.log("Sign up successful");
           navigation.navigate("Map");
         })
         .catch((error) => {
@@ -105,7 +107,7 @@ export default function SignUp({ navigation }: any) {
     if (email && password) {
       createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
-          console.log(email, "sign up with email successful.")
+          console.log(email, "sign up with email successful.");
           navigation.navigate("Map");
         })
         .catch((error) => {
@@ -149,7 +151,7 @@ export default function SignUp({ navigation }: any) {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={styles.container} testID="sign-up-screen">
       <Image
         style={styles.logo}
         source={require("../../assets/images/usedLogo.png")}

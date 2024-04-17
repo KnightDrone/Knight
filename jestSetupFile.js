@@ -23,7 +23,6 @@ jest.mock("firebase/auth", () => ({
   GoogleAuthProvider: {
     credential: jest.fn(() => "mock-credential"), // Ensure this returns a mock credential as expected
   },
-  onAuthStateChanged: jest.fn(),
   signInWithCredential: jest.fn(() => Promise.resolve({ user: true })), // Explicitly return a resolved promise
   signInWithEmailAndPassword: jest.fn(() => Promise.resolve({ user: true })), // Explicitly return a resolved promise
   signOut: jest.fn(() => Promise.resolve()), // Explicitly return a resolved promise
@@ -33,6 +32,7 @@ jest.mock("firebase/auth", () => ({
   signInWithPopup: jest.fn(() => Promise.resolve({ user: true })), // Explicitly return a resolved promise
   signInWithRedirect: jest.fn(() => Promise.resolve({ user: true })), // Explicitly return a resolved promise
   sendPasswordResetEmail: jest.fn(() => Promise.resolve()),
+  onAuthStateChanged: jest.fn(),
 }));
 
 jest.mock("@react-navigation/native", () => ({
@@ -99,3 +99,7 @@ jest.mock("expo-location", () => ({
     timestamp: Date.now(),
   }),
 }));
+
+jest.mock("@react-native-async-storage/async-storage", () =>
+  require("@react-native-async-storage/async-storage/jest/async-storage-mock")
+);

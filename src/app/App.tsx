@@ -1,10 +1,10 @@
 import React from "react";
 import { Text } from "react-native";
-import { onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged, User } from "firebase/auth";
 import { auth } from "../services/Firebase";
 import * as WebBrowser from "expo-web-browser";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { User } from "firebase/auth";
+import Icon from "react-native-vector-icons/MaterialIcons";
 
 // Imports for Navigation
 import { NavigationContainer } from "@react-navigation/native";
@@ -16,12 +16,13 @@ import SignUp from "./SignUp";
 import ForgotPassword from "./ForgotPassword";
 import OrderMenu from "./OrderMenu";
 import MapOverview from "./Map";
+import OrderPlaced from "./OrderPlaced";
+import "./global.css";
 
 import { useFonts } from "expo-font";
 import KaiseiRegular from "../../assets/fonts/KaiseiDecol-Regular.ttf";
 
 import { registerRootComponent } from "expo";
-import Icon from "react-native-vector-icons/MaterialIcons";
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -33,6 +34,7 @@ type RootStackParamList = {
   ForgotPassword: undefined;
   OrderMenu: undefined;
   Map: undefined;
+  OrderPlaced: undefined;
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -47,10 +49,13 @@ function App() {
 
   const checkLocalUser = async () => {
     try {
+      // NOTE: Doesn't work with testing library
       // setLoading(true);
       // const userJSON = await AsyncStorage.getItem("@user");
       // const userData = userJSON != null ? JSON.parse(userJSON) : null;
-      // setUserInfo(userData);
+      // if (userData){
+      //   setUserInfo(userData);
+      // }
     } catch (e) {
       alert(e);
     } finally {
@@ -69,11 +74,18 @@ function App() {
           alert(e);
         }
       } else {
+        setUserInfo(null);
+        try {
+          await AsyncStorage.removeItem("@user");
+        } catch (e) {
+          alert(e);
+        }
       }
     });
 
     return unsub;
   }, []);
+
   if (loading) {
     return <Text>Loading...</Text>;
   }
@@ -106,6 +118,7 @@ function App() {
               <HeaderBackButton
                 onPress={() => navigation.goBack()}
                 labelVisible={false}
+                testID="sign-up-back-button"
               />
             ),
           })}
@@ -123,6 +136,7 @@ function App() {
               <HeaderBackButton
                 onPress={() => navigation.goBack()}
                 labelVisible={false}
+                testID="forgot-password-back-button"
               />
             ),
           })}
@@ -143,11 +157,15 @@ function App() {
                   <Icon name="arrow-back" size={24} color="black" />
                 )}
                 labelVisible={false}
+                testID="back-button"
               />
             ),
           })}
         >
           {(props) => <OrderMenu {...props} />}
+        </Stack.Screen>
+        <Stack.Screen name="OrderPlaced">
+          {(props) => <OrderPlaced {...props} />}
         </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>

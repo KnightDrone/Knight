@@ -6,6 +6,7 @@ import {
   TextInput,
   Image,
   TouchableOpacity,
+  Platform,
 } from "react-native";
 import Button from "../components/Button";
 import {
@@ -20,8 +21,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { signInWithEmailAndPassword } from "firebase/auth";
 
 // Navigation imports
-import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import GoogleAuthConfig from "../types/GoogleAuthConfig";
 
 export default function Login({ navigation }: any) {
   const [email, setEmail] = useState("");
