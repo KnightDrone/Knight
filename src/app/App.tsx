@@ -1,11 +1,10 @@
 import React from "react";
 import { Text } from "react-native";
-import { onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged, User } from "firebase/auth";
 import { auth } from "../services/firebase";
 import * as WebBrowser from "expo-web-browser";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { User } from "firebase/auth";
-import "./global.css";
+import Icon from "react-native-vector-icons/MaterialIcons";
 
 // Imports for Navigation
 import { NavigationContainer } from "@react-navigation/native";
@@ -17,13 +16,13 @@ import SignUp from "./SignUp";
 import ForgotPassword from "./ForgotPassword";
 import OrderMenu from "./OrderMenu";
 import MapView from "./Map";
+import OrderPlaced from "./OrderPlaced";
+import "./global.css";
 
 import { useFonts } from "expo-font";
 import KaiseiRegular from "../../assets/fonts/KaiseiDecol-Regular.ttf";
 
 import { registerRootComponent } from "expo";
-import Icon from "react-native-vector-icons/MaterialIcons";
-import OrderPlaced from "./OrderPlaced";
 
 WebBrowser.maybeCompleteAuthSession();
 

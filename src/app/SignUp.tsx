@@ -6,6 +6,7 @@ import {
   TextInput,
   Image,
   TouchableOpacity,
+  Platform,
 } from "react-native";
 import Button from "../components/Button";
 // ------------- FIREBASE IMPORTS ----------------
@@ -19,7 +20,6 @@ import { auth } from "../services/firebase";
 // -----------------------------------------------
 import * as Google from "expo-auth-session/providers/google";
 import Icon from "react-native-vector-icons/FontAwesome";
-import { Platform } from "react-native";
 import GoogleAuthConfig from "../types/GoogleAuthConfig";
 
 export default function SignUp({ navigation }: any) {

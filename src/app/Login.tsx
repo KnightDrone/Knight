@@ -6,15 +6,18 @@ import {
   TextInput,
   Image,
   TouchableOpacity,
+  Platform,
 } from "react-native";
-import { GoogleAuthProvider, signInWithCredential } from "firebase/auth";
+import {
+  GoogleAuthProvider,
+  signInWithCredential,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 import { auth } from "../services/firebase";
 import * as Google from "expo-auth-session/providers/google";
-import { signInWithEmailAndPassword } from "firebase/auth";
 
 // Navigation imports
 import GoogleAuthConfig from "../types/GoogleAuthConfig";
-import { Platform } from "react-native";
 
 export default function Login({ navigation }: any) {
   const [email, setEmail] = useState("");
