@@ -8,28 +8,23 @@ enum OrderStatus {
   Cancelled = "Cancelled",
 }
 
-interface OrderLocation {
-  latitude: number;
-  longitude: number;
+interface Location {
+  latitude: number,
+  longitude: number
 }
 
 class Order {
-  private id: string;
   private user: string;
   private item: Item;
   private orderDate: Date;
   private status: OrderStatus;
   private deliveryDate: Date;
-  private location: OrderLocation;
-  private op_name: string;
-  private op_location: OrderLocation;
+  private location: Location;
 
   constructor(
     user: string,
     item: Item,
-    location: OrderLocation,
-    op_name?: string,
-    op_location?: OrderLocation
+    location: Location
   ) {
     this.id = this.generateId();
     this.user = user;
@@ -38,12 +33,6 @@ class Order {
     this.status = OrderStatus.Pending;
     this.deliveryDate = new Date();
     this.location = location;
-    this.op_name = op_name || "";
-    this.op_location = op_location || { latitude: -999, longitude: -999 };
-  }
-
-  getId(): string {
-    return this.id;
   }
 
   getUser(): string {
@@ -66,7 +55,7 @@ class Order {
     return this.deliveryDate;
   }
 
-  getLocation(): OrderLocation {
+  getLocation(): Location {
     return this.location;
   }
 
@@ -99,4 +88,5 @@ class Order {
   }
 }
 
-export { OrderStatus, OrderLocation, Order };
+
+export {OrderStatus, Location, Order}
