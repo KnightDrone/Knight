@@ -61,7 +61,7 @@ export default function Login({ navigation }: any) {
           password
         );
         if (response.user) {
-          console.log(response.user, " signed in successfully");
+          console.log(response.user.email, " signed in successfully");
           navigation.navigate("Map");
         } else {
           setError("Invalid credentials");
