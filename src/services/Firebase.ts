@@ -7,18 +7,30 @@ import { getDatabase } from "firebase/database";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
+interface FirebaseConfig {
+  apiKey: any;
+  authDomain: any;
+  projectId: any;
+  storageBucket: any;
+  messagingSenderId: any;
+  appId: any;
+  measurementId: any;
+}
+
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyCDjeBhSsVZsZnO4gQ2xU9rlRdaJt6K1ZI",
-  authDomain: "swent-g25.firebaseapp.com",
-  projectId: "swent-g25",
-  storageBucket: "swent-g25.appspot.com",
-  messagingSenderId: "983400403511",
-  appId: "1:983400403511:web:04caa117a0e3e7424ae5b2",
-  measurementId: "G-N04Q2KKH95",
+const firebaseConfig: FirebaseConfig = {
+  apiKey: process.env.EXPO_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.EXPO_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.EXPO_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.EXPO_PUBLIC_FIREBASE_APP_ID,
+  measurementId: process.env.EXPO_PUBLIC_FIREBASE_MEASUREMENT_ID,
 };
+
 // Initialize Firebase
+
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const analytics = getAnalytics(app);
@@ -27,7 +39,3 @@ const database = getDatabase(app);
 // export const auth = getAuth(app);
 export default app;
 export { auth, GoogleAuthProvider, signInWithPopup, database };
-//export { auth };
-
-// iOS ClientID for OAth: 983400403511-gi5mo0akb89fcecaivk4q509c63hrvtl.apps.googleusercontent.com
-// Android ClientID for OAth: 983400403511-i43set67i4o1e3kb7fl91vrh9r6aemcb.apps.googleusercontent.com
