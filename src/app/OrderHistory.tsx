@@ -57,16 +57,29 @@ const fetchOrdersForUser = async (userId: String): Promise<Order[]> => {
   });
 };
 
+// TODO: Maybe add some search bar to filter?
+
 const OrderHistory = ({ userId }: any) => {
   const [orders, setOrders] = useState<Order[]>([]);
-
+  const [refreshing, setRefreshing] = useState(false);
   useEffect(() => {
     fetchOrders();
   }, []);
 
   const fetchOrders = async () => {
+    setRefreshing(true);
     const newOrders = await fetchOrdersForUser(userId);
-    setOrders((prevOrders) => [...prevOrders, ...newOrders]);
+    // Filter out orders that are already in the list
+    const orderIds = new Set(orders.map((order) => order.getId()));
+    const uniqueOrders = newOrders.filter(
+      (newOrder) => !orderIds.has(newOrder.getId())
+    );
+    // Combine the old orders with the new ones and sort them by date so that the most recent orders are shown first
+    const sortedOrders = [...orders, ...uniqueOrders].sort(
+      (a, b) => b.getOrderDate().getTime() - a.getOrderDate().getTime()
+    );
+    setOrders(sortedOrders);
+    setRefreshing(false);
   };
 
   return (
@@ -78,6 +91,8 @@ const OrderHistory = ({ userId }: any) => {
         keyExtractor={(item) => item.getId()}
         onEndReached={fetchOrders}
         onEndReachedThreshold={0.1}
+        refreshing={refreshing}
+        onRefresh={fetchOrders}
       />
     </View>
   );
