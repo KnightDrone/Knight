@@ -1,6 +1,7 @@
 export class Item {
   private id: number;
-  private name: string;
+  //CHANGED bc OrderNotification.tsx:14
+  public name: string; // public or private. Why was it private?
   private description: string;
   private icon: number;
   private image: number;
