@@ -8,6 +8,7 @@ export enum OrderStatus {
 }
 
 export class Order {
+  private id: string;
   private user: string;
   private item: Item;
   private orderDate: Date;
@@ -20,6 +21,7 @@ export class Order {
   private op_longitude: number;
 
   constructor(
+    id: string,
     user: string,
     item: Item,
     orderDate: Date,
@@ -31,6 +33,7 @@ export class Order {
     op_latitude?: number,
     op_longitude?: number
   ) {
+    this.id = id;
     this.user = user;
     this.item = item;
     this.orderDate = new Date();
@@ -41,6 +44,10 @@ export class Order {
     this.op_location = op_location;
     this.op_latitude = op_latitude || -999;
     this.op_longitude = op_longitude || -999;
+  }
+
+  getId(): string {
+    return this.id;
   }
 
   getUser(): string {
