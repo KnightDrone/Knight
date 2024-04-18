@@ -25,6 +25,8 @@ const formatDate = (date: Date) => {
   return `${monthNames[monthIndex]} ${day}, ${year}`;
 };
 
+// TODO: Add onClick functionality to the card + update the styles
+
 const OrderCard = ({ order }: { order: Order }) => {
   const item = order.getItem();
   // The parameters that we actually care to display in card
@@ -33,65 +35,23 @@ const OrderCard = ({ order }: { order: Order }) => {
   const price = item.getPrice();
   const locName = order.getOperatorLocationName();
   return (
-    <View style={styles.cardContainer}>
-      <View style={styles.imageContainer}>
-        <Image
-          source={require("../../assets/icons/calendar_icon.png")}
-          style={styles.image}
-        />
+    <View className="bg-white rounded-lg shadow-md m-2 flex-row p-2">
+      <View className="flex-1">
+        <Text className="text-left font-bold">{name}</Text>
+        <View className="flex-row items-center">
+          <Image
+            source={require("../../assets/icons/calendar_icon.png")}
+            className="w-5 h-5"
+          />
+          <Text className="ml-2">{formatDate(orderDate)}</Text>
+        </View>
+        <Text className="text-left">{locName}</Text>
       </View>
-      <View style={styles.detailsContainer}>
-        <Text style={styles.title}>{name}</Text>
-        <Text style={styles.subTitle}>{formatDate(orderDate)}</Text>
-        <Text style={styles.price}>${price} CHF</Text>
+      <View className="justify-end">
+        <Text className="text-right">${price} CHF</Text>
       </View>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  cardContainer: {
-    backgroundColor: "#fff",
-    borderRadius: 10,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.2,
-    shadowRadius: 1.5,
-    elevation: 3,
-    margin: 10,
-    flexDirection: "row",
-  },
-  imageContainer: {
-    flex: 1,
-    padding: 10,
-  },
-  image: {
-    width: "100%",
-    height: 100,
-    resizeMode: "contain",
-  },
-  detailsContainer: {
-    flex: 2,
-    padding: 10,
-  },
-  title: {
-    fontSize: 16,
-    fontWeight: "bold",
-  },
-  subTitle: {
-    fontSize: 14,
-    color: "#888",
-  },
-  price: {
-    fontSize: 16,
-    fontWeight: "bold",
-    marginTop: 5,
-  },
-  status: {
-    fontSize: 14,
-    color: "#ccc",
-    marginTop: 5,
-  },
-});
 
 export default OrderCard;
