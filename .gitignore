@@ -51,3 +51,6 @@ package-lock.json
 
 # environment file
 .env
+
+# Husky
+.husky/

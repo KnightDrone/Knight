@@ -14,8 +14,14 @@ const Stack = createStackNavigator();
 import { useFonts } from "../__mocks__/expo-font";
 import Login from "../src/app/Login";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import passwordsForTesting from "../src/utils/passwords";
 
 useFonts.mockReturnValue([true]);
+
+// Avoid useless error messages
+beforeAll(() => {
+  jest.spyOn(console, "error").mockImplementation(() => {});
+});
 
 const SignUpTest = () => {
   return (
@@ -44,7 +50,7 @@ describe("SignUp Component", () => {
   beforeEach(() => {
     const mockPromptAsync = jest.fn();
     // Mock the Google authentication request setup
-    Google.useAuthRequest.mockReturnValue([
+    (Google.useAuthRequest as jest.Mock).mockReturnValue([
       {}, // Mocked request
       { type: "success", params: { id_token: "mock-id-token" } }, // Mocked response
       mockPromptAsync, // Mocked promptAsync function
@@ -78,7 +84,7 @@ describe("SignUp Component", () => {
 
     const passwordMap = [
       {
-        password: "pass",
+        password: passwordsForTesting[0],
         strength: "Too Weak",
         suggestions: [
           "Password should be at least 8 characters long",
@@ -88,7 +94,7 @@ describe("SignUp Component", () => {
         ],
       },
       {
-        password: "password",
+        password: passwordsForTesting[1],
         strength: "Weak",
         suggestions: [
           "Add at least one number",
@@ -97,7 +103,7 @@ describe("SignUp Component", () => {
         ],
       },
       {
-        password: "password1",
+        password: passwordsForTesting[2],
         strength: "Moderate",
         suggestions: [
           "Include both upper and lower case letters",
@@ -105,22 +111,22 @@ describe("SignUp Component", () => {
         ],
       },
       {
-        password: "Pass123",
+        password: passwordsForTesting[3],
         strength: "Moderate",
         suggestions: ["Include at least one special character"],
       },
       {
-        password: "Password@1",
+        password: passwordsForTesting[4],
         strength: "Very Strong",
         suggestions: [],
       },
       {
-        password: "P@ssw0rd",
+        password: passwordsForTesting[5],
         strength: "Very Strong",
         suggestions: [],
       },
       {
-        password: "p@Ss1",
+        password: passwordsForTesting[6],
         strength: "Strong",
         suggestions: ["Password should be at least 8 characters long"],
       },
@@ -176,11 +182,15 @@ describe("SignUp Component", () => {
 
   it("can handle failed responses from the sign-up API", async () => {
     // Mock the API call within handleSignUp to reject
-    createUserWithEmailAndPassword.mockImplementationOnce(() =>
+    (
+      createUserWithEmailAndPassword as jest.MockedFunction<
+        typeof createUserWithEmailAndPassword
+      >
+    ).mockImplementationOnce(() =>
       Promise.reject(new Error("User already exists"))
     );
 
-    Google.useAuthRequest.mockReturnValue([
+    (Google.useAuthRequest as jest.Mock).mockReturnValue([
       {}, // Mocked request
       { type: "fail", params: {} }, // Mocked response
       jest.fn(), // Mocked promptAsync function

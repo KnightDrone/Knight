@@ -14,9 +14,7 @@ module.exports = {
       },
     ],
   },
-  transformIgnorePatterns: [
-    "node_modules/(?!react-native|react-navigation)/"
-  ],
+  transformIgnorePatterns: ["node_modules/(?!react-native|react-navigation)/"],
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
   collectCoverage: true,
   // ignore the src/services/ folder
@@ -25,16 +23,13 @@ module.exports = {
   coverageReporters: ["text", "lcov"],
   moduleNameMapper: {
     "\\.(ttf|png|jpg)$": "<rootDir>/jestAssetTransformer.js",
+    "\\.(css)$": "identity-obj-proxy",
   },
   transformIgnorePatterns: [
     "node_modules/(?!(jest-)?react-native|@react-native-community|expo(nent)?|@expo(nent)?/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|react-native|@react-native|@react-navigation|@firebase|firebase|@react-native-async-storage)",
   ],
 };
 
-
-
-  // setupFiles: [
-  //   "./node_modules/react-native-gesture-handler/jestSetup.js"
-  // ],
-
-  
+// setupFiles: [
+//   "./node_modules/react-native-gesture-handler/jestSetup.js"
+// ],

@@ -18,12 +18,17 @@ import { Text } from "react-native";
 
 const Stack = createStackNavigator();
 
+// Avoid useless error messages
+beforeAll(() => {
+  jest.spyOn(console, "error").mockImplementation(() => {});
+});
+
 // Setup mock implementations
 beforeEach(() => {
   const mockPromptAsync = jest.fn();
 
   // Mock the Google authentication request setup
-  Google.useAuthRequest.mockReturnValue([
+  (Google.useAuthRequest as jest.Mock).mockReturnValue([
     {}, // Mocked request
     { type: "success", params: { id_token: "mock-id-token" } }, // Mocked response
     mockPromptAsync, // Mocked promptAsync function
@@ -74,13 +79,9 @@ const LoginTest = () => {
 
 describe("Login Component", () => {
   it("allows email login", async () => {
-    const rendered = render(
+    const { getByPlaceholderText, getByText, queryByTestId } = render(
       <LoginTest />
     );
-
-    getByPlaceholderText = rendered.getByPlaceholderText;
-    getByText = rendered.getByText;
-    queryByTestId = rendered.queryByTestId;
 
     fireEvent.changeText(
       getByPlaceholderText("Enter your username or email"),
@@ -98,9 +99,7 @@ describe("Login Component", () => {
   });
 
   it("sets showPassword to true when the eye icon is pressed", async () => {
-    const rendered = render(
-      <LoginTest />
-    );
+    const rendered = render(<LoginTest />);
 
     fireEvent.press(rendered.getByTestId("password-toggle"));
     expect(
@@ -108,19 +107,15 @@ describe("Login Component", () => {
     ).toBe(false);
   });
 
-  // it("calls login when login button is pressed", async () => {
-  //   const rendered = render(
-  //    <LoginTest />
-  //   );
+  it("calls login when login button is pressed", async () => {
+    const { getByText } = render(<LoginTest />);
 
-  //   fireEvent.press(rendered.getByText("Log in"));
-  //   expect(signInWithEmailAndPassword).toHaveBeenCalled();
-  //  });
+    fireEvent.press(getByText("Log in"));
+    expect(signInWithEmailAndPassword).toHaveBeenCalled();
+  });
 
   it("navigates to the forgot password screen when the link is pressed", async () => {
-    const { getByTestId } = render(
-      <LoginTest />
-    );
+    const { getByTestId } = render(<LoginTest />);
 
     fireEvent.press(getByTestId("forgot-password-link"));
     await waitFor(() =>
@@ -129,9 +124,7 @@ describe("Login Component", () => {
   });
 
   it("navigates to the sign up screen when the link is pressed", async () => {
-    const { getByTestId } = render(
-      <LoginTest />
-    );
+    const { getByTestId } = render(<LoginTest />);
 
     fireEvent.press(getByTestId("sign-up-link"));
     await waitFor(() =>
@@ -145,9 +138,7 @@ describe("Login Component", () => {
 
   it("handles Google login correctly", async () => {
     const mockNavigate = jest.fn();
-    const { getByText } = render(
-      <LoginTest />
-    );
+    const { getByText } = render(<LoginTest />);
 
     fireEvent.press(getByText("Continue with Google"));
 
