@@ -1,6 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, Image, TouchableOpacity, Platform } from "react-native";
-import { auth, GoogleAuthProvider, signInWithCredential } from "firebase/auth";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  Image,
+  TouchableOpacity,
+  Platform,
+} from "react-native";
+import {
+  GoogleAuthProvider,
+  onAuthStateChanged,
+  signInWithCredential,
+} from "firebase/auth";
 import { auth } from "../services/Firebase";
 import * as Google from "expo-auth-session/providers/google";
 import * as WebBrowser from "expo-web-browser";
