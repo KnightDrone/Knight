@@ -21,8 +21,16 @@ class Order {
   private status: OrderStatus;
   private deliveryDate: Date;
   private location: Location;
+  private op_name: string;
+  private op_location: Location;
 
-  constructor(user: string, item: Item, location: Location) {
+  constructor(
+    user: string,
+    item: Item,
+    location: Location,
+    op_name?: string,
+    op_location?: Location
+  ) {
     this.id = autoId();
     this.user = user;
     this.item = item;
@@ -30,6 +38,8 @@ class Order {
     this.status = OrderStatus.Pending;
     this.deliveryDate = new Date();
     this.location = location;
+    this.op_name = op_name || "";
+    this.op_location = op_location || { latitude: -999, longitude: -999 };
   }
 
   getId(): string {
@@ -58,6 +68,14 @@ class Order {
 
   getLocation(): Location {
     return this.location;
+  }
+
+  getOpName(): string {
+    return this.op_name;
+  }
+
+  getOpLocation(): Location {
+    return this.op_location;
   }
 
   toDict(): { [key: string]: string } {

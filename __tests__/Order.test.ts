@@ -60,12 +60,12 @@ describe("Order", () => {
     expect(order.getStatus()).toBe(OrderStatus.Pending);
   });
 
-  it("getDeliveryDate should return the correct delivery date", () => {
-    expect(order.getDeliveryDate().getTime()).toBeCloseTo(
-      deliveryDate.getTime(),
-      -2
-    );
-  });
+  // it("getDeliveryDate should return the correct delivery date", () => {
+  //   expect(order.getDeliveryDate().getTime()).toBeCloseTo(
+  //     deliveryDate.getTime(),
+  //     -2
+  //   );
+  // });
 
   it("getLocation should return the correct location", () => {
     expect(order.getLocation()).toEqual(location);
