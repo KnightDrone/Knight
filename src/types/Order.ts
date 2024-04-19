@@ -29,7 +29,7 @@ export class Order {
     deliveryDate: Date,
     us_latitude: number,
     us_longitude: number,
-    op_location: string, // Name of where the drone came from such as "Drone Station 1", "St. Gallen Hospital", "Jeffrey's Clinic"
+    op_location?: string, // Name of where the drone came from such as "Drone Station 1", "St. Gallen Hospital", "Jeffrey's Clinic"
     op_latitude?: number,
     op_longitude?: number
   ) {
@@ -41,7 +41,7 @@ export class Order {
     this.deliveryDate = new Date();
     this.us_latitude = us_latitude;
     this.us_longitude = us_longitude;
-    this.op_location = op_location;
+    this.op_location = op_location || "";
     this.op_latitude = op_latitude || -999;
     this.op_longitude = op_longitude || -999;
   }
