@@ -19,6 +19,7 @@ module.exports = {
           900: "#244155",
           950: "#132939",
         },
+        "figma-yellow": "#FFFBF1",
       },
     },
   },

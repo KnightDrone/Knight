@@ -35,7 +35,7 @@ const OrderCard = ({ order }: { order: Order }) => {
   const price = item.getPrice();
   const locName = order.getOpName();
   return (
-    <View className="bg-white rounded-lg shadow-md m-2 flex-row p-2">
+    <View className="bg-white flex-1 rounded-lg shadow-md m-2 flex-row p-2 border-2 border-gray-300">
       <View className="flex-1">
         <Text className="text-left font-bold">{name}</Text>
         <View className="flex-row items-center">
@@ -47,8 +47,8 @@ const OrderCard = ({ order }: { order: Order }) => {
         </View>
         <Text className="text-left">{locName}</Text>
       </View>
-      <View className="justify-end">
-        <Text className="text-right">${price} CHF</Text>
+      <View className="justify-center ">
+        <Text className="text-right">{price} CHF</Text>
       </View>
     </View>
   );

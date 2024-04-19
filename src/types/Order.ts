@@ -31,7 +31,7 @@ class Order {
     op_name?: string,
     op_location?: OrderLocation
   ) {
-    this.id = autoId();
+    this.id = this.generateId();
     this.user = user;
     this.item = item;
     this.orderDate = new Date();
@@ -88,6 +88,14 @@ class Order {
       deliveryDate: this.deliveryDate.toString(),
       location: JSON.stringify(this.location),
     };
+  }
+  // Temporary method for testing, should NOT be used in production
+  private generateId(): string {
+    const timestamp = Date.now().toString();
+    const randomNumber = Math.floor(Math.random() * 1000)
+      .toString()
+      .padStart(3, "0");
+    return timestamp + randomNumber;
   }
 }
 

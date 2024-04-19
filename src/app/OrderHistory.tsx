@@ -1,8 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, FlatList } from "react-native";
+import {
+  View,
+  Text,
+  FlatList,
+  Image,
+  Button,
+  TouchableOpacity,
+} from "react-native";
 import OrderCard from "../components/OrderCard";
 import { Order, OrderLocation, OrderStatus } from "../types/Order";
 import { Item } from "../types/Item";
+import TriangleBackground, {
+  TriangleBackground2,
+} from "../components/TriangleBackground";
 
 /* 
 NOTE: This is a temporary solution to simulate fetching orders from a server. Should be replaced with actual database calls
@@ -33,6 +43,13 @@ const fetchOrdersForUser = async (userId: String): Promise<Order[]> => {
           "Jeffrey's Clinic", // "Drone Station 1", "St. Gallen Hospital", "Jeffrey's Clinic"
           { latitude: 25, longitude: 3.2275 } // Correct way to create an OrderLocation object
         ),
+        new Order(
+          "user4",
+          new Item(3, "item4", "description3", 3, 3, 330),
+          { latitude: 0, longitude: 0 }, // Correct way to create an OrderLocation object
+          "Jeffrey's Clinic", // "Drone Station 1", "St. Gallen Hospital", "Jeffrey's Clinic"
+          { latitude: 25, longitude: 3.2275 } // Correct way to create an OrderLocation object
+        ),
       ];
       resolve(orders);
     }, 1000); // 1 second delay
@@ -50,7 +67,7 @@ const OrderHistory = ({ userId }: any) => {
 
   const fetchOrders = async () => {
     setRefreshing(true);
-    const newOrders = await fetchOrdersForUser(userId);
+    /*const newOrders = await fetchOrdersForUser(userId);
     // Filter out orders that are already in the list
     const orderIds = new Set(orders.map((order) => order.getId()));
     const uniqueOrders = newOrders.filter(
@@ -60,13 +77,32 @@ const OrderHistory = ({ userId }: any) => {
     const sortedOrders = [...orders, ...uniqueOrders].sort(
       (a, b) => b.getOrderDate().getTime() - a.getOrderDate().getTime()
     );
-    setOrders(sortedOrders);
+    setOrders(sortedOrders);*/
+    const newOrders = await fetchOrdersForUser(userId);
+    setOrders(newOrders);
     setRefreshing(false);
   };
-
   return (
-    <View>
-      <Text className="text-2xl font-bold text-center my-4">Order history</Text>
+    <View className="mt-16">
+      <View className="flex-row items-center justify-center">
+        <TouchableOpacity className="absolute left-4">
+          <Image
+            source={require("../../assets/icons/menu_icon.png")}
+            className="w-9 h-9"
+          />
+        </TouchableOpacity>
+        <Text className="text-2xl font-bold text-center my-4">
+          Order history
+        </Text>
+        <TouchableOpacity className="absolute right-4">
+          <Image
+            source={require("../../assets/icons/x_icon.png")}
+            className="w-5 h-5"
+          />
+        </TouchableOpacity>
+      </View>
+      <TriangleBackground2 />
+
       <FlatList
         data={orders}
         renderItem={({ item }) => <OrderCard order={item} />}
