@@ -51,3 +51,6 @@ coverage/
 
 # environment file
 .env
+
+# Husky
+.husky/
