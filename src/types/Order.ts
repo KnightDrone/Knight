@@ -1,49 +1,45 @@
 import { Item } from "./Item";
+import { autoId } from "@google-cloud/firestore/build/src/util";
 
-export enum OrderStatus {
+enum OrderStatus {
   Pending = "Pending",
   Shipped = "Shipped",
   Delivered = "Delivered",
   Cancelled = "Cancelled",
 }
 
-export class Order {
+interface OrderLocation {
+  latitude: number;
+  longitude: number;
+}
+
+class Order {
   private id: string;
   private user: string;
   private item: Item;
   private orderDate: Date;
   private status: OrderStatus;
   private deliveryDate: Date;
-  private us_latitude: number;
-  private us_longitude: number;
-  private op_location: string;
-  private op_latitude: number;
-  private op_longitude: number;
+  private location: OrderLocation;
+  private op_name: string;
+  private op_location: OrderLocation;
 
   constructor(
-    id: string,
     user: string,
     item: Item,
-    orderDate: Date,
-    status: OrderStatus,
-    deliveryDate: Date,
-    us_latitude: number,
-    us_longitude: number,
-    op_location?: string, // Name of where the drone came from such as "Drone Station 1", "St. Gallen Hospital", "Jeffrey's Clinic"
-    op_latitude?: number,
-    op_longitude?: number
+    location: OrderLocation,
+    op_name?: string,
+    op_location?: OrderLocation
   ) {
-    this.id = id;
+    this.id = autoId();
     this.user = user;
     this.item = item;
     this.orderDate = new Date();
     this.status = OrderStatus.Pending;
     this.deliveryDate = new Date();
-    this.us_latitude = us_latitude;
-    this.us_longitude = us_longitude;
-    this.op_location = op_location || "";
-    this.op_latitude = op_latitude || -999;
-    this.op_longitude = op_longitude || -999;
+    this.location = location;
+    this.op_name = op_name || "";
+    this.op_location = op_location || { latitude: -999, longitude: -999 };
   }
 
   getId(): string {
@@ -70,21 +66,29 @@ export class Order {
     return this.deliveryDate;
   }
 
-  getUserLatitude(): number {
-    return this.us_latitude;
+  getLocation(): OrderLocation {
+    return this.location;
   }
 
-  getUserLongitude(): number {
-    return this.us_longitude;
+  getOpName(): string {
+    return this.op_name;
   }
-  getOperatorLocationName(): string {
+
+  getOpLocation(): OrderLocation {
     return this.op_location;
   }
-  getOperatorLatitude(): number {
-    return this.op_latitude;
-  }
 
-  getOperatorLongitude(): number {
-    return this.op_longitude;
+  toDict(): { [key: string]: string } {
+    return {
+      id: this.id,
+      user: this.user,
+      item: JSON.stringify(this.item.toDict()),
+      orderDate: this.orderDate.toString(),
+      status: this.status,
+      deliveryDate: this.deliveryDate.toString(),
+      location: JSON.stringify(this.location),
+    };
   }
 }
+
+export { OrderStatus, OrderLocation, Order };

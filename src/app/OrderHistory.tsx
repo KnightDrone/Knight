@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, FlatList } from "react-native";
 import OrderCard from "../components/OrderCard";
-import { Order, OrderStatus } from "../types/Order";
+import { Order, OrderLocation, OrderStatus } from "../types/Order";
 import { Item } from "../types/Item";
 
 /* 
@@ -13,43 +13,25 @@ const fetchOrdersForUser = async (userId: String): Promise<Order[]> => {
       const orders: Order[] = [
         // Replace with your predefined set of Order objects
         new Order(
-          "4863-1b1b-4f0d-8f3b-0f0f", // ORDER ID
           "user1",
           new Item(1, "item1", "description1", 1, 1, 10),
-          new Date("2022-01-01"),
-          OrderStatus.Delivered,
-          new Date("2022-01-02"),
-          46.8182,
-          8.2275,
-          "St. Gallen Hospital", // "Drone Station 1", "St. Gallen Hospital", "Jeffrey's Clinic"
-          46.8182,
-          8.2275
+          { latitude: 46.8182, longitude: 8.2275 }, // Correct way to create an OrderLocation object
+          "St. Gallen Hospital",
+          { latitude: 55, longitude: 33 } // Correct way to create an OrderLocation object
         ),
         new Order(
-          "5763-1b1b-4f0d-8f3b-0f0f",
           "user2",
           new Item(2, "item2", "description2", 2, 2, 22),
-          new Date("2022-02-01"),
-          OrderStatus.Cancelled,
-          new Date("2022-02-02"),
-          46.8182,
-          8.2275,
+          { latitude: 40.8182, longitude: 8.2275 }, // Correct way to create an OrderLocation object
           "Drone Station 1", // "Drone Station 1", "St. Gallen Hospital", "Jeffrey's Clinic"
-          46.8182,
-          8.2275
+          { latitude: 59, longitude: 38 } // Correct way to create an OrderLocation object
         ),
         new Order(
-          "5799-1b1b-4f0d-8f3b-0f0f",
           "user3",
           new Item(3, "item3", "description3", 3, 3, 330),
-          new Date("2022-03-01"),
-          OrderStatus.Pending,
-          new Date("2022-03-02"),
-          46.8182,
-          8.2275,
+          { latitude: 0, longitude: 0 }, // Correct way to create an OrderLocation object
           "Jeffrey's Clinic", // "Drone Station 1", "St. Gallen Hospital", "Jeffrey's Clinic"
-          46.8182,
-          8.2275
+          { latitude: 25, longitude: 3.2275 } // Correct way to create an OrderLocation object
         ),
       ];
       resolve(orders);

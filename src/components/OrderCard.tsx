@@ -33,7 +33,7 @@ const OrderCard = ({ order }: { order: Order }) => {
   const name = item.getName();
   const orderDate = order.getOrderDate();
   const price = item.getPrice();
-  const locName = order.getOperatorLocationName();
+  const locName = order.getOpName();
   return (
     <View className="bg-white rounded-lg shadow-md m-2 flex-row p-2">
       <View className="flex-1">
