@@ -11,9 +11,9 @@ describe("Item", () => {
       "Test Item",
       "This is a test item",
       image,
-      imageDir,
+      // imageDir,
       image,
-      imageDir,
+      // imageDir,
       100
     );
   });
@@ -47,8 +47,8 @@ describe("Item", () => {
       id: "1",
       name: "Test Item",
       description: "This is a test item",
-      icon: imageDir,
-      image: imageDir,
+      // icon: imageDir,
+      // image: imageDir,
       price: "100",
     };
     expect(item.toDict()).toEqual(expectedDict);

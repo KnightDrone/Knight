@@ -1,5 +1,5 @@
 import { Item } from "../src/types/Item";
-import { Order, OrderStatus, Location } from "../src/types/Order";
+import { Order, OrderStatus, OrderLocation } from "../src/types/Order";
 
 describe("Order", () => {
   let order: Order;
@@ -11,14 +11,14 @@ describe("Order", () => {
     "Test Item",
     "Test Description",
     image,
-    imageDir,
+    // imageDir,
     image,
-    imageDir,
+    // imageDir,
     10
   );
   const orderDate = new Date();
   const deliveryDate = new Date();
-  const location: Location = {
+  const location: OrderLocation = {
     latitude: 0,
     longitude: 0,
   };
@@ -40,7 +40,7 @@ describe("Order", () => {
       deliveryDate.getTime(),
       -2
     );
-    expect(order.getLocation()).toEqual(location);
+    expect(order.getOrderLocation()).toEqual(location);
   });
 
   it("should have all order statuses", () => {
@@ -67,8 +67,8 @@ describe("Order", () => {
   //   );
   // });
 
-  it("getLocation should return the correct location", () => {
-    expect(order.getLocation()).toEqual(location);
+  it("getOrderLocation should return the correct location", () => {
+    expect(order.getOrderLocation()).toEqual(location);
   });
 
   it("returns the correct dictionary", () => {
