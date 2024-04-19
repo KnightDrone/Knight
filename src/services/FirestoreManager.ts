@@ -3,7 +3,7 @@ import { Order } from "../types/Order";
 import { collection, Firestore } from "@firebase/firestore";
 import { addDoc } from "firebase/firestore";
 
-class FirebaseManager {
+class FirestoreManager {
   private database: Firestore;
   private path: any;
 
@@ -37,4 +37,4 @@ class FirebaseManager {
   updateData(path: string, data: any): Promise<void> {}
 }
 
-export default FirebaseManager;
+export default FirestoreManager;
