@@ -82,6 +82,7 @@ class Order {
     return {
       id: this.id,
       user: this.user,
+      operator: this.op_name,
       item: JSON.stringify(this.item.toDict()),
       orderDate: this.orderDate.toString(),
       status: this.status,
@@ -91,4 +92,32 @@ class Order {
   }
 }
 
-export { OrderStatus, OrderLocation, Order };
+const orderConverter = {
+  toFirestore: (order: Order) => {
+    return {
+      user: order.getUser(),
+      operator: order.getOpName(),
+      item: order.getItem().toDict(),
+      orderDate: order.getOrderDate(),
+      status: order.getStatus(),
+      deliveryDate: order.getDeliveryDate(),
+      location: JSON.stringify(order.getOrderLocation()),
+    };
+  },
+  fromFirestore: (snapshot: any) => {
+    const data = snapshot.data();
+    const item = new Item(
+      data.item.id,
+      data.item.name,
+      data.item.description,
+      require(data.item.icon),
+      data.item.icon,
+      require(data.item.image),
+      data.item.image,
+      data.item.price
+    );
+    return new Order(data.user, item, JSON.parse(data.location), data.operator);
+  },
+};
+
+export { OrderStatus, OrderLocation, Order, orderConverter };
