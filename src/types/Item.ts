@@ -3,9 +3,9 @@ export class Item {
   private name: string;
   private description: string;
   private icon: number;
-  // private iconDir: string;
+  private iconDir: string;
   private image: number;
-  // private imageDir: string;
+  private imageDir: string;
   private price: number;
 
   constructor(
@@ -13,18 +13,18 @@ export class Item {
     name: string,
     description: string,
     icon: number,
-    // iconDir: string,
+    iconDir: string,
     image: number,
-    // imageDir: string,
+    imageDir: string,
     price: number
   ) {
     this.id = id;
     this.name = name;
     this.description = description;
     this.icon = icon;
-    // this.iconDir = iconDir;
+    this.iconDir = iconDir;
     this.image = image;
-    // this.imageDir = imageDir;
+    this.imageDir = imageDir;
     this.price = price;
   }
 
@@ -57,8 +57,8 @@ export class Item {
       id: this.id.toString(),
       name: this.name,
       description: this.description,
-      // icon: this.iconDir,
-      // image: this.imageDir,
+      icon: this.iconDir,
+      image: this.imageDir,
       price: this.price.toString(),
     };
   }

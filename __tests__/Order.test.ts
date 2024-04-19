@@ -11,9 +11,9 @@ describe("Order", () => {
     "Test Item",
     "Test Description",
     image,
-    // imageDir,
+    imageDir,
     image,
-    // imageDir,
+    imageDir,
     10
   );
   const orderDate = new Date();
@@ -75,6 +75,7 @@ describe("Order", () => {
     const expectedDict = {
       id: order.getId(),
       user: user,
+      operator: "",
       item: JSON.stringify(item.toDict()),
       orderDate: orderDate.toString(),
       status: OrderStatus.Pending,
