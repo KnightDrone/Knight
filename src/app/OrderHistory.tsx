@@ -73,7 +73,6 @@ const OrderHistory = ({ userId }: any) => {
       (a, b) => b.getOrderDate().getTime() - a.getOrderDate().getTime()
     );
     setOrders(sortedOrders);
-    setOrders(sortedOrders);
     setRefreshing(false);
   };
   return (
