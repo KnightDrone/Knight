@@ -8,7 +8,7 @@ enum OrderStatus {
   Cancelled = "Cancelled",
 }
 
-interface Location {
+interface OrderLocation {
   latitude: number;
   longitude: number;
 }
@@ -20,16 +20,16 @@ class Order {
   private orderDate: Date;
   private status: OrderStatus;
   private deliveryDate: Date;
-  private location: Location;
+  private location: OrderLocation;
   private op_name: string;
-  private op_location: Location;
+  private op_location: OrderLocation;
 
   constructor(
     user: string,
     item: Item,
-    location: Location,
+    location: OrderLocation,
     op_name?: string,
-    op_location?: Location
+    op_location?: OrderLocation
   ) {
     this.id = autoId();
     this.user = user;
@@ -66,7 +66,7 @@ class Order {
     return this.deliveryDate;
   }
 
-  getLocation(): Location {
+  getOrderLocation(): OrderLocation {
     return this.location;
   }
 
@@ -74,7 +74,7 @@ class Order {
     return this.op_name;
   }
 
-  getOpLocation(): Location {
+  getOpOrderLocation(): OrderLocation {
     return this.op_location;
   }
 
@@ -91,4 +91,4 @@ class Order {
   }
 }
 
-export { OrderStatus, Location, Order };
+export { OrderStatus, OrderLocation, Order };

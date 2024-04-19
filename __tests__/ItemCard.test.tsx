@@ -35,9 +35,9 @@ describe("ItemCard", () => {
     "Test Item",
     "Test Description",
     image,
-    imageDir,
+    // imageDir,
     image,
-    imageDir,
+    // imageDir,
     10
   );
 

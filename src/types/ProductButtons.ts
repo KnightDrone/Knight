@@ -57,9 +57,9 @@ const items: Item[] = names.map((name, i) => {
     name,
     descriptions[i],
     icons[i],
-    iconDirs[i],
+    // iconDirs[i],
     images[i],
-    imageDirs[i],
+    // imageDirs[i],
     prices[i]
   );
 });
