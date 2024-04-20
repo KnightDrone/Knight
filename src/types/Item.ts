@@ -3,29 +3,23 @@ export class Item {
   private name: string;
   private description: string;
   private icon: number;
-  private iconDir: string;
   private image: number;
-  private imageDir: string;
   private price: number;
 
   constructor(
     id: number,
     name: string,
     description: string,
-    icon: number,
-    iconDir: string,
-    image: number,
-    imageDir: string,
-    price: number
+    price: number,
+    icon?: number,
+    image?: number
   ) {
     this.id = id;
     this.name = name;
     this.description = description;
-    this.icon = icon;
-    this.iconDir = iconDir;
-    this.image = image;
-    this.imageDir = imageDir;
     this.price = price;
+    this.icon = icon || 0;
+    this.image = image || 0;
   }
 
   getId(): number {
@@ -57,8 +51,6 @@ export class Item {
       id: this.id.toString(),
       name: this.name,
       description: this.description,
-      icon: this.iconDir,
-      image: this.imageDir,
       price: this.price.toString(),
     };
   }
