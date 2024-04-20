@@ -1,12 +1,10 @@
 import FirestoreManager from "../src/services/FirestoreManager";
 import { mock, MockProxy } from "jest-mock-extended";
 import { Item } from "../src/types/Item";
-import { Firestore } from "../src/services/Firebase";
-import { Order } from "../src/types/Order";
 
 let firestoreManager: FirestoreManager;
-let mockFirestore: MockProxy<Firestore> & Firestore;
-let mockOrder: MockProxy<Order> & Order;
+// let mockFirestore: MockProxy<Firestore> & Firestore;
+// let mockOrder: MockProxy<Order> & Order;
 let consoleOutput: string[];
 const originalLog = console.log;
 
@@ -32,8 +30,8 @@ const item = new Item(
 );
 
 beforeEach(() => {
-  mockFirestore = mock<Firestore>();
-  mockOrder = mock<Order>();
+  //   mockFirestore = mock<Firestore>();
+  //   mockOrder = mock<Order>();
   firestoreManager = new FirestoreManager();
   consoleOutput = [];
   console.log = (output: string) => consoleOutput.push(output);
@@ -43,7 +41,6 @@ describe("FirestoreManager", () => {
   it("should read data", async () => {
     // mockFirestore.getDoc.mockResolvedValue(mockOrder);
     const result = await firestoreManager.readData(id);
-
     expect(result?.getUser).toBe(user);
     expect(result?.getItem).toBe(item);
     expect(result?.getOrderDate).toBe(orderDate);
@@ -59,12 +56,7 @@ describe("FirestoreManager", () => {
   //   it("should query data", async () => {
   //     mockFirestore.getDocs.mockResolvedValue([mockOrder]);
   //     const result = await firestoreManager.queryData("testUser");
-  //     expect(result[0]?.getUser).toBe(user);
-  // expect(result[0]?.getItem).toBe(item);
-  // expect(result[0]?.getOrderDate).toBe(orderDate);
-  // expect(result[0]?.getDeliveryDate).toBe(deliveryDate);
-  // expect(result[0]?.getOperator).toBe(operator);
-  // expect(result[0]?.getOrderLocation).toBe(location);
+  //     expect(result).toEqual([mockOrder]);
   //     expect(mockFirestore.getDocs).toHaveBeenCalledWith("testUser");
   //   });
 

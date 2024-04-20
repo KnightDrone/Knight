@@ -60,6 +60,18 @@ class Order {
     return this.location;
   }
 
+  getOpName(): string {
+    return this.op_name;
+  }
+
+  getOpOrderLocation(): OrderLocation {
+    return this.op_location;
+  }
+
+  getOperator(): string {
+    return this.op_name;
+  }
+
   toDict(): { [key: string]: string } {
     return {
       id: this.id,
