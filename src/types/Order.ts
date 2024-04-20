@@ -28,6 +28,8 @@ class Order {
     user: string,
     item: Item,
     location: OrderLocation,
+    orderDate?: Date,
+    deliveryDate?: Date,
     op_name?: string,
     op_location?: OrderLocation
   ) {
@@ -36,7 +38,8 @@ class Order {
     this.item = item;
     this.orderDate = new Date();
     this.status = OrderStatus.Pending;
-    this.deliveryDate = new Date();
+    this.orderDate = orderDate || new Date();
+    this.deliveryDate = deliveryDate || new Date();
     this.location = location;
     this.op_name = op_name || "";
     this.op_location = op_location || { latitude: -999, longitude: -999 };
@@ -110,13 +113,17 @@ const orderConverter = {
       data.item.id,
       data.item.name,
       data.item.description,
-      require(data.item.icon),
-      data.item.icon,
-      require(data.item.image),
-      data.item.image,
       data.item.price
     );
-    return new Order(data.user, item, JSON.parse(data.location), data.operator);
+    return new Order(
+      data.user,
+      item,
+      JSON.parse(data.location),
+      data.orderDate,
+      data.deliveryDate,
+      data.id,
+      data.operator
+    );
   },
 };
 

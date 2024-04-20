@@ -34,11 +34,9 @@ describe("ItemCard", () => {
     1,
     "Test Item",
     "Test Description",
+    10,
     image,
-    imageDir,
-    image,
-    imageDir,
-    10
+    image
   );
 
   it("renders correctly when isVisible is true", () => {
