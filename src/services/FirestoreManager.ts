@@ -1,7 +1,6 @@
-import { firestore } from "./Firebase";
-import { Order, orderConverter, OrderLocation } from "../types/Order";
-import { collection, Firestore } from "@firebase/firestore";
 import {
+  firestore,
+  collection,
   deleteDoc,
   doc,
   getDoc,
@@ -9,18 +8,15 @@ import {
   query,
   setDoc,
   where,
-} from "firebase/firestore";
+} from "./Firebase";
+import { Order, orderConverter, OrderLocation } from "../types/Order";
 
-class FirestoreManager {
-  private database: Firestore;
-
-  constructor() {
-    this.database = firestore;
-  }
+export default class FirestoreManager {
+  constructor() {}
 
   // Method to read data by id from the database
   async readData(id: string): Promise<Order | null> {
-    const docRef = doc(this.database, "orders", id);
+    const docRef = doc(firestore, "orders", id);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
       console.log("Order with id " + id + " found in the database");
@@ -40,7 +36,7 @@ class FirestoreManager {
     if (user !== undefined) {
       var orders: Order[] = [];
       const q = query(
-        collection(this.database, "orders"),
+        collection(firestore, "orders"),
         where("user", "==", user)
       );
       const querySnapshot = await getDocs(q);
@@ -57,7 +53,7 @@ class FirestoreManager {
     } else if (status !== undefined) {
       var orders: Order[] = [];
       const q = query(
-        collection(this.database, "orders"),
+        collection(firestore, "orders"),
         where("status", "==", status)
       );
       const querySnapshot = await getDocs(q);
@@ -74,7 +70,7 @@ class FirestoreManager {
     } else if (itemName !== undefined) {
       var orders: Order[] = [];
       const q = query(
-        collection(this.database, "orders"),
+        collection(firestore, "orders"),
         where("item.name", "==", itemName)
       );
       const querySnapshot = await getDocs(q);
@@ -98,7 +94,7 @@ class FirestoreManager {
   async writeOrder(order: Order): Promise<void> {
     try {
       await setDoc(
-        doc(this.database, "orders").withConverter(orderConverter),
+        doc(firestore, "orders").withConverter(orderConverter),
         order
       );
       console.log(
@@ -112,7 +108,7 @@ class FirestoreManager {
   // Method to delete order with a specific id in the database
   async deleteData(orderId: string): Promise<void> {
     try {
-      await deleteDoc(doc(this.database, "orders", orderId));
+      await deleteDoc(doc(firestore, "orders", orderId));
       console.log(
         "Order with id " + orderId + " successfully deleted from the database"
       );
@@ -129,7 +125,7 @@ class FirestoreManager {
     deliveryDate?: Date,
     location?: OrderLocation
   ): Promise<void> {
-    const orderRef = doc(this.database, "orders", orderId);
+    const orderRef = doc(firestore, "orders", orderId);
     try {
       if (operator !== undefined) {
         await setDoc(orderRef, { operator: operator }, { merge: true });
@@ -165,5 +161,3 @@ class FirestoreManager {
     }
   }
 }
-
-export default FirestoreManager;
