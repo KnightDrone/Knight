@@ -81,6 +81,10 @@ class Order {
     return this.op_location;
   }
 
+  getOperator(): string {
+    return this.op_name;
+  }
+
   toDict(): { [key: string]: string } {
     return {
       id: this.id,

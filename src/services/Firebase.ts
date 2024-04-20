@@ -3,7 +3,17 @@ import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { getDatabase } from "firebase/database";
-import { getFirestore } from "firebase/firestore";
+import {
+  getFirestore,
+  collection,
+  deleteDoc,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  setDoc,
+  where,
+} from "firebase/firestore";
 
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -38,4 +48,18 @@ const database = getDatabase(app);
 const firestore = getFirestore(app);
 
 export default app;
-export { auth, GoogleAuthProvider, signInWithPopup, database, firestore };
+export {
+  auth,
+  GoogleAuthProvider,
+  signInWithPopup,
+  database,
+  firestore,
+  collection,
+  deleteDoc,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  setDoc,
+  where,
+};
