@@ -95,6 +95,7 @@ export default function Login({ navigation }: any) {
           value={password}
           onChangeText={setPassword}
           type="password"
+          testID="password-input"
         />
 
         <Button
