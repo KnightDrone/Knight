@@ -101,7 +101,9 @@ const Map = ({ navigation }: any) => {
       <TouchableOpacity
         testID="order-button"
         style={[styles.button, styles.buttonBottomRight]}
-        onPress={() => navigation.navigate("OrderMenu")}
+        onPress={() =>
+          navigation.navigate("OrderMenu", { screen: "OrderMenu" })
+        }
       >
         <Text style={styles.buttonText}>Order</Text>
       </TouchableOpacity>

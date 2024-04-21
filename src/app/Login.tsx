@@ -43,8 +43,7 @@ export default function Login({ navigation }: any) {
       const credential = GoogleAuthProvider.credential(id_token);
       signInWithCredential(auth, credential)
         .then(() => {
-          console.log("Signed in successfully");
-          navigation.navigate("Map"); // Navigate after successful login
+          navigation.navigate("Map");
         })
         .catch((error: any) => {
           console.error(error);
