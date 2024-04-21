@@ -20,7 +20,7 @@ describe("ForgotPasswordScreen Component", () => {
     const emailInput = getByTestId("email-input");
     expect(emailInput).toBeTruthy();
 
-    const resetButton = getByText("Reset Password");
+    const resetButton = getByTestId("reset-password-button");
     expect(resetButton).toBeTruthy();
   });
 
@@ -33,7 +33,7 @@ describe("ForgotPasswordScreen Component", () => {
 
   it("displays an error message when attempting to reset password without email", () => {
     const { getByText, getByTestId } = render(<ForgotPasswordScreen />);
-    const resetButton = getByText("Reset Password");
+    const resetButton = getByTestId("reset-password-button");
     fireEvent.press(resetButton);
     const errorMessage = getByTestId("error-message");
     expect(errorMessage).toBeTruthy();
@@ -47,7 +47,7 @@ describe("More ForgotPassword Component Tests", () => {
     const emailInput = getByTestId("email-input");
     fireEvent.changeText(emailInput, "user@example.com");
 
-    fireEvent.press(getByText("Reset Password"));
+    fireEvent.press(getByTestId("reset-password-button"));
     await waitFor(() => expect(getByTestId("success-message")).toBeTruthy());
   });
 

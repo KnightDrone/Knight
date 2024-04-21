@@ -17,7 +17,12 @@ import TriangleBackground, {
 /* 
 NOTE: This is a temporary solution to simulate fetching orders from a server. Should be replaced with actual database calls
 */
-const fetchOrdersForUser = async (userId: String): Promise<Order[]> => {
+// depending on the value of OP orders we should fetch orders from the history of orders, where the user was operator, or where the user was the buyer
+// Still waiting for Firestore class to be implemented
+const fetchOrdersForUser = async (
+  userId: String,
+  opOrders: Boolean
+): Promise<Order[]> => {
   return new Promise((resolve) => {
     setTimeout(() => {
       const orders: Order[] = [
@@ -58,7 +63,7 @@ const fetchOrdersForUser = async (userId: String): Promise<Order[]> => {
 
 // TODO: Maybe add some search bar to filter?
 
-const OrderHistory = ({ userId }: any) => {
+const OrderHistory = ({ navigation, userId, opOrders }: any) => {
   const [orders, setOrders] = useState<Order[]>([]);
   const [refreshing, setRefreshing] = useState(false);
   useEffect(() => {
@@ -67,7 +72,7 @@ const OrderHistory = ({ userId }: any) => {
 
   const fetchOrders = async () => {
     setRefreshing(true);
-    const newOrders = await fetchOrdersForUser(userId);
+    const newOrders = await fetchOrdersForUser(userId, opOrders);
     // Sort the orders by date so that the most recent orders are shown first
     const sortedOrders = newOrders.sort(
       (a, b) => b.getOrderDate().getTime() - a.getOrderDate().getTime()

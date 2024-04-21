@@ -31,7 +31,10 @@ export default function ForgotPasswordScreen() {
       className="flex flex-col p-8 bg-white items-center justify-center h-full"
       testID="forgot-password-screen"
     >
-      <Text className="text-3xl font-bold mb-12 text-center">
+      <Text
+        className="text-3xl font-bold mb-12 text-center"
+        testID="title-text"
+      >
         Reset Password
       </Text>
 
@@ -45,6 +48,7 @@ export default function ForgotPasswordScreen() {
         onChangeText={setEmail}
         value={email}
         type="email"
+        testID="email-input"
       />
 
       <Button
