@@ -4,7 +4,6 @@ import { onAuthStateChanged, User } from "firebase/auth";
 import { auth } from "../services/Firebase";
 import * as WebBrowser from "expo-web-browser";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import Icon from "react-native-vector-icons/MaterialIcons";
 
 // Imports for Navigation
 import { NavigationContainer } from "@react-navigation/native";
@@ -17,12 +16,21 @@ import ForgotPassword from "./ForgotPassword";
 import OrderMenu from "./OrderMenu";
 import MapOverview from "./Map";
 import OrderPlaced from "./OrderPlaced";
+import DrawerNavigator from "./DrawerNavigation";
 import "./global.css";
 
 import { useFonts } from "expo-font";
 import KaiseiRegular from "../../assets/fonts/KaiseiDecol-Regular.ttf";
 
 import { registerRootComponent } from "expo";
+
+import {
+  createDrawerNavigator,
+  DrawerContentScrollView,
+  DrawerItemList,
+  DrawerItem,
+  DrawerContentComponentProps,
+} from "@react-navigation/drawer";
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -38,7 +46,6 @@ type RootStackParamList = {
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
-
 function App() {
   const [fontsLoaded] = useFonts({
     "Kaisei-Regular": KaiseiRegular,
@@ -92,82 +99,30 @@ function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator
-        initialRouteName={userInfo ? "Map" : "Login"}
-        screenOptions={{
-          headerShown: false,
-          headerStyle: {
-            backgroundColor: "#f9f9f9",
-          },
-          headerTintColor: "#000",
-          headerTitleStyle: {
-            fontWeight: "bold",
-          },
-        }}
-      >
-        <Stack.Screen name="Login" options={{ title: "Login to Wild Knight" }}>
-          {(props) => <Login {...props} />}
-        </Stack.Screen>
-        <Stack.Screen
-          name="SignUp"
-          options={({ navigation }) => ({
-            headerShown: true,
-            headerTransparent: true,
-            headerTitle: "",
-            headerLeft: () => (
-              <HeaderBackButton
-                onPress={() => navigation.goBack()}
-                labelVisible={false}
-                testID="sign-up-back-button"
-              />
-            ),
-          })}
+      {userInfo ? (
+        <DrawerNavigator />
+      ) : (
+        <Stack.Navigator
+          initialRouteName="Login"
+          screenOptions={{
+            headerShown: false,
+            headerStyle: {
+              backgroundColor: "#f9f9f9",
+            },
+            headerTintColor: "#000",
+            headerTitleStyle: {
+              fontWeight: "bold",
+            },
+          }}
         >
-          {(props) => <SignUp {...props} />}
-        </Stack.Screen>
-        <Stack.Screen
-          name="ForgotPassword"
-          component={ForgotPassword}
-          options={({ navigation }) => ({
-            headerShown: true,
-            headerTransparent: true,
-            headerTitle: "",
-            headerLeft: () => (
-              <HeaderBackButton
-                onPress={() => navigation.goBack()}
-                labelVisible={false}
-                testID="forgot-password-back-button"
-              />
-            ),
-          })}
-        />
-        <Stack.Screen name="Map">
-          {(props) => <MapOverview {...props} />}
-        </Stack.Screen>
-        <Stack.Screen
-          name="OrderMenu"
-          options={({ navigation }) => ({
-            headerShown: true,
-            headerTransparent: true,
-            headerTitle: "",
-            headerLeft: () => (
-              <HeaderBackButton
-                onPress={() => navigation.goBack()}
-                backImage={() => (
-                  <Icon name="arrow-back" size={24} color="black" />
-                )}
-                labelVisible={false}
-                testID="back-button"
-              />
-            ),
-          })}
-        >
-          {(props) => <OrderMenu {...props} />}
-        </Stack.Screen>
-        <Stack.Screen name="OrderPlaced">
-          {(props) => <OrderPlaced {...props} />}
-        </Stack.Screen>
-      </Stack.Navigator>
+          <Stack.Screen
+            name="Login"
+            options={{ title: "Login to Wild Knight" }}
+          >
+            {(props) => <Login {...props} />}
+          </Stack.Screen>
+        </Stack.Navigator>
+      )}
     </NavigationContainer>
   );
 }
