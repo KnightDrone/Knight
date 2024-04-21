@@ -65,6 +65,7 @@ export default function ForgotPasswordScreen() {
           style="error"
           className="mt-8"
           onClose={() => setError("")}
+          testID="error-message"
         />
       )}
       {success && (
@@ -73,6 +74,7 @@ export default function ForgotPasswordScreen() {
           style="success"
           className="mt-8"
           onClose={() => setSuccess(false)}
+          testID="success-message"
         />
       )}
     </View>

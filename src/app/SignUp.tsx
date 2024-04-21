@@ -146,7 +146,12 @@ export default function SignUp({ navigation }: any) {
       className="flex-1 bg-white items-center justify-center px-8"
       testID="sign-up-screen"
     >
-      <Text className="text-4xl font-bold mb-16 text-center">Sign Up</Text>
+      <Text
+        className="text-4xl font-bold mb-16 text-center"
+        testID="signup-title"
+      >
+        Sign Up
+      </Text>
 
       <View className="flex flex-col gap-3">
         <TextField
@@ -154,6 +159,7 @@ export default function SignUp({ navigation }: any) {
           value={user}
           onChangeText={setUser}
           type="text"
+          testID="username-input"
         />
 
         <TextField
@@ -161,6 +167,7 @@ export default function SignUp({ navigation }: any) {
           value={email}
           onChangeText={setEmail}
           type="email"
+          testID="email-input"
         />
 
         <TextField
@@ -168,6 +175,7 @@ export default function SignUp({ navigation }: any) {
           value={password}
           onChangeText={setPassword}
           type="password"
+          testID="password-input"
         />
       </View>
 
@@ -193,7 +201,12 @@ export default function SignUp({ navigation }: any) {
         </View>
       </View>
 
-      <Button text="Sign Up" onPress={signUpWithEmail} style="primary" />
+      <Button
+        text="Sign Up"
+        onPress={signUpWithEmail}
+        style="primary"
+        testID="sign-up-button"
+      />
 
       <OrSeparator />
 
