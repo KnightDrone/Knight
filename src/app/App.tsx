@@ -121,6 +121,42 @@ function App() {
           >
             {(props) => <Login {...props} />}
           </Stack.Screen>
+          <Stack.Screen name="Map">
+            {(props) => <MapOverview {...props} />}
+          </Stack.Screen>
+          <Stack.Screen
+            name="SignUp"
+            options={({ navigation }) => ({
+              headerShown: true,
+              headerTransparent: true,
+              headerTitle: "",
+              headerLeft: () => (
+                <HeaderBackButton
+                  onPress={() => navigation.goBack()}
+                  labelVisible={false}
+                  testID="sign-up-back-button"
+                />
+              ),
+            })}
+          >
+            {(props) => <SignUp {...props} />}
+          </Stack.Screen>
+          <Stack.Screen
+            name="ForgotPassword"
+            component={ForgotPassword}
+            options={({ navigation }) => ({
+              headerShown: true,
+              headerTransparent: true,
+              headerTitle: "",
+              headerLeft: () => (
+                <HeaderBackButton
+                  onPress={() => navigation.goBack()}
+                  labelVisible={false}
+                  testID="forgot-password-back-button"
+                />
+              ),
+            })}
+          />
         </Stack.Navigator>
       )}
     </NavigationContainer>
