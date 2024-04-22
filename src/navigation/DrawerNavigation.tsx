@@ -1,40 +1,28 @@
 import React from "react";
-import { HeaderBackButton } from "@react-navigation/elements";
-import Icon from "react-native-vector-icons/MaterialIcons";
-
 import {
   createDrawerNavigator,
   DrawerContentComponentProps,
   DrawerContentScrollView,
   DrawerItemList,
-  DrawerItem,
 } from "@react-navigation/drawer";
+import { HeaderBackButton } from "@react-navigation/elements";
+import Icon from "react-native-vector-icons/Ionicons";
 
-import MapOverview from "./Map";
-import OrderMenu from "./OrderMenu";
-import OrderPlaced from "./OrderPlaced";
+//Add pages to add to the drawer
+import Map from "./../app/Map";
+import Profile from "./../app/Profile";
+import Settings from "./../app/Settings";
 
-const Drawer = createDrawerNavigator<DrawerParamList>();
+const Drawer = createDrawerNavigator();
 
-export type DrawerParamList = {
-  OrderMenu: undefined;
-  Map: undefined;
-};
-
-function ProfileContainer(props: DrawerContentComponentProps) {
-  return (
-    <DrawerContentScrollView {...props}>
-      <DrawerItemList {...props} />
-      <DrawerItem label="Profile" onPress={() => {}} />
-    </DrawerContentScrollView>
-  );
-}
-
-const DrawerNavigator: React.FC = () => {
+export const UserDrawer = () => {
   return (
     <Drawer.Navigator
+      initialRouteName="Map"
       drawerContent={(props: DrawerContentComponentProps) => (
-        <ProfileContainer {...props} />
+        <DrawerContentScrollView {...props}>
+          <DrawerItemList {...props} />
+        </DrawerContentScrollView>
       )}
       screenOptions={{
         headerShown: false,
@@ -45,17 +33,17 @@ const DrawerNavigator: React.FC = () => {
         },
       }}
     >
-      <Drawer.Screen name="Map" component={MapOverview} />
+      <Drawer.Screen name="Map" component={Map} />
       <Drawer.Screen
-        name="OrderMenu"
-        component={OrderMenu}
+        name="Profile"
+        component={Profile}
         options={({ navigation }) => ({
           headerShown: true,
           headerTransparent: true,
           headerTitle: "",
           headerLeft: () => (
             <HeaderBackButton
-              onPress={() => navigation.goBack()}
+              onPress={() => navigation.navigate("Map")}
               backImage={() => (
                 <Icon name="arrow-back" size={24} color="black" />
               )}
@@ -65,8 +53,7 @@ const DrawerNavigator: React.FC = () => {
           ),
         })}
       />
+      <Drawer.Screen name="Settings" component={Settings} />
     </Drawer.Navigator>
   );
 };
-
-export default DrawerNavigator;
