@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Text } from "react-native";
-import { User, onAuthStateChanged, auth } from "../services/Firebase";
+import { authInstance } from "../services/Firebase";
+import { FirebaseAuthTypes } from "@react-native-firebase/auth";
 import * as WebBrowser from "expo-web-browser";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -50,7 +51,7 @@ function App() {
     "Kaisei-Regular": KaiseiRegular,
   });
 
-  const [userInfo, setUserInfo] = useState<User | null>(null);
+  const [userInfo, setUserInfo] = useState<FirebaseAuthTypes.User | null>(null);
   const [loading, setLoading] = useState(false);
 
   const checkLocalUser = async () => {
@@ -71,7 +72,7 @@ function App() {
 
   useEffect(() => {
     checkLocalUser();
-    const unsub = onAuthStateChanged(auth, async (user) => {
+    const unsub = authInstance.onAuthStateChanged(async (user) => {
       if (user) {
         setUserInfo(user);
         try {
