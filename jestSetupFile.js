@@ -47,7 +47,6 @@ jest.mock("firebase/auth", () => ({
   createUserWithEmailAndPassword: jest.fn(() =>
     Promise.resolve({ user: true })
   ), // Explicitly return a resolved promise
-  signInWithPopup: jest.fn(() => Promise.resolve({ user: true })), // Explicitly return a resolved promise
   signInWithRedirect: jest.fn(() => Promise.resolve({ user: true })), // Explicitly return a resolved promise
   sendPasswordResetEmail: jest.fn(() => Promise.resolve()),
   onAuthStateChanged: jest.fn(),
