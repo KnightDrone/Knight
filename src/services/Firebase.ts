@@ -8,14 +8,6 @@ import firebase from "@react-native-firebase/app";
 import auth from "@react-native-firebase/auth";
 import firestore from "@react-native-firebase/firestore";
 
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-const APP_ID =
-  Platform.OS === "ios"
-    ? process.env.EXPO_PUBLIC_FIREBASE_IOS_APP_ID
-    : process.env.EXPO_PUBLIC_FIREBASE_ANDROID_APP_ID;
-
 interface FirebaseConfig {
   apiKey: any;
   authDomain: any;

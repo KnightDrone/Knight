@@ -20,6 +20,10 @@ jest.mock("firebase/database", () => ({
   getDatabase: jest.fn(),
 }));
 
+jest.mock("@react-native-firebase/firestore", () => ({
+  firestore: jest.fn(),
+}));
+
 jest.mock("expo-auth-session/providers/google", () => ({
   useAuthRequest: jest.fn(),
 }));
