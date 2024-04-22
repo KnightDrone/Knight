@@ -37,4 +37,4 @@ const authInstance = auth(app);
 const firestoreInstance = firestore(app);
 
 export default app;
-export { authInstance, firestoreInstance };
+export { authInstance, firestoreInstance, auth };
