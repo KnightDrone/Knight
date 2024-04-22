@@ -8,8 +8,6 @@ import firebase from "@react-native-firebase/app";
 import auth from "@react-native-firebase/auth";
 import firestore from "@react-native-firebase/firestore";
 
-// https://firebase.google.com/docs/web/setup#available-libraries
-
 interface FirebaseConfig {
   apiKey: any;
   authDomain: any;
