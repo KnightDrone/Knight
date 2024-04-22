@@ -4,7 +4,7 @@ import { useFonts } from "../__mocks__/expo-font";
 import * as Google from "expo-auth-session/providers/google";
 
 import App from "../src/app/App";
-import { onAuthStateChanged } from "../src/services/Firebase";
+import { authInstance } from "../src/services/Firebase";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { View, Text } from "react-native";
 
@@ -164,16 +164,18 @@ describe("App.tsx Navigation", () => {
 
   it("onAuthStateChanged is called when the user logs in", async () => {
     const mockUser = { uid: "123", email: "random@gmail.com" };
-    (onAuthStateChanged as jest.Mock).mockImplementation((auth, callback) => {
-      callback(mockUser);
-      return jest.fn();
-    });
+    (authInstance.onAuthStateChanged as jest.Mock).mockImplementation(
+      (auth, callback) => {
+        callback(mockUser);
+        return jest.fn();
+      }
+    );
 
     const { queryByTestId } = render(<App />);
 
     await waitFor(() => {
       expect(queryByTestId("map-overview-screen")).toBeTruthy();
-      expect(onAuthStateChanged).toHaveBeenCalled();
+      expect(authInstance.onAuthStateChanged).toHaveBeenCalled();
       expect(AsyncStorage.setItem).toHaveBeenCalledWith(
         "@user",
         JSON.stringify(mockUser)
@@ -184,15 +186,17 @@ describe("App.tsx Navigation", () => {
   it("onAuthChanged is called when the user logs out", async () => {
     //mock null user (logged out)
     const mockUser = null;
-    (onAuthStateChanged as jest.Mock).mockImplementation((auth, callback) => {
-      callback(mockUser);
-      return jest.fn();
-    });
+    (authInstance.onAuthStateChanged as jest.Mock).mockImplementation(
+      (auth, callback) => {
+        callback(mockUser);
+        return jest.fn();
+      }
+    );
 
     const { queryByTestId } = render(<App />);
     await waitFor(() => {
       expect(queryByTestId("map-overview-screen")).toBeTruthy();
-      expect(onAuthStateChanged).toHaveBeenCalled();
+      expect(authInstance.onAuthStateChanged).toHaveBeenCalled();
       expect(AsyncStorage.removeItem).toHaveBeenCalledWith("@user");
     });
   });
@@ -202,10 +206,12 @@ describe("App.tsx Navigation", () => {
       uid: "123",
       email: "random@gmail.com",
     };
-    (onAuthStateChanged as jest.Mock).mockImplementation((auth, callback) => {
-      callback(mockUser);
-      return jest.fn();
-    });
+    (authInstance.onAuthStateChanged as jest.Mock).mockImplementation(
+      (auth, callback) => {
+        callback(mockUser);
+        return jest.fn();
+      }
+    );
 
     // Mock the AsyncStorage error
     (AsyncStorage.setItem as jest.Mock).mockRejectedValue(
@@ -215,7 +221,7 @@ describe("App.tsx Navigation", () => {
     const { queryByTestId } = render(<App />);
     await waitFor(() => {
       expect(queryByTestId("map-overview-screen")).toBeTruthy();
-      expect(onAuthStateChanged).toHaveBeenCalled();
+      expect(authInstance.onAuthStateChanged).toHaveBeenCalled();
       expect(AsyncStorage.setItem).toHaveBeenCalledWith(
         "@user",
         JSON.stringify(mockUser)
@@ -226,10 +232,12 @@ describe("App.tsx Navigation", () => {
 
   it("alerts due to removeItem error", async () => {
     const mockUser = null;
-    (onAuthStateChanged as jest.Mock).mockImplementation((auth, callback) => {
-      callback(mockUser);
-      return jest.fn();
-    });
+    (authInstance.onAuthStateChanged as jest.Mock).mockImplementation(
+      (auth, callback) => {
+        callback(mockUser);
+        return jest.fn();
+      }
+    );
 
     // Mock the AsyncStorage error
     (AsyncStorage.removeItem as jest.Mock).mockRejectedValue(
@@ -239,7 +247,7 @@ describe("App.tsx Navigation", () => {
     const { queryByTestId } = render(<App />);
     await waitFor(() => {
       expect(queryByTestId("map-overview-screen")).toBeTruthy();
-      expect(onAuthStateChanged).toHaveBeenCalled();
+      expect(authInstance.onAuthStateChanged).toHaveBeenCalled();
       expect(AsyncStorage.removeItem).toHaveBeenCalledWith("@user");
       expect(alert).toHaveBeenCalledWith(new Error("AsyncStorage error"));
     });
