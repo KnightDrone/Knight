@@ -53,25 +53,7 @@ export const UserDrawer = () => {
           ),
         })}
       />
-      <Drawer.Screen
-        name="Settings"
-        component={Settings}
-        options={({ navigation }) => ({
-          headerShown: true,
-          headerTransparent: true,
-          headerTitle: "",
-          headerLeft: () => (
-            <HeaderBackButton
-              onPress={() => navigation.navigate("Map")}
-              backImage={() => (
-                <Icon name="arrow-back" size={24} color="black" />
-              )}
-              labelVisible={false}
-              testID="back-button"
-            />
-          ),
-        })}
-      />
+      <Drawer.Screen name="Settings" component={Settings} />
     </Drawer.Navigator>
   );
 };
