@@ -8,7 +8,15 @@ import firebase from "@react-native-firebase/app";
 import auth from "@react-native-firebase/auth";
 import firestore from "@react-native-firebase/firestore";
 
-// https://firebase.google.com/docs/web/setup#available-libraries
+interface FirebaseConfig {
+  apiKey: any;
+  authDomain: any;
+  projectId: any;
+  storageBucket: any;
+  messagingSenderId: any;
+  appId: any;
+  measurementId: any;
+}
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
