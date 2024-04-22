@@ -1,9 +1,12 @@
 // Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { getDatabase } from "firebase/database";
-import { Platform } from "react-native";
+// import { initializeApp } from "firebase/app";
+// import { getAnalytics } from "firebase/analytics";
+// import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+// import { getDatabase } from "firebase/database";
+// import firebase from '@react-native-firebase/app';
+import firebase from "@react-native-firebase/app";
+import auth from "@react-native-firebase/auth";
+import firestore from "@react-native-firebase/firestore";
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -35,27 +38,20 @@ const firebaseConfig: FirebaseConfig = {
   measurementId: process.env.EXPO_PUBLIC_FIREBASE_MEASUREMENT_ID,
 };
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const analytics = getAnalytics(app);
-const database = getDatabase(app);
-const firestore = getFirestore(app);
+var app;
+
+(async () => {
+  if (firebase.apps.length === 0) {
+    app = await firebase.initializeApp(firebaseConfig);
+  } else {
+    app = firebase.app();
+  }
+})();
+
+const authInstance = auth(app);
+const firestoreInstance = firestore(app);
 
 // Initialize Firebase Authentication and get a reference to the service
 // export const auth = getAuth(app);
 export default app;
-export {
-  auth,
-  GoogleAuthProvider,
-  signInWithPopup,
-  database,
-  firestore,
-  collection,
-  deleteDoc,
-  doc,
-  getDoc,
-  getDocs,
-  query,
-  setDoc,
-  where,
-};
+export { authInstance, firestoreInstance };
