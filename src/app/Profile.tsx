@@ -3,7 +3,7 @@ import { View, Text, Image, StyleSheet } from "react-native";
 
 function Profile({ navigation }: any) {
   return (
-    <View style={styles.container} testID="profile-screen">
+    <View style={styles.container}>
       <Image
         source={{ uri: "https://via.placeholder.com/100" }}
         style={styles.avatar}
