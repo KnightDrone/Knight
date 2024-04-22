@@ -1,20 +1,6 @@
 import React, { useState, useEffect } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-  Image,
-  TouchableOpacity,
-  Platform,
-} from "react-native";
-import {
-  auth,
-  GoogleAuthProvider,
-  onAuthStateChanged,
-  signInWithCredential,
-  signInWithEmailAndPassword,
-} from "../services/Firebase";
+import { Text, View, Image, TouchableOpacity, Platform } from "react-native";
+import { authInstance, auth } from "../services/Firebase";
 import * as Google from "expo-auth-session/providers/google";
 import * as WebBrowser from "expo-web-browser";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -41,8 +27,9 @@ export default function Login({ navigation }: any) {
   useEffect(() => {
     if (response?.type === "success") {
       const { id_token } = response.params;
-      const credential = GoogleAuthProvider.credential(id_token);
-      signInWithCredential(auth, credential)
+      const credential = auth.GoogleAuthProvider.credential(id_token);
+      authInstance
+        .signInWithCredential(credential)
         .then(() => {
           navigation.navigate("Map"); // Navigate after successful login
         })
@@ -55,8 +42,7 @@ export default function Login({ navigation }: any) {
   const logInWithEmail = async () => {
     if (email && password) {
       try {
-        const response = await signInWithEmailAndPassword(
-          auth,
+        const response = await authInstance.signInWithEmailAndPassword(
           email,
           password
         );

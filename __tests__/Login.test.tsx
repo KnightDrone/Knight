@@ -6,11 +6,7 @@ import {
   waitFor,
 } from "@testing-library/react-native";
 import Login from "../src/app/Login";
-import {
-  GoogleAuthProvider,
-  signInWithCredential,
-  signInWithEmailAndPassword,
-} from "../src/services/Firebase";
+import { authInstance, auth } from "../src/services/Firebase";
 import * as Google from "expo-auth-session/providers/google";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -94,7 +90,7 @@ describe("Login Component", () => {
 
     fireEvent.press(getByText("Log in"));
 
-    expect(signInWithEmailAndPassword).toHaveBeenCalled();
+    expect(authInstance.signInWithEmailAndPassword).toHaveBeenCalled();
     await waitFor(() => expect(queryByTestId("map-screen")).toBeTruthy());
   });
 
@@ -112,7 +108,7 @@ describe("Login Component", () => {
     const { getByText } = render(<LoginTest />);
 
     fireEvent.press(getByText("Log in"));
-    expect(signInWithEmailAndPassword).toHaveBeenCalled();
+    expect(authInstance.signInWithEmailAndPassword).toHaveBeenCalled();
   });
 
   it("navigates to the forgot password screen when the link is pressed", async () => {
@@ -144,8 +140,8 @@ describe("Login Component", () => {
     fireEvent.press(getByText("Continue with Google"));
 
     expect(Google.useAuthRequest()[2]).toHaveBeenCalled();
-    expect(GoogleAuthProvider.credential).toHaveBeenCalled();
-    expect(signInWithCredential).toHaveBeenCalled();
+    expect(auth.GoogleAuthProvider.credential).toHaveBeenCalled();
+    expect(authInstance.signInWithCredential).toHaveBeenCalled();
     await waitFor(() =>
       expect(screen.queryByTestId("map-screen")).toBeTruthy()
     );
