@@ -1,7 +1,7 @@
 import React from "react";
 import { fireEvent, render, waitFor } from "@testing-library/react-native";
 import ForgotPasswordScreen from "../src/app/ForgotPassword";
-import { sendPasswordResetEmail } from "firebase/auth";
+import { authInstance } from "../src/services/Firebase";
 
 // Avoid useless error messages
 beforeAll(() => {
@@ -27,8 +27,8 @@ describe("ForgotPasswordScreen Component", () => {
   it("displays an error message when attempting to reset password without email", async () => {
     // Mock the API call within handleForgotPassword to reject
     (
-      sendPasswordResetEmail as jest.MockedFunction<
-        typeof sendPasswordResetEmail
+      authInstance.sendPasswordResetEmail as jest.MockedFunction<
+        typeof authInstance.sendPasswordResetEmail
       >
     ).mockImplementationOnce(() => Promise.reject(new Error("ERROR")));
     const { getByTestId, findByTestId } = render(<ForgotPasswordScreen />);
@@ -52,8 +52,8 @@ describe("More ForgotPassword Component Tests", () => {
 
   it("displays an error message if the email is not recognized", async () => {
     // Mock the API call within handleForgotPassword to reject
-    (sendPasswordResetEmail as jest.Mock).mockImplementationOnce(() =>
-      Promise.reject(new Error("User not found"))
+    (authInstance.sendPasswordResetEmail as jest.Mock).mockImplementationOnce(
+      () => Promise.reject(new Error("User not found"))
     );
 
     // Adjust this based on your actual implementation
@@ -72,7 +72,7 @@ describe("More ForgotPassword Component Tests", () => {
     expect(errorMessage).toBeTruthy();
     // args are: (auth, email)
     // auth is undefined
-    expect(sendPasswordResetEmail).toHaveBeenCalledWith(
+    expect(authInstance.sendPasswordResetEmail).toHaveBeenCalledWith(
       undefined,
       "unknown@example.com"
     );
