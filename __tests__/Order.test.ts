@@ -9,10 +9,10 @@ describe("Order", () => {
   const orderDate = new Date();
   const status = OrderStatus.Pending;
   const deliveryDate = new Date();
-  const location = [0, 0];
+  const location = { latitude: 0, longitude: 0 };
 
   beforeEach(() => {
-    order = new Order(user, item, orderDate, status, deliveryDate, location);
+    order = new Order(user, item, location);
   });
 
   it("should create an instance of Order", () => {

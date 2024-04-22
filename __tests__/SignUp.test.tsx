@@ -58,10 +58,13 @@ describe("SignUp Component", () => {
   });
 
   it("renders correctly", () => {
-    const { getByText, getByPlaceholderText } = render(<SignUpTest />);
-    expect(getByText("Sign Up")).toBeTruthy();
-    expect(getByPlaceholderText("Enter your email")).toBeTruthy();
-    expect(getByPlaceholderText("Enter your password")).toBeTruthy();
+    const { getByText, getByPlaceholderText, getByTestId } = render(
+      <SignUpTest />
+    );
+    expect(getByTestId("signup-title")).toBeTruthy();
+    expect(getByTestId("username-input")).toBeTruthy();
+    expect(getByTestId("email-input")).toBeTruthy();
+    expect(getByTestId("password-input")).toBeTruthy();
   });
 
   it("updates email and password fields correctly", () => {
@@ -153,27 +156,30 @@ describe("SignUp Component", () => {
   });
 
   it("toggles password visibility when the eye icon is pressed", () => {
-    const { getByTestId, getByPlaceholderText } = render(<SignUpTest />);
+    const { getByTestId, getByPlaceholderText, getAllByTestId } = render(
+      <SignUpTest />
+    );
     const passwordInput = getByPlaceholderText("Enter your password");
-    const eyeIcon = getByTestId("password-toggle");
+    const passwordToggles = getAllByTestId("password-toggle");
+    const passwordToggle = passwordToggles[2]; // Select the third password-toggle
 
     // first showPassword = false, secureTextEntry = !showPassword
     expect(passwordInput.props.secureTextEntry).toBe(true);
 
-    fireEvent.press(eyeIcon); // second showPassword = true
+    fireEvent.press(passwordToggle); // second showPassword = true
     expect(passwordInput.props.secureTextEntry).toBe(false);
 
-    fireEvent.press(eyeIcon); // third showPassword = false
+    fireEvent.press(passwordToggle); // third showPassword = false
     expect(passwordInput.props.secureTextEntry).toBe(true);
   });
 
   it("navigates to the map screen after successful sign-up", async () => {
-    const { getByText } = render(<SignUpTest />);
+    const { getByText, getByTestId } = render(<SignUpTest />);
 
     // Mock is true (successful sign-up) by default in jestSetupFile.js
 
     // Simulate successful sign-up
-    fireEvent.press(getByText("Sign Up"));
+    fireEvent.press(getByTestId("sign-up-button"));
     // Wait for any async actions to complete
     await waitFor(() => {
       expect(screen.getByTestId("map-screen")).toBeTruthy();
@@ -196,7 +202,7 @@ describe("SignUp Component", () => {
       jest.fn(), // Mocked promptAsync function
     ]);
 
-    const { getByText, getByTestId } = render(<SignUpTest />);
+    const { getByText, getByTestId, findByTestId } = render(<SignUpTest />);
 
     const emailInput = getByTestId("email-input");
     const passwordInput = getByTestId("password-input");
@@ -204,9 +210,9 @@ describe("SignUp Component", () => {
     fireEvent.changeText(emailInput, "test@gmail.com");
     fireEvent.changeText(passwordInput, "password123");
 
-    fireEvent.press(getByText("Sign Up"));
+    fireEvent.press(getByTestId("sign-up-button"));
 
-    const errorMessage = getByTestId("signup-error-message");
+    const errorMessage = await findByTestId("signup-error-message");
     expect(errorMessage).toBeTruthy();
 
     await waitFor(() =>

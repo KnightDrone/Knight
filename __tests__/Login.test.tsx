@@ -98,12 +98,13 @@ describe("Login Component", () => {
     await waitFor(() => expect(queryByTestId("map-screen")).toBeTruthy());
   });
 
-  it("sets showPassword to true when the eye icon is pressed", async () => {
-    const rendered = render(<LoginTest />);
-
-    fireEvent.press(rendered.getByTestId("password-toggle"));
+  it("sets showPassword to true when the eye icon is pressed", () => {
+    const { getByPlaceholderText, getAllByTestId } = render(<LoginTest />);
+    const passwordToggles = getAllByTestId("password-toggle");
+    const passwordToggle = passwordToggles[1]; // Select the second password-toggle
+    fireEvent.press(passwordToggle);
     expect(
-      rendered.getByPlaceholderText("Enter your password").props.secureTextEntry
+      getByPlaceholderText("Enter your password").props.secureTextEntry
     ).toBe(false);
   });
 
