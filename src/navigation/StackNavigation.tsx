@@ -5,8 +5,8 @@ import SignUp from "./../app/SignUp";
 import ForgotPassword from "./../app/ForgotPassword";
 import OrderPlaced from "./../app/OrderPlaced";
 import OrderMenu from "../app/OrderMenu";
-import MapOverview from "../app/MapOverview";
 import { UserDrawer } from "./DrawerNavigation";
+import Map from "../app/Map";
 import Icon from "react-native-vector-icons/Ionicons";
 
 import { HeaderBackButton } from "@react-navigation/elements";
@@ -17,51 +17,83 @@ export type RootStackParamList = {
   ForgotPassword: undefined;
   OrderMenu: undefined;
   OrderPlaced: undefined;
-  Drawer: undefined;
-  MapOverview: undefined;
-  UserStack: undefined;
 };
 
-const { Navigator, Screen, Group } = createStackNavigator<RootStackParamList>();
+const Stack = createStackNavigator<RootStackParamList>();
+const RootStack = createStackNavigator();
 
 export const AuthStack = () => {
   return (
-    <Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}>
-      <Screen name="Login" component={Login} />
-      <Screen name="SignUp" component={SignUp} />
-      <Screen name="ForgotPassword" component={ForgotPassword} />
-      <Screen name="UserStack" component={UserStack} />
-    </Navigator>
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="Login" component={Login} />
+      <Stack.Screen name="SignUp" component={SignUp} />
+      <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
+    </Stack.Navigator>
   );
 };
 
 export const UserStack = () => {
   return (
-    <Navigator
-      initialRouteName="MapOverview"
-      screenOptions={{ headerShown: false }}
-    >
-      <Screen name="MapOverview" component={MapOverview} />
-      <Screen
-        name="OrderMenu"
-        component={OrderMenu}
-        options={({ navigation }) => ({
-          headerShown: true,
-          headerTransparent: true,
-          headerTitle: "",
-          headerLeft: () => (
-            <HeaderBackButton
-              onPress={() => navigation.goBack()}
-              backImage={() => (
-                <Icon name="arrow-back" size={24} color="black" />
-              )}
-              labelVisible={false}
-              testID="back-button"
-            />
-          ),
-        })}
-      />
-      <Screen name="OrderPlaced" component={OrderPlaced} />
-    </Navigator>
+    <RootStack.Navigator screenOptions={{ headerShown: false }}>
+      {
+        <>
+          <RootStack.Screen name="Drawer" component={UserDrawer} />
+          {/* <RootStack.Screen name="OrderMenu" component={OrderMenu} /> */}
+          <RootStack.Screen
+            name="OrderMenu"
+            component={OrderMenu}
+            options={({ navigation }) => ({
+              headerShown: true,
+              headerTransparent: true,
+              headerTitle: "",
+              headerLeft: () => (
+                <HeaderBackButton
+                  onPress={() => navigation.goBack()}
+                  backImage={() => (
+                    <Icon name="arrow-back" size={24} color="black" />
+                  )}
+                  labelVisible={false}
+                  testID="back-button"
+                />
+              ),
+            })}
+          />
+          <RootStack.Screen
+            name="OrderPlaced"
+            component={OrderPlaced}
+            options={({ navigation }) => ({
+              headerShown: true,
+              headerTransparent: true,
+              headerTitle: "",
+              headerLeft: () => (
+                <HeaderBackButton
+                  onPress={() => navigation.goBack()}
+                  backImage={() => (
+                    <Icon name="arrow-back" size={24} color="black" />
+                  )}
+                  labelVisible={false}
+                  testID="back-button"
+                />
+              ),
+            })}
+          />
+        </>
+      }
+    </RootStack.Navigator>
   );
 };
+
+const StackNavigator: React.FC = () => {
+  return (
+    <Stack.Navigator initialRouteName="Login">
+      <Stack.Screen name="OrderMenu" component={OrderMenu} />
+      <Stack.Screen
+        name="OrderPlaced"
+        component={OrderPlaced}
+        options={{ headerShown: false }}
+      />
+    </Stack.Navigator>
+  );
+};
+
+export default StackNavigator;

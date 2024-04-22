@@ -3,7 +3,7 @@ import { View, Text, Image, StyleSheet } from "react-native";
 
 function Profile({ navigation }: any) {
   return (
-    <View testID="profile-screen" style={styles.container}>
+    <View style={styles.container}>
       <Image
         source={{ uri: "https://via.placeholder.com/100" }}
         style={styles.avatar}
@@ -19,7 +19,6 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   avatar: {
-    marginTop: 80,
     width: 100,
     height: 100,
     borderRadius: 50,

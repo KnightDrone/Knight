@@ -2,9 +2,14 @@ import React from "react";
 import { StyleSheet, View, Text, Button, Alert } from "react-native";
 
 const Settings = ({ navigation }: any) => {
+  const handlePress = () => {
+    navigation.navigate("Map");
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.text}>This is the Settings page </Text>
+      <Button title="Click Me" onPress={handlePress} />
     </View>
   );
 };
