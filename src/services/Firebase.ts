@@ -54,4 +54,4 @@ const firestoreInstance = firestore(app);
 // Initialize Firebase Authentication and get a reference to the service
 // export const auth = getAuth(app);
 export default app;
-export { authInstance, firestoreInstance };
+export { authInstance, firestoreInstance, auth };
