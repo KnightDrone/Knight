@@ -13,7 +13,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 const Stack = createStackNavigator();
 import Login from "../src/app/Login";
 import passwordsForTesting from "../src/utils/passwords";
-import { createUserWithEmailAndPassword } from "../src/services/Firebase";
+import { authInstance } from "../src/services/Firebase";
 
 useFonts.mockReturnValue([true]);
 
@@ -188,8 +188,8 @@ describe("SignUp Component", () => {
   it("can handle failed responses from the sign-up API", async () => {
     // Mock the API call within handleSignUp to reject
     (
-      createUserWithEmailAndPassword as jest.MockedFunction<
-        typeof createUserWithEmailAndPassword
+      authInstance.createUserWithEmailAndPassword as jest.MockedFunction<
+        typeof authInstance.createUserWithEmailAndPassword
       >
     ).mockImplementationOnce(() =>
       Promise.reject(new Error("User already exists"))
