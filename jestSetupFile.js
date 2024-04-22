@@ -2,24 +2,24 @@ jest.mock("@react-native-async-storage/async-storage", () =>
   require("@react-native-async-storage/async-storage/jest/async-storage-mock")
 );
 
-jest.mock("firebase/app", () => ({
+jest.mock("@react-native-firebase/app", () => ({
   initializeApp: jest.fn(),
 }));
 
-jest.mock("firebase/analytics", () => ({
-  getAnalytics: jest.fn(),
-}));
+// jest.mock("firebase/analytics", () => ({
+//   getAnalytics: jest.fn(),
+// }));
 
-jest.mock("firebase/database", () => ({
-  getDatabase: jest.fn(),
-}));
+// jest.mock("firebase/database", () => ({
+//   getDatabase: jest.fn(),
+// }));
 
 jest.mock("expo-auth-session/providers/google", () => ({
   useAuthRequest: jest.fn(),
 }));
 
-jest.mock("firebase/auth", () => ({
-  getAuth: jest.fn(),
+jest.mock("@react-native-firebase/auth", () => ({
+  auth: jest.fn(),
   GoogleAuthProvider: {
     credential: jest.fn(() => "mock-credential"), // Ensure this returns a mock credential as expected
   },
@@ -53,10 +53,6 @@ jest.mock("react-native-vector-icons/FontAwesome", () => {
 jest.mock("@react-native-async-storage/async-storage", () => ({
   getItem: jest.fn(),
   setItem: jest.fn(),
-}));
-
-jest.mock("firebase/app", () => ({
-  initializeApp: jest.fn(),
 }));
 
 jest.mock("react-native-vector-icons/MaterialIcons", () => {
