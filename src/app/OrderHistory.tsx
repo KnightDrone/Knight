@@ -121,7 +121,7 @@ const OrderHistory = ({
     }
   };
   return (
-    <View className="mt-16">
+    <View className="mt-16" testID="order-history-screen">
       <TriangleBackground color="#A0D1e4" />
       <View className="flex-row items-center justify-center">
         <TouchableOpacity className="absolute left-4" testID="menu-button">
