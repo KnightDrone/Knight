@@ -41,12 +41,12 @@ function App() {
   const checkLocalUser = async () => {
     try {
       // NOTE: Doesn't work with testing library
-      setLoading(true);
-      const userJSON = await AsyncStorage.getItem("@user");
-      const userData = userJSON != null ? JSON.parse(userJSON) : null;
-      if (userData) {
-        setUserInfo(userData);
-      }
+      // setLoading(true);
+      // const userJSON = await AsyncStorage.getItem("@user");
+      // const userData = userJSON != null ? JSON.parse(userJSON) : null;
+      // if (userData) {
+      //   setUserInfo(userData);
+      // }
     } catch (e) {
       alert(e);
     } finally {
