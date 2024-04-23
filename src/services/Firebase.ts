@@ -1,7 +1,17 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import {
+  getAuth,
+  GoogleAuthProvider,
+  signInWithPopup,
+  signInWithCredential,
+  signInWithEmailAndPassword,
+  User,
+  onAuthStateChanged,
+  sendPasswordResetEmail,
+  createUserWithEmailAndPassword,
+} from "firebase/auth";
 import { getDatabase } from "firebase/database";
 import { Platform } from "react-native";
 import {
@@ -20,8 +30,8 @@ import {
 
 const APP_ID =
   Platform.OS === "ios"
-    ? process.env.EXPO_PUBLIC_FIREBASE_IOS_APP_ID
-    : process.env.EXPO_PUBLIC_FIREBASE_ANDROID_APP_ID;
+    ? process.env.FIREBASE_IOS_APP_ID
+    : process.env.FIREBASE_ANDROID_APP_ID;
 
 interface FirebaseConfig {
   apiKey: any;
@@ -41,7 +51,7 @@ const firebaseConfig: FirebaseConfig = {
   projectId: process.env.FIREBASE_PROJECT_ID,
   storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
   messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.APP_ID,
+  appId: APP_ID,
   measurementId: process.env.FIREBASE_MEASUREMENT_ID,
 };
 
@@ -59,13 +69,11 @@ export {
   GoogleAuthProvider,
   signInWithPopup,
   database,
-  firestore,
-  collection,
-  deleteDoc,
-  doc,
-  getDoc,
-  getDocs,
-  query,
-  setDoc,
-  where,
+  analytics,
+  signInWithCredential,
+  signInWithEmailAndPassword,
+  User,
+  onAuthStateChanged,
+  sendPasswordResetEmail,
+  createUserWithEmailAndPassword,
 };

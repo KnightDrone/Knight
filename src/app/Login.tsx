@@ -9,15 +9,15 @@ import {
   Platform,
 } from "react-native";
 import {
+  auth,
   GoogleAuthProvider,
   onAuthStateChanged,
   signInWithCredential,
-} from "firebase/auth";
-import { auth } from "../services/Firebase";
+  signInWithEmailAndPassword,
+} from "../services/Firebase";
 import * as Google from "expo-auth-session/providers/google";
 import * as WebBrowser from "expo-web-browser";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { signInWithEmailAndPassword } from "firebase/auth";
 
 // Navigation imports
 import GoogleAuthConfig from "../types/GoogleAuthConfig";
@@ -47,7 +47,7 @@ export default function Login({ navigation }: any) {
           console.log("Signed in successfully");
           navigation.navigate("Map"); // Navigate after successful login
         })
-        .catch((error) => {
+        .catch((error: any) => {
           console.error(error);
         });
     }
