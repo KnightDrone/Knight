@@ -9,9 +9,12 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 import "./global.css";
 
 import { registerRootComponent } from "expo";
-import { AppStack } from "../navigation/StackNavigation";
+import { RootStackParamList } from "../types/RootStackParamList";
+import OrderHistory from "./OrderHistory";
 
 WebBrowser.maybeCompleteAuthSession();
+
+const Stack = createStackNavigator<RootStackParamList>();
 
 function App() {
   const [userInfo, setUserInfo] = useState<User | null>(null);
@@ -21,12 +24,12 @@ function App() {
   const checkLocalUser = async () => {
     try {
       // NOTE: Doesn't work with testing library
-      // setLoading(true);
-      // const userJSON = await AsyncStorage.getItem("@user");
-      // const userData = userJSON != null ? JSON.parse(userJSON) : null;
-      // if (userData){
-      //   setUserInfo(userData);
-      // }
+      setLoading(true);
+      const userJSON = await AsyncStorage.getItem("@user");
+      const userData = userJSON != null ? JSON.parse(userJSON) : null;
+      if (userData) {
+        setUserInfo(userData);
+      }
     } catch (e) {
       alert(e);
     } finally {
@@ -59,7 +62,93 @@ function App() {
     return unsub;
   }, []);
 
-  return <AppStack isLoggedIn={isLoggedIn} user={userInfo} />;
+  if (loading) {
+    return <Text>Loading...</Text>;
+  }
+
+  return (
+    <NavigationContainer>
+      <Stack.Navigator
+        initialRouteName={userInfo ? "Map" : "Login"}
+        screenOptions={{
+          headerShown: false,
+          headerStyle: {
+            backgroundColor: "#f9f9f9",
+          },
+          headerTintColor: "#000",
+          headerTitleStyle: {
+            fontWeight: "bold",
+          },
+        }}
+      >
+        <Stack.Screen name="Login" options={{ title: "Login to Wild Knight" }}>
+          {(props) => <Login {...props} />}
+        </Stack.Screen>
+        <Stack.Screen
+          name="SignUp"
+          options={({ navigation }) => ({
+            headerShown: true,
+            headerTransparent: true,
+            headerTitle: "",
+            headerLeft: () => (
+              <HeaderBackButton
+                onPress={() => navigation.goBack()}
+                labelVisible={false}
+                testID="sign-up-back-button"
+              />
+            ),
+          })}
+        >
+          {(props) => <SignUp {...props} />}
+        </Stack.Screen>
+        <Stack.Screen
+          name="ForgotPassword"
+          component={ForgotPassword}
+          options={({ navigation }) => ({
+            headerShown: true,
+            headerTransparent: true,
+            headerTitle: "",
+            headerLeft: () => (
+              <HeaderBackButton
+                onPress={() => navigation.goBack()}
+                labelVisible={false}
+                testID="forgot-password-back-button"
+              />
+            ),
+          })}
+        />
+        <Stack.Screen name="Map">
+          {(props) => <MapOverview {...props} />}
+        </Stack.Screen>
+        <Stack.Screen
+          name="OrderMenu"
+          options={({ navigation }) => ({
+            headerShown: true,
+            headerTransparent: true,
+            headerTitle: "",
+            headerLeft: () => (
+              <HeaderBackButton
+                onPress={() => navigation.goBack()}
+                backImage={() => (
+                  <Icon name="arrow-back" size={24} color="black" />
+                )}
+                labelVisible={false}
+                testID="back-button"
+              />
+            ),
+          })}
+        >
+          {(props) => <OrderMenu {...props} />}
+        </Stack.Screen>
+        <Stack.Screen name="OrderPlaced">
+          {(props) => <OrderPlaced {...props} />}
+        </Stack.Screen>
+        <Stack.Screen name="OrderHistory">
+          {(props) => <OrderHistory {...props} />}
+        </Stack.Screen>
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
 }
 
 registerRootComponent(App);
