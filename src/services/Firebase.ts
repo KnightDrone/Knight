@@ -3,6 +3,7 @@ import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { getDatabase } from "firebase/database";
+import { Platform } from "react-native";
 import {
   getFirestore,
   collection,
@@ -16,6 +17,11 @@ import {
 } from "firebase/firestore";
 
 // https://firebase.google.com/docs/web/setup#available-libraries
+
+const APP_ID =
+  Platform.OS === "ios"
+    ? process.env.EXPO_PUBLIC_FIREBASE_IOS_APP_ID
+    : process.env.EXPO_PUBLIC_FIREBASE_ANDROID_APP_ID;
 
 interface FirebaseConfig {
   apiKey: any;
@@ -35,7 +41,7 @@ const firebaseConfig: FirebaseConfig = {
   projectId: process.env.FIREBASE_PROJECT_ID,
   storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
   messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.FIREBASE_ANDROID_APP_ID,
+  appId: process.env.APP_ID,
   measurementId: process.env.FIREBASE_MEASUREMENT_ID,
 };
 
