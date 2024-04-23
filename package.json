@@ -45,7 +45,7 @@
     "expo-status-bar": "~1.11.1",
     "expo-system-ui": "^2.9.3",
     "expo-web-browser": "~12.8.2",
-    "firebase": "^10.10.0",
+    "firebase": "^10.11.0",
     "n": "^9.2.1",
     "nativewind": "^4.0.1",
     "node": "^18.20.2",
