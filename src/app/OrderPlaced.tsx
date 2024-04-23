@@ -9,14 +9,17 @@ import Icon from "react-native-vector-icons/Fontisto";
 import { useFonts } from "expo-font";
 import KaiseiRegular from "../../assets/fonts/KaiseiDecol-Regular.ttf";
 import TriangleBackground from "../components/TriangleBackground";
+import { Animated } from "react-native";
 
 const OrderPlaced = ({
   route,
   navigation,
 }: {
   route: RouteProp<RootStackParamList, "OrderPlaced">;
-  navigation: StackNavigationProp<RootStackParamList, "OrderPlaced">;
+  navigation: any;
 }) => {
+  const [fadeAnim] = useState(new Animated.Value(0));
+
   const [fontsLoaded] = useFonts({
     "Kaisei-Regular": KaiseiRegular,
   });
@@ -26,7 +29,7 @@ const OrderPlaced = ({
   const [arrivalTime, setArrivalTime] = useState<number>(0);
 
   useEffect(() => {
-    const additionalMinutes: number = 1 + Math.random() * 1;
+    const additionalMinutes: number = Math.random() * 1;
     const arrivalTime = placedAt.valueOf() + additionalMinutes * 60 * 1000;
     setArrivalTime(arrivalTime);
   }, [placedAt]);
@@ -50,6 +53,16 @@ const OrderPlaced = ({
     return () => clearInterval(interval);
   }, [placedAt, arrivalTime]);
 
+  useEffect(() => {
+    if (completion >= 100) {
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: 1000,
+        useNativeDriver: true,
+      }).start();
+    }
+  }, [completion]);
+
   const getFormattedArrivalTime = (arrivalDate: Date): string => {
     const formattedDate: string = arrivalDate.toLocaleString("en-CH", {
       hour: "2-digit",
@@ -62,7 +75,7 @@ const OrderPlaced = ({
 
   return (
     <View
-      className="flex w-full h-full p-4 justify-center items-center"
+      className="flex flex-col gap-3 w-full h-full p-4 justify-center items-center"
       testID="order-placed-screen"
     >
       <TriangleBackground color="#A0D1e4" />
@@ -73,16 +86,16 @@ const OrderPlaced = ({
         >
           Your order is on its way
         </Text>
-        <View className="my-2 flex justify-start">
+        <View className="my-2 flex items-start">
           <Text className="text-lg my-2 font-kaisei" testID="arrival-time">
             {getFormattedArrivalTime(new Date(arrivalTime))}
           </Text>
         </View>
 
         {/* Loading bar and helicopter icon */}
-        <View className="w-full bg-gray-200 rounded-lg relative">
+        <View className="w-11/12 bg-gray-200 rounded-lg relative">
           <View
-            className="bg-blue-500 h-4 rounded-lg"
+            className="bg-blue-800 h-2 rounded-lg"
             style={{ width: `${Math.min(completion, 100)}%` }}
             testID="loading-bar"
           ></View>
@@ -98,7 +111,7 @@ const OrderPlaced = ({
         </View>
 
         <View
-          className="p-4 rounded-lg my-10  w-11/12 justify-center items-center"
+          className="p-4 rounded-lg mt-24  w-11/12 justify-center items-center"
           style={{ backgroundColor: "#FFFBF1" }}
         >
           <Text
@@ -120,10 +133,10 @@ const OrderPlaced = ({
           />
         </View>
 
-        <View
+        <Animated.View
           className="w-11/12 p-4 rounded-lg mt-2 justify-center items-center"
           style={{
-            opacity: completion >= 100 ? 1 : 0,
+            opacity: fadeAnim,
           }}
         >
           <Text
@@ -135,12 +148,22 @@ const OrderPlaced = ({
           <Text className="text-lg font-kaisei" testID="order-complete-message">
             Thanks for trusting us!
           </Text>
-          <TouchableOpacity>
+          {/* <TouchableOpacity>
             <Text className="text-red-500 font-kaisei" testID="report-issue">
               Report an issue
             </Text>
+          </TouchableOpacity> */}
+
+          <TouchableOpacity
+            className="bg-blue-700 mt-4 w-4/5 rounded-lg p-2 text-white items-center"
+            onPress={() => navigation.navigate("Map")}
+            style={{
+              opacity: completion >= 100 ? 1 : 0,
+            }}
+          >
+            <Text className="text-white font-kaisei">Continue</Text>
           </TouchableOpacity>
-        </View>
+        </Animated.View>
 
         <TouchableOpacity
           className="mt-4"
