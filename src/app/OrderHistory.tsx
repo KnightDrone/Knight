@@ -93,7 +93,6 @@ const OrderHistory = ({
   useEffect(() => {
     const fetchUser = async () => {
       const userJSON = await AsyncStorage.getItem("@user");
-      console.log(userJSON);
     };
 
     fetchUser();
