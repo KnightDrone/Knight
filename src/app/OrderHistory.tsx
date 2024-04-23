@@ -74,8 +74,10 @@ const fetchOrdersForUserMock = async (
 
 const OrderHistory = ({
   route,
+  navigation,
 }: {
   route: RouteProp<RootStackParamList, "OrderHistory">;
+  navigation: any;
 }) => {
   const { opOrders } = route.params;
 
@@ -133,7 +135,10 @@ const OrderHistory = ({
         <Text className="text-2xl font-bold text-center my-4">
           Order history
         </Text>
-        <TouchableOpacity className="absolute right-4" testID="x-button">
+        <TouchableOpacity
+          className="absolute right-4"
+          onPress={() => navigation.goBack()}
+        >
           <Image
             source={require("../../assets/icons/x_icon.png")}
             className="w-5 h-5"
