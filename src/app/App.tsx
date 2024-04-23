@@ -83,7 +83,7 @@ function App() {
 
   return (
     <NavigationContainer>
-      {userInfo ? <UserStack /> : <UserStack />}
+      {userInfo ? <UserStack /> : <AuthStack />}
     </NavigationContainer>
   );
 }

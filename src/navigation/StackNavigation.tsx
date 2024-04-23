@@ -6,7 +6,6 @@ import ForgotPassword from "./../app/ForgotPassword";
 import OrderPlaced from "./../app/OrderPlaced";
 import OrderMenu from "../app/OrderMenu";
 import { UserDrawer } from "./DrawerNavigation";
-import Map from "../app/Map";
 import Icon from "react-native-vector-icons/Ionicons";
 
 import { HeaderBackButton } from "@react-navigation/elements";
@@ -38,7 +37,6 @@ export const UserStack = () => {
       {
         <>
           <RootStack.Screen name="Drawer" component={UserDrawer} />
-          {/* <RootStack.Screen name="OrderMenu" component={OrderMenu} /> */}
           <RootStack.Screen
             name="OrderMenu"
             component={OrderMenu}
