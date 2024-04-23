@@ -25,7 +25,20 @@ import {
   Firestore,
 } from "firebase/firestore";
 
-// https://firebase.google.com/docs/web/setup#available-libraries
+const APP_ID =
+  Platform.OS === "ios"
+    ? process.env.EXPO_PUBLIC_FIREBASE_IOS_APP_ID
+    : process.env.EXPO_PUBLIC_FIREBASE_ANDROID_APP_ID;
+
+interface FirebaseConfig {
+  apiKey: any;
+  authDomain: any;
+  projectId: any;
+  storageBucket: any;
+  messagingSenderId: any;
+  appId: any;
+  measurementId: any;
+}
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
