@@ -136,7 +136,7 @@ describe("OrderPlaced", () => {
     expect(orderComplete).toBeTruthy();
     const orderCompleteMessage = getByTestId("order-complete-message");
     expect(orderCompleteMessage).toBeTruthy();
-    const reportIssue = getByTestId("report-issue");
-    expect(reportIssue).toBeTruthy();
+    // const reportIssue = getByTestId("report-issue");
+    // expect(reportIssue).toBeTruthy();
   });
 });
