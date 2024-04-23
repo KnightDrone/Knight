@@ -21,9 +21,19 @@ class Order {
   private orderDate: Date;
   private status: OrderStatus;
   private deliveryDate: Date;
-  private location: Location;
+  private location: OrderLocation;
+  private op_name: string;
+  private op_location: OrderLocation;
 
-  constructor(user: string, item: Item, location: Location) {
+  constructor(
+    user: string,
+    item: Item,
+    location: OrderLocation,
+    orderDate?: Date,
+    deliveryDate?: Date,
+    op_name?: string,
+    op_location?: OrderLocation
+  ) {
     this.id = autoId();
     this.user = user;
     this.item = item;
