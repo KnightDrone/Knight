@@ -7,12 +7,10 @@ import {
   signInWithPopup,
   signInWithCredential,
   signInWithEmailAndPassword,
-  User,
-  onAuthStateChanged,
-  sendPasswordResetEmail,
-  createUserWithEmailAndPassword,
 } from "firebase/auth";
 import { getDatabase } from "firebase/database";
+
+// https://firebase.google.com/docs/web/setup#available-libraries
 
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -46,4 +44,12 @@ const analytics = getAnalytics(app);
 const database = getDatabase(app);
 
 export default app;
-export { authInstance, firestoreInstance, auth };
+export {
+  auth,
+  GoogleAuthProvider,
+  signInWithPopup,
+  database,
+  analytics,
+  signInWithCredential,
+  signInWithEmailAndPassword,
+};
