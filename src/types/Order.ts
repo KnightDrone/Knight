@@ -1,5 +1,6 @@
 import { Item } from "./Item";
 import { autoId } from "@google-cloud/firestore/build/src/util";
+import { autoId } from "@google-cloud/firestore/build/src/util";
 
 enum OrderStatus {
   Pending = "Pending",
@@ -20,6 +21,9 @@ class Order {
   private orderDate: Date;
   private status: OrderStatus;
   private deliveryDate: Date;
+  private location: OrderLocation;
+  private op_name: string;
+  private op_location: OrderLocation;
   private location: OrderLocation;
   private op_name: string;
   private op_location: OrderLocation;

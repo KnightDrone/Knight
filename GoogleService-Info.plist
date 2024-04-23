@@ -3,23 +3,23 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>983400403511-gi5mo0akb89fcecaivk4q509c63hrvtl.apps.googleusercontent.com</string>
+	<string>process.env.IOS_CLIENT_ID</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.983400403511-gi5mo0akb89fcecaivk4q509c63hrvtl</string>
+	<string>process.env.IOS_REVERSED_CLIENT_ID</string>
 	<key>ANDROID_CLIENT_ID</key>
-	<string>983400403511-i43set67i4o1e3kb7fl91vrh9r6aemcb.apps.googleusercontent.com</string>
+	<string>process.env.ANDROID_CLIENT_ID</string>
 	<key>API_KEY</key>
-	<string>AIzaSyD_K3-c89vSrQAnSII0wq7Q2QCgGT1Xl2M</string>
+	<string>process.env.API_KEY</string>
 	<key>GCM_SENDER_ID</key>
-	<string>983400403511</string>
+	<string>process.env.GSM_SENDER_ID</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.swent.knight</string>
+	<string>process.env.BUNDLE_ID</string>
 	<key>PROJECT_ID</key>
-	<string>swent-g25</string>
+	<string>process.env.PROJECT_ID</string>
 	<key>STORAGE_BUCKET</key>
-	<string>swent-g25.appspot.com</string>
+	<string>process.env.STORAGE_BUCKET</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -31,8 +31,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:983400403511:ios:fd4d244e714af6924ae5b2</string>
+	<string>process.env.IOS_APP_ID</string>
 	<key>DATABASE_URL</key>
-	<string>https://swent-g25-default-rtdb.europe-west1.firebasedatabase.app</string>
+	<string>process.env.DATABASE_URL</string>
 </dict>
 </plist>
