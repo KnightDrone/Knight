@@ -14,6 +14,20 @@ jest.mock("firebase/analytics", () => ({
 
 jest.mock("firebase/firestore", () => ({
   getFirestore: jest.fn(),
+  collection: jest.fn(),
+  deleteDoc: jest.fn(),
+  doc: jest.fn(),
+  getDoc: jest.fn().mockResolvedValue({
+    exists: jest.fn().mockReturnValue(true),
+    data: jest.fn().mockReturnValue({
+      withConverter: jest.fn(),
+      getUser: "admin",
+    }),
+  }),
+  getDocs: jest.fn(),
+  query: jest.fn(),
+  setDoc: jest.fn(),
+  where: jest.fn(),
 }));
 
 jest.mock("firebase/database", () => ({
