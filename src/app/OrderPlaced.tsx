@@ -67,11 +67,14 @@ const OrderPlaced = ({
     >
       <TriangleBackground color="#A0D1e4" />
       <View className="flex w-full flex-col items-center">
-        <Text className=" text-3xl font-bold font-kaisei">
+        <Text
+          className=" text-3xl font-bold font-kaisei"
+          testID="order-placed-message"
+        >
           Your order is on its way
         </Text>
         <View className="my-2 flex justify-start">
-          <Text className="text-lg my-2 font-kaisei">
+          <Text className="text-lg my-2 font-kaisei" testID="arrival-time">
             {getFormattedArrivalTime(new Date(arrivalTime))}
           </Text>
         </View>
@@ -81,6 +84,7 @@ const OrderPlaced = ({
           <View
             className="bg-blue-500 h-4 rounded-lg"
             style={{ width: `${Math.min(completion, 100)}%` }}
+            testID="loading-bar"
           ></View>
           <View
             style={{
@@ -97,15 +101,21 @@ const OrderPlaced = ({
           className="p-4 rounded-lg my-10  w-11/12 justify-center items-center"
           style={{ backgroundColor: "#FFFBF1" }}
         >
-          <Text className="text-2xl font-semibold font-kaisei">
+          <Text
+            className="text-2xl font-semibold font-kaisei"
+            testID="order-summary"
+          >
             Order summary
           </Text>
-          <Text className="text-xl my-2 font-kaisei">
+          <Text className="text-xl my-2 font-kaisei" testID="ordered-item-name">
             {orderedItem.getName()}
           </Text>
-          <Text className="text-lg font-kaisei">Location: {userLocation}</Text>
+          <Text className="text-lg font-kaisei" testID="user-location">
+            Location: {userLocation}
+          </Text>
           <Image
             className="w-64 h-64 rounded-lg"
+            testID="ordered-item-image"
             source={orderedItem.getImage()}
           />
         </View>
@@ -116,17 +126,25 @@ const OrderPlaced = ({
             opacity: completion >= 100 ? 1 : 0,
           }}
         >
-          <Text className="text-lg font-semibold font-kaisei">
+          <Text
+            className="text-lg font-semibold font-kaisei"
+            testID="order-complete"
+          >
             Your order should have been delivered!
           </Text>
-          <Text className="text-lg font-kaisei">Thanks for trusting us!</Text>
+          <Text className="text-lg font-kaisei" testID="order-complete-message">
+            Thanks for trusting us!
+          </Text>
           <TouchableOpacity>
-            <Text className="text-red-500 font-kaisei">Report an issue</Text>
+            <Text className="text-red-500 font-kaisei" testID="report-issue">
+              Report an issue
+            </Text>
           </TouchableOpacity>
         </View>
 
         <TouchableOpacity
           className="mt-4"
+          testID="view-order-history"
           onPress={() =>
             navigation.navigate("OrderHistory", { opOrders: true })
           }
