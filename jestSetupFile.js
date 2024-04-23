@@ -1,37 +1,23 @@
+const { getFirestore } = require("firebase/firestore");
+
 jest.mock("@react-native-async-storage/async-storage", () =>
   require("@react-native-async-storage/async-storage/jest/async-storage-mock")
 );
 
 jest.mock("firebase/app", () => ({
-  initializeApp: jest.fn(() => {
-    {
-    }
-  }),
-  getApps: jest.fn(() => []),
-  getApp: jest.fn(),
+  initializeApp: jest.fn(),
+}));
+
+jest.mock("firebase/analytics", () => ({
+  getAnalytics: jest.fn(),
 }));
 
 jest.mock("firebase/firestore", () => ({
-  getFirestore: jest.fn(() => {}),
-  initializeFirestore: jest.fn(),
-  collection: jest.fn(),
-  deleteDoc: jest.fn(),
-  doc: jest.fn(),
-  getDoc: jest.fn().mockResolvedValue({
-    exists: jest.fn().mockReturnValue(true),
-    data: jest.fn().mockReturnValue({
-      withConverter: jest.fn(),
-      getUser: "admin",
-    }),
-  }),
-  getDocs: jest.fn(),
-  query: jest.fn(),
-  setDoc: jest.fn(),
-  where: jest.fn(),
+  getFirestore: jest.fn(),
 }));
 
-jest.mock("@react-native-firebase/firestore", () => ({
-  firestore: jest.fn(),
+jest.mock("firebase/database", () => ({
+  getDatabase: jest.fn(),
 }));
 
 jest.mock("expo-auth-session/providers/google", () => ({
@@ -39,9 +25,7 @@ jest.mock("expo-auth-session/providers/google", () => ({
 }));
 
 jest.mock("firebase/auth", () => ({
-  getAuth: jest.fn(() => {}),
-  initializeAuth: jest.fn(),
-  getReactNativePersistence: jest.fn(),
+  getAuth: jest.fn(),
   GoogleAuthProvider: {
     credential: jest.fn(() => "mock-credential"), // Ensure this returns a mock credential as expected
   },
@@ -51,6 +35,7 @@ jest.mock("firebase/auth", () => ({
   createUserWithEmailAndPassword: jest.fn(() =>
     Promise.resolve({ user: true })
   ), // Explicitly return a resolved promise
+  signInWithPopup: jest.fn(() => Promise.resolve({ user: true })), // Explicitly return a resolved promise
   signInWithRedirect: jest.fn(() => Promise.resolve({ user: true })), // Explicitly return a resolved promise
   sendPasswordResetEmail: jest.fn(() => Promise.resolve()),
   onAuthStateChanged: jest.fn(),
@@ -75,6 +60,10 @@ jest.mock("react-native-vector-icons/FontAwesome", () => {
 jest.mock("@react-native-async-storage/async-storage", () => ({
   getItem: jest.fn(),
   setItem: jest.fn(),
+}));
+
+jest.mock("firebase/app", () => ({
+  initializeApp: jest.fn(),
 }));
 
 jest.mock("react-native-vector-icons/MaterialIcons", () => {
