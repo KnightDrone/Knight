@@ -39,7 +39,13 @@ export default function OrderMenu({ navigation }: any) {
           <ItemCard
             isVisible={isVisible}
             handleClose={handleCloseCard}
-            handleOrder={() => navigation.navigate("OrderPlaced")}
+            handleOrder={() =>
+              navigation.navigate("OrderPlaced", {
+                orderedItem: button.item,
+                placedAt: new Date(),
+                userLocation: "1234 Main St",
+              })
+            }
             item={button.item}
             key={`card-${button.item.getId()}`}
           />
