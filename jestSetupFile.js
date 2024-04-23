@@ -15,7 +15,10 @@ jest.mock("@react-native-firebase/app", () => ({
 // }));
 
 jest.mock("@react-native-firebase/firestore", () => ({
-  firestore: jest.fn(),
+  __esModule: true, // this property makes it work
+  default: jest.fn().mockReturnValue({
+    firestore: jest.fn(),
+  }),
 }));
 
 jest.mock("expo-auth-session/providers/google", () => ({
@@ -23,19 +26,24 @@ jest.mock("expo-auth-session/providers/google", () => ({
 }));
 
 jest.mock("@react-native-firebase/auth", () => ({
-  auth: jest.fn(),
-  GoogleAuthProvider: {
-    credential: jest.fn(() => "mock-credential"), // Ensure this returns a mock credential as expected
-  },
-  signInWithCredential: jest.fn(() => Promise.resolve({ user: true })), // Explicitly return a resolved promise
-  signInWithEmailAndPassword: jest.fn(() => Promise.resolve({ user: true })), // Explicitly return a resolved promise
-  signOut: jest.fn(() => Promise.resolve()), // Explicitly return a resolved promise
-  createUserWithEmailAndPassword: jest.fn(() =>
-    Promise.resolve({ user: true })
-  ), // Explicitly return a resolved promise
-  signInWithRedirect: jest.fn(() => Promise.resolve({ user: true })), // Explicitly return a resolved promise
-  sendPasswordResetEmail: jest.fn(() => Promise.resolve()),
-  onAuthStateChanged: jest.fn(),
+  __esModule: true, // this property makes it work
+  default: jest.fn().mockReturnValue({
+    auth: jest.fn().mockReturnValue({
+      GoogleAuthProvider: {
+        credential: jest.fn(() => "mock-credential"), // Ensure this returns a mock credential as expected
+      },
+      signInWithCredential: jest.fn(() => Promise.resolve({ user: true })), // Explicitly return a resolved promise
+      signInWithEmailAndPassword: jest.fn(() =>
+        Promise.resolve({ user: true })
+      ), // Explicitly return a resolved promise
+      signOut: jest.fn(() => Promise.resolve()), // Explicitly return a resolved promise
+      createUserWithEmailAndPassword: jest.fn(() =>
+        Promise.resolve({ user: true })
+      ), // Explicitly return a resolved promise
+      signInWithRedirect: jest.fn(() => Promise.resolve({ user: true })), // Explicitly return a resolved promise
+      sendPasswordResetEmail: jest.fn(() => Promise.resolve()),
+    }),
+  }),
 }));
 
 jest.mock("@react-navigation/native", () => ({
