@@ -32,6 +32,8 @@ const fetchOrdersForUserMock = async (
           "user1",
           new Item(1, "mock item1", "description1", 1, 1, 10),
           { latitude: 46.8182, longitude: 8.2275 }, // Correct way to create an OrderLocation object
+          new Date(),
+          new Date(),
           "St. Gallen Hospital",
           { latitude: 55, longitude: 33 } // Correct way to create an OrderLocation object
         ),
@@ -39,6 +41,8 @@ const fetchOrdersForUserMock = async (
           "user2",
           new Item(2, "mock item2", "description2", 2, 2, 22),
           { latitude: 40.8182, longitude: 8.2275 }, // Correct way to create an OrderLocation object
+          new Date(),
+          new Date(),
           "Drone Station 1", // "Drone Station 1", "St. Gallen Hospital", "Jeffrey's Clinic"
           { latitude: 59, longitude: 38 } // Correct way to create an OrderLocation object
         ),
@@ -46,6 +50,8 @@ const fetchOrdersForUserMock = async (
           "user3",
           new Item(3, "mock item3", "description3", 3, 3, 330),
           { latitude: 0, longitude: 0 }, // Correct way to create an OrderLocation object
+          new Date(),
+          new Date(),
           "Jeffrey's Clinic", // "Drone Station 1", "St. Gallen Hospital", "Jeffrey's Clinic"
           { latitude: 25, longitude: 3.2275 } // Correct way to create an OrderLocation object
         ),
@@ -53,6 +59,8 @@ const fetchOrdersForUserMock = async (
           "user4",
           new Item(3, "item4", "description3", 3, 3, 330),
           { latitude: 0, longitude: 0 }, // Correct way to create an OrderLocation object
+          new Date(),
+          new Date(),
           "Jeffrey's Clinic", // "Drone Station 1", "St. Gallen Hospital", "Jeffrey's Clinic"
           { latitude: 25, longitude: 3.2275 } // Correct way to create an OrderLocation object
         ),
