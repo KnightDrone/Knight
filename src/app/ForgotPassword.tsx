@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { Text, View } from "react-native";
-import { authInstance } from "../services/Firebase";
-import { auth } from "../services/Firebase";
+import { auth, sendPasswordResetEmail } from "../services/Firebase";
+import { TextField } from "../ui/TextField";
+import { Button } from "../ui/Button";
+import { MessageBox } from "../ui/MessageBox";
 
 export default function ForgotPasswordScreen() {
   const [email, setEmail] = useState("");
@@ -10,8 +12,7 @@ export default function ForgotPasswordScreen() {
   const [successMessage, setSuccessMessage] = useState("");
 
   const handleForgotPassword = () => {
-    authInstance
-      .sendPasswordResetEmail(email)
+    sendPasswordResetEmail(auth, email)
       .then(() => {
         // Password reset email sent!
         // showing a toast is better (library: react-native-toast-message, react-native-notifier)

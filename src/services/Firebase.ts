@@ -7,6 +7,10 @@ import {
   signInWithPopup,
   signInWithCredential,
   signInWithEmailAndPassword,
+  User,
+  onAuthStateChanged,
+  sendPasswordResetEmail,
+  createUserWithEmailAndPassword,
 } from "firebase/auth";
 import { getDatabase } from "firebase/database";
 
@@ -51,4 +55,8 @@ export {
   analytics,
   signInWithCredential,
   signInWithEmailAndPassword,
+  User,
+  onAuthStateChanged,
+  sendPasswordResetEmail,
+  createUserWithEmailAndPassword,
 };

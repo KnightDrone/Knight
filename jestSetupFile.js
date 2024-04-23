@@ -20,10 +20,6 @@ jest.mock("firebase/database", () => ({
   getDatabase: jest.fn(),
 }));
 
-jest.mock("@react-native-firebase/firestore", () => ({
-  firestore: jest.fn(),
-}));
-
 jest.mock("expo-auth-session/providers/google", () => ({
   useAuthRequest: jest.fn(),
 }));
@@ -39,6 +35,7 @@ jest.mock("firebase/auth", () => ({
   createUserWithEmailAndPassword: jest.fn(() =>
     Promise.resolve({ user: true })
   ), // Explicitly return a resolved promise
+  signInWithPopup: jest.fn(() => Promise.resolve({ user: true })), // Explicitly return a resolved promise
   signInWithRedirect: jest.fn(() => Promise.resolve({ user: true })), // Explicitly return a resolved promise
   sendPasswordResetEmail: jest.fn(() => Promise.resolve()),
   onAuthStateChanged: jest.fn(),
