@@ -4,7 +4,7 @@ import { useFonts } from "../__mocks__/expo-font";
 import * as Google from "expo-auth-session/providers/google";
 
 import App from "../src/app/App";
-import { authInstance } from "../src/services/Firebase";
+import { onAuthStateChanged } from "../src/services/Firebase";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 beforeEach(() => {
@@ -177,18 +177,16 @@ describe("App Navigation", () => {
 
   it("onAuthStateChanged is called when the user logs in", async () => {
     const mockUser = { uid: "123", email: "random@gmail.com" };
-    (authInstance.onAuthStateChanged as jest.Mock).mockImplementation(
-      (auth, callback) => {
-        callback(mockUser);
-        return jest.fn();
-      }
-    );
+    (onAuthStateChanged as jest.Mock).mockImplementation((auth, callback) => {
+      callback(mockUser);
+      return jest.fn();
+    });
 
     const { queryByTestId } = render(<App />);
 
     await waitFor(() => {
       expect(queryByTestId("map-overview-screen")).toBeTruthy();
-      expect(authInstance.onAuthStateChanged).toHaveBeenCalled();
+      expect(onAuthStateChanged).toHaveBeenCalled();
       expect(AsyncStorage.setItem).toHaveBeenCalledWith(
         "@user",
         JSON.stringify(mockUser)
@@ -199,17 +197,15 @@ describe("App Navigation", () => {
   it("onAuthChanged is called when the user logs out", async () => {
     //mock null user (logged out)
     const mockUser = null;
-    (authInstance.onAuthStateChanged as jest.Mock).mockImplementation(
-      (auth, callback) => {
-        callback(mockUser);
-        return jest.fn();
-      }
-    );
+    (onAuthStateChanged as jest.Mock).mockImplementation((auth, callback) => {
+      callback(mockUser);
+      return jest.fn();
+    });
 
     const { queryByTestId } = render(<App />);
     await waitFor(() => {
       expect(queryByTestId("map-overview-screen")).toBeTruthy();
-      expect(authInstance.onAuthStateChanged).toHaveBeenCalled();
+      expect(onAuthStateChanged).toHaveBeenCalled();
       expect(AsyncStorage.removeItem).toHaveBeenCalledWith("@user");
     });
   });
@@ -219,12 +215,10 @@ describe("App Navigation", () => {
       uid: "123",
       email: "random@gmail.com",
     };
-    (authInstance.onAuthStateChanged as jest.Mock).mockImplementation(
-      (auth, callback) => {
-        callback(mockUser);
-        return jest.fn();
-      }
-    );
+    (onAuthStateChanged as jest.Mock).mockImplementation((auth, callback) => {
+      callback(mockUser);
+      return jest.fn();
+    });
 
     // Mock the AsyncStorage error
     (AsyncStorage.setItem as jest.Mock).mockRejectedValue(
@@ -234,7 +228,7 @@ describe("App Navigation", () => {
     const { queryByTestId } = render(<App />);
     await waitFor(() => {
       expect(queryByTestId("map-overview-screen")).toBeTruthy();
-      expect(authInstance.onAuthStateChanged).toHaveBeenCalled();
+      expect(onAuthStateChanged).toHaveBeenCalled();
       expect(AsyncStorage.setItem).toHaveBeenCalledWith(
         "@user",
         JSON.stringify(mockUser)
@@ -245,12 +239,10 @@ describe("App Navigation", () => {
 
   it("alerts due to removeItem error", async () => {
     const mockUser = null;
-    (authInstance.onAuthStateChanged as jest.Mock).mockImplementation(
-      (auth, callback) => {
-        callback(mockUser);
-        return jest.fn();
-      }
-    );
+    (onAuthStateChanged as jest.Mock).mockImplementation((auth, callback) => {
+      callback(mockUser);
+      return jest.fn();
+    });
 
     // Mock the AsyncStorage error
     (AsyncStorage.removeItem as jest.Mock).mockRejectedValue(
@@ -260,7 +252,7 @@ describe("App Navigation", () => {
     const { queryByTestId } = render(<App />);
     await waitFor(() => {
       expect(queryByTestId("map-overview-screen")).toBeTruthy();
-      expect(authInstance.onAuthStateChanged).toHaveBeenCalled();
+      expect(onAuthStateChanged).toHaveBeenCalled();
       expect(AsyncStorage.removeItem).toHaveBeenCalledWith("@user");
       expect(alert).toHaveBeenCalledWith(new Error("AsyncStorage error"));
     });
