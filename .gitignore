@@ -54,3 +54,6 @@ package-lock.json
 
 # Husky
 .husky/
+
+# Vercel
+.vercel
