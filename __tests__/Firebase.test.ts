@@ -29,16 +29,18 @@ describe("Firebase Initialization", () => {
 
     expect(initializeApp).toHaveBeenCalled();
     expect(getAuth).toHaveBeenCalled();
+    expect(getDatabase).toHaveBeenCalled();
     expect(getFirestore).toHaveBeenCalled();
   });
 
   it("should initialize auth, database, and firestore", () => {
-    const app = initializeApp(mockConfig); // Assuming `mockConfig` is your Firebase configuration
-    const auth = getAuth(app);
-    const firestore = getFirestore(app);
+    require("../src/services/Firebase"); // This will run your Firebase.ts file
 
-    expect(app).toBeDefined();
-    expect(auth).toBeDefined();
-    expect(firestore).toBeDefined();
+    expect(initializeApp()).toBeDefined();
+    expect(getAuth()).toBeDefined();
+    expect(getDatabase()).toBeDefined();
+    expect(getFirestore()).toBeDefined();
+    expect(getDatabase).toHaveBeenCalled();
+    expect(getFirestore).toHaveBeenCalled();
   });
 });

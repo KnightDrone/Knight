@@ -6,10 +6,6 @@ jest.mock("firebase/app", () => ({
   initializeApp: jest.fn(),
 }));
 
-jest.mock("firebase/analytics", () => ({
-  getAnalytics: jest.fn(),
-}));
-
 jest.mock("firebase/firestore", () => ({
   getFirestore: jest.fn(),
 }));
