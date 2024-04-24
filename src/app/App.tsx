@@ -17,10 +17,6 @@ import ForgotPassword from "./ForgotPassword";
 import OrderMenu from "./OrderMenu";
 import MapOverview from "./Map";
 import OrderPlaced from "./OrderPlaced";
-
-import OperatorMap from "../operator/OperatorMap";
-import OperatorOrderPlaced from "../operator/OperatorOrderPlaced";
-import OperatorOrderAccepted from "../operator/OperatorOrderAccepted";
 import "./global.css";
 
 import { useFonts } from "expo-font";
@@ -39,9 +35,6 @@ type RootStackParamList = {
   OrderMenu: undefined;
   Map: undefined;
   OrderPlaced: undefined;
-  OperatorMap: undefined;
-  OperatorOrderPlaced: undefined;
-  OperatorOrderAccepted: undefined;
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -150,16 +143,6 @@ function App() {
         />
         <Stack.Screen name="Map">
           {(props) => <MapOverview {...props} />}
-        </Stack.Screen>
-        <Stack.Screen name="OperatorMap">
-          {(props) => <OperatorMap {...props} />}
-        </Stack.Screen>
-        <Stack.Screen name="OperatorOrderPlaced">
-          {(props) => <OperatorOrderPlaced {...props} />}
-        </Stack.Screen>
-
-        <Stack.Screen name="OperatorOrderAccepted">
-          {(props) => <OperatorOrderAccepted {...props} />}
         </Stack.Screen>
         <Stack.Screen
           name="OrderMenu"
