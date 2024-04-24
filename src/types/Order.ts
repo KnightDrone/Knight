@@ -1,5 +1,5 @@
+import { secureRandom } from "../utils/random";
 import { Item } from "./Item";
-import { autoId } from "@google-cloud/firestore/build/src/util";
 
 enum OrderStatus {
   Pending = "Pending",
@@ -92,7 +92,7 @@ class Order {
   // Temporary method for testing, should NOT be used in production
   private generateId(): string {
     const timestamp = Date.now().toString();
-    const randomNumber = Math.floor(Math.random() * 1000)
+    const randomNumber = Math.floor(secureRandom() * 1000)
       .toString()
       .padStart(3, "0");
     return timestamp + randomNumber;
