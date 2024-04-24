@@ -13,8 +13,8 @@ import { createStackNavigator } from "@react-navigation/stack";
 const Stack = createStackNavigator();
 import { useFonts } from "../__mocks__/expo-font";
 import Login from "../src/app/Login";
-import { createUserWithEmailAndPassword } from "firebase/auth";
 import passwordsForTesting from "../src/utils/passwords";
+import { createUserWithEmailAndPassword } from "../src/services/Firebase";
 
 useFonts.mockReturnValue([true]);
 
