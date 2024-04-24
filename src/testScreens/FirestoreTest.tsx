@@ -7,7 +7,6 @@ import { Order } from "../types/Order"; // Import your Order module
 const firestoreManager = new FirestoreManager(); // Create an instance of your FirestoreManager
 const id = "mqpsyXSq3iJSOErqgPzt";
 const user = "admin";
-const operator = "me";
 const orderDate = new Date(2024, 4, 19, 12, 0, 0);
 const deliveryDate = new Date(2024, 4, 19, 13, 0, 0);
 const location = { latitude: -999, longitude: -999 };
@@ -43,9 +42,11 @@ const FirestoreTest: React.FC = () => {
     // Call your FirestoreManager functions here
     // For example:
     const result = await firestoreManager.readData(id);
-    console.log("result: " + result);
-    console.log("result dictionary: " + result);
-    if (result === order) {
+    console.log("result: ", result);
+    console.log("result dictionary: ", result.toDict());
+    console.log("order dictionary: ", order.toDict());
+
+    if (result.toDict() === order.toDict()) {
       console.log("Test: read data passed");
     } else {
       console.log(
