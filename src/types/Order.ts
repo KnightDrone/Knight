@@ -1,5 +1,5 @@
+import { useId } from "react";
 import { Item } from "./Item";
-import { autoId } from "@google-cloud/firestore/build/src/util";
 
 enum OrderStatus {
   Pending = "Pending",
@@ -31,9 +31,10 @@ class Order {
     orderDate?: Date,
     deliveryDate?: Date,
     op_name?: string,
-    op_location?: OrderLocation
+    op_location?: OrderLocation,
+    id?: string
   ) {
-    this.id = autoId();
+    this.id = id || useId();
     this.user = user;
     this.item = item;
     this.orderDate = new Date();
@@ -129,8 +130,9 @@ const orderConverter = {
       JSON.parse(data.location),
       data.orderDate,
       data.deliveryDate,
-      data.id,
-      data.operator
+      data.operator,
+      data.op_location,
+      data.id
     );
   },
 };
