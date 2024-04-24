@@ -27,10 +27,10 @@ export default function SignUp({ navigation }: any) {
   const [showPassword, setShowPassword] = useState(false);
 
   const [request, response, promptAsync] = Google.useAuthRequest({
-    iosClientId: process.env.EXPO_PUBLIC_IOS_CLIENT_ID_OAUTH,
-    androidClientId: process.env.EXPO_PUBLIC_ANDROID_CLIENT_ID_OAUTH,
-    webClientId: process.env.EXPO_PUBLIC_WEB_CLIENT_ID_OAUTH,
-    redirectUri: process.env.EXPO_PUBLIC_REDIRECT_URI,
+    iosClientId: process.env.IOS_CLIENT_ID_OAUTH,
+    androidClientId: process.env.ANDROID_CLIENT_ID_OAUTH,
+    webClientId: process.env.WEB_CLIENT_ID_OAUTH,
+    redirectUri: process.env.REDIRECT_URI,
   });
 
   const [request, response, promptAsync] = Google.useAuthRequest(config);
