@@ -1,4 +1,4 @@
-import uuid from "react-native-uuid";
+import { secureRandom } from "../utils/random";
 import { Item } from "./Item";
 
 enum OrderStatus {
@@ -96,6 +96,14 @@ class Order {
       deliveryDate: this.deliveryDate.toString(),
       location: JSON.stringify(this.location),
     };
+  }
+  // Temporary method for testing, should NOT be used in production
+  private generateId(): string {
+    const timestamp = Date.now().toString();
+    const randomNumber = Math.floor(secureRandom() * 1000)
+      .toString()
+      .padStart(3, "0");
+    return timestamp + randomNumber;
   }
 }
 
