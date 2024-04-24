@@ -3,7 +3,8 @@ import { View, TouchableOpacity, Text, Alert } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
 import Icon from "react-native-vector-icons/MaterialIcons";
-const MapOverview = ({ navigation }: any) => {
+
+const OperatorMap = ({ navigation }: any) => {
   const [currentRegion, setCurrentRegion] = useState({
     latitude: 37.789,
     longitude: -122.4324,
@@ -71,4 +72,4 @@ const MapOverview = ({ navigation }: any) => {
     </View>
   );
 };
-export default MapOverview;
+export default OperatorMap;

@@ -1,26 +1,27 @@
 export class Item {
   private id: number;
-  //CHANGED bc OrderNotification.tsx:14
-  public name: string; // public or private. Why was it private?
+  private name: string;
   private description: string;
   private icon: number;
+  //private iconDir: string;
   private image: number;
+  //private imageDir: string;
   private price: number;
 
   constructor(
     id: number,
     name: string,
     description: string,
-    icon: number,
-    image: number,
-    price: number
+    price: number,
+    icon?: number,
+    image?: number
   ) {
     this.id = id;
     this.name = name;
     this.description = description;
-    this.icon = icon;
-    this.image = image;
     this.price = price;
+    this.icon = icon || 0;
+    this.image = image || 0;
   }
 
   getId(): number {
@@ -45,5 +46,14 @@ export class Item {
 
   getPrice(): number {
     return this.price;
+  }
+
+  toDict(): { [key: string]: string } {
+    return {
+      id: this.id.toString(),
+      name: this.name,
+      description: this.description,
+      price: this.price.toString(),
+    };
   }
 }

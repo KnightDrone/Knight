@@ -7,7 +7,7 @@ type Props = {
   navigation: StackNavigationProp<any>;
 };
 const OrderOrderPlaced: React.FC<Props> = ({ order, navigation }) => {
-  const [countdown, setCountdown] = useState<number>(10); // 10 seconds countdown
+  const [countdown, setCountdown] = useState<number>(5); // 10 seconds countdown
   useEffect(() => {
     let interval: NodeJS.Timeout | null = null;
     if (countdown > 0) {
@@ -23,7 +23,7 @@ const OrderOrderPlaced: React.FC<Props> = ({ order, navigation }) => {
   }, [countdown]);
   const handleAccept = () => {
     if (countdown === 0) {
-      navigation.navigate("OperatorOrderStarted");
+      navigation.navigate("OperatorOrderAccepted");
     }
   };
   const handleReject = () => {
@@ -32,12 +32,11 @@ const OrderOrderPlaced: React.FC<Props> = ({ order, navigation }) => {
   const formatDate = (date: Date) => date.toLocaleDateString("en-US");
   return (
     <View>
-      {/* Existing UI code */}
       <Text className="text-lg font-bold text-center mb-2">
         Order Notification
       </Text>
       <Text className="text-md text-center mb-1">
-        Item: {order.getItem().name}
+        Item: {order.getItem().getName()}
       </Text>
       <Text className="text-md text-center mb-1">
         Status: {order.getStatus()}
@@ -46,7 +45,7 @@ const OrderOrderPlaced: React.FC<Props> = ({ order, navigation }) => {
         Order Date: {formatDate(order.getOrderDate())}
       </Text>
       <Text className="text-md text-center mb-4">
-        Delivery Date: {formatDate(order.getDeliveryDate())}
+        Order Location: {order.getOrderLocation(order.location)}
       </Text>
       <View className="flex-row justify-around">
         <TouchableOpacity
