@@ -14,7 +14,6 @@ module.exports = {
       },
     ],
   },
-  transformIgnorePatterns: ["node_modules/(?!react-native|react-navigation)/"],
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
   collectCoverage: true,
   // ignore the src/services/ folder
