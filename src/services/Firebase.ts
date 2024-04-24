@@ -5,12 +5,12 @@ import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { getDatabase } from "firebase/database";
 import { Platform } from "react-native";
 
+// https://firebase.google.com/docs/web/setup#available-libraries
+
 const APP_ID =
   Platform.OS === "ios"
     ? process.env.EXPO_PUBLIC_FIREBASE_IOS_APP_ID
     : process.env.EXPO_PUBLIC_FIREBASE_ANDROID_APP_ID;
-
-// https://firebase.google.com/docs/web/setup#available-libraries
 
 interface FirebaseConfig {
   apiKey: any;
