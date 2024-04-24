@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Text, View, Image, TouchableOpacity, Platform } from "react-native";
 import {
+  auth,
   GoogleAuthProvider,
   signInWithCredential,
   signInWithEmailAndPassword,
-} from "firebase/auth";
-import { auth } from "../services/Firebase";
+} from "../services/Firebase";
 import * as Google from "expo-auth-session/providers/google";
 
 // Navigation imports
@@ -36,7 +36,7 @@ export default function Login({ navigation }: any) {
         .then(() => {
           navigation.navigate("Map"); // Navigate after successful login
         })
-        .catch((error) => {
+        .catch((error: any) => {
           console.error(error);
         });
     }

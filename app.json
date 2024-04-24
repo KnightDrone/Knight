@@ -32,7 +32,6 @@
       "bundler": "metro"
     },
     "plugins": [
-      "@react-native-firebase/app",
       [
         "expo-build-properties",
         {
