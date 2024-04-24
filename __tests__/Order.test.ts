@@ -95,7 +95,7 @@ describe("Order", () => {
           price: "100",
         },
         orderDate: new Date(),
-        status: "testStatus",
+        status: "Pending",
         deliveryDate: new Date(),
         op_location: JSON.stringify({ latitude: 0, longitude: 0 }),
         location: JSON.stringify({ latitude: 0, longitude: 0 }),
