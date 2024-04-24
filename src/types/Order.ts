@@ -95,4 +95,40 @@ class Order {
   }
 }
 
-export { OrderStatus, Location, Order };
+const orderConverter = {
+  toFirestore: (order: Order) => {
+    return {
+      user: order.getUser(),
+      operator: order.getOpName(),
+      item: order.getItem().toDict(),
+      orderDate: order.getOrderDate(),
+      status: order.getStatus(),
+      deliveryDate: order.getDeliveryDate(),
+      location: JSON.stringify(order.getOrderLocation()),
+    };
+  },
+  fromFirestore: (data: any) => {
+    // const data = snapshot.data();
+    const item = new Item(
+      data.item.id,
+      data.item.name,
+      data.item.description,
+      data.item.price
+    );
+    return new Order(
+      data.user,
+      item,
+      { latitude: data.location.latitude, longitude: data.location.longitude },
+      data.orderDate,
+      data.deliveryDate,
+      data.operator,
+      {
+        latitude: data.op_location.latitude,
+        longitude: data.op_location.longitude,
+      },
+      data.id
+    );
+  },
+};
+
+export { OrderStatus, OrderLocation, Order, orderConverter };

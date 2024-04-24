@@ -5,6 +5,7 @@ import { auth } from "../services/Firebase";
 import * as WebBrowser from "expo-web-browser";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Icon from "react-native-vector-icons/MaterialIcons";
+import FirestoreTest from "../testScreens/FirestoreTest";
 
 import "./global.css";
 
@@ -151,6 +152,6 @@ function App() {
   );
 }
 
-registerRootComponent(App);
+registerRootComponent(FirestoreTest);
 
 export default App;
