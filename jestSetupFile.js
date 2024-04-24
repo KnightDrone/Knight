@@ -1,4 +1,6 @@
-const { getFirestore } = require("firebase/firestore");
+const { getApps, getApp } = require("firebase/app");
+const { initializeAuth } = require("firebase/auth");
+const { getFirestore, initializeFirestore } = require("firebase/firestore");
 
 jest.mock("@react-native-async-storage/async-storage", () =>
   require("@react-native-async-storage/async-storage/jest/async-storage-mock")
@@ -6,10 +8,13 @@ jest.mock("@react-native-async-storage/async-storage", () =>
 
 jest.mock("firebase/app", () => ({
   initializeApp: jest.fn(),
+  getApps: jest.fn(() => []),
+  getApp: jest.fn(),
 }));
 
 jest.mock("firebase/firestore", () => ({
   getFirestore: jest.fn(),
+  initializeFirestore: jest.fn(),
   collection: jest.fn(),
   deleteDoc: jest.fn(),
   doc: jest.fn(),
@@ -36,6 +41,8 @@ jest.mock("expo-auth-session/providers/google", () => ({
 
 jest.mock("firebase/auth", () => ({
   getAuth: jest.fn(),
+  initializeAuth: jest.fn(),
+  getReactNativePersistence: jest.fn(),
   GoogleAuthProvider: {
     credential: jest.fn(() => "mock-credential"), // Ensure this returns a mock credential as expected
   },
