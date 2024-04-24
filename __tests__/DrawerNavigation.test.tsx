@@ -23,13 +23,11 @@ describe("UserDrawer Navigation Component", () => {
       </NavigationContainer>
     );
 
-    // Simulate opening Profile screen from the Drawer
     fireEvent.press(getByText("Profile"));
-    expect(getByText("Profile")).toBeTruthy(); // Confirm Profile is opened
+    expect(getByText("Profile")).toBeTruthy();
 
-    // Use the testID to select the back button and simulate pressing it
     fireEvent.press(getByTestId("back-button"));
-    expect(getByText("Map")).toBeTruthy(); // Confirm we navigated back to Map
+    expect(getByText("Map")).toBeTruthy();
   });
 
   it("navigates to Settings and back to Map", () => {
@@ -39,7 +37,6 @@ describe("UserDrawer Navigation Component", () => {
       </NavigationContainer>
     );
 
-    // Simulate opening Settings screen from the Drawer
     fireEvent.press(getByText("Settings"));
     expect(getByText("Settings")).toBeTruthy(); // Confirm Settings is opened
 

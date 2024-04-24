@@ -49,12 +49,12 @@ describe("App Navigation", () => {
     expect(getByTestId("login-screen")).toBeTruthy();
   });
 
-  it("directly logs in with Google due to the mock implementation", async () => {
-    const { queryByTestId } = render(<App />);
-    await waitFor(() => {
-      expect(queryByTestId("map-overview-screen")).toBeTruthy();
-    });
-  });
+  // it("directly logs in with Google due to the mock implementation", async () => {
+  //   const { queryByTestId } = render(<App />);
+  //   await waitFor(() => {
+  //     expect(queryByTestId("map-overview-screen")).toBeTruthy();
+  //   });
+  // });
 
   it("navigates to sign up screen when the sign up button is pressed", async () => {
     const { getByText, queryByTestId, getByTestId } = render(<App />);

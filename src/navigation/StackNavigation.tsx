@@ -26,7 +26,25 @@ export const AuthStack = () => {
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="SignUp" component={SignUp} />
-      <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
+      <Stack.Screen
+        name="ForgotPassword"
+        component={ForgotPassword}
+        options={({ navigation }) => ({
+          headerShown: true,
+          headerTransparent: true,
+          headerTitle: "",
+          headerLeft: () => (
+            <HeaderBackButton
+              onPress={() => navigation.goBack()}
+              backImage={() => (
+                <Icon name="arrow-back" size={24} color="black" />
+              )}
+              labelVisible={false}
+              testID="order-placed-back-button"
+            />
+          ),
+        })}
+      />
     </Stack.Navigator>
   );
 };
@@ -51,7 +69,7 @@ export const UserStack = () => {
                     <Icon name="arrow-back" size={24} color="black" />
                   )}
                   labelVisible={false}
-                  testID="back-button"
+                  testID="ordermenu-back-button"
                 />
               ),
             })}
@@ -70,7 +88,7 @@ export const UserStack = () => {
                     <Icon name="arrow-back" size={24} color="black" />
                   )}
                   labelVisible={false}
-                  testID="back-button"
+                  testID="order-placed-back-button"
                 />
               ),
             })}
@@ -80,18 +98,3 @@ export const UserStack = () => {
     </RootStack.Navigator>
   );
 };
-
-const StackNavigator: React.FC = () => {
-  return (
-    <Stack.Navigator initialRouteName="Login">
-      <Stack.Screen name="OrderMenu" component={OrderMenu} />
-      <Stack.Screen
-        name="OrderPlaced"
-        component={OrderPlaced}
-        options={{ headerShown: false }}
-      />
-    </Stack.Navigator>
-  );
-};
-
-export default StackNavigator;
