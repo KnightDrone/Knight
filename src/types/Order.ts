@@ -113,7 +113,14 @@ const orderConverter = {
       orderDate: order.getOrderDate(),
       status: order.getStatus(),
       deliveryDate: order.getDeliveryDate(),
-      location: JSON.stringify(order.getOrderLocation()),
+      location: {
+        latitude: order.getOrderLocation().latitude,
+        longitude: order.getOrderLocation().longitude,
+      },
+      op_location: {
+        latitude: order.getOpOrderLocation().latitude,
+        longitude: order.getOpOrderLocation().longitude,
+      },
     };
   },
   fromFirestore: (data: any) => {

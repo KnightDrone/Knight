@@ -97,8 +97,14 @@ describe("Order", () => {
         orderDate: new Date(),
         status: "Pending",
         deliveryDate: new Date(),
-        op_location: JSON.stringify({ latitude: 0, longitude: 0 }),
-        location: JSON.stringify({ latitude: 0, longitude: 0 }),
+        op_location: {
+          latitude: 0,
+          longitude: 0,
+        },
+        location: {
+          latitude: 0,
+          longitude: 0,
+        },
       };
 
       // Convert the data to an Order object
@@ -111,9 +117,11 @@ describe("Order", () => {
       expect(order.getOrderDate()).toEqual(data.orderDate);
       expect(order.getStatus()).toEqual(data.status);
       expect(order.getDeliveryDate()).toEqual(data.deliveryDate);
-      expect(JSON.stringify(order.getOrderLocation())).toEqual(
-        JSON.parse(data.location)
+      expect(order.getOrderLocation().latitude).toEqual(data.location.latitude);
+      expect(order.getOrderLocation().longitude).toEqual(
+        data.location.longitude
       );
+      expect(order.getId()).toBeTruthy();
 
       // Convert the Order object back to Firestore data
       const convertedData = orderConverter.toFirestore(order);
