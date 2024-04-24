@@ -16,8 +16,12 @@ export default class FirestoreManager {
 
   // Method to read data by id from the database
   async readData(id: string): Promise<Order | null> {
-    const docRef = doc(firestore, "orders", id);
+    // console.error("id " + id)
+    // console.error("firestore " + firestore.toJSON);
+    const docRef = doc(firestore, "orders/" + id);
+    // console.error("docRef " + docRef)
     const docSnap = await getDoc(docRef);
+    // console.error("docSnap " + docSnap)
     if (docSnap.exists()) {
       console.log("Order with id " + id + " found in the database");
       return docSnap.data().withConverter(orderConverter);
