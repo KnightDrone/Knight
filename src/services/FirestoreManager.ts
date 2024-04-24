@@ -9,18 +9,24 @@ import {
   setDoc,
   where,
 } from "./Firebase";
-import { Order, orderConverter, OrderLocation } from "../types/Order";
+import {
+  Order,
+  orderConverter,
+  OrderLocation,
+  OrderStatus,
+} from "../types/Order";
 
 export default class FirestoreManager {
   constructor() {}
 
   // Method to read data by id from the database
-  async readData(id: string): Promise<Order | null> {
-    const docRef = doc(firestore, "orders", id);
+  async readData(id: string): Promise<any | null> {
+    const docRef = doc(firestore, "orders", id).withConverter(orderConverter);
     const docSnap = await getDoc(docRef);
+
     if (docSnap.exists()) {
       console.log("Order with id " + id + " found in the database");
-      return docSnap.data().withConverter(orderConverter);
+      return docSnap.data();
     } else {
       console.log("No such document!");
       return null;
