@@ -85,6 +85,10 @@ class Order {
     return this.op_name;
   }
 
+  setStatus(newStatus: OrderStatus): void {
+    this.status = newStatus;
+  }
+
   toDict(): { [key: string]: string } {
     return {
       id: this.id,
