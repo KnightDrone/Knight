@@ -1,5 +1,10 @@
 import { Item } from "../src/types/Item";
-import { Order, OrderStatus, OrderLocation } from "../src/types/Order";
+import {
+  Order,
+  OrderStatus,
+  OrderLocation,
+  orderConverter,
+} from "../src/types/Order";
 
 describe("Order", () => {
   let order: Order;
@@ -75,5 +80,46 @@ describe("Order", () => {
     };
 
     expect(order.toDict()).toEqual(expectedDict);
+  });
+
+  describe("orderConverter", () => {
+    it("should correctly convert from and to Firestore data", () => {
+      // Mock Firestore document data
+      const data = {
+        user: "testUser",
+        operator: "testOperator",
+        item: {
+          id: "testItemId",
+          name: "testItemName",
+          description: "testItemDescription",
+          price: 100,
+        },
+        orderDate: new Date(),
+        status: "testStatus",
+        deliveryDate: new Date(),
+        op_location: JSON.stringify({ latitude: 0, longitude: 0 }),
+        location: JSON.stringify({ latitude: 0, longitude: 0 }),
+      };
+
+      // Convert the data to an Order object
+      const order = orderConverter.fromFirestore(data);
+
+      // Check that the Order object has the correct properties
+      expect(order.getUser()).toEqual(data.user);
+      expect(order.getOpName()).toEqual(data.operator);
+      expect(order.getItem().toDict()).toEqual(data.item);
+      expect(order.getOrderDate()).toEqual(data.orderDate);
+      expect(order.getStatus()).toEqual(data.status);
+      expect(order.getDeliveryDate()).toEqual(data.deliveryDate);
+      expect(JSON.stringify(order.getOrderLocation())).toEqual(
+        JSON.parse(data.location)
+      );
+
+      // Convert the Order object back to Firestore data
+      const convertedData = orderConverter.toFirestore(order);
+
+      // Check that the converted data matches the original data
+      expect(convertedData).toEqual(data);
+    });
   });
 });

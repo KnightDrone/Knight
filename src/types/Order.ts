@@ -116,8 +116,8 @@ const orderConverter = {
       location: JSON.stringify(order.getOrderLocation()),
     };
   },
-  fromFirestore: (snapshot: any) => {
-    const data = snapshot.data();
+  fromFirestore: (data: any) => {
+    // const data = snapshot.data();
     const item = new Item(
       data.item.id,
       data.item.name,
@@ -127,11 +127,14 @@ const orderConverter = {
     return new Order(
       data.user,
       item,
-      JSON.parse(data.location),
+      { latitude: data.location.latitude, longitude: data.location.longitude },
       data.orderDate,
       data.deliveryDate,
       data.operator,
-      data.op_location,
+      {
+        latitude: data.op_location.latitude,
+        longitude: data.op_location.longitude,
+      },
       data.id
     );
   },
