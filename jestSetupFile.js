@@ -16,7 +16,7 @@ jest.mock("firebase/app", () => ({
 }));
 
 jest.mock("firebase/firestore", () => ({
-  getFirestore: jest.fn(),
+  getFirestore: jest.fn(() => {}),
   initializeFirestore: jest.fn(),
   collection: jest.fn(),
   deleteDoc: jest.fn(),
@@ -43,7 +43,7 @@ jest.mock("expo-auth-session/providers/google", () => ({
 }));
 
 jest.mock("firebase/auth", () => ({
-  getAuth: jest.fn(),
+  getAuth: jest.fn(() => {}),
   initializeAuth: jest.fn(),
   getReactNativePersistence: jest.fn(),
   GoogleAuthProvider: {
