@@ -89,10 +89,10 @@ describe("Order", () => {
         user: "testUser",
         operator: "testOperator",
         item: {
-          id: "testItemId",
+          id: "1",
           name: "testItemName",
           description: "testItemDescription",
-          price: 100,
+          price: "100",
         },
         orderDate: new Date(),
         status: "testStatus",
