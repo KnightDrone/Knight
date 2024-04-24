@@ -1,7 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { getDatabase } from "firebase/database";
-import { getAnalytics } from "firebase/analytics";
 import { getAuth } from "firebase/auth";
 import { FirebaseConfig } from "../src/services/Firebase"; // Import the FirebaseConfig interface from your Firebase.ts file
 import { Platform } from "react-native";
@@ -32,22 +31,20 @@ describe("Firebase Initialization", () => {
     expect(initializeApp).toHaveBeenCalledWith(mockConfig);
   });
 
-  it("should call getAuth, getAnalytics, getDatabase, and getFirestore", () => {
+  it("should call getAuth, getDatabase, and getFirestore", () => {
     require("../src/services/Firebase"); // This will run your Firebase.ts file
 
     expect(initializeApp).toHaveBeenCalled();
     expect(getAuth).toHaveBeenCalled();
-    expect(getAnalytics).toHaveBeenCalled();
     expect(getDatabase).toHaveBeenCalled();
     expect(getFirestore).toHaveBeenCalled();
   });
 
-  it("should initialize auth, analytics, database, and firestore", () => {
+  it("should initialize auth, database, and firestore", () => {
     require("../src/services/Firebase"); // This will run your Firebase.ts file
 
     expect(initializeApp()).toBeDefined();
     expect(getAuth()).toBeDefined();
-    expect(getAnalytics()).toBeDefined();
     expect(getDatabase()).toBeDefined();
     expect(getFirestore()).toBeDefined();
     expect(getDatabase).toHaveBeenCalled();
