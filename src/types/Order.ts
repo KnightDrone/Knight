@@ -1,4 +1,4 @@
-import { useId } from "react";
+import uuid from "react-native-uuid";
 import { Item } from "./Item";
 
 enum OrderStatus {
@@ -34,7 +34,7 @@ class Order {
     op_location?: OrderLocation,
     id?: string
   ) {
-    this.id = id || useId();
+    this.id = id || uuid.v4().toString();
     this.user = user;
     this.item = item;
     this.orderDate = new Date();
