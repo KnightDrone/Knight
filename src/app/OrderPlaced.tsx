@@ -10,6 +10,7 @@ import { useFonts } from "expo-font";
 import KaiseiRegular from "../../assets/fonts/KaiseiDecol-Regular.ttf";
 import TriangleBackground from "../components/TriangleBackground";
 import { Animated } from "react-native";
+import { secureRandom } from "../utils/random";
 
 const OrderPlaced = ({
   route,
@@ -29,7 +30,7 @@ const OrderPlaced = ({
   const [arrivalTime, setArrivalTime] = useState<number>(0);
 
   useEffect(() => {
-    const additionalMinutes: number = Math.random() * 1;
+    const additionalMinutes: number = 10 + secureRandom() * 15;
     const arrivalTime = placedAt.valueOf() + additionalMinutes * 60 * 1000;
     setArrivalTime(arrivalTime);
   }, [placedAt]);
