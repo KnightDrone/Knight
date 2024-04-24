@@ -1,6 +1,6 @@
 {
   "cli": {
-    "version": ">= 7.6.2"
+    "version": ">= 7.6.1"
   },
   "build": {
     "development": {
@@ -8,7 +8,20 @@
       "distribution": "internal"
     },
     "preview": {
-      "distribution": "internal"
+      "android": {
+        "buildType": "apk"
+      },
+      "env": {
+        "EXPO_PUBLIC_FIREBASE_API_KEY": "AIzaSyCDjeBhSsVZsZnO4gQ2xU9rlRdaJt6K1ZI",
+        "EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN": "swent-g25.firebaseapp.com",
+        "EXPO_PUBLIC_FIREBASE_PROJECT_ID": "swent-g25",
+        "EXPO_PUBLIC_FIREBASE_STORAGE_BUCKET": "swent-g25.appspot.com",
+        "EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID": "983400403511",
+        "EXPO_PUBLIC_FIREBASE_APP_ID": "1:983400403511:web:04caa117a0e3e7424ae5b2",
+        "EXPO_PUBLIC_FIREBASE_MEASUREMENT_ID": "G-N04Q2KKH95",
+        "EXPO_PUBLIC_IOS_CLIENT_ID_OAUTH": "983400403511-gi5mo0akb89fcecaivk4q509c63hrvtl.apps.googleusercontent.com",
+        "EXPO_PUBLIC_ANDROID_CLIENT_ID_OAUTH": "983400403511-i43set67i4o1e3kb7fl91vrh9r6aemcb.apps.googleusercontent.com"
+      }
     },
     "production": {}
   },
