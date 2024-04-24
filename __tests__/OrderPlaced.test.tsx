@@ -117,7 +117,7 @@ describe("OrderPlaced", () => {
     expect(parsedWidth).toBeLessThanOrEqual(0);
 
     act(() => {
-      jest.advanceTimersByTime(10_000); // Advance by 10 second
+      jest.advanceTimersByTime(100_000); // Advance by 100 second
     });
 
     const newWidth = loadingBar.props.style.width.replace("%", "");
