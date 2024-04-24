@@ -123,15 +123,15 @@ const orderConverter = {
       },
     };
   },
-  fromFirestore: (data: any) => {
-    // const data = snapshot.data();
+  fromFirestore: (snapshot: any) => {
+    const data = snapshot.data();
     const item = new Item(
       data.item.id,
       data.item.name,
       data.item.description,
       data.item.price
     );
-    return new Order(
+    const order = new Order(
       data.user,
       item,
       { latitude: data.location.latitude, longitude: data.location.longitude },
@@ -144,6 +144,10 @@ const orderConverter = {
       },
       data.id
     );
+
+    console.log("id: ", data.id); // id is undefined !!
+
+    return order;
   },
 };
 

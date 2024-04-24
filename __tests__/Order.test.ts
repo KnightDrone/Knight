@@ -117,10 +117,7 @@ describe("Order", () => {
       expect(order.getOrderDate()).toEqual(data.orderDate);
       expect(order.getStatus()).toEqual(data.status);
       expect(order.getDeliveryDate()).toEqual(data.deliveryDate);
-      expect(order.getOrderLocation().latitude).toEqual(data.location.latitude);
-      expect(order.getOrderLocation().longitude).toEqual(
-        data.location.longitude
-      );
+      expect(order.getOrderLocation()).toEqual(data.location);
       expect(order.getId()).toBeTruthy();
 
       // Convert the Order object back to Firestore data
