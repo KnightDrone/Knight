@@ -1,3 +1,5 @@
+const { plugin } = require("typescript-eslint");
+
 module.exports = function (api) {
   api.cache(true);
   return {
@@ -7,5 +9,6 @@ module.exports = function (api) {
       "nativewind/babel",
       "@babel/preset-flow",
     ],
+    plugins: [["module:react-native-dotenv"]],
   };
 };
