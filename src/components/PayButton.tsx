@@ -54,12 +54,12 @@ export function PayButton({
       await fetchPaymentSheetParams();
 
     const { error } = await initPaymentSheet({
-      merchantDisplayName: "Kight Services Sarl.",
+      merchantDisplayName: "kNight Services Sarl.",
       customerId: customer,
       customerEphemeralKeySecret: ephemeralKey,
       paymentIntentClientSecret: paymentIntent,
       // Set `allowsDelayedPaymentMethods` to true if your business can handle payment
-      //methods that complete payment after a delay, like SEPA Debit and Sofort.
+      // methods that complete payment after a delay, like SEPA Debit and Sofort.
       allowsDelayedPaymentMethods: true,
       defaultBillingDetails: {
         name: "Jane Doe",
@@ -71,7 +71,6 @@ export function PayButton({
   };
 
   const openPaymentSheet = async () => {
-    // see below
     const { error } = await presentPaymentSheet();
 
     if (error) {
