@@ -8,11 +8,11 @@ import { View, Text } from "react-native";
 jest.mock("../src/components/PayButton", () => ({
   __esModule: true,
   PayButton: () => {
-    <>
+    return (
       <View testID="mocked-pay-button">
         <Text>MockedPayButton</Text>
       </View>
-    </>;
+    );
   },
 }));
 
@@ -79,7 +79,7 @@ describe("Order Menu", () => {
   });
 
   it("can open and close every card", () => {
-    const { getByText, queryByTestId } = render(<OrderMenu />);
+    const { getByText } = render(<OrderMenu />);
     productButtons.forEach((button) => {
       fireEvent.press(getByText(button.item.getName()));
       expect(
