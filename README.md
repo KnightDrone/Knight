@@ -1,5 +1,7 @@
 # Knight
 
+[![codecov](https://codecov.io/gh/KnightDrone/Knight/graph/badge.svg?token=BDIWQF7QIC)](https://codecov.io/gh/KnightDrone/Knight)
+
 ## Development Setup
 
 1. Install Expo Go on your phone (you can download from the App Store or Google Play)
