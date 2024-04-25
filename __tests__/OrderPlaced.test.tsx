@@ -23,6 +23,13 @@ type OrderPlacedStack = {
 const Stack = createStackNavigator<OrderPlacedStack>();
 useFonts.mockReturnValue([true]);
 
+beforeAll(() => {
+  global.alert = jest.fn();
+
+  // Avoid useless error messages
+  jest.spyOn(console, "error").mockImplementation(() => {});
+});
+
 const OrderPlacedTest = () => {
   return (
     <NavigationContainer>
