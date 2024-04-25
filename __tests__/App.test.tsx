@@ -4,7 +4,7 @@ import { useFonts } from "../__mocks__/expo-font";
 import * as Google from "expo-auth-session/providers/google";
 
 import App from "../src/app/App";
-import { onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged } from "../src/services/Firebase";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 beforeEach(() => {
