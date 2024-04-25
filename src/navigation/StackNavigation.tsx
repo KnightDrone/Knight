@@ -5,7 +5,7 @@ import SignUp from "./../app/SignUp";
 import ForgotPassword from "./../app/ForgotPassword";
 import OrderPlaced from "./../app/OrderPlaced";
 import OrderMenu from "../app/OrderMenu";
-import MapOverview from "../app/MapOverview";
+import Map from "../app/Map";
 import { UserDrawer } from "./DrawerNavigation";
 import Map from "../app/Map";
 import Icon from "react-native-vector-icons/Ionicons";
@@ -19,20 +19,19 @@ export type RootStackParamList = {
   OrderMenu: undefined;
   OrderPlaced: undefined;
   Drawer: undefined;
-  MapOverview: undefined;
-  UserStack: undefined;
+  Map: undefined;
 };
 
 const { Navigator, Screen } = createStackNavigator<RootStackParamList>();
 
 export const AuthStack = () => {
   return (
-    <Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}>
-      <Screen name="Login" component={Login} />
-      <Screen name="SignUp" component={SignUp} />
-      <Screen name="ForgotPassword" component={ForgotPassword} />
-      <Screen name="UserStack" component={UserStack} />
-    </Navigator>
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      {/* <Stack.Screen name="Drawer" component={UserDrawer} /> */}
+      <Stack.Screen name="Login" component={Login} />
+      <Stack.Screen name="SignUp" component={SignUp} />
+      <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
+    </Stack.Navigator>
   );
 };
 
