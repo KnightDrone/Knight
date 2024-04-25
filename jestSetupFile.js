@@ -1,5 +1,3 @@
-const { getFirestore } = require("firebase/firestore");
-
 jest.mock("@react-native-async-storage/async-storage", () =>
   require("@react-native-async-storage/async-storage/jest/async-storage-mock")
 );
@@ -118,3 +116,19 @@ jest.mock("expo-location", () => ({
 jest.mock("@react-native-async-storage/async-storage", () =>
   require("@react-native-async-storage/async-storage/jest/async-storage-mock")
 );
+
+jest.mock("@stripe/stripe-react-native", () => {
+  return {
+    // Mock any functions or objects you use from the module
+    StripeProvider: jest.fn(() => null),
+    useStripe: () => {
+      return {
+        // Mock return values or functions within useStripe
+        initPaymentSheet: jest.fn(),
+        presentPaymentSheet: jest.fn(),
+        // ... and any other functions you use
+      };
+    },
+    // ... and so on for other exports
+  };
+});
