@@ -1,3 +1,5 @@
+const { getFirestore } = require("firebase/firestore");
+
 jest.mock("@react-native-async-storage/async-storage", () =>
   require("@react-native-async-storage/async-storage/jest/async-storage-mock")
 );
@@ -8,6 +10,10 @@ jest.mock("firebase/app", () => ({
 
 jest.mock("firebase/analytics", () => ({
   getAnalytics: jest.fn(),
+}));
+
+jest.mock("firebase/firestore", () => ({
+  getFirestore: jest.fn(),
 }));
 
 jest.mock("firebase/database", () => ({

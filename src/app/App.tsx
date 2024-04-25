@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Text } from "react-native";
-import { onAuthStateChanged, User } from "firebase/auth";
-import { auth } from "../services/Firebase";
+import { User, onAuthStateChanged, auth } from "../services/Firebase";
 import * as WebBrowser from "expo-web-browser";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Icon from "react-native-vector-icons/MaterialIcons";
@@ -44,8 +43,8 @@ function App() {
     "Kaisei-Regular": KaiseiRegular,
   });
 
-  const [userInfo, setUserInfo] = React.useState<User | null>(null);
-  const [loading, setLoading] = React.useState(false);
+  const [userInfo, setUserInfo] = useState<User | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const checkLocalUser = async () => {
     try {
@@ -63,7 +62,7 @@ function App() {
     }
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     checkLocalUser();
     const unsub = onAuthStateChanged(auth, async (user) => {
       if (user) {

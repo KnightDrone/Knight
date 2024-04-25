@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Text, View } from "react-native";
-import { sendPasswordResetEmail } from "firebase/auth";
-import { auth } from "../services/Firebase";
+import { auth, sendPasswordResetEmail } from "../services/Firebase";
 import { TextField } from "../ui/TextField";
 import { Button } from "../ui/Button";
 import { MessageBox } from "../ui/MessageBox";

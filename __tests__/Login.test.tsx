@@ -6,14 +6,14 @@ import {
   waitFor,
 } from "@testing-library/react-native";
 import Login from "../src/app/Login";
-import { GoogleAuthProvider } from "../src/services/Firebase";
+import {
+  GoogleAuthProvider,
+  signInWithCredential,
+  signInWithEmailAndPassword,
+} from "../src/services/Firebase";
 import * as Google from "expo-auth-session/providers/google";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import {
-  signInWithEmailAndPassword,
-  signInWithCredential,
-} from "firebase/auth";
 import { Text } from "react-native";
 
 const Stack = createStackNavigator();
