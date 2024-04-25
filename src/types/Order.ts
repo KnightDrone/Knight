@@ -125,6 +125,8 @@ const orderConverter = {
   },
   fromFirestore: (snapshot: any) => {
     const data = snapshot.data();
+    const id = snapshot.id;
+
     const item = new Item(
       data.item.id,
       data.item.name,
@@ -135,14 +137,14 @@ const orderConverter = {
       data.user,
       item,
       { latitude: data.location.latitude, longitude: data.location.longitude },
-      data.orderDate,
-      data.deliveryDate,
+      new Date(data.orderDate.seconds * 1000),
+      new Date(data.deliveryDate.seconds * 1000),
       data.operator,
       {
         latitude: data.op_location.latitude,
         longitude: data.op_location.longitude,
       },
-      data.id
+      id
     );
 
     console.log("id: ", data.id); // id is undefined !!
