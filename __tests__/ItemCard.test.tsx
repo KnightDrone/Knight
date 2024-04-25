@@ -13,11 +13,11 @@ beforeAll(() => {
 jest.mock("../src/components/PayButton", () => ({
   __esModule: true,
   PayButton: () => {
-    <>
+    return (
       <View testID="mocked-pay-button">
         <Text>MockedPayButton</Text>
       </View>
-    </>;
+    );
   },
 }));
 

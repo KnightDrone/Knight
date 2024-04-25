@@ -10,11 +10,11 @@ import { View, Text } from "react-native";
 jest.mock("../src/components/PayButton", () => ({
   __esModule: true,
   PayButton: () => {
-    <>
+    return (
       <View testID="mocked-pay-button">
         <Text>MockedPayButton</Text>
       </View>
-    </>;
+    );
   },
 }));
 
@@ -252,7 +252,7 @@ describe("App Navigation", () => {
       jest.fn(),
     ]);
 
-    const { getByText, getByTestId, queryByTestId } = render(<App />);
+    const { getByTestId, queryByTestId } = render(<App />);
     const forgotPasswordButton = getByTestId("forgot-password-link");
     fireEvent.press(forgotPasswordButton);
 
