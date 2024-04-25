@@ -99,6 +99,7 @@ const OrderHistory = ({ navigation, userId, opOrders }: any) => {
           />
         </TouchableOpacity>
       </View>
+
       <TriangleBackground2 />
 
       <FlatList

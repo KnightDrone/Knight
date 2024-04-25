@@ -4,10 +4,11 @@ import {
   Text,
   FlatList,
   Image,
-  Button,
   TouchableOpacity,
+  Modal,
 } from "react-native";
 import OrderCard from "../components/OrderCard";
+import { Button } from "../ui/Button";
 import { Order, OrderLocation, OrderStatus } from "../types/Order";
 import { Item } from "../types/Item";
 import TriangleBackground, {
@@ -50,13 +51,26 @@ const fetchPendingOrders = async (): Promise<Order[]> => {
 
 // TODO: Maybe add some search bar to filter?
 
-const PendingOrders = ({ navigation, userId, opOrders }: any) => {
+const PendingOrders = ({ navigation }: any) => {
   const [orders, setOrders] = useState<Order[]>([]);
   const [refreshing, setRefreshing] = useState(false);
   useEffect(() => {
     fetchOrders();
   }, []);
+  // ------------ Handle card opening and closing ------------
+  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
+  const handleOpenCard = (order: Order) => {
+    setSelectedOrder(order);
+  };
 
+  const handleCloseCard = () => {
+    setSelectedOrder(null);
+  };
+  const handleAcceptOrder = () => {
+    // Call necessary function from Firestore class to update the order status
+    setSelectedOrder(null);
+  };
+  // ---------------------------------------------------------
   const fetchOrders = async () => {
     setRefreshing(true);
     const newOrders = await fetchPendingOrders();
@@ -67,6 +81,7 @@ const PendingOrders = ({ navigation, userId, opOrders }: any) => {
     setOrders(sortedOrders);
     setRefreshing(false);
   };
+  // TODO: Add onClick for Menu + Closing
   return (
     <View className="mt-16">
       <View className="flex-row items-center justify-center">
@@ -90,13 +105,41 @@ const PendingOrders = ({ navigation, userId, opOrders }: any) => {
 
       <FlatList
         data={orders}
-        renderItem={({ item }) => <OrderCard order={item} />}
+        renderItem={({ item }) => (
+          <OrderCard order={item} onClick={() => handleOpenCard(item)} />
+        )}
         keyExtractor={(item) => item.getId()}
         onEndReached={fetchOrders}
         onEndReachedThreshold={0.1}
         refreshing={refreshing}
         onRefresh={fetchOrders}
       />
+      {selectedOrder && (
+        <Modal animationType="none" transparent={true} visible={true}>
+          <View className="flex-1 justify-center items-center bg-opacity-100">
+            <View className="bg-white border-2 border-gray-500 p-5 items-start justify-start shadow-lg w-[300] h-[140] rounded-lg relative">
+              <TouchableOpacity
+                onPress={() => handleCloseCard()}
+                className="absolute right-5 top-5"
+              >
+                <Image
+                  source={require("../../assets/icons/x_icon.png")}
+                  className="w-5 h-5"
+                />
+              </TouchableOpacity>
+              <Text className="text-center font-bold text-30 pt-5 pb-2 justify-center items-center">
+                {`Would you like to accept the order for ${selectedOrder.getItem().getName()} from ${selectedOrder.getUser()}?`}
+              </Text>
+              <Button
+                text="Accept Order"
+                onPress={handleAcceptOrder}
+                style="primary"
+                className="shadow-lg"
+              />
+            </View>
+          </View>
+        </Modal>
+      )}
     </View>
   );
 };
