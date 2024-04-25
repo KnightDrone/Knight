@@ -1,15 +1,20 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
+import Icon from "react-native-vector-icons/Ionicons";
+import { HeaderBackButton } from "@react-navigation/elements";
+
+// Screens
+// User
 import Login from "./../app/Login";
 import SignUp from "./../app/SignUp";
 import ForgotPassword from "./../app/ForgotPassword";
 import OrderPlaced from "./../app/OrderPlaced";
 import OrderMenu from "../app/OrderMenu";
-import Map from "../app/Map";
 import { UserDrawer } from "./DrawerNavigation";
-import Icon from "react-native-vector-icons/Ionicons";
 
-import { HeaderBackButton } from "@react-navigation/elements";
+// Operator
+// TODO ADD OPERATOR SCREENS
+//
 
 export type RootStackParamList = {
   Login: undefined;
@@ -18,7 +23,6 @@ export type RootStackParamList = {
   OrderMenu: undefined;
   OrderPlaced: undefined;
   Drawer: undefined;
-  Map: undefined;
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
