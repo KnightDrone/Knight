@@ -3,6 +3,24 @@ import { screen, render, fireEvent } from "@testing-library/react-native";
 import OrderMenu from "../src/app/OrderMenu";
 import { useFonts } from "../__mocks__/expo-font";
 import { productButtons } from "../src/types/ProductButtons";
+import { View, Text } from "react-native";
+
+jest.mock("../src/components/PayButton", () => ({
+  __esModule: true,
+  PayButton: () => {
+    <>
+      <View testID="mocked-pay-button">
+        <Text>MockedPayButton</Text>
+      </View>
+    </>;
+  },
+}));
+
+beforeAll(() => {
+  global.alert = jest.fn();
+  jest.spyOn(console, "error").mockImplementation(() => {});
+  jest.spyOn(console, "warn").mockImplementation(() => {});
+});
 
 describe("Order Menu", () => {
   //set globally useFont to true
@@ -11,9 +29,9 @@ describe("Order Menu", () => {
   });
 
   it("renders correctly ", () => {
-    const { getByText } = render(<OrderMenu />);
+    const { getByText, getByTestId } = render(<OrderMenu />);
 
-    expect(getByText("Choose your item")).toBeTruthy();
+    expect(getByTestId("order-menu-text")).toBeTruthy();
     productButtons.forEach((button) => {
       expect(getByText(button.item.getName())).toBeTruthy();
     });

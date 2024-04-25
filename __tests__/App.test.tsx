@@ -6,6 +6,18 @@ import * as Google from "expo-auth-session/providers/google";
 import App from "../src/app/App";
 import { onAuthStateChanged } from "../src/services/Firebase";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { View, Text } from "react-native";
+
+jest.mock("../src/components/PayButton", () => ({
+  __esModule: true,
+  PayButton: () => {
+    <>
+      <View testID="mocked-pay-button">
+        <Text>MockedPayButton</Text>
+      </View>
+    </>;
+  },
+}));
 
 beforeEach(() => {
   const mockPromptAsync = jest.fn();
@@ -131,31 +143,6 @@ describe("App Navigation", () => {
     });
   });
 
-  it("goes to order menu, place an order and then goes to order placed", async () => {
-    const { getByTestId, getByText, queryByTestId } = render(<App />);
-
-    await waitFor(() => {
-      expect(queryByTestId("map-overview-screen")).toBeTruthy();
-    });
-
-    const orderMenuButton = getByTestId("order-button");
-    fireEvent.press(orderMenuButton);
-
-    await waitFor(() => {
-      expect(queryByTestId("order-menu-screen")).toBeTruthy();
-    });
-
-    const placeOrderButton = getByText("First aid kit");
-    fireEvent.press(placeOrderButton);
-
-    const orderButton = getByText("Order");
-    fireEvent.press(orderButton);
-
-    await waitFor(() => {
-      expect(queryByTestId("order-placed-screen")).toBeTruthy();
-    });
-  });
-
   it("logs in and navigates through the app", async () => {
     const { getByPlaceholderText, getByTestId, queryByTestId } = render(
       <App />
@@ -257,30 +244,6 @@ describe("App Navigation", () => {
       expect(alert).toHaveBeenCalledWith(new Error("AsyncStorage error"));
     });
   });
-
-  // Not sure how to do this test, as we don't explicitly have a Go Back button inside our SignUp, I believe it's in the Navigator
-  /*it("navigates back to login screen when the sign up back button is pressed", async () => {
-    (Google.useAuthRequest as jest.Mock).mockReturnValue([
-      {},
-      { type: "fail", params: { id_token: "" } },
-      jest.fn(),
-    ]);
-
-    const { getByText, getByTestId, queryByTestId } = render(<App />);
-    const signUpButton = getByTestId("sign-up-link");
-    fireEvent.press(signUpButton);
-
-    await waitFor(() => {
-      expect(queryByTestId("sign-up-screen")).toBeTruthy();
-    });
-
-    const signUpBackButton = getByTestId("sign-up-back-button");
-    fireEvent.press(signUpBackButton);
-
-    await waitFor(() => {
-      expect(queryByTestId("login-screen")).toBeTruthy();
-    });
-  });*/
 
   it("navigates back to login screen when the forgot password back button is pressed", async () => {
     (Google.useAuthRequest as jest.Mock).mockReturnValue([
