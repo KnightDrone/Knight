@@ -13,7 +13,6 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { RootStackParamList } from "../src/types/RootStackParamList";
 import { useFonts } from "../__mocks__/expo-font";
 import { Item } from "../src/types/Item";
-import exp from "constants";
 
 type OrderPlacedStack = {
   OrderPlaced: RootStackParamList["OrderPlaced"];
@@ -28,6 +27,7 @@ beforeAll(() => {
 
   // Avoid useless error messages
   jest.spyOn(console, "error").mockImplementation(() => {});
+  jest.spyOn(console, "warn").mockImplementation(() => {});
 });
 
 const OrderPlacedTest = () => {

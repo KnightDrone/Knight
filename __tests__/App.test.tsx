@@ -7,6 +7,17 @@ import { authInstance } from "../src/services/Firebase";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { View, Text } from "react-native";
 
+jest.mock("../src/components/PayButton", () => ({
+  __esModule: true,
+  PayButton: () => {
+    <>
+      <View testID="mocked-pay-button">
+        <Text>MockedPayButton</Text>
+      </View>
+    </>;
+  },
+}));
+
 beforeEach(() => {
   const mockPromptAsync = jest.fn();
 
@@ -44,6 +55,100 @@ describe("App Navigation", () => {
 
   it("directly logs in with Google due to the mock implementation", async () => {
     const { queryByTestId } = render(<App />);
+    await waitFor(() => {
+      expect(queryByTestId("map-overview-screen")).toBeTruthy();
+    });
+  });
+
+  it("navigates to sign up screen when the sign up button is pressed", async () => {
+    const { getByText, queryByTestId, getByTestId } = render(<App />);
+    fireEvent.press(getByTestId("sign-up-link"));
+    await waitFor(() => {
+      expect(queryByTestId("sign-up-screen")).toBeTruthy();
+    });
+  });
+
+  it("navigates to forgot password screen when the forgot password button is pressed", async () => {
+    const { getByText, queryByTestId, getByTestId } = render(<App />);
+    const forgotPasswordButton = getByTestId("forgot-password-link");
+    fireEvent.press(forgotPasswordButton);
+
+    await waitFor(() => {
+      expect(queryByTestId("forgot-password-screen")).toBeTruthy();
+    });
+  });
+
+  it("logs in when the login button is pressed", async () => {
+    (Google.useAuthRequest as jest.Mock).mockReturnValue([
+      {},
+      { type: "fail", params: { id_token: "" } },
+      jest.fn(),
+    ]);
+
+    const { getByTestId, getByPlaceholderText, queryByTestId } = render(
+      <App />
+    );
+
+    await simulateLogin(getByPlaceholderText, getByTestId, queryByTestId);
+  });
+
+  it("logs in, go to map overview, and then go to order menu", async () => {
+    (Google.useAuthRequest as jest.Mock).mockReturnValue([
+      {},
+      { type: "fail", params: { id_token: "" } },
+      jest.fn(),
+    ]);
+
+    const { getByTestId, getByPlaceholderText, queryByTestId } = render(
+      <App />
+    );
+
+    await simulateLogin(getByPlaceholderText, getByTestId, queryByTestId);
+
+    const orderMenuButton = getByTestId("order-button");
+    fireEvent.press(orderMenuButton);
+
+    await waitFor(() => {
+      expect(queryByTestId("order-menu-screen")).toBeTruthy();
+    });
+  });
+
+  it("goes to order menu, then goes back", async () => {
+    const { getByTestId, queryByTestId } = render(<App />);
+
+    await waitFor(() => {
+      expect(queryByTestId("map-overview-screen")).toBeTruthy();
+    });
+
+    const orderMenuButton = getByTestId("order-button");
+    fireEvent.press(orderMenuButton);
+
+    await waitFor(() => {
+      expect(queryByTestId("order-menu-screen")).toBeTruthy();
+    });
+
+    const backButton = getByTestId("back-button");
+    fireEvent.press(backButton);
+
+    await waitFor(() => {
+      expect(queryByTestId("map-overview-screen")).toBeTruthy();
+    });
+  });
+
+  it("logs in and navigates through the app", async () => {
+    const { getByPlaceholderText, getByTestId, queryByTestId } = render(
+      <App />
+    );
+    await simulateLogin(getByPlaceholderText, getByTestId, queryByTestId);
+
+    const orderMenuButton = getByTestId("order-button");
+    fireEvent.press(orderMenuButton);
+
+    await waitFor(() => {
+      expect(queryByTestId("order-menu-screen")).toBeTruthy();
+    });
+
+    fireEvent.press(getByTestId("back-button"));
     await waitFor(() => {
       expect(queryByTestId("map-overview-screen")).toBeTruthy();
     });
@@ -137,6 +242,29 @@ describe("App Navigation", () => {
       expect(authInstance.onAuthStateChanged).toHaveBeenCalled();
       expect(AsyncStorage.removeItem).toHaveBeenCalledWith("@user");
       expect(alert).toHaveBeenCalledWith(new Error("AsyncStorage error"));
+    });
+  });
+
+  it("navigates back to login screen when the forgot password back button is pressed", async () => {
+    (Google.useAuthRequest as jest.Mock).mockReturnValue([
+      {},
+      { type: "fail", params: { id_token: "" } },
+      jest.fn(),
+    ]);
+
+    const { getByText, getByTestId, queryByTestId } = render(<App />);
+    const forgotPasswordButton = getByTestId("forgot-password-link");
+    fireEvent.press(forgotPasswordButton);
+
+    await waitFor(() => {
+      expect(queryByTestId("forgot-password-screen")).toBeTruthy();
+    });
+
+    const forgotPasswordBackButton = getByTestId("forgot-password-back-button");
+    fireEvent.press(forgotPasswordBackButton);
+
+    await waitFor(() => {
+      expect(queryByTestId("login-screen")).toBeTruthy();
     });
   });
 });

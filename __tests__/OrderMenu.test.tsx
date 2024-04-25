@@ -7,6 +7,23 @@ import { View, Text } from "react-native";
 jest.mock("../src/components/PayButton", () => ({
   __esModule: true,
   PayButton: () => {
+    <>
+      <View testID="mocked-pay-button">
+        <Text>MockedPayButton</Text>
+      </View>
+    </>;
+  },
+}));
+
+beforeAll(() => {
+  global.alert = jest.fn();
+  jest.spyOn(console, "error").mockImplementation(() => {});
+  jest.spyOn(console, "warn").mockImplementation(() => {});
+});
+
+jest.mock("../src/components/PayButton", () => ({
+  __esModule: true,
+  PayButton: () => {
     return (
       <View testID="mocked-pay-button">
         <Text>MockedPayButton</Text>
@@ -17,9 +34,9 @@ jest.mock("../src/components/PayButton", () => ({
 
 describe("Order Menu", () => {
   it("renders correctly ", () => {
-    const { getByText } = render(<OrderMenu />);
+    const { getByText, getByTestId } = render(<OrderMenu />);
 
-    expect(getByText("Choose your item")).toBeTruthy();
+    expect(getByTestId("order-menu-text")).toBeTruthy();
     productButtons.forEach((button) => {
       expect(getByText(button.item.getName())).toBeTruthy();
     });

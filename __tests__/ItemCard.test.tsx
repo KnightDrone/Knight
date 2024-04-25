@@ -2,6 +2,7 @@ import React from "react";
 import { render, fireEvent } from "@testing-library/react-native";
 import ItemCard from "../src/components/ItemCard";
 import { Item } from "../src/types/Item";
+import { useFonts } from "../__mocks__/expo-font";
 import { View, Text } from "react-native";
 
 // Avoid useless error messages
@@ -12,13 +13,18 @@ beforeAll(() => {
 jest.mock("../src/components/PayButton", () => ({
   __esModule: true,
   PayButton: () => {
-    return (
+    <>
       <View testID="mocked-pay-button">
         <Text>MockedPayButton</Text>
       </View>
-    );
+    </>;
   },
 }));
+
+describe("ItemCard", () => {
+  beforeEach(() => {
+    useFonts.mockReturnValue([true]);
+  });
 
 describe("ItemCard", () => {
   const mockHandleClose = jest.fn();
