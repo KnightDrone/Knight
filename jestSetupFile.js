@@ -30,10 +30,6 @@ jest.mock("firebase/firestore", () => ({
   where: jest.fn(),
 }));
 
-jest.mock("firebase/database", () => ({
-  getDatabase: jest.fn(),
-}));
-
 jest.mock("expo-auth-session/providers/google", () => ({
   useAuthRequest: jest.fn(),
 }));
@@ -76,10 +72,6 @@ jest.mock("react-native-vector-icons/FontAwesome", () => {
 jest.mock("@react-native-async-storage/async-storage", () => ({
   getItem: jest.fn(),
   setItem: jest.fn(),
-}));
-
-jest.mock("firebase/app", () => ({
-  initializeApp: jest.fn(),
 }));
 
 jest.mock("react-native-vector-icons/MaterialIcons", () => {
