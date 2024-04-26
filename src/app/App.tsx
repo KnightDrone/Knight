@@ -8,7 +8,6 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 import "./global.css";
 
 import { registerRootComponent } from "expo";
-import { RootStackParamList } from "../types/RootStackParamList";
 import OrderHistory from "./OrderHistory";
 
 WebBrowser.maybeCompleteAuthSession();
@@ -67,7 +66,7 @@ function App() {
   if (loading) {
     return <Text>Loading...</Text>;
   }
-
+  return <OrderHistory userId={0} opOrders={false} />;
   return (
     <NavigationContainer>
       <Stack.Navigator

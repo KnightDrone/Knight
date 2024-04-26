@@ -6,7 +6,7 @@ import { Item } from "../src/types/Item";
 
 describe("OrderCard", () => {
   const image = require("../assets/images/splash.png");
-  const item = new Item(1, "Test Item", "Test Description", 10, image, image);
+  const item = new Item(1, "Test Item", "Test Description", image, image, 10);
   const location = { latitude: 0, longitude: 0 };
   const order = new Order("John Doe", item, location);
 
