@@ -57,3 +57,7 @@ package-lock.json
 
 # Vercel
 .vercel
+
+# Google config files
+google-services.json
+GoogleService-Info.plist
