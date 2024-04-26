@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
 
-export const TriangleBackground = ({ color = "#93D39D", bottom = -350 }) => {
+const TriangleBackground = ({ color = "#93D39D", bottom = -350 }) => {
   const style = StyleSheet.create({
     triangle: {
       width: 0,
@@ -25,3 +25,5 @@ export const TriangleBackground = ({ color = "#93D39D", bottom = -350 }) => {
 
   return <View style={style.triangle}></View>;
 };
+
+export default TriangleBackground;
