@@ -34,60 +34,56 @@ export default class FirestoreManager {
   }
 
   // Method to query data from the database based on user, status, or item name
-  async queryData(
-    user?: string,
-    status?: string,
-    itemName?: string
-  ): Promise<Order[] | null> {
-    if (user !== undefined) {
+  async queryData(field: string, data: string): Promise<Order[] | null> {
+    if (field == "user") {
       var orders: Order[] = [];
       const q = query(
         collection(firestore, "orders"),
-        where("user", "==", user)
-      );
+        where("user", "==", data)
+      ).withConverter(orderConverter);
       const querySnapshot = await getDocs(q);
       querySnapshot.forEach((doc) => {
-        orders.push(doc.data().withConverter(orderConverter));
+        orders.push(doc.data());
       });
       if (orders.length == 0) {
-        console.log("No orders found for user: " + user);
+        console.log("No orders found for user: " + data);
         return null;
       } else {
-        console.log(orders.length + "orders found for user: " + user);
+        console.log(orders.length + " orders found for user: " + data);
         return orders;
       }
-    } else if (status !== undefined) {
+    } else if (field == "status") {
       var orders: Order[] = [];
       const q = query(
         collection(firestore, "orders"),
-        where("status", "==", status)
-      );
+        where("status", "==", data)
+      ).withConverter(orderConverter);
       const querySnapshot = await getDocs(q);
       querySnapshot.forEach((doc) => {
-        orders.push(doc.data().withConverter(orderConverter));
+        orders.push(doc.data());
       });
       if (orders.length == 0) {
-        console.log("No orders found with status: " + status);
+        console.log("No orders found with status: " + data);
         return null;
       } else {
-        console.log(orders.length + "orders found with status: " + status);
+        console.log(orders.length + " orders found with status: " + data);
         return orders;
       }
-    } else if (itemName !== undefined) {
+    } else if (field == "item") {
       var orders: Order[] = [];
       const q = query(
         collection(firestore, "orders"),
-        where("item.name", "==", itemName)
-      );
+        where("item.name", "==", data)
+      ).withConverter(orderConverter);
       const querySnapshot = await getDocs(q);
       querySnapshot.forEach((doc) => {
-        orders.push(doc.data().withConverter(orderConverter));
+        orders.push(doc.data());
       });
       if (orders.length == 0) {
-        console.log("No orders found with item name: " + itemName);
+        console.log("No orders found with item name: " + data);
         return null;
       } else {
-        console.log(orders.length + "orders found with item name: " + itemName);
+        console.log(orders.length + " orders found with item name: " + data);
         return orders;
       }
     } else {

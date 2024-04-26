@@ -21,7 +21,7 @@ class Order {
   private status: OrderStatus;
   private deliveryDate: Date;
   private location: OrderLocation;
-  private op_name: string;
+  private operator: string;
   private op_location: OrderLocation;
 
   constructor(
@@ -30,7 +30,7 @@ class Order {
     location: OrderLocation,
     orderDate?: Date,
     deliveryDate?: Date,
-    op_name?: string,
+    operator?: string,
     op_location?: OrderLocation,
     id?: string
   ) {
@@ -42,7 +42,7 @@ class Order {
     this.orderDate = orderDate || new Date();
     this.deliveryDate = deliveryDate || new Date();
     this.location = location;
-    this.op_name = op_name || "";
+    this.operator = operator || "";
     this.op_location = op_location || { latitude: -999, longitude: -999 };
   }
 
@@ -75,7 +75,7 @@ class Order {
   }
 
   getOpName(): string {
-    return this.op_name;
+    return this.operator;
   }
 
   getOpOrderLocation(): OrderLocation {
@@ -83,7 +83,7 @@ class Order {
   }
 
   getOperator(): string {
-    return this.op_name;
+    return this.operator;
   }
 
   setStatus(newStatus: OrderStatus): void {
@@ -94,7 +94,7 @@ class Order {
     return {
       id: this.id,
       user: this.user,
-      operator: this.op_name,
+      operator: this.operator,
       item: JSON.stringify(this.item.toDict()),
       orderDate: this.orderDate.toString(),
       status: this.status,
