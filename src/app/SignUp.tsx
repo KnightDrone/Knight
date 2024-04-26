@@ -1,12 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, Platform } from "react-native";
 // ------------- FIREBASE IMPORTS ----------------
-import {
-  auth,
-  GoogleAuthProvider,
-  signInWithCredential,
-  createUserWithEmailAndPassword,
-} from "../services/Firebase";
+import { authInstance, auth } from "../services/Firebase";
 // -----------------------------------------------
 import * as Google from "expo-auth-session/providers/google";
 import GoogleAuthConfig from "../types/GoogleAuthConfig";
@@ -36,8 +31,9 @@ export default function SignUp({ navigation }: any) {
   useEffect(() => {
     if (response?.type === "success") {
       const { id_token } = response.params;
-      const credential = GoogleAuthProvider.credential(id_token);
-      signInWithCredential(auth, credential)
+      const credential = auth.GoogleAuthProvider.credential(id_token);
+      authInstance
+        .signInWithCredential(credential)
         .then(() => {
           console.log("Sign up successful");
           navigation.navigate("Map");
@@ -95,7 +91,8 @@ export default function SignUp({ navigation }: any) {
 
   const signUpWithEmail = async () => {
     if (email && password) {
-      createUserWithEmailAndPassword(auth, email, password)
+      authInstance
+        .createUserWithEmailAndPassword(email, password)
         .then((userCredential) => {
           console.log(userCredential, "sign up with email successful.");
           navigation.navigate("Map");
