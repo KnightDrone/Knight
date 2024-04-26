@@ -88,6 +88,7 @@ export default function Login({ navigation }: any) {
           value={email}
           onChangeText={setEmail}
           type="email"
+          testID="email-input"
         />
 
         <TextField
@@ -107,9 +108,8 @@ export default function Login({ navigation }: any) {
       </View>
 
       <View className="flex-row items-center justify-center gap-8 w-full px-6">
-        <TouchableOpacity>
+        <TouchableOpacity testID="forgot-password-link">
           <Text
-            testID="forgot-password-link"
             className="text-primary-500 text-center mt-2.5"
             onPress={() => navigation.navigate("ForgotPassword")}
           >

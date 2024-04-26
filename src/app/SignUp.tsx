@@ -149,7 +149,7 @@ export default function SignUp({ navigation }: any) {
         className="text-4xl font-bold mb-16 text-center"
         testID="signup-title"
       >
-        Sign Up
+        Sign Up to our services
       </Text>
 
       <View className="flex flex-col gap-3">
