@@ -54,7 +54,7 @@ export default function OrderMenu({ navigation }: any) {
             handleOrder={() =>
               navigation.navigate("OrderPlaced", {
                 orderedItem: button.item,
-                placedAt: new Date(),
+                placedAt: Date.now(),
                 userLocation: "1234 Main St",
               })
             }
