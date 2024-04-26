@@ -2,14 +2,11 @@ import * as React from "react";
 import { screen, render, fireEvent } from "@testing-library/react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { AuthStack, UserStack } from "../src/navigation/StackNavigation";
+
 // Test for AuthStack
 describe("AuthStack Navigation Tests", () => {
   test('navigates to the SignUp screen when "Sign Up" is pressed', () => {
-    render(
-      <NavigationContainer>
-        <AuthStack />
-      </NavigationContainer>
-    );
+    render();
     fireEvent.press(screen.getByText("Sign Up"));
     // Check if the SignUp screen is displayed by looking for a specific text
     expect(screen.getByText("Create Account")).toBeTruthy();
