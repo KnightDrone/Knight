@@ -30,7 +30,7 @@ export default function Login({ navigation }: any) {
       authInstance
         .signInWithCredential(credential)
         .then(() => {
-          navigation.navigate("Map"); // Navigate after successful login
+          navigation.navigate("Map");
         })
         .catch((error) => {
           console.error(error);
