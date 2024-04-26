@@ -39,7 +39,8 @@ class Order {
     this.status = OrderStatus.Pending;
     this.deliveryDate = new Date();
     this.location = location;
-    this.usr_loc_name = "";
+    this.usr_loc_name =
+      "Lat: ${location.latitude}, Long: ${location.longitude}";
     this.op_name = op_name || "";
     this.op_location = op_location || { latitude: -999, longitude: -999 };
   }
