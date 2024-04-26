@@ -11,9 +11,7 @@ import OrderCard from "../components/OrderCard";
 import { Button } from "../ui/Button";
 import { Order } from "../types/Order";
 import { Item } from "../types/Item";
-import TriangleBackground, {
-  TriangleBackground2,
-} from "../components/TriangleBackground";
+import TriangleBackground from "../components/TriangleBackground";
 
 /* 
 NOTE: This is a temporary solution to simulate fetching pending orders from a server. Should be replaced with actual database calls
@@ -101,7 +99,7 @@ const PendingOrders = ({ navigation }: any) => {
           />
         </TouchableOpacity>
       </View>
-      <TriangleBackground2 />
+      <TriangleBackground />
 
       <FlatList
         data={orders}
