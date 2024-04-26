@@ -69,7 +69,7 @@ export default class FirestoreManager {
         console.log(orders.length + " orders found with status: " + data);
         return orders;
       }
-    } else if (field == "item") {
+    } else if (field == "itemName") {
       var orders: Order[] = [];
       const q = query(
         collection(firestore, "orders"),
@@ -122,36 +122,34 @@ export default class FirestoreManager {
   // Method to update data at a specific path in the database
   async updateData(
     orderId: string,
-    operator?: string,
-    status?: string,
-    deliveryDate?: Date,
-    location?: OrderLocation
+    field: string,
+    data: string | Date | OrderLocation
   ): Promise<void> {
     const orderRef = doc(firestore, "orders", orderId);
     try {
-      if (operator !== undefined) {
-        await setDoc(orderRef, { operator: operator }, { merge: true });
+      if (field == "operator") {
+        await setDoc(orderRef, { operator: data }, { merge: true });
         console.log(
           "Order with id " +
             orderId +
             " successfully updated operator field in the database"
         );
-      } else if (status !== undefined) {
-        await setDoc(orderRef, { status: status }, { merge: true });
+      } else if (field == "status") {
+        await setDoc(orderRef, { status: data }, { merge: true });
         console.log(
           "Order with id " +
             orderId +
             " successfully updated status field in the database"
         );
-      } else if (deliveryDate !== undefined) {
-        await setDoc(orderRef, { deliveryDate: deliveryDate }, { merge: true });
+      } else if (field == "deliveryDate") {
+        await setDoc(orderRef, { deliveryDate: data }, { merge: true });
         console.log(
           "Order with id " +
             orderId +
             " successfully updated delivery date field in the database"
         );
-      } else if (location !== undefined) {
-        await setDoc(orderRef, { location: location }, { merge: true });
+      } else if (field == "location") {
+        await setDoc(orderRef, { location: data }, { merge: true });
         console.log(
           "Order with id " +
             orderId +

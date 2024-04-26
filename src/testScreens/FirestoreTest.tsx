@@ -111,7 +111,7 @@ const FirestoreTest: React.FC = () => {
   };
 
   const queryItem = async () => {
-    const itemNameRes = await firestoreManager.queryData("item", itemName);
+    const itemNameRes = await firestoreManager.queryData("itemName", itemName);
     console.log("result: ", itemNameRes);
     if (itemNameRes === null) {
       console.log("Test failed. No orders found with item name: " + itemName);
@@ -120,9 +120,11 @@ const FirestoreTest: React.FC = () => {
     console.log("result dictionary: ", itemNameRes[0].toDict());
     console.log("order dictionary: ", order.toDict());
 
-    if (
-      JSON.stringify(itemNameRes[0].toDict()) === JSON.stringify(order.toDict())
-    ) {
+    const isMatch = itemNameRes.some(
+      (item) => JSON.stringify(item.toDict()) === JSON.stringify(order.toDict())
+    );
+
+    if (isMatch) {
       console.log("Test: query data by item name passed");
     } else {
       console.log(
@@ -140,6 +142,10 @@ const FirestoreTest: React.FC = () => {
       longitude: -997,
     });
     await firestoreManager.writeOrder(newOrder);
+  };
+
+  const deleteFirestore = async () => {
+    await firestoreManager.deleteData("05e98008-cfb7-4ac2-807f-3cb406437a13");
   };
 
   // const updateFirestore = async () => {
@@ -175,6 +181,9 @@ const FirestoreTest: React.FC = () => {
       </View>
       <View style={styles.buttonContainer}>
         <Button onPress={writeFirestore} title="write data" />
+      </View>
+      <View style={styles.buttonContainer}>
+        <Button onPress={deleteFirestore} title="delete data" />
       </View>
       {/* <Button onPress={updateFirestore} title="update data" /> */}
     </View>
