@@ -6,31 +6,26 @@ type GoogleAuthConfig = {
 };
 
 const all: GoogleAuthConfig = {
-  iosClientId:
-    "983400403511-gi5mo0akb89fcecaivk4q509c63hrvtl.apps.googleusercontent.com",
-  androidClientId:
-    "983400403511-467t4ccjvp59l78v073svkflfus76ltt.apps.googleusercontent.com",
-  webClientId:
-    "983400403511-ff4ntmj4f9qvmmcc6nqh68tn524bp740.apps.googleusercontent.com",
-  redirectUri:
-    "com.googleusercontent.apps.983400403511-gi5mo0akb89fcecaivk4q509c63hrvtl:/oauth2redirect/google",
+  iosClientId: process.env.IOS_CLIENT_ID_OAUTH,
+  androidClientId: process.env.ANDROID_CLIENT_ID_OAUTH,
+  webClientId: process.env.WEB_CLIENT_ID_OAUTH,
+  redirectUri: process.env.REDIRECT_URI,
 };
 
 const ios: GoogleAuthConfig = {
-  iosClientId:
-    "983400403511-gi5mo0akb89fcecaivk4q509c63hrvtl.apps.googleusercontent.com",
-  redirectUri:
-    "com.googleusercontent.apps.983400403511-gi5mo0akb89fcecaivk4q509c63hrvtl:/oauth2redirect/google",
+  iosClientId: process.env.IOS_CLIENT_ID_OAUTH,
+  redirectUri: process.env.REDIRECT_URI,
 };
 
 const android: GoogleAuthConfig = {
-  androidClientId:
-    "983400403511-467t4ccjvp59l78v073svkflfus76ltt.apps.googleusercontent.com",
+  androidClientId: process.env.ANDROID_CLIENT_ID_OAUTH,
 };
 
 const web: GoogleAuthConfig = {
-  webClientId:
-    "983400403511-ff4ntmj4f9qvmmcc6nqh68tn524bp740.apps.googleusercontent.com",
+  iosClientId: process.env.IOS_CLIENT_ID_OAUTH,
+  androidClientId: process.env.ANDROID_CLIENT_ID_OAUTH,
+  webClientId: process.env.WEB_CLIENT_ID_OAUTH,
+  redirectUri: process.env.REDIRECT_URI,
 };
 
 export default { all, ios, android, web };
