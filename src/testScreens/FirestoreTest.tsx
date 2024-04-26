@@ -148,22 +148,18 @@ const FirestoreTest: React.FC = () => {
     await firestoreManager.deleteData("05e98008-cfb7-4ac2-807f-3cb406437a13");
   };
 
-  // const updateFirestore = async () => {
-  //   // Call your FirestoreManager functions here
-  //   // For example:
-  //   const result = await firestoreManager.updateData(id, order.getOpName());
-  //   console.log("result: ", result);
-  //   console.log("result dictionary: ", result.toDict());
-  //   console.log("order dictionary: ", order.toDict());
+  const updateFirestore = async () => {
+    await firestoreManager.updateData(id, "operator", "you");
 
-  //   if (JSON.stringify(result.toDict()) === JSON.stringify(order.toDict())) {
-  //     console.log("Test: update data passed");
-  //   } else {
-  //     console.log(
-  //       "Test: update data failed - expected: " + order + " but got: " + result
-  //     );
-  //   }
-  // };
+    await firestoreManager.updateData(id, "status", OrderStatus.Cancelled);
+
+    await firestoreManager.updateData(id, "deliveryDate", new Date());
+
+    await firestoreManager.updateData(id, "location", {
+      latitude: -21,
+      longitude: -21,
+    });
+  };
 
   return (
     <View style={styles.container}>
@@ -184,6 +180,9 @@ const FirestoreTest: React.FC = () => {
       </View>
       <View style={styles.buttonContainer}>
         <Button onPress={deleteFirestore} title="delete data" />
+      </View>
+      <View style={styles.buttonContainer}>
+        <Button onPress={updateFirestore} title="update data" />
       </View>
       {/* <Button onPress={updateFirestore} title="update data" /> */}
     </View>
