@@ -11,7 +11,9 @@ import OrderCard from "../components/OrderCard";
 import { Button } from "../ui/Button";
 import { Order } from "../types/Order";
 import { Item } from "../types/Item";
-import TriangleBackground from "../components/TriangleBackground";
+import TriangleBackground, {
+  TriangleBackground2,
+} from "../components/TriangleBackground";
 
 /* 
 NOTE: This is a temporary solution to simulate fetching pending orders from a server. Should be replaced with actual database calls
@@ -108,7 +110,8 @@ const PendingOrders = ({ navigation }: any) => {
           />
         </TouchableOpacity>
       </View>
-      <TriangleBackground />
+
+      <TriangleBackground2 />
 
       <FlatList
         data={orders}
@@ -125,7 +128,7 @@ const PendingOrders = ({ navigation }: any) => {
       {selectedOrder && (
         <Modal animationType="none" transparent={true} visible={true}>
           <View className="flex-1 justify-center items-center bg-opacity-100">
-            <View className="bg-white border-2 border-gray-500 p-5 items-start justify-start shadow-lg w-[300] h-[140] rounded-lg relative">
+            <View className="bg-white border-2 border-gray-500 p-5 items-start justify-start shadow-lg w-[300] h-[180] rounded-lg relative">
               <TouchableOpacity
                 onPress={() => handleCloseCard()}
                 className="absolute right-5 top-5"
@@ -135,7 +138,7 @@ const PendingOrders = ({ navigation }: any) => {
                   className="w-5 h-5"
                 />
               </TouchableOpacity>
-              <Text className="text-center font-bold text-2xl pt-5 pb-2 justify-center items-center">
+              <Text className="text-center font-bold text-xl pt-5 pb-6 justify-center items-center">
                 {`Would you like to accept the order for ${selectedOrder.getItem().getName()} from ${selectedOrder.getUser()}?`}
               </Text>
               <Button
