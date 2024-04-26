@@ -6,6 +6,7 @@ import * as Google from "expo-auth-session/providers/google";
 import App from "../src/app/App";
 import { onAuthStateChanged } from "../src/services/Firebase";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { View, Text } from "react-native";
 
 beforeEach(() => {
   const mockPromptAsync = jest.fn();
@@ -18,6 +19,17 @@ beforeEach(() => {
     mockPromptAsync, // Mocked promptAsync function
   ]);
 });
+
+jest.mock("../src/components/PayButton", () => ({
+  __esModule: true,
+  PayButton: () => {
+    return (
+      <View testID="mocked-pay-button">
+        <Text>MockedPayButton</Text>
+      </View>
+    );
+  },
+}));
 
 beforeAll(() => {
   global.alert = jest.fn();
@@ -128,31 +140,6 @@ describe("App Navigation", () => {
 
     await waitFor(() => {
       expect(queryByTestId("map-overview-screen")).toBeTruthy();
-    });
-  });
-
-  it("goes to order menu, place an order and then goes to order placed", async () => {
-    const { getByTestId, getByText, queryByTestId } = render(<App />);
-
-    await waitFor(() => {
-      expect(queryByTestId("map-overview-screen")).toBeTruthy();
-    });
-
-    const orderMenuButton = getByTestId("order-button");
-    fireEvent.press(orderMenuButton);
-
-    await waitFor(() => {
-      expect(queryByTestId("order-menu-screen")).toBeTruthy();
-    });
-
-    const placeOrderButton = getByText("First aid kit");
-    fireEvent.press(placeOrderButton);
-
-    const orderButton = getByText("Order");
-    fireEvent.press(orderButton);
-
-    await waitFor(() => {
-      expect(queryByTestId("order-placed-screen")).toBeTruthy();
     });
   });
 

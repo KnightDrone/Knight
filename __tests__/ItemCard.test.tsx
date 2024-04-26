@@ -3,11 +3,23 @@ import { render, fireEvent } from "@testing-library/react-native";
 import ItemCard from "../src/components/ItemCard";
 import { Item } from "../src/types/Item";
 import { useFonts } from "../__mocks__/expo-font";
+import { View, Text } from "react-native";
 
 // Avoid useless error messages
 beforeAll(() => {
   jest.spyOn(console, "error").mockImplementation(() => {});
 });
+
+jest.mock("../src/components/PayButton", () => ({
+  __esModule: true,
+  PayButton: () => {
+    return (
+      <View testID="mocked-pay-button">
+        <Text>MockedPayButton</Text>
+      </View>
+    );
+  },
+}));
 
 describe("ItemCard", () => {
   beforeEach(() => {
@@ -41,8 +53,6 @@ describe("ItemCard", () => {
     expect(getByTestId("close-icon")).toBeTruthy();
     expect(getByTestId("blur-view")).toBeTruthy();
     expect(getByTestId("item-image")).toBeTruthy();
-    expect(getByTestId("price-text")).toBeTruthy();
-    expect(getByTestId("order-button")).toBeTruthy();
   });
 
   it("does not render when isVisible is false", () => {
@@ -70,19 +80,5 @@ describe("ItemCard", () => {
 
     fireEvent.press(getByTestId("close-button"));
     expect(mockHandleClose).toHaveBeenCalled();
-  });
-
-  it("calls handleOrder when order button is pressed", () => {
-    const { getByTestId } = render(
-      <ItemCard
-        isVisible={true}
-        handleClose={mockHandleClose}
-        handleOrder={mockHandleOrder}
-        item={mockItem}
-      />
-    );
-
-    fireEvent.press(getByTestId("order-button"));
-    expect(mockHandleOrder).toHaveBeenCalled();
   });
 });

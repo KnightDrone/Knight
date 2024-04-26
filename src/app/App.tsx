@@ -89,7 +89,6 @@ function App() {
   if (loading) {
     return <Text>Loading...</Text>;
   }
-
   return (
     <NavigationContainer>
       <Stack.Navigator

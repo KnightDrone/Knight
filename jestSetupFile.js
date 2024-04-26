@@ -1,7 +1,3 @@
-const { getApps, getApp } = require("firebase/app");
-const { initializeAuth } = require("firebase/auth");
-const { getFirestore, initializeFirestore } = require("firebase/firestore");
-
 jest.mock("@react-native-async-storage/async-storage", () =>
   require("@react-native-async-storage/async-storage/jest/async-storage-mock")
 );
@@ -129,3 +125,19 @@ jest.mock("expo-location", () => ({
 jest.mock("@react-native-async-storage/async-storage", () =>
   require("@react-native-async-storage/async-storage/jest/async-storage-mock")
 );
+
+jest.mock("@stripe/stripe-react-native", () => ({
+  __esModule: true,
+  PaymentSheetError: jest.fn(),
+  initPaymentSheet: jest.fn(),
+  presentPaymentSheet: jest.fn(),
+  confirmPaymentSheetPayment: jest.fn(),
+  useStripe: jest.fn().mockReturnValue({
+    confirmPayment: jest.fn(),
+    createPaymentMethod: jest.fn(),
+    retrievePaymentIntent: jest.fn(),
+    initPaymentSheet: jest.fn(),
+    presentPaymentSheet: jest.fn(),
+    confirmPaymentSheetPayment: jest.fn(),
+  }),
+}));
