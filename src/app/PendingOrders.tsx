@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import OrderCard from "../components/OrderCard";
 import { Button } from "../ui/Button";
-import { Order, OrderLocation, OrderStatus } from "../types/Order";
+import { Order } from "../types/Order";
 import { Item } from "../types/Item";
 import TriangleBackground, {
   TriangleBackground2,
