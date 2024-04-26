@@ -3,6 +3,18 @@ import { screen, render, fireEvent } from "@testing-library/react-native";
 import OrderMenu from "../src/app/OrderMenu";
 import { useFonts } from "../__mocks__/expo-font";
 import { productButtons } from "../src/types/ProductButtons";
+import { View, Text } from "react-native";
+
+jest.mock("../src/components/PayButton", () => ({
+  __esModule: true,
+  PayButton: () => {
+    return (
+      <View testID="mocked-pay-button">
+        <Text>MockedPayButton</Text>
+      </View>
+    );
+  },
+}));
 
 describe("Order Menu", () => {
   //set globally useFont to true

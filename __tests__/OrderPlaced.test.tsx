@@ -3,6 +3,18 @@ import { render } from "@testing-library/react-native";
 import OrderPlaced from "../src/app/OrderPlaced";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+import { View, Text } from "react-native";
+
+jest.mock("../src/components/PayButton", () => ({
+  __esModule: true,
+  PayButton: () => {
+    return (
+      <View testID="mocked-pay-button">
+        <Text>MockedPayButton</Text>
+      </View>
+    );
+  },
+}));
 
 const Stack = createStackNavigator();
 const OrderPlacedTest = () => {
