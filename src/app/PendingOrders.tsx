@@ -127,7 +127,7 @@ const PendingOrders = ({ navigation }: any) => {
                   className="w-5 h-5"
                 />
               </TouchableOpacity>
-              <Text className="text-center font-bold text-30 pt-5 pb-2 justify-center items-center">
+              <Text className="text-center font-bold text-2xl pt-5 pb-2 justify-center items-center">
                 {`Would you like to accept the order for ${selectedOrder.getItem().getName()} from ${selectedOrder.getUser()}?`}
               </Text>
               <Button
