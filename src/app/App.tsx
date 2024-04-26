@@ -22,7 +22,6 @@ import { useFonts } from "expo-font";
 import KaiseiRegular from "../../assets/fonts/KaiseiDecol-Regular.ttf";
 
 import { registerRootComponent } from "expo";
-import OrderHistory from "./OrderHistory";
 
 import {
   createDrawerNavigator,
@@ -96,7 +95,6 @@ function App() {
   if (loading) {
     return <Text>Loading...</Text>;
   }
-  return <OrderHistory userId={0} opOrders={false} />;
   return (
     <NavigationContainer>
       {userInfo ? (
