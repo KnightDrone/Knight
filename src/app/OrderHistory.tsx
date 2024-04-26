@@ -13,6 +13,7 @@ import { Item } from "../types/Item";
 import TriangleBackground, {
   TriangleBackground2,
 } from "../components/TriangleBackground";
+import { MessageBox } from "../ui/MessageBox";
 
 /* 
 NOTE: This is a temporary solution to simulate fetching orders from a server. Should be replaced with actual database calls
@@ -66,19 +67,30 @@ const fetchOrdersForUserMock = async (
 const OrderHistory = ({ navigation, userId, opOrders }: any) => {
   const [orders, setOrders] = useState<Order[]>([]);
   const [refreshing, setRefreshing] = useState(false);
+  const [error, setError] = useState<Error | null>(null);
+
   useEffect(() => {
     fetchOrders();
   }, []);
 
   const fetchOrders = async () => {
     setRefreshing(true);
-    const newOrders = await fetchOrdersForUserMock(userId, opOrders);
-    // Sort the orders by date so that the most recent orders are shown first
-    const sortedOrders = newOrders.sort(
-      (a, b) => b.getOrderDate().getTime() - a.getOrderDate().getTime()
-    );
-    setOrders(sortedOrders);
-    setRefreshing(false);
+    try {
+      const newOrders = await fetchOrdersForUserMock(userId, opOrders);
+      if (newOrders.length === 0) {
+        setError(new Error("No orders have been made yet, check back later."));
+      } else {
+        const sortedOrders = newOrders.sort(
+          (a, b) => b.getOrderDate().getTime() - a.getOrderDate().getTime()
+        );
+        setOrders(sortedOrders);
+        setError(null); // Clear the error if the fetch is successful
+      }
+    } catch (err) {
+      setError(err as Error);
+    } finally {
+      setRefreshing(false);
+    }
   };
   return (
     <View className="mt-16">
@@ -101,17 +113,25 @@ const OrderHistory = ({ navigation, userId, opOrders }: any) => {
       </View>
 
       <TriangleBackground2 />
-
-      <FlatList
-        data={orders}
-        renderItem={({ item }) => <OrderCard order={item} />}
-        keyExtractor={(item) => item.getId()}
-        onEndReached={fetchOrders}
-        onEndReachedThreshold={0.1}
-        refreshing={refreshing}
-        onRefresh={fetchOrders}
-        testID="orderHistoryFlatList"
-      />
+      {error ? (
+        <MessageBox
+          message={error.message}
+          style="error"
+          onClose={() => setError(null)}
+          testID="error-box"
+        />
+      ) : (
+        <FlatList
+          data={orders}
+          renderItem={({ item }) => <OrderCard order={item} />}
+          keyExtractor={(item) => item.getId()}
+          onEndReached={fetchOrders}
+          onEndReachedThreshold={0.1}
+          refreshing={refreshing}
+          onRefresh={fetchOrders}
+          testID="orderHistoryFlatList"
+        />
+      )}
     </View>
   );
 };
