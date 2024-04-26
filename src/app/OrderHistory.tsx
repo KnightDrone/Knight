@@ -70,16 +70,8 @@ const fetchOrdersForUserMock = async (
 };
 
 // TODO: Maybe add some search bar to filter?
-
-const OrderHistory = ({
-  route,
-  navigation,
-}: {
-  route: RouteProp<RootStackParamList, "OrderHistory">;
-  navigation: any;
-}) => {
-  const { opOrders, userId } = route.params;
-
+// opOrders is a boolean value that determines whether the user is an operator or not, and fetches the corresponding order history
+const OrderHistory = ({ navigation, userId, opOrders }: any) => {
   const [orders, setOrders] = useState<Order[]>([]);
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState<Error | null>(null);
@@ -122,27 +114,18 @@ const OrderHistory = ({
         </TouchableOpacity>
       </View>
 
-      <TriangleBackground color="#A0D1E4" />
-      {error ? (
-        <MessageBox
-          message={error.message}
-          style="error"
-          onClose={() => setError(null)}
-          testID="error-box"
-        />
-      ) : (
-        <FlatList
-          className="mt-4 min-h-full"
-          data={orders}
-          renderItem={({ item }) => <OrderCard order={item} />}
-          keyExtractor={(item) => item.getId()}
-          onEndReached={fetchOrders}
-          onEndReachedThreshold={0.1}
-          refreshing={refreshing}
-          onRefresh={fetchOrders}
-          testID="orderHistoryFlatList"
-        />
-      )}
+      <TriangleBackground2 />
+
+      <FlatList
+        data={orders}
+        renderItem={({ item }) => <OrderCard order={item} />}
+        keyExtractor={(item) => item.getId()}
+        onEndReached={fetchOrders}
+        onEndReachedThreshold={0.1}
+        refreshing={refreshing}
+        onRefresh={fetchOrders}
+        testID="orderHistoryFlatList"
+      />
     </View>
   );
 };

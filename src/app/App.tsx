@@ -19,6 +19,7 @@ import DrawerNavigator from "./DrawerNavigation";
 import "./global.css";
 
 import { registerRootComponent } from "expo";
+import OrderHistory from "./OrderHistory";
 
 import {
   createDrawerNavigator,
@@ -94,6 +95,7 @@ function App() {
   if (loading) {
     return <Text>Loading...</Text>;
   }
+  return <OrderHistory userId={0} opOrders={false} />;
   return (
     <NavigationContainer>
       {userInfo ? (
