@@ -1,3 +1,5 @@
+const { plugin } = require("typescript-eslint");
+
 module.exports = function (api) {
   api.cache(true);
   return {

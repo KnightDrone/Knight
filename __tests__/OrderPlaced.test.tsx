@@ -6,10 +6,10 @@ import {
   screen,
   act,
 } from "@testing-library/react-native";
-import { View } from "react-native";
 import OrderPlaced from "../src/app/OrderPlaced";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+import { View, Text } from "react-native";
 import { RootStackParamList } from "../src/types/RootStackParamList";
 import { useFonts } from "../__mocks__/expo-font";
 import { Item } from "../src/types/Item";
@@ -21,6 +21,17 @@ type OrderPlacedStack = {
 
 const Stack = createStackNavigator<OrderPlacedStack>();
 useFonts.mockReturnValue([true]);
+
+jest.mock("../src/components/PayButton", () => ({
+  __esModule: true,
+  PayButton: () => {
+    return (
+      <View testID="mocked-pay-button">
+        <Text>MockedPayButton</Text>
+      </View>
+    );
+  },
+}));
 
 beforeAll(() => {
   global.alert = jest.fn();
