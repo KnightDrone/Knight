@@ -13,6 +13,7 @@ import { AuthStack, UserStack } from "../navigation/StackNavigation";
 import "./global.css";
 
 import { registerRootComponent } from "expo";
+import OrderHistory from "./OrderHistory";
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -75,6 +76,10 @@ function App() {
     return unsub;
   }, []);
 
+  if (loading) {
+    return <Text>Loading...</Text>;
+  }
+  return <OrderHistory userId={0} opOrders={false} />;
   return (
     <NavigationContainer>
       <Stack.Navigator

@@ -83,22 +83,13 @@ const OrderHistory = ({ navigation, userId, opOrders }: any) => {
 
   const fetchOrders = async () => {
     setRefreshing(true);
-    try {
-      const newOrders = await fetchOrdersForUserMock(userId, opOrders);
-      if (newOrders.length === 0) {
-        setError(new Error("No orders have been made yet, check back later."));
-      } else {
-        const sortedOrders = newOrders.sort(
-          (a, b) => b.getOrderDate().getTime() - a.getOrderDate().getTime()
-        );
-        setOrders(sortedOrders);
-        setError(null); // Clear the error if the fetch is successful
-      }
-    } catch (err) {
-      setError(err as Error);
-    } finally {
-      setRefreshing(false);
-    }
+    const newOrders = await fetchOrdersForUserMock(userId, opOrders);
+    // Sort the orders by date so that the most recent orders are shown first
+    const sortedOrders = newOrders.sort(
+      (a, b) => b.getOrderDate().getTime() - a.getOrderDate().getTime()
+    );
+    setOrders(sortedOrders);
+    setRefreshing(false);
   };
   return (
     <View className="mt-16">
@@ -121,25 +112,17 @@ const OrderHistory = ({ navigation, userId, opOrders }: any) => {
       </View>
 
       <TriangleBackground2 />
-      {error ? (
-        <MessageBox
-          message={error.message}
-          style="error"
-          onClose={() => setError(null)}
-          testID="error-box"
-        />
-      ) : (
-        <FlatList
-          data={orders}
-          renderItem={({ item }) => <OrderCard order={item} />}
-          keyExtractor={(item) => item.getId()}
-          onEndReached={fetchOrders}
-          onEndReachedThreshold={0.1}
-          refreshing={refreshing}
-          onRefresh={fetchOrders}
-          testID="orderHistoryFlatList"
-        />
-      )}
+
+      <FlatList
+        data={orders}
+        renderItem={({ item }) => <OrderCard order={item} />}
+        keyExtractor={(item) => item.getId()}
+        onEndReached={fetchOrders}
+        onEndReachedThreshold={0.1}
+        refreshing={refreshing}
+        onRefresh={fetchOrders}
+        testID="orderHistoryFlatList"
+      />
     </View>
   );
 };
