@@ -87,6 +87,7 @@ const PendingOrders = ({ navigation }: any) => {
           <Image
             source={require("../../assets/icons/menu_icon.png")}
             className="w-9 h-9"
+            testID="menu-icon"
           />
         </TouchableOpacity>
         <Text className="text-2xl font-bold text-center my-4">
@@ -96,6 +97,7 @@ const PendingOrders = ({ navigation }: any) => {
           <Image
             source={require("../../assets/icons/x_icon.png")}
             className="w-5 h-5"
+            testID="close-icon"
           />
         </TouchableOpacity>
       </View>
@@ -111,6 +113,7 @@ const PendingOrders = ({ navigation }: any) => {
         onEndReachedThreshold={0.1}
         refreshing={refreshing}
         onRefresh={fetchOrders}
+        testID="order-list"
       />
       {selectedOrder && (
         <Modal animationType="none" transparent={true} visible={true}>
