@@ -5,6 +5,7 @@ import KaiseiRegular from "../../assets/fonts/KaiseiDecol-Regular.ttf";
 import { Item } from "../types/Item";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { BlurView } from "expo-blur";
+import { PayButton } from "./PayButton";
 
 interface ItemCardProps {
   isVisible: boolean;
@@ -46,16 +47,10 @@ function ItemCard({
             testID="item-image"
           />
           <View style={styles.bottomRow}>
-            <Text style={styles.price} testID="price-text">
-              Price: {item.getPrice()} CHF
-            </Text>
-            <TouchableOpacity
-              style={styles.orderButton}
-              onPress={handleOrder}
-              testID="order-button"
-            >
-              <Text style={styles.orderButtonText}>Order</Text>
-            </TouchableOpacity>
+            <PayButton
+              amount={item.getPrice() * 100}
+              onSuccessfulPayment={handleOrder}
+            />
           </View>
         </View>
       </BlurView>
