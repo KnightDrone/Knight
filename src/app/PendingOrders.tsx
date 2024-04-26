@@ -20,7 +20,7 @@ NOTE: This is a temporary solution to simulate fetching pending orders from a se
 */
 const fetchPendingOrders = async (): Promise<Order[]> => {
   return new Promise((resolve) => {
-    setTimeout(() => {
+    setTimeout(async () => {
       const orders: Order[] = [
         // Replace with predefined set pending orders
         new Order(
@@ -41,9 +41,11 @@ const fetchPendingOrders = async (): Promise<Order[]> => {
         new Order(
           "user4",
           new Item(3, "item4", "description3", 3, 3, 330),
-          { latitude: 0, longitude: 0 } // Correct way to create an OrderLocation object
+          { latitude: 20, longitude: 50 } // Correct way to create an OrderLocation object
         ),
       ];
+      // Call locSearch for each order and wait for all to complete, Nominatim API to search
+      await Promise.all(orders.map((order) => order.locSearch()));
       resolve(orders);
     }, 1000); // 1 second delay
   });
@@ -116,7 +118,11 @@ const PendingOrders = ({ navigation }: any) => {
       <FlatList
         data={orders}
         renderItem={({ item }) => (
-          <OrderCard order={item} onClick={() => handleOpenCard(item)} />
+          <OrderCard
+            order={item}
+            onClick={() => handleOpenCard(item)}
+            opBool={false}
+          /> // opBool is false because we want to show the user's location name
         )}
         keyExtractor={(item) => item.getId()}
         onEndReached={fetchOrders}
@@ -131,16 +137,17 @@ const PendingOrders = ({ navigation }: any) => {
             <View className="bg-white border-2 border-gray-500 p-5 items-start justify-start shadow-lg w-[300] h-[180] rounded-lg relative">
               <TouchableOpacity
                 onPress={() => handleCloseCard()}
-                className="absolute right-5 top-5"
+                className="absolute right-5 top-5 "
               >
                 <Image
                   source={require("../../assets/icons/x_icon.png")}
                   className="w-5 h-5"
                 />
               </TouchableOpacity>
-              <Text className="text-center font-bold text-xl pt-5 pb-6 justify-center items-center">
+              <Text className="text-center font-bold text-xl pt-5 pb-6">
                 {`Would you like to accept the order for ${selectedOrder.getItem().getName()} from ${selectedOrder.getUser()}?`}
               </Text>
+
               <Button
                 text="Accept Order"
                 onPress={handleAcceptOrder}

@@ -31,29 +31,22 @@ const formatDate = (date: Date) => {
 interface OrderCardProps {
   order: Order;
   onClick?: () => void;
+  opBool: boolean;
 }
-
-const OrderCard = ({ order, onClick }: OrderCardProps) => {
+// opBool is used to determine if the location name should be the operator's name or the user's location name
+// This component is used for both PendingOrders and OrderHistory, and thus the location information chosen to be displayed should be chosen appropiately
+const OrderCard = ({ order, onClick, opBool }: OrderCardProps) => {
   const item = order.getItem();
   const name = item.getName();
   const orderDate = order.getOrderDate();
   const price = item.getPrice();
-  const location = order.getLocation();
-  //let locName = order.getOpName();
-  // Attempt to fetch the location name from the coordinates using Nominatim API
-  /*useEffect(() => {
-    if (locName === "") {
-      const location = order.getLocation();
-      fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${location.latitude}&lon=${location.longitude}`)
-        .then(response => response.json())
-        .then(data => setLocName(data.display_name))
-        .catch(error => console.error(error));
-    }
-  }, []);*/
+  let locName = "";
+  if (opBool) {
+    locName = order.getOpName();
+  } else {
+    locName = order.getUsrLocName();
+  }
 
-  const locName =
-    order.getOpName() ||
-    `Lat: ${location.latitude}, Long: ${location.longitude}`;
   const content = (
     <View className="flex-1">
       <Text className="text-left font-bold">{name}</Text>

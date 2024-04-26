@@ -123,7 +123,11 @@ const OrderHistory = ({ navigation, userId, opOrders }: any) => {
       ) : (
         <FlatList
           data={orders}
-          renderItem={({ item }) => <OrderCard order={item} />}
+          // if I am an operator, I want to see the user's location name
+          // if I am user, I want to see where I ordered from
+          renderItem={({ item }) => (
+            <OrderCard order={item} opBool={!opOrders} />
+          )}
           keyExtractor={(item) => item.getId()}
           onEndReached={fetchOrders}
           onEndReachedThreshold={0.1}
