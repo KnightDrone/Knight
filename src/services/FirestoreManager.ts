@@ -96,7 +96,7 @@ export default class FirestoreManager {
   async writeOrder(order: Order): Promise<void> {
     try {
       await setDoc(
-        doc(firestore, "orders").withConverter(orderConverter),
+        doc(firestore, "orders", order.getId()).withConverter(orderConverter),
         order
       );
       console.log(

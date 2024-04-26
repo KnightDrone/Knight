@@ -60,6 +60,10 @@ const FirestoreTest: React.FC = () => {
     // For example:
     const userRes = await firestoreManager.queryData("user", user);
     console.log("result: ", userRes);
+    if (userRes === null) {
+      console.log("Test failed. No orders found for user: " + user);
+      return;
+    }
     console.log("result dictionary: ", userRes[0].toDict());
     console.log("order dictionary: ", order.toDict());
 
@@ -83,6 +87,12 @@ const FirestoreTest: React.FC = () => {
       OrderStatus.Pending
     );
     console.log("result: ", statusRes);
+    if (statusRes === null) {
+      console.log(
+        "Test failed. No orders found with status: " + OrderStatus.Pending
+      );
+      return;
+    }
     console.log("result dictionary: ", statusRes[0].toDict());
     console.log("order dictionary: ", order.toDict());
 
@@ -103,7 +113,12 @@ const FirestoreTest: React.FC = () => {
   const queryItem = async () => {
     const itemNameRes = await firestoreManager.queryData("item", itemName);
     console.log("result: ", itemNameRes);
+    if (itemNameRes === null) {
+      console.log("Test failed. No orders found with item name: " + itemName);
+      return;
+    }
     console.log("result dictionary: ", itemNameRes[0].toDict());
+    console.log("order dictionary: ", order.toDict());
 
     if (
       JSON.stringify(itemNameRes[0].toDict()) === JSON.stringify(order.toDict())
@@ -117,6 +132,14 @@ const FirestoreTest: React.FC = () => {
           itemNameRes[0]
       );
     }
+  };
+
+  const writeFirestore = async () => {
+    const newOrder = new Order("user", item, {
+      latitude: -997,
+      longitude: -997,
+    });
+    await firestoreManager.writeOrder(newOrder);
   };
 
   // const updateFirestore = async () => {
@@ -149,6 +172,9 @@ const FirestoreTest: React.FC = () => {
       </View>
       <View style={styles.buttonContainer}>
         <Button onPress={queryItem} title="query item" />
+      </View>
+      <View style={styles.buttonContainer}>
+        <Button onPress={writeFirestore} title="write data" />
       </View>
       {/* <Button onPress={updateFirestore} title="update data" /> */}
     </View>
