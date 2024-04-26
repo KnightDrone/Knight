@@ -7,16 +7,20 @@ import {
   signInWithPopup,
   signInWithCredential,
   signInWithEmailAndPassword,
-  User,
-  onAuthStateChanged,
-  sendPasswordResetEmail,
-  createUserWithEmailAndPassword,
 } from "firebase/auth";
 import { getDatabase } from "firebase/database";
 
 // https://firebase.google.com/docs/web/setup#available-libraries
 
-// https://firebase.google.com/docs/web/setup#available-libraries
+interface FirebaseConfig {
+  apiKey: any;
+  authDomain: any;
+  projectId: any;
+  storageBucket: any;
+  messagingSenderId: any;
+  appId: any;
+  measurementId: any;
+}
 
 interface FirebaseConfig {
   apiKey: any;
@@ -56,8 +60,4 @@ export {
   analytics,
   signInWithCredential,
   signInWithEmailAndPassword,
-  User,
-  onAuthStateChanged,
-  sendPasswordResetEmail,
-  createUserWithEmailAndPassword,
 };
