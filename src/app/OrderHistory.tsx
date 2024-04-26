@@ -95,7 +95,7 @@ const OrderHistory = ({ navigation, userId, opOrders }: any) => {
   return (
     <View className="mt-16">
       <View className="flex-row items-center justify-center">
-        <TouchableOpacity className="absolute left-4">
+        <TouchableOpacity className="absolute left-4" testID="menu-button">
           <Image
             source={require("../../assets/icons/menu_icon.png")}
             className="w-9 h-9"
@@ -104,7 +104,7 @@ const OrderHistory = ({ navigation, userId, opOrders }: any) => {
         <Text className="text-2xl font-bold text-center my-4">
           Order history
         </Text>
-        <TouchableOpacity className="absolute right-4">
+        <TouchableOpacity className="absolute right-4" testID="x-button">
           <Image
             source={require("../../assets/icons/x_icon.png")}
             className="w-5 h-5"

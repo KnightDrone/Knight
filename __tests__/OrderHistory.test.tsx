@@ -1,6 +1,5 @@
 import React from "react";
 import { render, fireEvent, waitFor } from "@testing-library/react-native";
-import { fetchOrdersForUserMock } from "../__mocks__/OrderHistory";
 import OrderHistory from "../src/app/OrderHistory";
 import { Order, OrderStatus } from "../src/types/Order";
 import { Item } from "../src/types/Item";
@@ -16,10 +15,10 @@ const mockNavigation = {
 };
 
 // Mock the module that exports fetchOrdersForUserMock
-jest.mock("../src/app/OrderHistory", () => ({
+/*jest.mock("../src/app/OrderHistory", () => ({
   ...jest.requireActual("../src/app/OrderHistory"),
   fetchOrdersForUserMock: fetchOrdersForUserMock,
-}));
+}));*/
 
 jest.mock("@react-navigation/native", () => {
   return {
@@ -30,7 +29,7 @@ jest.mock("@react-navigation/native", () => {
 
 describe("OrderHistory", () => {
   it("renders correctly", async () => {
-    fetchOrdersForUserMock.mockResolvedValue([
+    /*fetchOrdersForUserMock.mockResolvedValue([
       new Order(
         "user1",
         new Item(1, "mock item1", "description1", 1, 1, 10),
@@ -59,13 +58,15 @@ describe("OrderHistory", () => {
         "Jeffrey's Clinic", // "Drone Station 1", "St. Gallen Hospital", "Jeffrey's Clinic"
         { latitude: 25, longitude: 3.2275 } // Correct way to create an OrderLocation object
       ),
-    ]);
-    const { getByText } = render(
+    ]);*/
+    const { getByText, getByTestId } = render(
       <OrderHistory navigation={mockNavigation} userId={0} opOrders={false} />
     );
 
     await waitFor(
       () => {
+        expect(getByTestId("menu-button")).toBeTruthy();
+        expect(getByTestId("x-button")).toBeTruthy();
         expect(getByText("Order history")).toBeTruthy();
         expect(getByText("mock item1")).toBeTruthy();
         expect(getByText("10 CHF")).toBeTruthy();
