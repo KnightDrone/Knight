@@ -31,7 +31,7 @@ const OrderPlacedTest = () => {
           name="OrderPlaced"
           initialParams={{
             orderedItem: new Item(0, "Test Item", "Test Description", 0, 0, 10),
-            placedAt: new Date(),
+            placedAt: Date.now(),
             userLocation: "Test Location",
           }}
         >
