@@ -7,17 +7,6 @@ import { authInstance } from "../src/services/Firebase";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { View, Text } from "react-native";
 
-jest.mock("../src/components/PayButton", () => ({
-  __esModule: true,
-  PayButton: () => {
-    return (
-      <View testID="mocked-pay-button">
-        <Text>MockedPayButton</Text>
-      </View>
-    );
-  },
-}));
-
 beforeEach(() => {
   const mockPromptAsync = jest.fn();
 
