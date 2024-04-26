@@ -38,8 +38,8 @@ const OrderCard = ({ order, onClick }: OrderCardProps) => {
   const name = item.getName();
   const orderDate = order.getOrderDate();
   const price = item.getPrice();
+  const location = order.getLocation();
   //let locName = order.getOpName();
-  const [locName, setLocName] = useState(order.getOpName());
   // Attempt to fetch the location name from the coordinates using Nominatim API
   /*useEffect(() => {
     if (locName === "") {
@@ -50,10 +50,10 @@ const OrderCard = ({ order, onClick }: OrderCardProps) => {
         .catch(error => console.error(error));
     }
   }, []);*/
-  if (locName === "") {
-    const location = order.getLocation();
-    setLocName(`Lat: ${location.latitude}, Long: ${location.longitude}`);
-  }
+
+  const locName =
+    order.getOpName() ||
+    `Lat: ${location.latitude}, Long: ${location.longitude}`;
   const content = (
     <View className="flex-1">
       <Text className="text-left font-bold">{name}</Text>

@@ -6,7 +6,6 @@ import { Order, OrderStatus } from "../src/types/Order";
 import { Item } from "../src/types/Item";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { act } from "react-test-renderer";
 
 const Stack = createStackNavigator();
 
