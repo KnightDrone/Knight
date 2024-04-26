@@ -9,11 +9,9 @@ import {
 } from "react-native";
 import OrderCard from "../components/OrderCard";
 import { Button } from "../ui/Button";
-import { Order, OrderLocation, OrderStatus } from "../types/Order";
+import { Order } from "../types/Order";
 import { Item } from "../types/Item";
-import TriangleBackground, {
-  TriangleBackground2,
-} from "../components/TriangleBackground";
+import TriangleBackground from "../components/TriangleBackground";
 
 /* 
 NOTE: This is a temporary solution to simulate fetching pending orders from a server. Should be replaced with actual database calls
@@ -81,27 +79,36 @@ const PendingOrders = ({ navigation }: any) => {
     setOrders(sortedOrders);
     setRefreshing(false);
   };
-  // TODO: Add onClick for Menu + Closing
+
   return (
-    <View className="mt-16">
+    <View className="mt-16" testID="pending-orders-screen">
       <View className="flex-row items-center justify-center">
-        <TouchableOpacity className="absolute left-4">
+        <TouchableOpacity className="absolute left-4" testID="menu-button">
           <Image
             source={require("../../assets/icons/menu_icon.png")}
             className="w-9 h-9"
+            testID="menu-icon"
           />
         </TouchableOpacity>
-        <Text className="text-2xl font-bold text-center my-4">
+        <Text
+          className="text-2xl font-bold text-center my-4"
+          testID="pending-orders-title"
+        >
           Pending Orders
         </Text>
-        <TouchableOpacity className="absolute right-4">
+        <TouchableOpacity
+          className="absolute right-4"
+          testID="close-button"
+          onPress={() => navigation.goBack()}
+        >
           <Image
             source={require("../../assets/icons/x_icon.png")}
             className="w-5 h-5"
+            testID="close-icon"
           />
         </TouchableOpacity>
       </View>
-      <TriangleBackground2 />
+      <TriangleBackground />
 
       <FlatList
         data={orders}
@@ -113,6 +120,7 @@ const PendingOrders = ({ navigation }: any) => {
         onEndReachedThreshold={0.1}
         refreshing={refreshing}
         onRefresh={fetchOrders}
+        testID="order-list"
       />
       {selectedOrder && (
         <Modal animationType="none" transparent={true} visible={true}>
