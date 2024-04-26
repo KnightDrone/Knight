@@ -16,6 +16,9 @@ import { getDatabase } from "firebase/database";
 import { Platform } from "react-native";
 
 console.log("Firebase.ts: ", process.env.FIREBASE_API_KEY);
+import firebase from "@react-native-firebase/app";
+import auth from "@react-native-firebase/auth";
+import firestore from "@react-native-firebase/firestore";
 
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -46,12 +49,18 @@ const firebaseConfig: FirebaseConfig = {
   measurementId: process.env.FIREBASE_MEASUREMENT_ID,
 };
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const firestore = getFirestore(app);
+var app;
 
-const auth = initializeAuth(app, {
-  persistence: getReactNativePersistence(ReactNativeAsyncStorage),
-});
+(async () => {
+  if (firebase.apps.length === 0) {
+    app = await firebase.initializeApp(firebaseConfig);
+  } else {
+    app = firebase.app();
+  }
+})();
+
+const authInstance = auth(app);
+const firestoreInstance = firestore(app);
 
 // Initialize Firebase Authentication and get a reference to the service
 // export const auth = getAuth(app);
@@ -69,3 +78,4 @@ export {
   sendPasswordResetEmail,
   createUserWithEmailAndPassword,
 };
+export { authInstance, firestoreInstance };
