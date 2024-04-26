@@ -13,6 +13,12 @@ import {
   createUserWithEmailAndPassword,
 } from "firebase/auth";
 import { getDatabase } from "firebase/database";
+import { Platform } from "react-native";
+
+console.log("Firebase.ts: ", process.env.FIREBASE_API_KEY);
+import firebase from "@react-native-firebase/app";
+import auth from "@react-native-firebase/auth";
+import firestore from "@react-native-firebase/firestore";
 
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -66,3 +72,4 @@ export {
   sendPasswordResetEmail,
   createUserWithEmailAndPassword,
 };
+export { authInstance, firestoreInstance };
