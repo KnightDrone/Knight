@@ -8,10 +8,9 @@ import {
   TouchableOpacity,
 } from "react-native";
 import OrderCard from "../components/OrderCard";
-import { Order, OrderLocation, OrderStatus } from "../types/Order";
+import { Order } from "../types/Order";
 import { Item } from "../types/Item";
 import TriangleBackground from "../components/TriangleBackground";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { RootStackParamList } from "../types/RootStackParamList";
 import { RouteProp } from "@react-navigation/native";
 import { MessageBox } from "../ui/MessageBox";
@@ -72,9 +71,8 @@ const OrderHistory = ({
   route: RouteProp<RootStackParamList, "OrderHistory">;
   navigation: any;
 }) => {
-  const { opOrders } = route.params;
+  const { opOrders, userId } = route.params;
 
-  const [userId, setUserId] = useState("");
   const [orders, setOrders] = useState<Order[]>([]);
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState<Error | null>(null);
@@ -82,18 +80,6 @@ const OrderHistory = ({
   useEffect(() => {
     fetchOrders();
   }, []);
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      const userJSON = await AsyncStorage.getItem("@user");
-    };
-
-    fetchUser();
-
-    return () => {
-      // Cleanup function
-    };
-  }, [refreshing]);
 
   const fetchOrders = async () => {
     setRefreshing(true);
@@ -116,7 +102,7 @@ const OrderHistory = ({
   };
   return (
     <View className="mt-16" testID="order-history-screen">
-      <TriangleBackground color="#A0D1e4" />
+      <TriangleBackground color="#A0D1E4" />
       <View className="flex-row items-center justify-center">
         <TouchableOpacity className="absolute left-4" testID="menu-button">
           <Image
@@ -139,7 +125,7 @@ const OrderHistory = ({
         </TouchableOpacity>
       </View>
 
-      <TriangleBackground />
+      <TriangleBackground color="#A0D1E4" />
       {error ? (
         <MessageBox
           message={error.message}
