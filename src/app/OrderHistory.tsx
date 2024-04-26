@@ -30,7 +30,7 @@ const fetchOrdersForUserMock = async (
         // Replace with your predefined set of Order objects
         new Order(
           "user1",
-          new Item(1, "mock item1", "description1", 10, 1, 1),
+          new Item(1, "mock item1", "description1", 1, 1, 10),
           { latitude: 46.8182, longitude: 8.2275 }, // Correct way to create an OrderLocation object
           new Date(),
           new Date(),
@@ -39,7 +39,7 @@ const fetchOrdersForUserMock = async (
         ),
         new Order(
           "user2",
-          new Item(2, "mock item2", "description2", 22, 2, 2),
+          new Item(2, "mock item2", "description2", 2, 2, 22),
           { latitude: 40.8182, longitude: 8.2275 }, // Correct way to create an OrderLocation object
           new Date(),
           new Date(),
@@ -48,7 +48,7 @@ const fetchOrdersForUserMock = async (
         ),
         new Order(
           "user3",
-          new Item(3, "mock item3", "description3", 330, 3, 3),
+          new Item(3, "mock item3", "description3", 3, 3, 330),
           { latitude: 0, longitude: 0 }, // Correct way to create an OrderLocation object
           new Date(),
           new Date(),
