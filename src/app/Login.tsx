@@ -1,11 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Text, View, Image, TouchableOpacity, Platform } from "react-native";
-import {
-  auth,
-  GoogleAuthProvider,
-  signInWithCredential,
-  signInWithEmailAndPassword,
-} from "../services/Firebase";
+import { authInstance, auth } from "../services/Firebase";
 import * as Google from "expo-auth-session/providers/google";
 import * as WebBrowser from "expo-web-browser";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -32,12 +27,13 @@ export default function Login({ navigation }: any) {
   useEffect(() => {
     if (response?.type === "success") {
       const { id_token } = response.params;
-      const credential = GoogleAuthProvider.credential(id_token);
-      signInWithCredential(auth, credential)
+      const credential = auth.GoogleAuthProvider.credential(id_token);
+      authInstance
+        .signInWithCredential(credential)
         .then(() => {
-          //navigation.navigate("Map");
+          navigation.navigate("Map"); // Navigate after successful login
         })
-        .catch((error: any) => {
+        .catch((error) => {
           console.error(error);
         });
     }
@@ -46,13 +42,12 @@ export default function Login({ navigation }: any) {
   const logInWithEmail = async () => {
     if (email && password) {
       try {
-        const response = await signInWithEmailAndPassword(
-          auth,
+        const response = await authInstance.signInWithEmailAndPassword(
           email,
           password
         );
         if (response.user) {
-          //navigation.navigate("Map");
+          navigation.navigate("Map");
         } else {
           setError("Invalid credentials");
         }
@@ -110,6 +105,7 @@ export default function Login({ navigation }: any) {
       <View className="flex-row items-center justify-center gap-8 w-full px-6">
         <TouchableOpacity>
           <Text
+            testID="forgot-password-link"
             className="text-primary-500 text-center mt-2.5"
             onPress={() => navigation.navigate("ForgotPassword")}
             testID="forgot-password-link"

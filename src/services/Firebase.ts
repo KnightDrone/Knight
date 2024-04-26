@@ -46,16 +46,4 @@ const analytics = getAnalytics(app);
 const database = getDatabase(app);
 
 export default app;
-export {
-  auth,
-  GoogleAuthProvider,
-  signInWithPopup,
-  database,
-  analytics,
-  signInWithCredential,
-  signInWithEmailAndPassword,
-  User,
-  onAuthStateChanged,
-  sendPasswordResetEmail,
-  createUserWithEmailAndPassword,
-};
+export { authInstance, firestoreInstance, auth };
