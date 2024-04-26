@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import "./global.css";
-import { Item } from "../types/Item";
 import { RouteProp } from "@react-navigation/native";
 import { RootStackParamList } from "../types/RootStackParamList";
-import { StackNavigationProp } from "@react-navigation/stack";
 import Icon from "react-native-vector-icons/Fontisto";
 import { useFonts } from "expo-font";
 import KaiseiRegular from "../../assets/fonts/KaiseiDecol-Regular.ttf";
@@ -31,7 +29,7 @@ const OrderPlaced = ({
 
   useEffect(() => {
     const additionalMinutes: number = 10 + secureRandom() * 15;
-    const arrivalTime = placedAt.valueOf() + additionalMinutes * 60 * 1000;
+    const arrivalTime = placedAt + additionalMinutes * 60 * 1000;
     setArrivalTime(arrivalTime);
   }, [placedAt]);
 
@@ -79,7 +77,7 @@ const OrderPlaced = ({
       className="flex flex-col gap-3 w-full h-full p-4 justify-center items-center"
       testID="order-placed-screen"
     >
-      <TriangleBackground color="#A0D1e4" />
+      <TriangleBackground color="#A0D1E4" />
       <View className="flex w-full flex-col items-center">
         <Text
           className=" text-3xl font-bold font-kaisei"
