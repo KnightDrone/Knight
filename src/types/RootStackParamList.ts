@@ -11,10 +11,11 @@ export type RootStackParamList = {
   Map: undefined;
   OrderPlaced: {
     orderedItem: Item;
-    placedAt: Date;
+    placedAt: number;
     userLocation: string;
   };
   OrderHistory: {
     opOrders: boolean;
+    userId: string;
   };
 };
