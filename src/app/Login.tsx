@@ -35,7 +35,7 @@ export default function Login({ navigation }: any) {
       const credential = GoogleAuthProvider.credential(id_token);
       signInWithCredential(auth, credential)
         .then(() => {
-          //navigation.navigate("Map");
+          navigation.navigate("Map");
         })
         .catch((error: any) => {
           console.error(error);
@@ -110,7 +110,6 @@ export default function Login({ navigation }: any) {
       <View className="flex-row items-center justify-center gap-8 w-full px-6">
         <TouchableOpacity>
           <Text
-            testID="forgot-password-link"
             className="text-primary-500 text-center mt-2.5"
             onPress={() => navigation.navigate("ForgotPassword")}
             testID="forgot-password-link"
