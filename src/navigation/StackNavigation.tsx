@@ -39,13 +39,9 @@ export const AuthStack = () => {
 
 export const UserStack = () => {
   return (
-    <RootStack.Navigator
-      initialRouteName="MapOverview"
-      screenOptions={{ headerShown: false }}
-    >
+    <RootStack.Navigator screenOptions={{ headerShown: false }}>
       {
         <>
-          <RootStack.Screen name="MapOverview" component={MapOverview} />
           <RootStack.Screen name="Drawer" component={UserDrawer} />
           <RootStack.Screen
             name="OrderMenu"

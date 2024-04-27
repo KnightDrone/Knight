@@ -9,7 +9,7 @@ import { HeaderBackButton } from "@react-navigation/elements";
 import Icon from "react-native-vector-icons/Ionicons";
 
 //Add pages to add to the drawer
-import Map from "./../app/MapOverview";
+import MapOverview from "./../app/MapOverview";
 import Profile from "./../app/Profile";
 import Settings from "./../app/Settings";
 
@@ -18,7 +18,7 @@ const Drawer = createDrawerNavigator();
 export const UserDrawer = () => {
   return (
     <Drawer.Navigator
-      initialRouteName="Map"
+      initialRouteName="MapOverview"
       drawerContent={(props: DrawerContentComponentProps) => (
         <DrawerContentScrollView {...props}>
           <DrawerItemList {...props} />
@@ -33,7 +33,7 @@ export const UserDrawer = () => {
         },
       }}
     >
-      <Drawer.Screen name="Map" component={Map} />
+      <Drawer.Screen name="MapOverview" component={MapOverview} />
       <Drawer.Screen
         name="Profile"
         component={Profile}
@@ -43,7 +43,7 @@ export const UserDrawer = () => {
           headerTitle: "",
           headerLeft: () => (
             <HeaderBackButton
-              onPress={() => navigation.navigate("Map")}
+              onPress={() => navigation.navigate("MapOverview")}
               backImage={() => (
                 <Icon name="arrow-back" size={24} color="black" />
               )}
@@ -62,7 +62,7 @@ export const UserDrawer = () => {
           headerTitle: "",
           headerLeft: () => (
             <HeaderBackButton
-              onPress={() => navigation.navigate("Map")}
+              onPress={() => navigation.navigate("MapOverview")}
               backImage={() => (
                 <Icon name="arrow-back" size={24} color="black" />
               )}
