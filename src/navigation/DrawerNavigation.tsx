@@ -9,7 +9,7 @@ import { HeaderBackButton } from "@react-navigation/elements";
 import Icon from "react-native-vector-icons/Ionicons";
 
 //Add pages to add to the drawer
-import Map from "./../app/Map";
+import Map from "./../app/MapOverview";
 import Profile from "./../app/Profile";
 import Settings from "./../app/Settings";
 

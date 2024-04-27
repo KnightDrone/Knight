@@ -5,7 +5,7 @@ import SignUp from "./../app/SignUp";
 import ForgotPassword from "./../app/ForgotPassword";
 import OrderPlaced from "./../app/OrderPlaced";
 import OrderMenu from "../app/OrderMenu";
-import Map from "../app/Map";
+import MapOverview from "../app/MapOverview";
 import { UserDrawer } from "./DrawerNavigation";
 import Icon from "react-native-vector-icons/Ionicons";
 
@@ -18,7 +18,7 @@ export type RootStackParamList = {
   OrderMenu: undefined;
   OrderPlaced: undefined;
   Drawer: undefined;
-  Map: undefined;
+  MapOverview: undefined;
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -26,8 +26,10 @@ const RootStack = createStackNavigator();
 
 export const AuthStack = () => {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
-      {/* <Stack.Screen name="Drawer" component={UserDrawer} /> */}
+    <Stack.Navigator
+      initialRouteName="Login"
+      screenOptions={{ headerShown: false }}
+    >
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="SignUp" component={SignUp} />
       <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
@@ -37,9 +39,13 @@ export const AuthStack = () => {
 
 export const UserStack = () => {
   return (
-    <RootStack.Navigator screenOptions={{ headerShown: false }}>
+    <RootStack.Navigator
+      initialRouteName="MapOverview"
+      screenOptions={{ headerShown: false }}
+    >
       {
         <>
+          <RootStack.Screen name="MapOverview" component={MapOverview} />
           <RootStack.Screen name="Drawer" component={UserDrawer} />
           <RootStack.Screen
             name="OrderMenu"
@@ -84,18 +90,3 @@ export const UserStack = () => {
     </RootStack.Navigator>
   );
 };
-
-const StackNavigator: React.FC = () => {
-  return (
-    <Stack.Navigator initialRouteName="Login">
-      <Stack.Screen name="OrderMenu" component={OrderMenu} />
-      <Stack.Screen
-        name="OrderPlaced"
-        component={OrderPlaced}
-        options={{ headerShown: false }}
-      />
-    </Stack.Navigator>
-  );
-};
-
-export default StackNavigator;
