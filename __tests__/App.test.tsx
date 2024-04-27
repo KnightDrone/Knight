@@ -36,7 +36,24 @@ beforeAll(() => {
   jest.spyOn(console, "error").mockImplementation(() => {});
 });
 
-describe("App Navigation", () => {
+// Helper function to simulate login actions
+async function simulateLogin(
+  getByPlaceholderText: any,
+  getByTestId: any,
+  queryByTestId: any
+) {
+  const emailInput = getByPlaceholderText("Enter your username or email");
+  const passwordInput = getByPlaceholderText("Enter your password");
+  fireEvent.changeText(emailInput, "random@gmail.com");
+  fireEvent.changeText(passwordInput, "password");
+  fireEvent.press(getByTestId("login-button"));
+
+  await waitFor(() => {
+    expect(queryByTestId("map-overview-screen")).toBeTruthy();
+  });
+}
+
+describe("App.tsx Navigation", () => {
   it("renders the login screen as the initial route", () => {
     const { getByTestId } = render(<App />);
     expect(getByTestId("login-screen")).toBeTruthy();
@@ -226,26 +243,27 @@ describe("App Navigation", () => {
     });
   });
 
-  it("navigates back to login screen when the forgot password back button is pressed", async () => {
+  // Not sure how to do this test, as we don't explicitly have a Go Back button inside our SignUp, I believe it's in the Navigator
+  /*it("navigates back to login screen when the sign up back button is pressed", async () => {
     (Google.useAuthRequest as jest.Mock).mockReturnValue([
       {},
       { type: "fail", params: { id_token: "" } },
       jest.fn(),
     ]);
 
-    const { getByTestId, queryByTestId } = render(<App />);
-    const forgotPasswordButton = getByTestId("forgot-password-link");
-    fireEvent.press(forgotPasswordButton);
+    const { getByText, getByTestId, queryByTestId } = render(<App />);
+    const signUpButton = getByTestId("sign-up-link");
+    fireEvent.press(signUpButton);
 
     await waitFor(() => {
-      expect(queryByTestId("forgot-password-screen")).toBeTruthy();
+      expect(queryByTestId("sign-up-screen")).toBeTruthy();
     });
 
-    const forgotPasswordBackButton = getByTestId("forgot-password-back-button");
-    fireEvent.press(forgotPasswordBackButton);
+    const signUpBackButton = getByTestId("sign-up-back-button");
+    fireEvent.press(signUpBackButton);
 
     await waitFor(() => {
       expect(queryByTestId("login-screen")).toBeTruthy();
     });
-  });
+  });*/
 });

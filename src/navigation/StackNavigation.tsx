@@ -68,25 +68,6 @@ export const UserStack = () => {
               ),
             })}
           />
-          <RootStack.Screen
-            name="OrderPlaced"
-            component={OrderPlaced}
-            options={({ navigation }) => ({
-              headerShown: true,
-              headerTransparent: true,
-              headerTitle: "",
-              headerLeft: () => (
-                <HeaderBackButton
-                  onPress={() => navigation.goBack()}
-                  backImage={() => (
-                    <Icon name="arrow-back" size={24} color="black" />
-                  )}
-                  labelVisible={false}
-                  testID="back-button"
-                />
-              ),
-            })}
-          />
         </>
       }
     </RootStack.Navigator>
