@@ -13,15 +13,7 @@ interface OrderProps {
 }
 
 export default function OrderMenu({ navigation }: any) {
-  const [fontsLoaded] = useFonts({
-    "Kaisei-Regular": KaiseiRegular,
-  });
-
   const [visibleItemId, setVisibleItemId] = useState<number | null>(null);
-
-  if (!fontsLoaded) {
-    return <Text>Loading...</Text>;
-  }
 
   const handleOpenCard = (itemId: number) => {
     setVisibleItemId(itemId);

@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useFonts } from "../__mocks__/expo-font";
 import { screen, render, fireEvent } from "@testing-library/react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { AuthStack, UserStack } from "../src/navigation/StackNavigation";
@@ -75,5 +76,12 @@ describe("UserStack Navigation Tests", () => {
     const { getByTestId } = render(<UserStackTest />);
     // Check if the Drawer is displayed by looking for a specific text
     expect(getByTestId("map-view")).toBeTruthy();
+  });
+
+  test("navigates to OrderMenu when order button is pressed", () => {
+    const { getByTestId } = render(<UserStackTest />);
+    fireEvent.press(getByTestId("order-button"));
+    // Check if the OrderMenu screen is displayed by looking for a specific text
+    expect(screen.getByTestId("order-menu-screen")).toBeTruthy();
   });
 });
