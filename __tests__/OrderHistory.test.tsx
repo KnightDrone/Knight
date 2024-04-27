@@ -63,12 +63,12 @@ describe("OrderHistory", () => {
       () => {
         expect(getByTestId("menu-button")).toBeTruthy();
         expect(getByTestId("x-button")).toBeTruthy();
-        // expect(getByText("Order history")).toBeTruthy();
-        // expect(getByText("mock item1")).toBeTruthy();
-        // expect(getByText("10 CHF")).toBeTruthy();
-        // expect(getByText("mock item2")).toBeTruthy();
+        expect(getByText("Order history")).toBeTruthy();
+        expect(getByText("mock item1")).toBeTruthy();
+        expect(getByText("10 CHF")).toBeTruthy();
+        expect(getByText("mock item2")).toBeTruthy();
 
-        // expect(getByText("22 CHF")).toBeTruthy();
+        expect(getByText("22 CHF")).toBeTruthy();
       },
       { timeout: 2000 }
     );
