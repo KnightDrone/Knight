@@ -72,13 +72,6 @@ describe("Order", () => {
     expect(order.getStatus()).toBe(OrderStatus.Shipped);
   });
 
-  // it("getDeliveryDate should return the correct delivery date", () => {
-  //   expect(order.getDeliveryDate().getTime()).toBeCloseTo(
-  //     deliveryDate.getTime(),
-  //     -2
-  //   );
-  // });
-
   it("getOrderLocation should return the correct location", () => {
     expect(order.getOrderLocation()).toEqual(location);
   });
