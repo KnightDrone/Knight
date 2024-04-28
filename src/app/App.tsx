@@ -10,9 +10,6 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { AuthStack, UserStack } from "../navigation/StackNavigation";
 import "./global.css";
 
-import { useFonts } from "expo-font";
-import KaiseiRegular from "../../assets/fonts/KaiseiDecol-Regular.ttf";
-
 import { registerRootComponent } from "expo";
 
 WebBrowser.maybeCompleteAuthSession();

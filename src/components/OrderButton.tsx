@@ -17,10 +17,6 @@ interface ButtonProps {
 }
 
 const Button: React.FC<ButtonProps> = ({ title, icon, onPress }) => {
-  const [fontsLoaded] = useFonts({
-    "Kaisei-Regular": KaiseiRegular,
-  });
-
   return (
     <TouchableOpacity style={buttonStyles.order_button} onPress={onPress}>
       <Image style={buttonStyles.image} source={icon} testID="image" />

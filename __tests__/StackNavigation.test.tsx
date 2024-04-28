@@ -77,4 +77,14 @@ describe("UserStack Navigation Tests", () => {
     fireEvent.press(getByTestId("order-button")); // Assuming you have a button with this testID
     expect(getByTestId("order-menu-screen")).toBeTruthy();
   });
+
+  test("goes back from OrderMenu when back button is pressed", () => {
+    const { getByTestId } = render(<UserStackTest />);
+    // Navigate to OrderMenu first
+    fireEvent.press(getByTestId("order-button")); // This needs to navigate to OrderMenu
+    // Now press the back button in OrderMenu
+    fireEvent.press(getByTestId("back-button"));
+    // Check if it navigated back to the previous screen (assuming MapOverview)
+    expect(getByTestId("map-overview-screen")).toBeTruthy();
+  });
 });
