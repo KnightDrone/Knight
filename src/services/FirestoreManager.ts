@@ -20,7 +20,7 @@ export default class FirestoreManager {
   constructor() {}
 
   // Method to read data by id from the database
-  async readData(id: string): Promise<any | null> {
+  async readOrder(id: string): Promise<any | null> {
     const docRef = doc(firestore, "orders", id).withConverter(orderConverter);
     const docSnap = await getDoc(docRef);
 
@@ -34,7 +34,7 @@ export default class FirestoreManager {
   }
 
   // Method to query data from the database based on user, status, or item name
-  async queryData(field: string, data: string): Promise<Order[] | null> {
+  async queryOrder(field: string, data: string): Promise<Order[] | null> {
     if (field == "user") {
       var orders: Order[] = [];
       const q = query(
@@ -108,7 +108,7 @@ export default class FirestoreManager {
   }
 
   // Method to delete order with a specific id in the database
-  async deleteData(orderId: string): Promise<void> {
+  async deleteOrder(orderId: string): Promise<void> {
     try {
       await deleteDoc(doc(firestore, "orders", orderId));
       console.log(
@@ -120,7 +120,7 @@ export default class FirestoreManager {
   }
 
   // Method to update data at a specific path in the database
-  async updateData(
+  async updateOrder(
     orderId: string,
     field: string,
     data: string | Date | OrderLocation

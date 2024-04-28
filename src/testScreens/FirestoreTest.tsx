@@ -41,7 +41,7 @@ const FirestoreTest: React.FC = () => {
   const readFirestore = async () => {
     // Call your FirestoreManager functions here
     // For example:
-    const result = await firestoreManager.readData(id);
+    const result = await firestoreManager.readOrder(id);
     console.log("result: ", result);
     console.log("result dictionary: ", result.toDict());
     console.log("order dictionary: ", order.toDict());
@@ -58,7 +58,7 @@ const FirestoreTest: React.FC = () => {
   const queryUser = async () => {
     // Call your FirestoreManager functions here
     // For example:
-    const userRes = await firestoreManager.queryData("user", user);
+    const userRes = await firestoreManager.queryOrder("user", user);
     console.log("result: ", userRes);
     if (userRes === null) {
       console.log("Test failed. No orders found for user: " + user);
@@ -82,7 +82,7 @@ const FirestoreTest: React.FC = () => {
   };
 
   const queryStatus = async () => {
-    const statusRes = await firestoreManager.queryData(
+    const statusRes = await firestoreManager.queryOrder(
       "status",
       OrderStatus.Pending
     );
@@ -111,7 +111,7 @@ const FirestoreTest: React.FC = () => {
   };
 
   const queryItem = async () => {
-    const itemNameRes = await firestoreManager.queryData("itemName", itemName);
+    const itemNameRes = await firestoreManager.queryOrder("itemName", itemName);
     console.log("result: ", itemNameRes);
     if (itemNameRes === null) {
       console.log("Test failed. No orders found with item name: " + itemName);
@@ -145,17 +145,17 @@ const FirestoreTest: React.FC = () => {
   };
 
   const deleteFirestore = async () => {
-    await firestoreManager.deleteData("05e98008-cfb7-4ac2-807f-3cb406437a13");
+    await firestoreManager.deleteOrder("05e98008-cfb7-4ac2-807f-3cb406437a13");
   };
 
   const updateFirestore = async () => {
-    await firestoreManager.updateData(id, "operator", "you");
+    await firestoreManager.updateOrder(id, "operator", "you");
 
-    await firestoreManager.updateData(id, "status", OrderStatus.Cancelled);
+    await firestoreManager.updateOrder(id, "status", OrderStatus.Cancelled);
 
-    await firestoreManager.updateData(id, "deliveryDate", new Date());
+    await firestoreManager.updateOrder(id, "deliveryDate", new Date());
 
-    await firestoreManager.updateData(id, "location", {
+    await firestoreManager.updateOrder(id, "location", {
       latitude: -21,
       longitude: -21,
     });
