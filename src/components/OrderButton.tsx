@@ -7,8 +7,6 @@ import {
   ImageSourcePropType,
 } from "react-native";
 import { buttonStyles } from "../types/ButtonStyles";
-import { useFonts } from "expo-font";
-import KaiseiRegular from "../../assets/fonts/KaiseiDecol-Regular.ttf";
 
 interface ButtonProps {
   title: string;
@@ -30,7 +28,6 @@ export default Button;
 const styles = StyleSheet.create({
   text: {
     fontSize: 24,
-    fontFamily: "Kaisei-Regular",
     lineHeight: 33,
     marginLeft: 20,
   },
