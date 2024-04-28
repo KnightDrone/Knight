@@ -44,7 +44,6 @@ export default function Login({ navigation }: any) {
       const credential = GoogleAuthProvider.credential(id_token);
       signInWithCredential(auth, credential)
         .then(() => {
-          console.log("Signed in successfully");
           navigation.navigate("Map"); // Navigate after successful login
         })
         .catch((error: any) => {
@@ -62,7 +61,6 @@ export default function Login({ navigation }: any) {
           password
         );
         if (response.user) {
-          console.log(response.user.email, " signed in successfully");
           navigation.navigate("Map");
         } else {
           setError("Invalid credentials");
