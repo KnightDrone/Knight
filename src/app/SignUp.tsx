@@ -1,8 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, Platform } from "react-native";
 // ------------- FIREBASE IMPORTS ----------------
-import { auth, GoogleAuthProvider, signInWithCredential } from "firebase/auth";
-import { auth } from "../services/firebase";
+import {
+  createUserWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithCredential,
+} from "firebase/auth";
+
+import { auth } from "../services/Firebase";
+import { database } from "../services/Firebase";
+import { UserCredential } from "firebase/auth";
+import { ref, set } from "firebase/database";
+// -----------------------------------------------
 import * as Google from "expo-auth-session/providers/google";
 import GoogleAuthConfig from "../types/GoogleAuthConfig";
 import { TextField } from "../ui/TextField";
