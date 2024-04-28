@@ -80,7 +80,7 @@ describe("Order", () => {
     const expectedDict = {
       id: order.getId(),
       user: user,
-      operator: "",
+      operator: "Hospital",
       item: JSON.stringify(item.toDict()),
       orderDate: orderDate.toString(),
       status: OrderStatus.Pending,
