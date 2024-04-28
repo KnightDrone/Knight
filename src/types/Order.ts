@@ -81,10 +81,6 @@ class Order {
     return this.operatorLoc;
   }
 
-  getOperator(): string {
-    return this.operator;
-  }
-
   setStatus(newStatus: OrderStatus): void {
     this.status = newStatus;
   }
