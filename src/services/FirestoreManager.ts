@@ -19,7 +19,12 @@ import {
 export default class FirestoreManager {
   constructor() {}
 
-  // Method to read data by id from the database
+  /**
+   * Method to read data by id from the database
+   *
+   * @param id - The id of the order to read
+   * @returns - The order with the specified id
+   */
   async readOrder(id: string): Promise<any | null> {
     const docRef = doc(firestore, "orders", id).withConverter(orderConverter);
     const docSnap = await getDoc(docRef);
@@ -33,66 +38,46 @@ export default class FirestoreManager {
     }
   }
 
-  // Method to query data from the database based on user, status, or item name
+  /**
+   * Method to query data from the database based on user, status, or item name
+   *
+   * @param field - The field to query by. Must be one of these: "user", "status", "item.name"
+   * @param data - The data to query for
+   * @returns - An array of orders that match the query
+   */
   async queryOrder(field: string, data: string): Promise<Order[] | null> {
-    if (field == "user") {
+    const validFields = ["user", "status", "item.name"];
+
+    if (validFields.includes(field)) {
       var orders: Order[] = [];
       const q = query(
         collection(firestore, "orders"),
-        where("user", "==", data)
+        where(field, "==", data)
       ).withConverter(orderConverter);
+
       const querySnapshot = await getDocs(q);
       querySnapshot.forEach((doc) => {
         orders.push(doc.data());
       });
       if (orders.length == 0) {
-        console.log("No orders found for user: " + data);
+        console.log("No orders found for " + field + ": " + data);
         return null;
       } else {
-        console.log(orders.length + " orders found for user: " + data);
-        return orders;
-      }
-    } else if (field == "status") {
-      var orders: Order[] = [];
-      const q = query(
-        collection(firestore, "orders"),
-        where("status", "==", data)
-      ).withConverter(orderConverter);
-      const querySnapshot = await getDocs(q);
-      querySnapshot.forEach((doc) => {
-        orders.push(doc.data());
-      });
-      if (orders.length == 0) {
-        console.log("No orders found with status: " + data);
-        return null;
-      } else {
-        console.log(orders.length + " orders found with status: " + data);
-        return orders;
-      }
-    } else if (field == "itemName") {
-      var orders: Order[] = [];
-      const q = query(
-        collection(firestore, "orders"),
-        where("item.name", "==", data)
-      ).withConverter(orderConverter);
-      const querySnapshot = await getDocs(q);
-      querySnapshot.forEach((doc) => {
-        orders.push(doc.data());
-      });
-      if (orders.length == 0) {
-        console.log("No orders found with item name: " + data);
-        return null;
-      } else {
-        console.log(orders.length + " orders found with item name: " + data);
+        console.log(orders.length + " orders found for " + field + ": " + data);
         return orders;
       }
     } else {
-      console.log("No query parameters provided");
+      console.log("No valid query field provided");
       return null;
     }
   }
 
-  // Method to write specific order to the database
+  /**
+   * Method to write an order to the database
+   *
+   * @param order - The order to write to the database
+   * @returns - None
+   */
   async writeOrder(order: Order): Promise<void> {
     try {
       await setDoc(
@@ -107,7 +92,12 @@ export default class FirestoreManager {
     }
   }
 
-  // Method to delete order with a specific id in the database
+  /**
+   * Method to delete an order from the database
+   *
+   * @param orderId - The id of the order to delete
+   * @returns - None
+   */
   async deleteOrder(orderId: string): Promise<void> {
     try {
       await deleteDoc(doc(firestore, "orders", orderId));
@@ -119,7 +109,14 @@ export default class FirestoreManager {
     }
   }
 
-  // Method to update data at a specific path in the database
+  /**
+   * Method to update an order in the database
+   *
+   * @param orderId - The id of the order to update
+   * @param field - The field to update
+   * @param data - The data to update the field with
+   * @returns - None
+   */
   async updateOrder(
     orderId: string,
     field: string,
