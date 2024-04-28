@@ -56,6 +56,19 @@ describe("Order", () => {
     expect(order.getStatus()).toBe(OrderStatus.Pending);
   });
 
+  it("getUser should return the correct user", () => {
+    expect(order.getUser()).toBe(user);
+  });
+
+  it("getItem should return the correct item", () => {
+    expect(order.getItem()).toBe(item);
+  });
+
+  it("setStatus should set the correct status", () => {
+    order.setStatus(OrderStatus.Shipped);
+    expect(order.getStatus()).toBe(OrderStatus.Shipped);
+  });
+
   // it("getDeliveryDate should return the correct delivery date", () => {
   //   expect(order.getDeliveryDate().getTime()).toBeCloseTo(
   //     deliveryDate.getTime(),
