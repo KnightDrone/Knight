@@ -6,7 +6,16 @@ describe("Order", () => {
   const user = "John Doe";
   const imageDir = "../assets/images/splash.png";
   const image = require("../assets/images/splash.png");
-  const item = new Item(1, "Test Item", "Test Description", image, imageDir, image, imageDir, 10);
+  const item = new Item(
+    1,
+    "Test Item",
+    "Test Description",
+    image,
+    imageDir,
+    image,
+    imageDir,
+    10
+  );
   const orderDate = new Date();
   const deliveryDate = new Date();
   const location: Location = {
@@ -43,6 +52,10 @@ describe("Order", () => {
     });
   });
 
+  it("getId should return the correct id", () => {
+    expect(order.getId()).toBeTruthy();
+  });
+
   it("getStatus should return the correct status", () => {
     expect(order.getStatus()).toBe(OrderStatus.Pending);
   });
@@ -60,6 +73,7 @@ describe("Order", () => {
 
   it("returns the correct dictionary", () => {
     const expectedDict = {
+      id: order.getId(),
       user: user,
       item: JSON.stringify(item.toDict()),
       orderDate: orderDate.toString(),
