@@ -22,7 +22,7 @@ export type RootStackParamList = {
   UserStack: undefined;
 };
 
-const { Navigator, Screen } = createStackNavigator<RootStackParamList>();
+const { Navigator, Screen, Group } = createStackNavigator<RootStackParamList>();
 
 export const AuthStack = () => {
   return (
@@ -37,8 +37,10 @@ export const AuthStack = () => {
 
 export const UserStack = () => {
   return (
-    <Navigator screenOptions={{ headerShown: false }}>
-      <Screen name="Drawer" component={UserDrawer} />
+    <Navigator
+      initialRouteName="MapOverview"
+      screenOptions={{ headerShown: false }}
+    >
       <Screen name="MapOverview" component={MapOverview} />
       <Screen
         name="OrderMenu"

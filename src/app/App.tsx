@@ -30,10 +30,6 @@ WebBrowser.maybeCompleteAuthSession();
 
 // const Stack = createStackNavigator<RootStackParamList>();
 function App() {
-  const [fontsLoaded] = useFonts({
-    "Kaisei-Regular": KaiseiRegular,
-  });
-
   const [userInfo, setUserInfo] = useState<User | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -76,9 +72,6 @@ function App() {
     return unsub;
   }, []);
 
-  if (loading) {
-    return <Text>Loading...</Text>;
-  }
   return (
     <NavigationContainer>
       {userInfo ? <UserStack /> : <AuthStack />}

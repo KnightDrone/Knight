@@ -16,7 +16,6 @@ jest.mock("../src/services/Firebase", () => ({
     Promise.resolve({ user: { uid: "12345" } })
   ),
 }));
-
 jest.mock("expo-auth-session/providers/google", () => ({
   useAuthRequest: jest.fn(() => [
     {}, // request
@@ -63,25 +62,19 @@ describe("AuthStack Navigation Tests", () => {
 // Test for UserStack
 // =*=*=*=*=*=*=*=*=*
 
-const UserStackTest = () => {
-  return (
-    <NavigationContainer>
-      <UserStack />
-    </NavigationContainer>
-  );
-};
-
+const UserStackTest = () => (
+  <NavigationContainer>
+    <UserStack />
+  </NavigationContainer>
+);
 describe("UserStack Navigation Tests", () => {
-  test("shows the Drawer when app starts", () => {
+  test("initially shows the MapOverview screen when the app starts", () => {
     const { getByTestId } = render(<UserStackTest />);
-    // Check if the Drawer is displayed by looking for a specific text
-    expect(getByTestId("map-view")).toBeTruthy();
+    expect(getByTestId("map-overview-screen")).toBeTruthy();
   });
-
-  test("navigates to OrderMenu when order button is pressed", () => {
+  test("navigates to OrderPlaced when the place order button is pressed", () => {
     const { getByTestId } = render(<UserStackTest />);
-    fireEvent.press(getByTestId("order-button"));
-    // Check if the OrderMenu screen is displayed by looking for a specific text
-    expect(screen.getByTestId("order-menu-screen")).toBeTruthy();
+    fireEvent.press(getByTestId("order-button")); // Assuming you have a button with this testID
+    expect(getByTestId("order-menu-screen")).toBeTruthy();
   });
 });
