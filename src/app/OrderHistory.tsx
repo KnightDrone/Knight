@@ -29,7 +29,7 @@ const fetchOrdersForUserMock = async (
         // Replace with your predefined set of Order objects
         new Order(
           "user1",
-          new Item(1, "mock item1", "description1", 1, 1, 10),
+          new Item(1, "mock item1", "description1", 10, 1, 1),
           { latitude: 46.8182, longitude: 8.2275 }, // Correct way to create an OrderLocation object
           new Date(),
           new Date(),
@@ -38,7 +38,7 @@ const fetchOrdersForUserMock = async (
         ),
         new Order(
           "user2",
-          new Item(2, "mock item2", "description2", 2, 2, 22),
+          new Item(2, "mock item2", "description2", 22, 2, 2),
           { latitude: 40.8182, longitude: 8.2275 }, // Correct way to create an OrderLocation object
           new Date(),
           new Date(),
@@ -47,7 +47,7 @@ const fetchOrdersForUserMock = async (
         ),
         new Order(
           "user3",
-          new Item(3, "mock item3", "description3", 3, 3, 330),
+          new Item(3, "mock item3", "description3", 330, 3, 3),
           { latitude: 0, longitude: 0 }, // Correct way to create an OrderLocation object
           new Date(),
           new Date(),
@@ -82,13 +82,22 @@ const OrderHistory = ({ navigation, userId, opOrders }: any) => {
 
   const fetchOrders = async () => {
     setRefreshing(true);
-    const newOrders = await fetchOrdersForUserMock(userId, opOrders);
-    // Sort the orders by date so that the most recent orders are shown first
-    const sortedOrders = newOrders.sort(
-      (a, b) => b.getOrderDate().getTime() - a.getOrderDate().getTime()
-    );
-    setOrders(sortedOrders);
-    setRefreshing(false);
+    try {
+      const newOrders = await fetchOrdersForUserMock(userId, opOrders);
+      if (newOrders.length === 0) {
+        setError(new Error("No orders have been made yet, check back later."));
+      } else {
+        const sortedOrders = newOrders.sort(
+          (a, b) => b.getOrderDate().getTime() - a.getOrderDate().getTime()
+        );
+        setOrders(sortedOrders);
+        setError(null); // Clear the error if the fetch is successful
+      }
+    } catch (err) {
+      setError(err as Error);
+    } finally {
+      setRefreshing(false);
+    }
   };
   return (
     <View className="mt-16" testID="order-history-screen">
@@ -115,17 +124,25 @@ const OrderHistory = ({ navigation, userId, opOrders }: any) => {
       </View>
 
       <TriangleBackground2 />
-
-      <FlatList
-        data={orders}
-        renderItem={({ item }) => <OrderCard order={item} />}
-        keyExtractor={(item) => item.getId()}
-        onEndReached={fetchOrders}
-        onEndReachedThreshold={0.1}
-        refreshing={refreshing}
-        onRefresh={fetchOrders}
-        testID="orderHistoryFlatList"
-      />
+      {error ? (
+        <MessageBox
+          message={error.message}
+          style="error"
+          onClose={() => setError(null)}
+          testID="error-box"
+        />
+      ) : (
+        <FlatList
+          data={orders}
+          renderItem={({ item }) => <OrderCard order={item} />}
+          keyExtractor={(item) => item.getId()}
+          onEndReached={fetchOrders}
+          onEndReachedThreshold={0.1}
+          refreshing={refreshing}
+          onRefresh={fetchOrders}
+          testID="orderHistoryFlatList"
+        />
+      )}
     </View>
   );
 };

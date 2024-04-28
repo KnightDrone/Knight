@@ -39,7 +39,7 @@ export default function SignUp({ navigation }: any) {
       const credential = GoogleAuthProvider.credential(id_token);
       signInWithCredential(auth, credential)
         .then(() => {
-          navigation.navigate("UserStack", { screen: "MapOverview" });
+          navigation.navigate("Map");
         })
         .catch((error) => {
           console.error(error);
@@ -96,8 +96,7 @@ export default function SignUp({ navigation }: any) {
     if (email && password) {
       createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
-          const user = userCredential.user;
-          navigation.navigate("UserStack", { screen: "MapOverview" });
+          navigation.navigate("Map");
         })
         .catch((error) => {
           setError("Sign Up failed. Please check your credentials.");
@@ -215,9 +214,18 @@ export default function SignUp({ navigation }: any) {
         style="secondary"
       />
 
-      <Text style={styles.error} testID="signup-error-message">
+      {/* <Text style={styles.error} testID="signup-error-message">
         {error}
-      </Text>
+      </Text> */}
+      {error && (
+        <MessageBox
+          message={error}
+          style="error"
+          onClose={() => setError("")}
+          testID="signup-error-message"
+          className="mt-8"
+        />
+      )}
     </View>
   );
 }

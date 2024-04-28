@@ -1,8 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, Image, TouchableOpacity, Platform } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  Image,
+  TouchableOpacity,
+  Platform,
+} from "react-native";
 import {
   auth,
   GoogleAuthProvider,
+  onAuthStateChanged,
   signInWithCredential,
   signInWithEmailAndPassword,
 } from "../services/Firebase";
@@ -35,7 +44,7 @@ export default function Login({ navigation }: any) {
       const credential = GoogleAuthProvider.credential(id_token);
       signInWithCredential(auth, credential)
         .then(() => {
-          navigation.navigate("UserStack", { screen: "MapOverview" });
+          navigation.navigate("Map"); // Navigate after successful login
         })
         .catch((error: any) => {
           console.error(error);
@@ -52,7 +61,7 @@ export default function Login({ navigation }: any) {
           password
         );
         if (response.user) {
-          navigation.navigate("UserStack", { screen: "MapOverview" });
+          navigation.navigate("Map");
         } else {
           setError("Invalid credentials");
         }
@@ -113,7 +122,6 @@ export default function Login({ navigation }: any) {
             testID="forgot-password-link"
             className="text-primary-500 text-center mt-2.5"
             onPress={() => navigation.navigate("ForgotPassword")}
-            testID="forgot-password-link"
           >
             Reset password
           </Text>

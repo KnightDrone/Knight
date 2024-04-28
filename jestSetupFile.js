@@ -3,19 +3,31 @@ jest.mock("@react-native-async-storage/async-storage", () =>
 );
 
 jest.mock("firebase/app", () => ({
-  initializeApp: jest.fn(),
-}));
-
-jest.mock("firebase/analytics", () => ({
-  getAnalytics: jest.fn(),
+  initializeApp: jest.fn(() => {
+    {
+    }
+  }),
+  getApps: jest.fn(() => []),
+  getApp: jest.fn(),
 }));
 
 jest.mock("firebase/firestore", () => ({
-  getFirestore: jest.fn(),
-}));
-
-jest.mock("firebase/database", () => ({
-  getDatabase: jest.fn(),
+  getFirestore: jest.fn(() => {}),
+  initializeFirestore: jest.fn(),
+  collection: jest.fn(),
+  deleteDoc: jest.fn(),
+  doc: jest.fn(),
+  getDoc: jest.fn().mockResolvedValue({
+    exists: jest.fn().mockReturnValue(true),
+    data: jest.fn().mockReturnValue({
+      withConverter: jest.fn(),
+      getUser: "admin",
+    }),
+  }),
+  getDocs: jest.fn(),
+  query: jest.fn(),
+  setDoc: jest.fn(),
+  where: jest.fn(),
 }));
 
 jest.mock("expo-auth-session/providers/google", () => ({
@@ -23,7 +35,9 @@ jest.mock("expo-auth-session/providers/google", () => ({
 }));
 
 jest.mock("firebase/auth", () => ({
-  getAuth: jest.fn(),
+  getAuth: jest.fn(() => {}),
+  initializeAuth: jest.fn(),
+  getReactNativePersistence: jest.fn(),
   GoogleAuthProvider: {
     credential: jest.fn(() => "mock-credential"), // Ensure this returns a mock credential as expected
   },
@@ -58,10 +72,6 @@ jest.mock("react-native-vector-icons/FontAwesome", () => {
 jest.mock("@react-native-async-storage/async-storage", () => ({
   getItem: jest.fn(),
   setItem: jest.fn(),
-}));
-
-jest.mock("firebase/app", () => ({
-  initializeApp: jest.fn(),
 }));
 
 jest.mock("react-native-vector-icons/MaterialIcons", () => {
@@ -135,20 +145,3 @@ jest.mock("@stripe/stripe-react-native", () => ({
     confirmPaymentSheetPayment: jest.fn(),
   }),
 }));
-
-// include this line for mocking react-native-gesture-handler
-import "react-native-gesture-handler/jestSetup";
-
-// include this section and the NativeAnimatedHelper section for mocking react-native-reanimated
-jest.mock("react-native-reanimated", () => {
-  const Reanimated = require("react-native-reanimated/mock");
-
-  // The mock for `call` immediately calls the callback which is incorrect
-  // So we override it with a no-op
-  Reanimated.default.call = () => {};
-
-  return Reanimated;
-});
-
-// Silence the warning: Animated: `useNativeDriver` is not supported because the native animated module is missing
-jest.mock("react-native/Libraries/Animated/NativeAnimatedHelper");
