@@ -22,7 +22,7 @@ class Order {
   private deliveryDate: Date;
   private location: OrderLocation;
   private operator: string;
-  private op_location: OrderLocation;
+  private operatorLoc: OrderLocation;
 
   constructor(
     user: string,
@@ -43,7 +43,7 @@ class Order {
     this.deliveryDate = deliveryDate || new Date();
     this.location = location;
     this.operator = operator || "";
-    this.op_location = op_location || { latitude: -999, longitude: -999 };
+    this.operatorLoc = op_location || { latitude: -999, longitude: -999 };
   }
 
   getId(): string {
@@ -78,8 +78,8 @@ class Order {
     return this.operator;
   }
 
-  getOpOrderLocation(): OrderLocation {
-    return this.op_location;
+  getOperatorLocation(): OrderLocation {
+    return this.operatorLoc;
   }
 
   getOperator(): string {
@@ -118,8 +118,8 @@ const orderConverter = {
         longitude: order.getOrderLocation().longitude,
       },
       op_location: {
-        latitude: order.getOpOrderLocation().latitude,
-        longitude: order.getOpOrderLocation().longitude,
+        latitude: order.getOperatorLocation().latitude,
+        longitude: order.getOperatorLocation().longitude,
       },
     };
   },
