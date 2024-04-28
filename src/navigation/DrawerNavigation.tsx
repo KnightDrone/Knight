@@ -13,28 +13,13 @@ import MapOverview from "./../app/MapOverview";
 import Profile from "./../app/Profile";
 import Settings from "./../app/Settings";
 
-const Drawer = createDrawerNavigator();
+const { Screen, Navigator } = createDrawerNavigator();
 
 export const UserDrawer = () => {
   return (
-    <Drawer.Navigator
-      initialRouteName="MapOverview"
-      drawerContent={(props: DrawerContentComponentProps) => (
-        <DrawerContentScrollView {...props}>
-          <DrawerItemList {...props} />
-        </DrawerContentScrollView>
-      )}
-      screenOptions={{
-        headerShown: false,
-        drawerType: "slide",
-        drawerStyle: {
-          backgroundColor: "white",
-          width: 240,
-        },
-      }}
-    >
-      <Drawer.Screen name="MapOverview" component={MapOverview} />
-      <Drawer.Screen
+    <Navigator initialRouteName="MapOverview">
+      <Screen name="MapOverview" component={MapOverview} />
+      <Screen
         name="Profile"
         component={Profile}
         options={({ navigation }) => ({
@@ -53,7 +38,7 @@ export const UserDrawer = () => {
           ),
         })}
       />
-      <Drawer.Screen
+      <Screen
         name="Settings"
         component={Settings}
         options={({ navigation }) => ({
@@ -72,6 +57,6 @@ export const UserDrawer = () => {
           ),
         })}
       />
-    </Drawer.Navigator>
+    </Navigator>
   );
 };
