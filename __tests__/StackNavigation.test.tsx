@@ -1,5 +1,4 @@
 import * as React from "react";
-import { useFonts } from "../__mocks__/expo-font";
 import { screen, render, fireEvent } from "@testing-library/react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { UserStack, AuthStack } from "../src/navigation/StackNavigation";
