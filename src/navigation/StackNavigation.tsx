@@ -19,19 +19,20 @@ export type RootStackParamList = {
   OrderMenu: undefined;
   OrderPlaced: undefined;
   Drawer: undefined;
-  Map: undefined;
+  MapOverview: undefined;
+  UserStack: undefined;
 };
 
 const { Navigator, Screen } = createStackNavigator<RootStackParamList>();
 
 export const AuthStack = () => {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
-      {/* <Stack.Screen name="Drawer" component={UserDrawer} /> */}
-      <Stack.Screen name="Login" component={Login} />
-      <Stack.Screen name="SignUp" component={SignUp} />
-      <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
-    </Stack.Navigator>
+    <Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}>
+      <Screen name="Login" component={Login} />
+      <Screen name="SignUp" component={SignUp} />
+      <Screen name="ForgotPassword" component={ForgotPassword} />
+      <Screen name="UserStack" component={UserStack} />
+    </Navigator>
   );
 };
 

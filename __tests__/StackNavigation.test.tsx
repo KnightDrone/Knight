@@ -1,7 +1,7 @@
 import * as React from "react";
 import { screen, render, fireEvent } from "@testing-library/react-native";
 import { NavigationContainer } from "@react-navigation/native";
-import { AuthStack, UserStack } from "../src/navigation/StackNavigation";
+import { UserStack, AuthStack } from "../src/navigation/StackNavigation";
 
 // Test for AuthStack
 // =*=*=*=*=*=*=*=*=*
