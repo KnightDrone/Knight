@@ -2,7 +2,7 @@ import * as React from "react";
 import { useFonts } from "../__mocks__/expo-font";
 import { screen, render, fireEvent } from "@testing-library/react-native";
 import { NavigationContainer } from "@react-navigation/native";
-import { AuthStack, UserStack } from "../src/navigation/StackNavigation";
+import { UserStack, AuthStack } from "../src/navigation/StackNavigation";
 
 jest.mock("../src/services/Firebase", () => ({
   auth: jest.fn(),

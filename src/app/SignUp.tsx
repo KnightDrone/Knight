@@ -39,8 +39,7 @@ export default function SignUp({ navigation }: any) {
       const credential = GoogleAuthProvider.credential(id_token);
       signInWithCredential(auth, credential)
         .then(() => {
-          console.log("Sign up successful");
-          navigation.navigate("Map");
+          navigation.navigate("UserStack", { screen: "MapOverview" });
         })
         .catch((error) => {
           console.error(error);
@@ -97,8 +96,8 @@ export default function SignUp({ navigation }: any) {
     if (email && password) {
       createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
-          console.log(userCredential, "sign up with email successful.");
-          navigation.navigate("Map");
+          const user = userCredential.user;
+          navigation.navigate("UserStack", { screen: "MapOverview" });
         })
         .catch((error) => {
           setError("Sign Up failed. Please check your credentials.");
