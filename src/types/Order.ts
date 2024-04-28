@@ -37,7 +37,6 @@ class Order {
     this.id = id || uuid.v4().toString();
     this.user = user;
     this.item = item;
-    this.orderDate = new Date();
     this.status = OrderStatus.Pending;
     this.orderDate = orderDate || new Date();
     this.deliveryDate = deliveryDate || new Date();
