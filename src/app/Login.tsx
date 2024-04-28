@@ -1,12 +1,23 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, Image, TouchableOpacity, Platform } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  Image,
+  TouchableOpacity,
+  Platform,
+} from "react-native";
 import {
   auth,
   GoogleAuthProvider,
+  onAuthStateChanged,
   signInWithCredential,
   signInWithEmailAndPassword,
 } from "../services/Firebase";
 import * as Google from "expo-auth-session/providers/google";
+import * as WebBrowser from "expo-web-browser";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Navigation imports
 import GoogleAuthConfig from "../types/GoogleAuthConfig";
@@ -27,15 +38,13 @@ export default function Login({ navigation }: any) {
     redirectUri: process.env.REDIRECT_URI,
   });
 
-  const [request, response, promptAsync] = Google.useAuthRequest(config);
-
   useEffect(() => {
     if (response?.type === "success") {
       const { id_token } = response.params;
       const credential = GoogleAuthProvider.credential(id_token);
       signInWithCredential(auth, credential)
         .then(() => {
-          navigation.navigate("UserStack", { screen: "MapOverview" });
+          navigation.navigate("Map"); // Navigate after successful login
         })
         .catch((error: any) => {
           console.error(error);
@@ -52,7 +61,7 @@ export default function Login({ navigation }: any) {
           password
         );
         if (response.user) {
-          navigation.navigate("UserStack", { screen: "MapOverview" });
+          navigation.navigate("Map");
         } else {
           setError("Invalid credentials");
         }
@@ -110,9 +119,9 @@ export default function Login({ navigation }: any) {
       <View className="flex-row items-center justify-center gap-8 w-full px-6">
         <TouchableOpacity>
           <Text
+            testID="forgot-password-link"
             className="text-primary-500 text-center mt-2.5"
             onPress={() => navigation.navigate("ForgotPassword")}
-            testID="forgot-password-link"
           >
             Reset password
           </Text>

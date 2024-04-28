@@ -55,7 +55,7 @@ async function simulateLogin(
   });
 }
 
-describe("App.tsx Navigation", () => {
+describe("App Navigation", () => {
   it("renders the login screen as the initial route", () => {
     const { getByTestId } = render(<App />);
     expect(getByTestId("login-screen")).toBeTruthy();
@@ -268,4 +268,27 @@ describe("App.tsx Navigation", () => {
       expect(queryByTestId("login-screen")).toBeTruthy();
     });
   });*/
+
+  it("navigates back to login screen when the forgot password back button is pressed", async () => {
+    (Google.useAuthRequest as jest.Mock).mockReturnValue([
+      {},
+      { type: "fail", params: { id_token: "" } },
+      jest.fn(),
+    ]);
+
+    const { getByText, getByTestId, queryByTestId } = render(<App />);
+    const forgotPasswordButton = getByTestId("forgot-password-link");
+    fireEvent.press(forgotPasswordButton);
+
+    await waitFor(() => {
+      expect(queryByTestId("forgot-password-screen")).toBeTruthy();
+    });
+
+    const forgotPasswordBackButton = getByTestId("forgot-password-back-button");
+    fireEvent.press(forgotPasswordBackButton);
+
+    await waitFor(() => {
+      expect(queryByTestId("login-screen")).toBeTruthy();
+    });
+  });
 });
