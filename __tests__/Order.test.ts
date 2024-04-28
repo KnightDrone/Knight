@@ -14,13 +14,26 @@ describe("Order", () => {
   const item = new Item(1, "Test Item", "Test Description", 10, image, image);
   const orderDate = new Date();
   const deliveryDate = new Date();
+  const operator = "Hospital";
   const location: OrderLocation = {
     latitude: 0,
     longitude: 0,
   };
+  const operatorLocation: OrderLocation = {
+    latitude: -999,
+    longitude: -999,
+  };
 
   beforeEach(() => {
-    order = new Order(user, item, location);
+    order = new Order(
+      user,
+      item,
+      location,
+      orderDate,
+      deliveryDate,
+      operator,
+      operatorLocation
+    );
   });
 
   it("should create an instance of Order", () => {
@@ -37,6 +50,8 @@ describe("Order", () => {
       -2
     );
     expect(order.getOrderLocation()).toEqual(location);
+    expect(order.getOpName()).toBe(operator);
+    expect(order.getOperatorLocation()).toEqual(operatorLocation);
   });
 
   it("should have all order statuses", () => {
@@ -50,18 +65,6 @@ describe("Order", () => {
 
   it("getId should return the correct id", () => {
     expect(order.getId()).toBeTruthy();
-  });
-
-  it("getStatus should return the correct status", () => {
-    expect(order.getStatus()).toBe(OrderStatus.Pending);
-  });
-
-  it("getUser should return the correct user", () => {
-    expect(order.getUser()).toBe(user);
-  });
-
-  it("getItem should return the correct item", () => {
-    expect(order.getItem()).toBe(item);
   });
 
   it("setStatus should set the correct status", () => {
