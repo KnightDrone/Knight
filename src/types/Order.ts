@@ -146,8 +146,6 @@ const orderConverter = {
       id
     );
 
-    console.log("id: ", data.id); // id is undefined !!
-
     return order;
   },
 };

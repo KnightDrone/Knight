@@ -42,7 +42,7 @@ export default class FirestoreManager {
    * Method to query data from the database based on user, status, or item name
    *
    * @param field - The field to query by. Must be one of these: "user", "status", "item.name"
-   * @param data - The data to query for
+   * @param data - The data to query for. Must match the field type
    * @returns - An array of orders that match the query
    */
   async queryOrder(field: string, data: string): Promise<Order[] | null> {
@@ -123,36 +123,49 @@ export default class FirestoreManager {
     data: string | Date | OrderLocation
   ): Promise<void> {
     const orderRef = doc(firestore, "orders", orderId);
+    const validFields = ["operator", "status", "deliveryDate", "location"];
     try {
-      if (field == "operator") {
-        await setDoc(orderRef, { operator: data }, { merge: true });
+      if (validFields.includes(field)) {
+        await setDoc(orderRef, { [field]: data }, { merge: true });
         console.log(
           "Order with id " +
             orderId +
-            " successfully updated operator field in the database"
+            " successfully updated " +
+            field +
+            " field in the database"
         );
-      } else if (field == "status") {
-        await setDoc(orderRef, { status: data }, { merge: true });
-        console.log(
-          "Order with id " +
-            orderId +
-            " successfully updated status field in the database"
-        );
-      } else if (field == "deliveryDate") {
-        await setDoc(orderRef, { deliveryDate: data }, { merge: true });
-        console.log(
-          "Order with id " +
-            orderId +
-            " successfully updated delivery date field in the database"
-        );
-      } else if (field == "location") {
-        await setDoc(orderRef, { location: data }, { merge: true });
-        console.log(
-          "Order with id " +
-            orderId +
-            " successfully updated location field in the database"
-        );
+      } else {
+        console.log("No valid field provided to update");
       }
+      // if (field == "operator") {
+      //   await setDoc(orderRef, { operator: data }, { merge: true });
+      //   console.log(
+      //     "Order with id " +
+      //       orderId +
+      //       " successfully updated operator field in the database"
+      //   );
+      // } else if (field == "status") {
+      //   await setDoc(orderRef, { status: data }, { merge: true });
+      //   console.log(
+      //     "Order with id " +
+      //       orderId +
+      //       " successfully updated status field in the database"
+      //   );
+      // } else if (field == "deliveryDate") {
+      //   await setDoc(orderRef, { deliveryDate: data }, { merge: true });
+      //   console.log(
+      //     "Order with id " +
+      //       orderId +
+      //       " successfully updated delivery date field in the database"
+      //   );
+      // } else if (field == "location") {
+      //   await setDoc(orderRef, { location: data }, { merge: true });
+      //   console.log(
+      //     "Order with id " +
+      //       orderId +
+      //       " successfully updated location field in the database"
+      //   );
+      // }
     } catch (e) {
       console.error("Error updating order in the database: ", e);
     }
