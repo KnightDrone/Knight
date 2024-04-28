@@ -1,11 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Text, View, Image, TouchableOpacity, Platform } from "react-native";
-import {
-  auth,
-  GoogleAuthProvider,
-  signInWithCredential,
-  signInWithEmailAndPassword,
-} from "../services/Firebase";
+import { auth, GoogleAuthProvider, signInWithCredential } from "firebase/auth";
+import { auth } from "../services/firebase";
 import * as Google from "expo-auth-session/providers/google";
 import * as WebBrowser from "expo-web-browser";
 import AsyncStorage from "@react-native-async-storage/async-storage";
