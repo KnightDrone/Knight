@@ -19,51 +19,47 @@ export type RootStackParamList = {
   OrderPlaced: undefined;
   Drawer: undefined;
   MapOverview: undefined;
+  UserStack: undefined;
 };
 
-const Stack = createStackNavigator<RootStackParamList>();
-const RootStack = createStackNavigator();
+const { Navigator, Screen } = createStackNavigator<RootStackParamList>();
 
 export const AuthStack = () => {
   return (
-    <Stack.Navigator
-      initialRouteName="Login"
-      screenOptions={{ headerShown: false }}
-    >
-      <Stack.Screen name="Login" component={Login} />
-      <Stack.Screen name="SignUp" component={SignUp} />
-      <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
-    </Stack.Navigator>
+    <Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}>
+      <Screen name="Login" component={Login} />
+      <Screen name="SignUp" component={SignUp} />
+      <Screen name="ForgotPassword" component={ForgotPassword} />
+      <Screen name="UserStack" component={UserStack} />
+    </Navigator>
   );
 };
 
 export const UserStack = () => {
   return (
-    <RootStack.Navigator screenOptions={{ headerShown: false }}>
-      {
-        <>
-          <RootStack.Screen name="Drawer" component={UserDrawer} />
-          <RootStack.Screen
-            name="OrderMenu"
-            component={OrderMenu}
-            options={({ navigation }) => ({
-              headerShown: true,
-              headerTransparent: true,
-              headerTitle: "",
-              headerLeft: () => (
-                <HeaderBackButton
-                  onPress={() => navigation.goBack()}
-                  backImage={() => (
-                    <Icon name="arrow-back" size={24} color="black" />
-                  )}
-                  labelVisible={false}
-                  testID="back-button"
-                />
-              ),
-            })}
-          />
-        </>
-      }
-    </RootStack.Navigator>
+    <Navigator screenOptions={{ headerShown: false }}>
+      <Screen name="Drawer" component={UserDrawer} />
+      <Screen name="MapOverview" component={MapOverview} />
+      <Screen
+        name="OrderMenu"
+        component={OrderMenu}
+        options={({ navigation }) => ({
+          headerShown: true,
+          headerTransparent: true,
+          headerTitle: "",
+          headerLeft: () => (
+            <HeaderBackButton
+              onPress={() => navigation.goBack()}
+              backImage={() => (
+                <Icon name="arrow-back" size={24} color="black" />
+              )}
+              labelVisible={false}
+              testID="back-button"
+            />
+          ),
+        })}
+      />
+      <Screen name="OrderPlaced" component={OrderPlaced} />
+    </Navigator>
   );
 };

@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  createDrawerNavigator,
-  DrawerContentComponentProps,
-  DrawerContentScrollView,
-  DrawerItemList,
-} from "@react-navigation/drawer";
+import { createDrawerNavigator } from "@react-navigation/drawer";
 import { HeaderBackButton } from "@react-navigation/elements";
 import Icon from "react-native-vector-icons/Ionicons";
 
