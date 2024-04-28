@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { Text, View } from "react-native";
 import { authInstance } from "../services/Firebase";
 import { auth } from "../services/Firebase";
+import { TextField } from "../ui/TextField";
+import { Button } from "../ui/Button";
+import { MessageBox } from "../ui/MessageBox";
 
 export default function ForgotPasswordScreen() {
   const [email, setEmail] = useState("");
