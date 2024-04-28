@@ -10,11 +10,12 @@ enum OrderStatus {
 }
 
 interface Location {
-  latitude: number,
-  longitude: number
+  latitude: number;
+  longitude: number;
 }
 
 class Order {
+  private id: string;
   private user: string;
   private item: Item;
   private orderDate: Date;
@@ -22,17 +23,17 @@ class Order {
   private deliveryDate: Date;
   private location: Location;
 
-  constructor(
-    user: string,
-    item: Item,
-    location: Location
-  ) {
+  constructor(user: string, item: Item, location: Location) {
     this.id = autoId();
     this.user = user;
     this.item = item;
     this.status = OrderStatus.Pending;
     this.deliveryDate = new Date();
     this.location = location;
+  }
+
+  getId(): string {
+    return this.id;
   }
 
   getUser(): string {
@@ -61,6 +62,7 @@ class Order {
 
   toDict(): { [key: string]: string } {
     return {
+      id: this.id,
       user: this.user,
       item: JSON.stringify(this.item.toDict()),
       orderDate: this.orderDate.toString(),
@@ -71,5 +73,4 @@ class Order {
   }
 }
 
-
-export {OrderStatus, Location, Order}
+export { OrderStatus, Location, Order };
