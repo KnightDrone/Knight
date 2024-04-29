@@ -10,10 +10,11 @@ const mockRootStackParamList: RootStackParamList = {
   Map: undefined,
   OrderPlaced: {
     orderedItem: orderedItem,
-    placedAt: new Date(),
+    placedAt: Date.now(),
     userLocation: "123 Main St",
   },
   OrderHistory: {
+    userId: "123",
     opOrders: true,
   },
 };
