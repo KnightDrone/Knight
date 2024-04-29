@@ -1,12 +1,23 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, Image, TouchableOpacity, Platform } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  Image,
+  TouchableOpacity,
+  Platform,
+} from "react-native";
 import {
   auth,
   GoogleAuthProvider,
+  onAuthStateChanged,
   signInWithCredential,
   signInWithEmailAndPassword,
 } from "../services/Firebase";
 import * as Google from "expo-auth-session/providers/google";
+import * as WebBrowser from "expo-web-browser";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Navigation imports
 import GoogleAuthConfig from "../types/GoogleAuthConfig";
@@ -20,13 +31,12 @@ export default function Login({ navigation }: any) {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const config = Platform.select({
-    ios: GoogleAuthConfig.ios,
-    android: GoogleAuthConfig.android,
-    default: GoogleAuthConfig.web,
+  const [request, response, promptAsync] = Google.useAuthRequest({
+    iosClientId: process.env.IOS_CLIENT_ID_OAUTH,
+    androidClientId: process.env.ANDROID_CLIENT_ID_OAUTH,
+    webClientId: process.env.WEB_CLIENT_ID_OAUTH,
+    redirectUri: process.env.REDIRECT_URI,
   });
-
-  const [request, response, promptAsync] = Google.useAuthRequest(config);
 
   useEffect(() => {
     if (response?.type === "success") {
