@@ -73,6 +73,15 @@ jest.mock("react-native-vector-icons/MaterialIcons", () => {
   );
 });
 
+jest.mock("react-native-vector-icons/Fontisto", () => {
+  const { Text } = require("react-native");
+  return ({ name, size, color, testID }) => (
+    <Text testID={testID}>
+      {name} {size} {color}
+    </Text>
+  );
+});
+
 jest.mock("react-native-maps", () => {
   const { View } = require("react-native");
   return {
