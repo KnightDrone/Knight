@@ -1,7 +1,6 @@
 import React from "react";
 import { screen, render, fireEvent } from "@testing-library/react-native";
 import OrderMenu from "../src/app/OrderMenu";
-import { useFonts } from "../__mocks__/expo-font";
 import { productButtons } from "../src/types/ProductButtons";
 import { View, Text } from "react-native";
 
@@ -17,26 +16,12 @@ jest.mock("../src/components/PayButton", () => ({
 }));
 
 describe("Order Menu", () => {
-  //set globally useFont to true
-  beforeEach(() => {
-    useFonts.mockReturnValue([true]);
-  });
-
   it("renders correctly ", () => {
     const { getByText } = render(<OrderMenu />);
 
     expect(getByText("Choose your item")).toBeTruthy();
     productButtons.forEach((button) => {
       expect(getByText(button.item.getName())).toBeTruthy();
-    });
-  });
-
-  it("does not render when fonts are not loaded", () => {
-    useFonts.mockReturnValue([false]);
-    const { queryByText } = render(<OrderMenu />);
-
-    productButtons.forEach((button) => {
-      expect(queryByText(button.item.getName())).toBeNull();
     });
   });
 

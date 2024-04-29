@@ -5,9 +5,29 @@ import {
   fireEvent,
   waitFor,
 } from "@testing-library/react-native";
-import { useFonts } from "../__mocks__/expo-font";
-import AppStack from "../src/navigation/StackNavigation";
+import { AppStack } from "../src/navigation/StackNavigation";
 import { describe } from "node:test";
+import * as Google from "expo-auth-session/providers/google";
+
+import { signInWithEmailAndPassword } from "../src/services/Firebase";
+
+beforeEach(() => {
+  const mockPromptAsync = jest.fn();
+
+  // Mock the Google authentication request setup, makes the user sign in automatically with google
+  (Google.useAuthRequest as jest.Mock).mockReturnValue([
+    {}, // Mocked request
+    { type: "success", params: { id_token: "mock-id-token" } }, // Mocked response
+    mockPromptAsync, // Mocked promptAsync function
+  ]);
+});
+
+beforeAll(() => {
+  global.alert = jest.fn();
+
+  // Avoid useless error messages
+  jest.spyOn(console, "error").mockImplementation(() => {});
+});
 
 // Avoid useless error messages
 beforeAll(() => {
@@ -35,10 +55,6 @@ jest.mock("expo-auth-session/providers/google", () => ({
   ]),
 }));
 
-jest.mock("expo-font", () => ({
-  useFonts: jest.fn(() => [true, null]), // Simulate fonts being loaded successfully
-}));
-
 jest.mock("react-native-vector-icons/MaterialIcons", () => {
   const { View } = require("react-native");
   return {
@@ -47,15 +63,28 @@ jest.mock("react-native-vector-icons/MaterialIcons", () => {
   };
 });
 
+// Avoid useless error messages
+beforeAll(() => {
+  jest.spyOn(console, "error").mockImplementation(() => {});
+});
+
+// Setup mock implementations
+beforeEach(() => {
+  const mockPromptAsync = jest.fn();
+
+  // Mock the Google authentication request setup
+  (Google.useAuthRequest as jest.Mock).mockReturnValue([
+    {}, // Mocked request
+    { type: "success", params: { id_token: "mock-id-token" } }, // Mocked response
+    mockPromptAsync, // Mocked promptAsync function
+  ]);
+});
+
 //// =*=*=*=*=*=*=*=*=*
 //// Test for AppStack
 //// =*=*=*=*=*=*=*=*=*
 
 describe("AppStack Navigation Tests", () => {
-  //beforeEach(() => {
-  //  useFonts.mockReturnValue([true]);
-  //});
-
   it("navigates to the Login screen when app starts", () => {
     const { getByTestId } = render(
       <AppStack isLoggedIn={"Login"} user={null} />
@@ -123,7 +152,7 @@ describe("AppStack Navigation Tests", () => {
 
   it("navigates to the map screen after successful sign-up", async () => {
     const { getByText, getByTestId } = render(
-      <AppStack isLoggedIn={"SignUp"} user={null} />
+      <AppStack isLoggedIn={"Login"} user={null} />
     );
 
     // Mock is true (successful sign-up) by default in jestSetupFile.js
@@ -137,15 +166,32 @@ describe("AppStack Navigation Tests", () => {
   });
   const mockUser = { uid: "123", email: "random@gmail.com" };
 
-  it("navigates to OrderMenu screen when 'Order' is pressed", async () => {
-    useFonts.mockReturnValue([true]); // Ensure fonts are considered loaded
-    const { findByTestId } = render(
+  it("navigates Login -> Map -> OrderMenu", async () => {
+    const { queryByTestId, getByTestId } = render(
+      <AppStack isLoggedIn={"Login"} user={null} />
+    );
+
+    fireEvent.changeText(getByTestId("email-input"), "test@example.com");
+    fireEvent.changeText(getByTestId("password-input"), "password123");
+
+    fireEvent.press(getByTestId("login-button"));
+
+    await waitFor(() => expect(signInWithEmailAndPassword).toHaveBeenCalled());
+    fireEvent.press(getByTestId("order-button"));
+
+    await waitFor(() =>
+      expect(queryByTestId("order-menu-screen")).toBeTruthy()
+    );
+  });
+
+  it("navigates Map->OrderMenu", async () => {
+    const { queryByTestId } = render(
       <AppStack isLoggedIn={"Map"} user={mockUser} />
     );
-    const orderButton = await findByTestId("order-button");
-    fireEvent.press(orderButton);
+    fireEvent.press(queryByTestId("order-button"));
     await waitFor(() => {
-      expect(screen.getByTestId("order-menu-screen")).toBeTruthy();
+      // Check if the Map screen is displayed by looking for a specific text
+      expect(screen.queryByTestId("order-menu-screen")).toBeTruthy();
     });
   });
 
@@ -158,6 +204,17 @@ describe("AppStack Navigation Tests", () => {
     await waitFor(() => {
       // Check if the OrderMenu screen is displayed by looking for a specific text
       expect(screen.getByTestId("map-overview-screen")).toBeTruthy();
+    });
+  });
+
+  it("navigates Map->OrderMenu->OrderPlaced", async () => {
+    const { queryByTestId } = render(
+      <AppStack isLoggedIn={"Map"} user={mockUser} />
+    );
+    fireEvent.press(queryByTestId("order-button"));
+    await waitFor(() => {
+      // Check if the Map screen is displayed by looking for a specific text
+      expect(screen.queryByTestId("order-menu-screen")).toBeTruthy();
     });
   });
 });

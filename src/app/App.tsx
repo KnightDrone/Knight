@@ -8,17 +8,11 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 import "./global.css";
 
 import { registerRootComponent } from "expo";
-import { useFonts } from "expo-font";
-import KaiseiRegular from "../../assets/fonts/KaiseiDecol-Regular.ttf";
-import AppStack from "../navigation/StackNavigation";
+import { AppStack } from "../navigation/StackNavigation";
 
 WebBrowser.maybeCompleteAuthSession();
 
 function App() {
-  const [fontsLoaded] = useFonts({
-    KaiseiRegular: KaiseiRegular,
-  });
-
   const [userInfo, setUserInfo] = useState<User | null>(null);
   const [loading, setLoading] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState("Login");

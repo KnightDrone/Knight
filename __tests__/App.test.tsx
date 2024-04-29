@@ -1,6 +1,5 @@
 import React from "react";
 import { render, waitFor, fireEvent } from "@testing-library/react-native";
-import { useFonts } from "../__mocks__/expo-font";
 import * as Google from "expo-auth-session/providers/google";
 
 import App from "../src/app/App";
@@ -10,7 +9,6 @@ import { View, Text } from "react-native";
 
 beforeEach(() => {
   const mockPromptAsync = jest.fn();
-  useFonts.mockReturnValue([true]);
 
   // Mock the Google authentication request setup, makes the user sign in automatically with google
   (Google.useAuthRequest as jest.Mock).mockReturnValue([

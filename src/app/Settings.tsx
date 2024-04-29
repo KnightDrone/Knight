@@ -7,7 +7,7 @@ const Settings = ({ navigation }: any) => {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={styles.container} testID="settings-screen">
       <Text style={styles.text}>This is the Settings page </Text>
       <Button title="Click Me" onPress={handlePress} />
     </View>

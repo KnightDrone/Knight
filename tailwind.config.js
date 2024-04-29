@@ -22,6 +22,9 @@ module.exports = {
         "figma-yellow": "#FFFBF1",
       },
     },
+    fontFamily: {
+      "kaisei-regular": "kaisei",
+    },
   },
   plugins: [],
 };
