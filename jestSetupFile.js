@@ -73,6 +73,15 @@ jest.mock("react-native-vector-icons/MaterialIcons", () => {
   );
 });
 
+jest.mock("react-native-vector-icons/Fontisto", () => {
+  const { Text } = require("react-native");
+  return ({ name, size, color, testID }) => (
+    <Text testID={testID}>
+      {name} {size} {color}
+    </Text>
+  );
+});
+
 jest.mock("react-native-maps", () => {
   const { View } = require("react-native");
   return {
@@ -110,16 +119,19 @@ jest.mock("@react-native-async-storage/async-storage", () =>
 
 jest.mock("@stripe/stripe-react-native", () => ({
   __esModule: true,
+  StripeProvider: jest.fn(() => null),
   PaymentSheetError: jest.fn(),
-  initPaymentSheet: jest.fn(),
-  presentPaymentSheet: jest.fn(),
   confirmPaymentSheetPayment: jest.fn(),
   useStripe: jest.fn().mockReturnValue({
     confirmPayment: jest.fn(),
     createPaymentMethod: jest.fn(),
     retrievePaymentIntent: jest.fn(),
-    initPaymentSheet: jest.fn(),
-    presentPaymentSheet: jest.fn(),
+    initPaymentSheet: jest
+      .fn()
+      .mockResolvedValue(Promise.resolve({ error: null })),
+    presentPaymentSheet: jest
+      .fn()
+      .mockReturnValue(Promise.resolve({ error: null })),
     confirmPaymentSheetPayment: jest.fn(),
   }),
 }));
