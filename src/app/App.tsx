@@ -1,3 +1,4 @@
+// App.tsx
 import React, { useEffect, useState } from "react";
 import { Text } from "react-native";
 import { User, onAuthStateChanged, auth } from "../services/Firebase";
