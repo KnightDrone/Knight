@@ -6,7 +6,7 @@ import {
   waitFor,
   act,
 } from "@testing-library/react-native";
-import MapOverview from "../src/app/Map";
+import Map from "../src/app/Map";
 import * as Location from "expo-location";
 import { Text } from "react-native";
 
@@ -51,9 +51,7 @@ const MapTest = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName={"Map"}>
-        <Stack.Screen name="Map">
-          {(props) => <MapOverview {...props} />}
-        </Stack.Screen>
+        <Stack.Screen name="Map">{(props) => <Map {...props} />}</Stack.Screen>
         <Stack.Screen name="OrderMenu">
           {() => (
             <>
@@ -66,7 +64,7 @@ const MapTest = () => {
   );
 };
 
-describe("MapOverview Component", () => {
+describe("Map Component", () => {
   it("renders correctly", () => {
     const { getByTestId } = render(<MapTest />);
 

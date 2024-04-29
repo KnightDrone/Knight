@@ -5,12 +5,11 @@ import SignUp from "./../app/SignUp";
 import ForgotPassword from "./../app/ForgotPassword";
 import OrderPlaced from "./../app/OrderPlaced";
 import OrderMenu from "../app/OrderMenu";
-import MapOverview from "../app/MapOverview";
-import { UserDrawer } from "./DrawerNavigation";
 import Map from "../app/Map";
 import Icon from "react-native-vector-icons/Ionicons";
 
 import { HeaderBackButton } from "@react-navigation/elements";
+import { NavigationContainer } from "@react-navigation/native";
 
 export type RootStackParamList = {
   Login: undefined;
@@ -18,49 +17,95 @@ export type RootStackParamList = {
   ForgotPassword: undefined;
   OrderMenu: undefined;
   OrderPlaced: undefined;
-  Drawer: undefined;
-  MapOverview: undefined;
+  Map: undefined;
   UserStack: undefined;
 };
 
-const { Navigator, Screen } = createStackNavigator<RootStackParamList>();
+const { Navigator, Screen, Group } = createStackNavigator<RootStackParamList>();
 
-export const AuthStack = () => {
+export default function AppStack(isLoggedIn: any, user: any) {
+  console.log(isLoggedIn);
   return (
-    <Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}>
-      <Screen name="Login" component={Login} />
-      <Screen name="SignUp" component={SignUp} />
-      <Screen name="ForgotPassword" component={ForgotPassword} />
-      <Screen name="UserStack" component={UserStack} />
-    </Navigator>
+    <NavigationContainer>
+      <Navigator
+        initialRouteName={isLoggedIn}
+        screenOptions={{
+          headerShown: false,
+          headerStyle: {
+            backgroundColor: "#f9f9f9",
+          },
+          headerTintColor: "#000",
+          headerTitleStyle: {
+            fontWeight: "bold",
+          },
+        }}
+      >
+        <Group>
+          <Screen name="Login" options={{ title: "Login to Wild Knight" }}>
+            {(props: any) => <Login {...props} />}
+          </Screen>
+          <Screen
+            name="SignUp"
+            options={({ navigation }: any) => ({
+              headerShown: true,
+              headerTransparent: true,
+              headerTitle: "",
+              headerLeft: () => (
+                <HeaderBackButton
+                  onPress={() => navigation.navigate("Login")}
+                  labelVisible={false}
+                  testID="sign-up-back-button"
+                />
+              ),
+            })}
+          >
+            {(props) => <SignUp {...props} />}
+          </Screen>
+          <Screen
+            name="ForgotPassword"
+            component={ForgotPassword}
+            options={({ navigation }: any) => ({
+              headerShown: true,
+              headerTransparent: true,
+              headerTitle: "",
+              headerLeft: () => (
+                <HeaderBackButton
+                  onPress={() => navigation.navigate("Login")}
+                  labelVisible={false}
+                  testID="forgot-password-back-button"
+                />
+              ),
+            })}
+          />
+        </Group>
+        <Group>
+          <Screen name="Map">{(props) => <Map {...props} />}</Screen>
+          <Screen
+            name="OrderMenu"
+            options={({ navigation }: any) => ({
+              headerShown: true,
+              headerTransparent: true,
+              headerTitle: "",
+              headerLeft: () => (
+                <HeaderBackButton
+                  onPress={() => navigation.navigate("Map")}
+                  backImage={() => (
+                    <Icon name="arrow-back" size={24} color="black" />
+                  )}
+                  labelVisible={false}
+                  testID="order-menu-back-button"
+                />
+              ),
+            })}
+          >
+            {(props) => <OrderMenu {...props} />}
+          </Screen>
+          <Screen name="OrderPlaced">
+            {(props) => <OrderPlaced {...props} />}
+          </Screen>
+        </Group>
+        {/** Add more groups here **/}
+      </Navigator>
+    </NavigationContainer>
   );
-};
-
-export const UserStack = () => {
-  return (
-    <Navigator screenOptions={{ headerShown: false }}>
-      <Screen name="Drawer" component={UserDrawer} />
-      <Screen name="MapOverview" component={MapOverview} />
-      <Screen
-        name="OrderMenu"
-        component={OrderMenu}
-        options={({ navigation }) => ({
-          headerShown: true,
-          headerTransparent: true,
-          headerTitle: "",
-          headerLeft: () => (
-            <HeaderBackButton
-              onPress={() => navigation.goBack()}
-              backImage={() => (
-                <Icon name="arrow-back" size={24} color="black" />
-              )}
-              labelVisible={false}
-              testID="back-button"
-            />
-          ),
-        })}
-      />
-      <Screen name="OrderPlaced" component={OrderPlaced} />
-    </Navigator>
-  );
-};
+}
