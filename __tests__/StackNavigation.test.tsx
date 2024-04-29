@@ -9,8 +9,6 @@ import { useFonts } from "../__mocks__/expo-font";
 import AppStack from "../src/navigation/StackNavigation";
 import { describe } from "node:test";
 
-useFonts.mockReturnValue([true]);
-
 // Avoid useless error messages
 beforeAll(() => {
   jest.spyOn(console, "error").mockImplementation(() => {});
@@ -37,11 +35,27 @@ jest.mock("expo-auth-session/providers/google", () => ({
   ]),
 }));
 
+jest.mock("expo-font", () => ({
+  useFonts: jest.fn(() => [true, null]), // Simulate fonts being loaded successfully
+}));
+
+jest.mock("react-native-vector-icons/MaterialIcons", () => {
+  const { View } = require("react-native");
+  return {
+    __esModule: true,
+    default: jest.fn().mockImplementation((props) => <View {...props} />),
+  };
+});
+
 //// =*=*=*=*=*=*=*=*=*
 //// Test for AppStack
 //// =*=*=*=*=*=*=*=*=*
 
 describe("AppStack Navigation Tests", () => {
+  //beforeEach(() => {
+  //  useFonts.mockReturnValue([true]);
+  //});
+
   it("navigates to the Login screen when app starts", () => {
     const { getByTestId } = render(
       <AppStack isLoggedIn={"Login"} user={null} />
@@ -124,6 +138,7 @@ describe("AppStack Navigation Tests", () => {
   const mockUser = { uid: "123", email: "random@gmail.com" };
 
   it("navigates to OrderMenu screen when 'Order' is pressed", async () => {
+    useFonts.mockReturnValue([true]); // Ensure fonts are considered loaded
     const { findByTestId } = render(
       <AppStack isLoggedIn={"Map"} user={mockUser} />
     );

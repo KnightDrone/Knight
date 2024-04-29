@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import OrderButton from "../components/OrderButton";
 import { Text, StyleSheet, View } from "react-native";
+import { useFonts } from "expo-font";
+import KaiseiRegular from "../../assets/fonts/KaiseiDecol-Regular.ttf";
 import TriangleBackground from "../components/TriangleBackground";
 import { productButtons } from "../types/ProductButtons";
 import ItemCard from "../components/ItemCard";
@@ -11,7 +13,15 @@ interface OrderProps {
 }
 
 export default function OrderMenu({ navigation }: any) {
+  const [fontsLoaded] = useFonts({
+    "Kaisei-Regular": KaiseiRegular,
+  });
+
   const [visibleItemId, setVisibleItemId] = useState<number | null>(null);
+
+  if (!fontsLoaded) {
+    return <Text>Loading...</Text>;
+  }
 
   const handleOpenCard = (itemId: number) => {
     setVisibleItemId(itemId);

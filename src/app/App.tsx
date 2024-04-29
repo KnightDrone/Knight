@@ -7,18 +7,16 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 
 import "./global.css";
 
+import { registerRootComponent } from "expo";
 import { useFonts } from "expo-font";
 import KaiseiRegular from "../../assets/fonts/KaiseiDecol-Regular.ttf";
-
-import { registerRootComponent } from "expo";
-
 import AppStack from "../navigation/StackNavigation";
 
 WebBrowser.maybeCompleteAuthSession();
 
 function App() {
   const [fontsLoaded] = useFonts({
-    "Kaisei-Regular": KaiseiRegular,
+    KaiseiRegular: KaiseiRegular,
   });
 
   const [userInfo, setUserInfo] = useState<User | null>(null);
