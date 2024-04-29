@@ -7,6 +7,7 @@ import {
   ImageSourcePropType,
 } from "react-native";
 import { buttonStyles } from "../styles/ButtonStyles";
+
 interface ButtonProps {
   title: string;
   icon: ImageSourcePropType;
@@ -27,7 +28,6 @@ export default Button;
 const styles = StyleSheet.create({
   text: {
     fontSize: 24,
-    fontFamily: "Kaisei-Regular",
     lineHeight: 33,
     marginLeft: 20,
   },

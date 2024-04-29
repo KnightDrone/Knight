@@ -16,12 +16,6 @@ jest.mock("../src/components/PayButton", () => ({
 }));
 
 describe("Order Menu", () => {
-  //set globally useFont to true
-  beforeEach(() => {
-    useFonts.mockReturnValue([true]);
-  });
-});
-describe("Order Menu", () => {
   it("renders correctly ", () => {
     const { getByText, getByTestId } = render(<OrderMenu />);
 

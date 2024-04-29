@@ -1,6 +1,5 @@
 import React from "react";
 import { screen, fireEvent, render } from "@testing-library/react-native";
-import { NavigationContainer } from "@react-navigation/native";
 import { UserDrawer } from "../src/navigation/DrawerNavigation";
 
 describe("UserDrawer Navigation Component", () => {

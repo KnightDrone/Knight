@@ -15,8 +15,6 @@ import Login from "../src/app/Login";
 import passwordsForTesting from "../src/utils/passwords";
 import { authInstance } from "../src/services/Firebase";
 
-useFonts.mockReturnValue([true]);
-
 // Avoid useless error messages
 beforeAll(() => {
   jest.spyOn(console, "error").mockImplementation(() => {});

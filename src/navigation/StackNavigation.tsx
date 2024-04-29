@@ -6,8 +6,7 @@ import ForgotPassword from "./../app/ForgotPassword";
 import OrderPlaced from "./../app/OrderPlaced";
 import OrderMenu from "../app/OrderMenu";
 import Map from "../app/Map";
-import Icon from "react-native-vector-icons/Ionicons";
-
+import { UserDrawer } from "./DrawerNavigation";
 import { HeaderBackButton } from "@react-navigation/elements";
 import { NavigationContainer } from "@react-navigation/native";
 
@@ -18,13 +17,16 @@ export type RootStackParamList = {
   OrderMenu: undefined;
   OrderPlaced: undefined;
   Map: undefined;
-  UserStack: undefined;
+  UserDrawer: undefined;
 };
 
 const { Navigator, Screen, Group } = createStackNavigator<RootStackParamList>();
 
-export default function AppStack(isLoggedIn: any, user: any) {
-  console.log(isLoggedIn);
+interface AppStackProps {
+  isLoggedIn: any;
+  user: any; // Define a more specific type if possible
+}
+export const AppStack: React.FC<AppStackProps> = ({ isLoggedIn, user }) => {
   return (
     <NavigationContainer>
       <Navigator
@@ -59,7 +61,7 @@ export default function AppStack(isLoggedIn: any, user: any) {
               ),
             })}
           >
-            {(props) => <SignUp {...props} />}
+            {(props: any) => <SignUp {...props} />}
           </Screen>
           <Screen
             name="ForgotPassword"
@@ -79,7 +81,9 @@ export default function AppStack(isLoggedIn: any, user: any) {
           />
         </Group>
         <Group>
-          <Screen name="Map">{(props) => <Map {...props} />}</Screen>
+          <Screen name="Map" options={{ title: "Map for User" }}>
+            {(props: any) => <Map {...props} />}
+          </Screen>
           <Screen
             name="OrderMenu"
             options={({ navigation }: any) => ({
@@ -89,23 +93,21 @@ export default function AppStack(isLoggedIn: any, user: any) {
               headerLeft: () => (
                 <HeaderBackButton
                   onPress={() => navigation.navigate("Map")}
-                  backImage={() => (
-                    <Icon name="arrow-back" size={24} color="black" />
-                  )}
                   labelVisible={false}
                   testID="order-menu-back-button"
                 />
               ),
             })}
           >
-            {(props) => <OrderMenu {...props} />}
+            {(props: any) => <OrderMenu {...props} />}
           </Screen>
           <Screen name="OrderPlaced">
-            {(props) => <OrderPlaced {...props} />}
+            {(props: any) => <OrderPlaced {...props} />}
           </Screen>
+          <Screen name="UserDrawer" component={UserDrawer} />
         </Group>
         {/** Add more groups here **/}
       </Navigator>
     </NavigationContainer>
   );
-}
+};
