@@ -8,16 +8,7 @@ import OrderMenu from "../app/OrderMenu";
 import Map from "../app/Map";
 import { HeaderBackButton } from "@react-navigation/elements";
 import { NavigationContainer } from "@react-navigation/native";
-
-export type RootStackParamList = {
-  Login: undefined;
-  SignUp: undefined;
-  ForgotPassword: undefined;
-  OrderMenu: undefined;
-  OrderPlaced: undefined;
-  Map: undefined;
-  UserDrawer: undefined;
-};
+import { RootStackParamList } from "../types/RootStackParamList";
 
 const { Navigator, Screen, Group } = createStackNavigator<RootStackParamList>();
 
