@@ -47,7 +47,6 @@ export default function OrderMenu({
     const user = auth.currentUser;
 
     if (user != null) {
-      console.log(orderLocation);
       const order = new Order(user.uid, item, orderLocation);
       firestoreManager.writeOrder(order);
       navigation.navigate("OrderPlaced", { orderId: order.getId() });

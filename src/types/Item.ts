@@ -3,9 +3,7 @@ export class Item {
   private name: string;
   private description: string;
   private icon: number;
-  //private iconDir: string;
   private image: number;
-  //private imageDir: string;
   private price: number;
 
   constructor(
@@ -54,7 +52,6 @@ export class Item {
       name: this.name,
       description: this.description,
       price: this.price.toString(),
-      image: this.image.toString(),
     };
   }
 }

@@ -74,4 +74,4 @@ const productButtons: ProductButton[] = [
   },
 ];
 
-export { ProductButton, productButtons };
+export { ProductButton, productButtons, images };

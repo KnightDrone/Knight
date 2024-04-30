@@ -10,6 +10,7 @@ import { secureRandom } from "../utils/random";
 import FirestoreManager from "../services/FirestoreManager";
 import { Item } from "../types/Item";
 import { OrderLocation } from "../types/Order";
+import { images } from "../types/ProductButtons";
 
 interface OrderPlacedProps {
   orderId: string;
@@ -154,7 +155,7 @@ const OrderPlaced = ({
             testID="ordered-item-image"
             source={
               orderedItem
-                ? orderedItem.getImage()
+                ? images[orderedItem.getId()]
                 : require("../../assets/icons/question_mark_icon.jpg")
             }
           />
