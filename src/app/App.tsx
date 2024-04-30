@@ -24,6 +24,7 @@ import KaiseiRegular from "../../assets/fonts/KaiseiDecol-Regular.ttf";
 import { registerRootComponent } from "expo";
 import { RootStackParamList } from "../types/RootStackParamList";
 import OrderHistory from "./OrderHistory";
+import { StripeProvider } from "@stripe/stripe-react-native";
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -79,88 +80,96 @@ function App() {
   if (loading) {
     return <Text>Loading...</Text>;
   }
+
+  const stripePK = process.env.STRIPE_PUBLISHABLE_KEY || "";
+
   return (
-    <NavigationContainer>
-      <Stack.Navigator
-        initialRouteName={userInfo ? "Map" : "Login"}
-        screenOptions={{
-          headerShown: false,
-          headerStyle: {
-            backgroundColor: "#f9f9f9",
-          },
-          headerTintColor: "#000",
-          headerTitleStyle: {
-            fontWeight: "bold",
-          },
-        }}
-      >
-        <Stack.Screen name="Login" options={{ title: "Login to Wild Knight" }}>
-          {(props) => <Login {...props} />}
-        </Stack.Screen>
-        <Stack.Screen
-          name="SignUp"
-          options={({ navigation }) => ({
-            headerShown: true,
-            headerTransparent: true,
-            headerTitle: "",
-            headerLeft: () => (
-              <HeaderBackButton
-                onPress={() => navigation.goBack()}
-                labelVisible={false}
-                testID="sign-up-back-button"
-              />
-            ),
-          })}
+    <StripeProvider publishableKey={stripePK}>
+      <NavigationContainer>
+        <Stack.Navigator
+          initialRouteName={userInfo ? "Map" : "Login"}
+          screenOptions={{
+            headerShown: false,
+            headerStyle: {
+              backgroundColor: "#f9f9f9",
+            },
+            headerTintColor: "#000",
+            headerTitleStyle: {
+              fontWeight: "bold",
+            },
+          }}
         >
-          {(props) => <SignUp {...props} />}
-        </Stack.Screen>
-        <Stack.Screen
-          name="ForgotPassword"
-          component={ForgotPassword}
-          options={({ navigation }) => ({
-            headerShown: true,
-            headerTransparent: true,
-            headerTitle: "",
-            headerLeft: () => (
-              <HeaderBackButton
-                onPress={() => navigation.goBack()}
-                labelVisible={false}
-                testID="forgot-password-back-button"
-              />
-            ),
-          })}
-        />
-        <Stack.Screen name="Map">
-          {(props) => <MapOverview {...props} />}
-        </Stack.Screen>
-        <Stack.Screen
-          name="OrderMenu"
-          options={({ navigation }) => ({
-            headerShown: true,
-            headerTransparent: true,
-            headerTitle: "",
-            headerLeft: () => (
-              <HeaderBackButton
-                onPress={() => navigation.goBack()}
-                backImage={() => (
-                  <Icon name="arrow-back" size={24} color="black" />
-                )}
-                labelVisible={false}
-                testID="back-button"
-              />
-            ),
-          })}
-        >
-          {(props) => <OrderMenu {...props} />}
-        </Stack.Screen>
-        <Stack.Screen name="OrderPlaced">
-          {(props) => <OrderPlaced {...props} />}
-        </Stack.Screen>
-        <Stack.Screen name="OrderHistory">
-          {(props) => <OrderHistory {...props} />}
-        </Stack.Screen>
-      </Stack.Navigator>
-    </NavigationContainer>
+          <Stack.Screen
+            name="Login"
+            options={{ title: "Login to Wild Knight" }}
+          >
+            {(props) => <Login {...props} />}
+          </Stack.Screen>
+          <Stack.Screen
+            name="SignUp"
+            options={({ navigation }) => ({
+              headerShown: true,
+              headerTransparent: true,
+              headerTitle: "",
+              headerLeft: () => (
+                <HeaderBackButton
+                  onPress={() => navigation.goBack()}
+                  labelVisible={false}
+                  testID="sign-up-back-button"
+                />
+              ),
+            })}
+          >
+            {(props) => <SignUp {...props} />}
+          </Stack.Screen>
+          <Stack.Screen
+            name="ForgotPassword"
+            component={ForgotPassword}
+            options={({ navigation }) => ({
+              headerShown: true,
+              headerTransparent: true,
+              headerTitle: "",
+              headerLeft: () => (
+                <HeaderBackButton
+                  onPress={() => navigation.goBack()}
+                  labelVisible={false}
+                  testID="forgot-password-back-button"
+                />
+              ),
+            })}
+          />
+          <Stack.Screen name="Map">
+            {(props) => <MapOverview {...props} />}
+          </Stack.Screen>
+          <Stack.Screen
+            name="OrderMenu"
+            options={({ navigation }) => ({
+              headerShown: true,
+              headerTransparent: true,
+              headerTitle: "",
+              headerLeft: () => (
+                <HeaderBackButton
+                  onPress={() => navigation.goBack()}
+                  backImage={() => (
+                    <Icon name="arrow-back" size={24} color="black" />
+                  )}
+                  labelVisible={false}
+                  testID="back-button"
+                />
+              ),
+            })}
+          >
+            {(props) => <OrderMenu {...props} />}
+          </Stack.Screen>
+          <Stack.Screen name="OrderPlaced">
+            {(props) => <OrderPlaced {...props} />}
+          </Stack.Screen>
+          <Stack.Screen name="OrderHistory">
+            {(props) => <OrderHistory {...props} />}
+          </Stack.Screen>
+        </Stack.Navigator>
+      </NavigationContainer>
+    </StripeProvider>
   );
 }
 
