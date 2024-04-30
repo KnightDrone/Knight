@@ -15,33 +15,33 @@ interface OrderLocation {
 
 class Order {
   private id: string;
-  private user: string;
+  private userId: string;
   private item: Item;
   private orderDate: Date;
   private status: OrderStatus;
   private deliveryDate: Date;
   private location: OrderLocation;
-  private operator: string;
+  private operatorId: string;
   private operatorLoc: OrderLocation;
 
   constructor(
-    user: string,
+    userId: string,
     item: Item,
     location: OrderLocation,
     orderDate?: Date,
     deliveryDate?: Date,
-    operator?: string,
+    operatorId?: string,
     op_location?: OrderLocation,
     id?: string
   ) {
     this.id = id || uuid.v4().toString();
-    this.user = user;
+    this.userId = userId;
     this.item = item;
     this.status = OrderStatus.Pending;
     this.orderDate = orderDate || new Date();
     this.deliveryDate = deliveryDate || new Date();
     this.location = location;
-    this.operator = operator || "";
+    this.operatorId = operatorId || "";
     this.operatorLoc = op_location || { latitude: -999, longitude: -999 };
   }
 
@@ -50,7 +50,7 @@ class Order {
   }
 
   getUser(): string {
-    return this.user;
+    return this.userId;
   }
 
   getItem(): Item {
@@ -74,7 +74,7 @@ class Order {
   }
 
   getOpName(): string {
-    return this.operator;
+    return this.operatorId;
   }
 
   getOperatorLocation(): OrderLocation {
@@ -88,8 +88,8 @@ class Order {
   toDict(): { [key: string]: string } {
     return {
       id: this.id,
-      user: this.user,
-      operator: this.operator,
+      userId: this.userId,
+      operatorId: this.operatorId,
       item: JSON.stringify(this.item.toDict()),
       orderDate: this.orderDate.toString(),
       status: this.status,
@@ -102,8 +102,8 @@ class Order {
 const orderConverter = {
   toFirestore: (order: Order) => {
     return {
-      user: order.getUser(),
-      operator: order.getOpName(),
+      userId: order.getUser(),
+      operatorId: order.getOpName(),
       item: order.getItem().toDict(),
       orderDate: order.getOrderDate(),
       status: order.getStatus(),
@@ -129,12 +129,12 @@ const orderConverter = {
       data.item.price
     );
     const order = new Order(
-      data.user,
+      data.userId,
       item,
       { latitude: data.location.latitude, longitude: data.location.longitude },
       new Date(data.orderDate.seconds * 1000),
       new Date(data.deliveryDate.seconds * 1000),
-      data.operator,
+      data.operatorId,
       {
         latitude: data.op_location.latitude,
         longitude: data.op_location.longitude,

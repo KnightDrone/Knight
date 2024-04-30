@@ -46,7 +46,7 @@ export default class FirestoreManager {
    * @returns - An array of orders that match the query
    */
   async queryOrder(field: string, data: string): Promise<Order[] | null> {
-    const validFields = ["user", "status", "item.name", "operator"];
+    const validFields = ["userId", "status", "item.name", "operatorId"];
 
     if (validFields.includes(field)) {
       var orders: Order[] = [];
@@ -123,7 +123,7 @@ export default class FirestoreManager {
     data: string | Date | OrderLocation
   ): Promise<void> {
     const orderRef = doc(firestore, "orders", orderId);
-    const validFields = ["operator", "status", "deliveryDate", "location"];
+    const validFields = ["operatorId", "status", "deliveryDate", "location"];
     try {
       if (validFields.includes(field)) {
         await setDoc(orderRef, { [field]: data }, { merge: true });
