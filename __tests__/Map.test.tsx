@@ -156,4 +156,18 @@ describe("MapOverview Component", () => {
       longitude: fakeLocation.coords.longitude,
     });
   });
+
+  it("passes location as a prop when navigating to OrderMenu", () => {
+    const navigate = jest.fn();
+    const { getByTestId } = render(<MapOverview navigation={{ navigate }} />);
+
+    fireEvent.press(getByTestId("order-button"));
+
+    expect(navigate).toHaveBeenCalledWith("OrderMenu", {
+      orderLocation: {
+        latitude: 37.789,
+        longitude: -122.4324,
+      },
+    });
+  });
 });

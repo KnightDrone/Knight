@@ -99,7 +99,7 @@ const MapOverview = ({ navigation }: any) => {
               longitude: currentRegion.longitude,
             },
           });
-        }} // TODO: pass location as prop
+        }}
       >
         <Text style={styles.buttonText}>Order</Text>
       </TouchableOpacity>
