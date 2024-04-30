@@ -8,6 +8,17 @@ import { onAuthStateChanged } from "../src/services/Firebase";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { View, Text } from "react-native";
 
+jest.mock("../src/components/PayButton", () => ({
+  __esModule: true,
+  PayButton: () => {
+    return (
+      <View testID="mocked-pay-button">
+        <Text>MockedPayButton</Text>
+      </View>
+    );
+  },
+}));
+
 beforeEach(() => {
   const mockPromptAsync = jest.fn();
   useFonts.mockReturnValue([true]);
@@ -245,30 +256,6 @@ describe("App Navigation", () => {
     });
   });
 
-  // Not sure how to do this test, as we don't explicitly have a Go Back button inside our SignUp, I believe it's in the Navigator
-  /*it("navigates back to login screen when the sign up back button is pressed", async () => {
-    (Google.useAuthRequest as jest.Mock).mockReturnValue([
-      {},
-      { type: "fail", params: { id_token: "" } },
-      jest.fn(),
-    ]);
-
-    const { getByText, getByTestId, queryByTestId } = render(<App />);
-    const signUpButton = getByTestId("sign-up-link");
-    fireEvent.press(signUpButton);
-
-    await waitFor(() => {
-      expect(queryByTestId("sign-up-screen")).toBeTruthy();
-    });
-
-    const signUpBackButton = getByTestId("sign-up-back-button");
-    fireEvent.press(signUpBackButton);
-
-    await waitFor(() => {
-      expect(queryByTestId("login-screen")).toBeTruthy();
-    });
-  });*/
-
   it("navigates back to login screen when the forgot password back button is pressed", async () => {
     (Google.useAuthRequest as jest.Mock).mockReturnValue([
       {},
@@ -276,7 +263,7 @@ describe("App Navigation", () => {
       jest.fn(),
     ]);
 
-    const { getByText, getByTestId, queryByTestId } = render(<App />);
+    const { getByTestId, queryByTestId } = render(<App />);
     const forgotPasswordButton = getByTestId("forgot-password-link");
     fireEvent.press(forgotPasswordButton);
 
