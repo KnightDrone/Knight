@@ -6,11 +6,19 @@ import {
   screen,
   act,
 } from "@testing-library/react-native";
-import { View } from "react-native";
 import OrderPlaced from "../src/app/OrderPlaced";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { View, Text } from "react-native";
+import { RootStackParamList } from "../src/types/RootStackParamList";
+import { Item } from "../src/types/Item";
+
+type OrderPlacedStack = {
+  OrderPlaced: RootStackParamList["OrderPlaced"];
+  OrderHistory: RootStackParamList["OrderHistory"];
+};
+
+const Stack = createStackNavigator<OrderPlacedStack>();
 
 jest.mock("../src/components/PayButton", () => ({
   __esModule: true,
@@ -22,6 +30,14 @@ jest.mock("../src/components/PayButton", () => ({
     );
   },
 }));
+
+beforeAll(() => {
+  global.alert = jest.fn();
+
+  // Avoid useless error messages
+  jest.spyOn(console, "error").mockImplementation(() => {});
+  jest.spyOn(console, "warn").mockImplementation(() => {});
+});
 
 const OrderPlacedTest = () => {
   return (
@@ -48,10 +64,6 @@ const OrderPlacedTest = () => {
 };
 
 describe("OrderPlaced", () => {
-  beforeAll(() => {
-    useFonts.mockReturnValue([true]);
-  });
-
   it("renders correctly", () => {
     // Render the component
     const { getByTestId } = render(<OrderPlacedTest />);

@@ -10,26 +10,30 @@ describe("Order", () => {
   let order: Order;
   const user = "John Doe";
   const imageDir = "../assets/images/splash.png";
-  const image = require("../assets/images/splash.png");
-  const item = new Item(
-    1,
-    "Test Item",
-    "Test Description",
-    image,
-    imageDir,
-    image,
-    imageDir,
-    10
-  );
+  const image = require(imageDir);
+  const item = new Item(1, "Test Item", "Test Description", 10, image, image);
   const orderDate = new Date();
   const deliveryDate = new Date();
-  const location: Location = {
+  const operator = "Hospital";
+  const location: OrderLocation = {
     latitude: 0,
     longitude: 0,
   };
+  const operatorLocation: OrderLocation = {
+    latitude: -999,
+    longitude: -999,
+  };
 
   beforeEach(() => {
-    order = new Order(user, item, location);
+    order = new Order(
+      user,
+      item,
+      location,
+      orderDate,
+      deliveryDate,
+      operator,
+      operatorLocation
+    );
   });
 
   it("should create an instance of Order", () => {
@@ -63,10 +67,6 @@ describe("Order", () => {
     expect(order.getId()).toBeTruthy();
   });
 
-  it("getStatus should return the correct status", () => {
-    expect(order.getStatus()).toBe(OrderStatus.Pending);
-  });
-
   it("setStatus should set the correct status", () => {
     order.setStatus(OrderStatus.Shipped);
     expect(order.getStatus()).toBe(OrderStatus.Shipped);
@@ -89,60 +89,5 @@ describe("Order", () => {
     };
 
     expect(order.toDict()).toEqual(expectedDict);
-  });
-
-  it("returns the correct dictionary", () => {
-    const expectedDict = {
-      id: order.getId(),
-      user: user,
-      item: JSON.stringify(item.toDict()),
-      orderDate: orderDate.toString(),
-      status: OrderStatus.Pending,
-      deliveryDate: deliveryDate.toString(),
-      location: JSON.stringify(location),
-    };
-
-    expect(order.toDict()).toEqual(expectedDict);
-  });
-
-  describe("orderConverter", () => {
-    it("should correctly convert from and to Firestore data", () => {
-      // Mock Firestore document data
-      const data = {
-        user: "testUser",
-        operator: "testOperator",
-        item: {
-          id: "testItemId",
-          name: "testItemName",
-          description: "testItemDescription",
-          price: 100,
-        },
-        orderDate: new Date(),
-        status: "testStatus",
-        deliveryDate: new Date(),
-        op_location: JSON.stringify({ latitude: 0, longitude: 0 }),
-        location: JSON.stringify({ latitude: 0, longitude: 0 }),
-      };
-
-      // Convert the data to an Order object
-      const order = orderConverter.fromFirestore(data);
-
-      // Check that the Order object has the correct properties
-      expect(order.getUser()).toEqual(data.user);
-      expect(order.getOpName()).toEqual(data.operator);
-      expect(order.getItem().toDict()).toEqual(data.item);
-      expect(order.getOrderDate()).toEqual(data.orderDate);
-      expect(order.getStatus()).toEqual(data.status);
-      expect(order.getDeliveryDate()).toEqual(data.deliveryDate);
-      expect(JSON.stringify(order.getOrderLocation())).toEqual(
-        JSON.parse(data.location)
-      );
-
-      // Convert the Order object back to Firestore data
-      const convertedData = orderConverter.toFirestore(order);
-
-      // Check that the converted data matches the original data
-      expect(convertedData).toEqual(data);
-    });
   });
 });

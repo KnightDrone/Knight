@@ -6,7 +6,6 @@ import ForgotPassword from "./../app/ForgotPassword";
 import OrderPlaced from "./../app/OrderPlaced";
 import OrderMenu from "../app/OrderMenu";
 import Map from "../app/Map";
-import { UserDrawer } from "./DrawerNavigation";
 import { HeaderBackButton } from "@react-navigation/elements";
 import { NavigationContainer } from "@react-navigation/native";
 
@@ -104,7 +103,6 @@ export const AppStack: React.FC<AppStackProps> = ({ isLoggedIn, user }) => {
           <Screen name="OrderPlaced">
             {(props: any) => <OrderPlaced {...props} />}
           </Screen>
-          <Screen name="UserDrawer" component={UserDrawer} />
         </Group>
         {/** Add more groups here **/}
       </Navigator>

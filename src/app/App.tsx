@@ -61,6 +61,6 @@ function App() {
   return <AppStack isLoggedIn={isLoggedIn} user={userInfo} />;
 }
 
-registerRootComponent(FirestoreTest);
+registerRootComponent(App);
 
 export default App;

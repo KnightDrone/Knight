@@ -13,6 +13,7 @@ import { Item } from "../types/Item";
 import TriangleBackground from "../components/TriangleBackground";
 import { RootStackParamList } from "../types/RootStackParamList";
 import { RouteProp } from "@react-navigation/native";
+import { MessageBox } from "../ui/MessageBox";
 
 /* 
 NOTE: This is a temporary solution to simulate fetching orders from a server. Should be replaced with actual database calls
@@ -70,8 +71,16 @@ const fetchOrdersForUserMock = async (
 };
 
 // TODO: Maybe add some search bar to filter?
-// opOrders is a boolean value that determines whether the user is an operator or not, and fetches the corresponding order history
-const OrderHistory = ({ navigation, userId, opOrders }: any) => {
+
+const OrderHistory = ({
+  route,
+  navigation,
+}: {
+  route: RouteProp<RootStackParamList, "OrderHistory">;
+  navigation: any;
+}) => {
+  const { opOrders, userId } = route.params;
+
   const [orders, setOrders] = useState<Order[]>([]);
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState<Error | null>(null);
@@ -114,6 +123,7 @@ const OrderHistory = ({ navigation, userId, opOrders }: any) => {
         </Text>
         <TouchableOpacity
           className="absolute right-4"
+          testID="x-button"
           onPress={() => navigation.goBack()}
         >
           <Image
@@ -123,7 +133,7 @@ const OrderHistory = ({ navigation, userId, opOrders }: any) => {
         </TouchableOpacity>
       </View>
 
-      <TriangleBackground2 />
+      <TriangleBackground color="#A0D1E4" />
       {error ? (
         <MessageBox
           message={error.message}
@@ -133,6 +143,7 @@ const OrderHistory = ({ navigation, userId, opOrders }: any) => {
         />
       ) : (
         <FlatList
+          className="mt-4 min-h-full"
           data={orders}
           renderItem={({ item }) => <OrderCard order={item} />}
           keyExtractor={(item) => item.getId()}

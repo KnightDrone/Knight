@@ -15,6 +15,12 @@ jest.mock("../src/components/PayButton", () => ({
   },
 }));
 
+beforeAll(() => {
+  global.alert = jest.fn();
+  jest.spyOn(console, "error").mockImplementation(() => {});
+  jest.spyOn(console, "warn").mockImplementation(() => {});
+});
+
 describe("Order Menu", () => {
   it("renders correctly ", () => {
     const { getByText, getByTestId } = render(<OrderMenu />);

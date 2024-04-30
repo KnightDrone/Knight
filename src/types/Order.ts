@@ -1,6 +1,5 @@
-import { secureRandom } from "../utils/random";
+import uuid from "react-native-uuid";
 import { Item } from "./Item";
-import { autoId } from "@google-cloud/firestore/build/src/util";
 
 enum OrderStatus {
   Pending = "Pending",
@@ -9,7 +8,7 @@ enum OrderStatus {
   Cancelled = "Cancelled",
 }
 
-interface Location {
+interface OrderLocation {
   latitude: number;
   longitude: number;
 }
@@ -21,15 +20,29 @@ class Order {
   private orderDate: Date;
   private status: OrderStatus;
   private deliveryDate: Date;
-  private location: Location;
+  private location: OrderLocation;
+  private operator: string;
+  private operatorLoc: OrderLocation;
 
-  constructor(user: string, item: Item, location: Location) {
-    this.id = autoId();
+  constructor(
+    user: string,
+    item: Item,
+    location: OrderLocation,
+    orderDate?: Date,
+    deliveryDate?: Date,
+    operator?: string,
+    op_location?: OrderLocation,
+    id?: string
+  ) {
+    this.id = id || uuid.v4().toString();
     this.user = user;
     this.item = item;
     this.status = OrderStatus.Pending;
-    this.deliveryDate = new Date();
+    this.orderDate = orderDate || new Date();
+    this.deliveryDate = deliveryDate || new Date();
     this.location = location;
+    this.operator = operator || "";
+    this.operatorLoc = op_location || { latitude: -999, longitude: -999 };
   }
 
   getId(): string {
@@ -56,26 +69,27 @@ class Order {
     return this.deliveryDate;
   }
 
-  getLocation(): Location {
+  getOrderLocation(): OrderLocation {
     return this.location;
   }
 
   getOpName(): string {
-    return this.op_name;
+    return this.operator;
   }
 
-  getOpOrderLocation(): OrderLocation {
-    return this.op_location;
+  getOperatorLocation(): OrderLocation {
+    return this.operatorLoc;
   }
 
-  getOperator(): string {
-    return this.op_name;
+  setStatus(newStatus: OrderStatus): void {
+    this.status = newStatus;
   }
 
   toDict(): { [key: string]: string } {
     return {
       id: this.id,
       user: this.user,
+      operator: this.operator,
       item: JSON.stringify(this.item.toDict()),
       orderDate: this.orderDate.toString(),
       status: this.status,
@@ -94,30 +108,41 @@ const orderConverter = {
       orderDate: order.getOrderDate(),
       status: order.getStatus(),
       deliveryDate: order.getDeliveryDate(),
-      location: JSON.stringify(order.getOrderLocation()),
+      location: {
+        latitude: order.getOrderLocation().latitude,
+        longitude: order.getOrderLocation().longitude,
+      },
+      op_location: {
+        latitude: order.getOperatorLocation().latitude,
+        longitude: order.getOperatorLocation().longitude,
+      },
     };
   },
-  fromFirestore: (data: any) => {
-    // const data = snapshot.data();
+  fromFirestore: (snapshot: any) => {
+    const data = snapshot.data();
+    const id = snapshot.id;
+
     const item = new Item(
       data.item.id,
       data.item.name,
       data.item.description,
       data.item.price
     );
-    return new Order(
+    const order = new Order(
       data.user,
       item,
       { latitude: data.location.latitude, longitude: data.location.longitude },
-      data.orderDate,
-      data.deliveryDate,
+      new Date(data.orderDate.seconds * 1000),
+      new Date(data.deliveryDate.seconds * 1000),
       data.operator,
       {
         latitude: data.op_location.latitude,
         longitude: data.op_location.longitude,
       },
-      data.id
+      id
     );
+
+    return order;
   },
 };
 
