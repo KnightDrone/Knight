@@ -3,7 +3,7 @@ import {
   StripeError,
   useStripe,
 } from "@stripe/stripe-react-native";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "../ui/Button";
 import { Alert } from "react-native";
 
@@ -64,6 +64,7 @@ export function PayButton({
       defaultBillingDetails: {
         name: "Jane Doe",
       },
+      returnURL: "knight://stripe-redirect",
     });
     if (!error) {
       setLoading(false);
