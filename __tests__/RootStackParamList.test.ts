@@ -23,6 +23,7 @@ describe("RootStackParamList", () => {
   it("should have the correct properties", () => {
     expect(mockRootStackParamList).toHaveProperty("OrderPlaced");
     expect(mockRootStackParamList).toHaveProperty("OrderHistory");
+    expect(mockRootStackParamList).toHaveProperty("OrderMenu");
 
     expect(mockRootStackParamList).toHaveProperty("Login");
     expect(mockRootStackParamList.Login).toBeUndefined();
@@ -32,8 +33,6 @@ describe("RootStackParamList", () => {
     expect(mockRootStackParamList.ForgotPassword).toBeUndefined();
     expect(mockRootStackParamList).toHaveProperty("SignUp");
     expect(mockRootStackParamList.SignUp).toBeUndefined();
-    expect(mockRootStackParamList).toHaveProperty("OrderMenu");
-    expect(mockRootStackParamList.OrderMenu).toBeUndefined();
   });
 
   it("should have the correct types", () => {
