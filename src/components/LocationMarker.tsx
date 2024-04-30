@@ -90,7 +90,7 @@ const LocationMarker: React.FC<LocationMarkerProps> = ({ coordinate }) => {
           style={[
             styles.arrow,
             {
-              transform: [{ rotate: `${heading}deg` }, { translateY: -16 }], // Offset to make the triangle's base less visible
+              transform: [{ rotate: `${heading}deg` }, { translateY: -16 }],
             },
           ]}
         />

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { StyleSheet, View, TouchableOpacity, Text, Alert } from "react-native";
-import MapView from "react-native-maps";
+import MapView, { MapViewProps, Region } from "react-native-maps";
 import * as Location from "expo-location";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import LocationMarker from "../components/LocationMarker";
@@ -8,8 +8,12 @@ import LocationMarker from "../components/LocationMarker";
 const topButtonPadding = 60;
 const sideButtonPadding = 30;
 
-const MapOverview = ({ navigation }) => {
-  const mapRef = useRef(null);
+const MapOverview = ({ navigation }: any) => {
+  type MapViewRef = {
+    animateToRegion: (region: Region, duration?: number) => void;
+  };
+
+  const mapRef = useRef<MapView | null>(null);
   const [currentRegion, setCurrentRegion] = useState({
     latitude: 37.789,
     longitude: -122.4324,
@@ -17,7 +21,14 @@ const MapOverview = ({ navigation }) => {
     longitudeDelta: 0.0421,
   });
 
-  const [marker, setMarker] = useState(null);
+  type LocationType = {
+    latitude: number;
+    longitude: number;
+    latitudeDelta: number;
+    longitudeDelta: number;
+  };
+
+  const [marker, setMarker] = useState<LocationType | null>(null);
   const [loading, setLoading] = useState(true);
   const [autoCenter, setAutoCenter] = useState(true);
 
@@ -44,7 +55,7 @@ const MapOverview = ({ navigation }) => {
     return true;
   };
 
-  let locationWatcher = null;
+  let locationWatcher: any = null;
 
   const watchLocation = async () => {
     setLoading(true);
@@ -57,9 +68,11 @@ const MapOverview = ({ navigation }) => {
         const newLocation = {
           latitude: location.coords.latitude,
           longitude: location.coords.longitude,
+          latitudeDelta: 0.005,
+          longitudeDelta: 0.005,
         };
         setMarker(newLocation);
-        if (autoCenter) {
+        if (autoCenter && mapRef.current) {
           mapRef.current.animateToRegion(
             { ...newLocation, latitudeDelta: 0.005, longitudeDelta: 0.005 },
             1500
@@ -72,7 +85,7 @@ const MapOverview = ({ navigation }) => {
 
   const toggleAutoCenter = () => {
     setAutoCenter(true);
-    if (marker) {
+    if (marker && mapRef.current) {
       mapRef.current.animateToRegion(
         { ...marker, latitudeDelta: 0.005, longitudeDelta: 0.005 },
         1000
@@ -83,6 +96,7 @@ const MapOverview = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <MapView
+        testID="map-view"
         ref={mapRef}
         style={styles.map}
         initialRegion={currentRegion}
@@ -99,6 +113,7 @@ const MapOverview = ({ navigation }) => {
       )}
 
       <TouchableOpacity
+        testID="my-location-button"
         style={[styles.button, styles.buttonTopRight]}
         onPress={toggleAutoCenter}
       >
