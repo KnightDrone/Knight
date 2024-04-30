@@ -25,6 +25,7 @@ describe("ItemCard", () => {
   beforeEach(() => {
     useFonts.mockReturnValue([true]);
   });
+});
 
 describe("ItemCard", () => {
   const mockHandleClose = jest.fn();
