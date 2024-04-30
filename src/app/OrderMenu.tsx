@@ -4,18 +4,22 @@ import { Text, StyleSheet, View } from "react-native";
 import { useFonts } from "expo-font";
 import KaiseiRegular from "../../assets/fonts/KaiseiDecol-Regular.ttf";
 import TriangleBackground from "../components/TriangleBackground";
-import { productButtons } from "../types/ProductButtons";
+import { productButtons, ProductButton } from "../types/ProductButtons";
 import ItemCard from "../components/ItemCard";
+import FirestoreManager from "../services/FirestoreManager";
+import { Order, OrderLocation } from "../types/Order";
+import { auth } from "../services/Firebase";
 
 interface OrderProps {
-  // Define your component props here
-  // will pass location and maybe user info here
+  orderLocation: OrderLocation;
 }
 
-export default function OrderMenu({ navigation }: any) {
+export default function OrderMenu({ navigation }: any, props: OrderProps) {
   const [fontsLoaded] = useFonts({
     "Kaisei-Regular": KaiseiRegular,
   });
+
+  const firestoreManager = new FirestoreManager();
 
   const [visibleItemId, setVisibleItemId] = useState<number | null>(null);
 
@@ -29,6 +33,20 @@ export default function OrderMenu({ navigation }: any) {
 
   const handleCloseCard = () => {
     setVisibleItemId(null);
+  };
+
+  // sends order to firestore and then navigates to OrderPlaced
+  const handleOrderCard = (button: ProductButton) => {
+    const item = button.item;
+    const user = auth.currentUser;
+
+    if (user != null) {
+      const order = new Order(user.uid, item, props.orderLocation);
+      firestoreManager.writeOrder(order);
+      navigation.navigate("OrderPlaced");
+    } else {
+      console.error("Could not find user.");
+    }
   };
 
   return (
@@ -49,7 +67,7 @@ export default function OrderMenu({ navigation }: any) {
           <ItemCard
             isVisible={isVisible}
             handleClose={handleCloseCard}
-            handleOrder={() => navigation.navigate("OrderPlaced")}
+            handleOrder={() => handleOrderCard(button)}
             item={button.item}
             key={`card-${button.item.getId()}`}
           />
