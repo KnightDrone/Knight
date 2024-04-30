@@ -20,7 +20,7 @@ describe("Order Menu", () => {
   beforeEach(() => {
     useFonts.mockReturnValue([true]);
   });
-
+});
 describe("Order Menu", () => {
   it("renders correctly ", () => {
     const { getByText, getByTestId } = render(<OrderMenu />);
