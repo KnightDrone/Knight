@@ -16,7 +16,10 @@
     "ios": {
       "googleServicesFile": "./GoogleService-Info.plist",
       "supportsTablet": true,
-      "bundleIdentifier": "com.swent.knight"
+      "bundleIdentifier": "com.swent.knight",
+      "infoPlist": {
+        "NSCameraUsageDescription": "This app uses camera to scan."
+      }
     },
     "android": {
       "googleServicesFile": "./google-services.json",
