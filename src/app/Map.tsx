@@ -92,7 +92,14 @@ const MapOverview = ({ navigation }: any) => {
       <TouchableOpacity
         testID="order-button"
         style={[styles.button, styles.buttonBottomRight]}
-        onPress={() => navigation.navigate("OrderMenu")}
+        onPress={() => {
+          navigation.navigate("OrderMenu", {
+            orderLocation: {
+              latitude: currentRegion.latitude,
+              longitude: currentRegion.longitude,
+            },
+          });
+        }} // TODO: pass location as prop
       >
         <Text style={styles.buttonText}>Order</Text>
       </TouchableOpacity>
