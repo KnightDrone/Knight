@@ -9,28 +9,60 @@ import KaiseiRegular from "../../assets/fonts/KaiseiDecol-Regular.ttf";
 import TriangleBackground from "../components/TriangleBackground";
 import { Animated } from "react-native";
 import { secureRandom } from "../utils/random";
+import FirestoreManager from "../services/FirestoreManager";
+import { Item } from "../types/Item";
+import { OrderLocation } from "../types/Order";
+
+interface OrderPlacedProps {
+  orderId: string;
+}
 
 const OrderPlaced = ({
-  route,
   navigation,
+  route,
 }: {
-  route: RouteProp<RootStackParamList, "OrderPlaced">;
   navigation: any;
+  route: RouteProp<RootStackParamList, "OrderPlaced">;
 }) => {
+  const { orderId } = route.params;
   const [fadeAnim] = useState(new Animated.Value(0));
+  const firestoreManager = new FirestoreManager();
+
+  const [orderedItem, setOrderedItem] = useState<Item>();
+  const [placedAt, setPlacedAt] = useState<Date>(new Date());
+  const [userLocation, setUserLocation] = useState<OrderLocation>({
+    latitude: -999,
+    longitude: -999,
+  });
+
+  useEffect(() => {
+    const fetchOrder = async () => {
+      const order = await firestoreManager.readOrder(orderId);
+      setOrderedItem(order.getItem());
+      setPlacedAt(order.getOrderDate());
+      setUserLocation(order.getOrderLocation());
+    };
+
+    fetchOrder();
+  }, [orderId]);
 
   const [fontsLoaded] = useFonts({
     "Kaisei-Regular": KaiseiRegular,
   });
 
-  const { orderedItem, placedAt, userLocation } = route.params;
+  // const { orderedItem, placedAt, userLocation } = route.params;
 
   const [arrivalTime, setArrivalTime] = useState<number>(0);
 
   useEffect(() => {
     const additionalMinutes: number = 10 + secureRandom() * 15;
-    const arrivalTime = placedAt + additionalMinutes * 60 * 1000;
+    const arrivalTime = placedAt.getTime() + additionalMinutes * 60 * 1000;
     setArrivalTime(arrivalTime);
+    firestoreManager.updateOrder(
+      orderId,
+      "deliveryDate",
+      new Date(arrivalTime)
+    );
   }, [placedAt]);
 
   const [completion, setCompletion] = useState(0);
@@ -120,15 +152,19 @@ const OrderPlaced = ({
             Order summary
           </Text>
           <Text className="text-xl my-2 font-kaisei" testID="ordered-item-name">
-            {orderedItem.getName()}
+            {orderedItem ? orderedItem.getName() : "Loading..."}
           </Text>
-          <Text className="text-lg font-kaisei" testID="user-location">
-            Location: {userLocation}
-          </Text>
+          {/* <Text className="text-lg font-kaisei" testID="user-location">
+            Location: {orderedItem ? userLocation : { latitude: -999, longitude: -999 }}
+          </Text> */}
           <Image
             className="w-64 h-64 rounded-lg"
             testID="ordered-item-image"
-            source={orderedItem.getImage()}
+            source={
+              orderedItem
+                ? orderedItem.getImage()
+                : require("../../assets/icons/question_mark_icon.jpg")
+            }
           />
         </View>
 

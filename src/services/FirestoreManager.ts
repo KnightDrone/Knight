@@ -41,7 +41,7 @@ export default class FirestoreManager {
   /**
    * Method to query data from the database based on user, status, or item name
    *
-   * @param field - The field to query by. Must be one of these: "user", "status", "item.name", "operator"
+   * @param field - The field to query by. Must be one of these: "userId", "status", "item.name", "operatorId"
    * @param data - The data to query for. Must match the field type
    * @returns - An array of orders that match the query
    */
@@ -113,7 +113,7 @@ export default class FirestoreManager {
    * Method to update an order in the database
    *
    * @param orderId - The id of the order to update
-   * @param field - The field to update
+   * @param field - The field to update, valid fields include: "operatorId", "status", "deliveryDate", "location"
    * @param data - The data to update the field with
    * @returns - None
    */
