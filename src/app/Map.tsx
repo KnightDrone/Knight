@@ -76,15 +76,6 @@ const Map = ({ navigation }: any) => {
       </MapView>
 
       <TouchableOpacity
-        testID="menu-button"
-        style={[styles.button, styles.buttonTopLeft]}
-        onPress={() => navigation.toggleDrawer()}
-      >
-        {/* drawer navigation button*/}
-        <Icon name="menu" size={24} color="#000" />
-      </TouchableOpacity>
-
-      <TouchableOpacity
         testID="get-location-button"
         style={[styles.button, styles.buttonTopRight]}
         onPress={getCurrentLocation}
