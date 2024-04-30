@@ -14,7 +14,7 @@ const topButtonPadding = 60;
 const sideButtonPadding = 30;
 
 // Use the navigation prop to navigate to another screen
-const MapOverview = ({ navigation }: any) => {
+const Map = ({ navigation }: any) => {
   const [currentRegion, setCurrentRegion] = useState({
     latitude: 37.789,
     longitude: -122.4324,
@@ -81,6 +81,15 @@ const MapOverview = ({ navigation }: any) => {
       </MapView>
 
       <TouchableOpacity
+        testID="menu-button"
+        style={[styles.button, styles.buttonTopLeft]}
+        onPress={() => navigation.toggleDrawer()}
+      >
+        {/* drawer navigation button*/}
+        <Icon name="menu" size={24} color="#000" />
+      </TouchableOpacity>
+
+      <TouchableOpacity
         testID="get-location-button"
         style={[styles.button, styles.buttonTopRight]}
         onPress={getCurrentLocation}
@@ -133,4 +142,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MapOverview;
+export default Map;
