@@ -21,9 +21,9 @@ class Order {
   private status: OrderStatus;
   private deliveryDate: Date;
   private location: OrderLocation;
-  private usr_loc_name: string;
-  private op_name: string;
-  private op_location: OrderLocation;
+  private usrLocName: string;
+  private opName: string;
+  private opLocation: OrderLocation;
 
   constructor(
     user: string,
@@ -39,9 +39,9 @@ class Order {
     this.status = OrderStatus.Pending;
     this.deliveryDate = new Date();
     this.location = location;
-    this.usr_loc_name = `Lat: ${location.latitude}, Long: ${location.longitude}`; //default boring name
-    this.op_name = op_name || "";
-    this.op_location = op_location || { latitude: -999, longitude: -999 };
+    this.usrLocName = `Lat: ${location.latitude}, Long: ${location.longitude}`; //default boring name
+    this.opName = op_name || "";
+    this.opLocation = op_location || { latitude: -999, longitude: -999 };
   }
   // This is done outside constructor as it is bad practice to have async calls in constructor, this method sh
   async locSearch() {
@@ -51,10 +51,10 @@ class Order {
         `https://nominatim.openstreetmap.org/reverse?format=json&lat=${location.latitude}&lon=${location.longitude}`
       );
       const data = await response.json();
-      this.usr_loc_name = data.name;
+      this.usrLocName = data.name;
     } catch {
       console.error("Failed to fetch location name with Nominatim API");
-      this.usr_loc_name = `Lat: ${location.latitude}, Long: ${location.longitude}`; //default boring name
+      this.usrLocName = `Lat: ${location.latitude}, Long: ${location.longitude}`; //default boring name
     }
   }
 
@@ -86,15 +86,15 @@ class Order {
     return this.location;
   }
   getUsrLocName(): string {
-    return this.usr_loc_name;
+    return this.usrLocName;
   }
 
   getOpName(): string {
-    return this.op_name;
+    return this.opName;
   }
 
   getOpLocation(): OrderLocation {
-    return this.op_location;
+    return this.opLocation;
   }
 
   toDict(): { [key: string]: string } {
