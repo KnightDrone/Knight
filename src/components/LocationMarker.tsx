@@ -78,6 +78,7 @@ const LocationMarker: React.FC<LocationMarkerProps> = ({ coordinate }) => {
       <View style={styles.container}>
         <View style={styles.innerCircle} />
         <Animated.View
+          testID="marker"
           style={[
             styles.directionalLight,
             {
