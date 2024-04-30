@@ -38,7 +38,7 @@ const OrderCard = ({ order, onClick }: OrderCardProps) => {
   const name = item.getName();
   const orderDate = order.getOrderDate();
   const price = item.getPrice();
-  const location = order.getLocation();
+  const location = order.getOrderLocation();
   //let locName = order.getOpName();
   // Attempt to fetch the location name from the coordinates using Nominatim API
   /*useEffect(() => {

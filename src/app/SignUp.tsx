@@ -26,13 +26,12 @@ export default function SignUp({ navigation }: any) {
 
   const [showPassword, setShowPassword] = useState(false);
 
-  const config = Platform.select({
-    ios: GoogleAuthConfig.ios,
-    android: GoogleAuthConfig.android,
-    default: GoogleAuthConfig.web,
+  const [request, response, promptAsync] = Google.useAuthRequest({
+    iosClientId: process.env.IOS_CLIENT_ID_OAUTH,
+    androidClientId: process.env.ANDROID_CLIENT_ID_OAUTH,
+    webClientId: process.env.WEB_CLIENT_ID_OAUTH,
+    redirectUri: process.env.REDIRECT_URI,
   });
-
-  const [request, response, promptAsync] = Google.useAuthRequest(config);
 
   useEffect(() => {
     if (response?.type === "success") {
@@ -97,7 +96,6 @@ export default function SignUp({ navigation }: any) {
     if (email && password) {
       createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
-          const user = userCredential.user;
           navigation.navigate("Map");
         })
         .catch((error) => {

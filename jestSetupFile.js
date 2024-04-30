@@ -3,19 +3,31 @@ jest.mock("@react-native-async-storage/async-storage", () =>
 );
 
 jest.mock("firebase/app", () => ({
-  initializeApp: jest.fn(),
-}));
-
-jest.mock("firebase/analytics", () => ({
-  getAnalytics: jest.fn(),
+  initializeApp: jest.fn(() => {
+    {
+    }
+  }),
+  getApps: jest.fn(() => []),
+  getApp: jest.fn(),
 }));
 
 jest.mock("firebase/firestore", () => ({
-  getFirestore: jest.fn(),
-}));
-
-jest.mock("firebase/database", () => ({
-  getDatabase: jest.fn(),
+  getFirestore: jest.fn(() => {}),
+  initializeFirestore: jest.fn(),
+  collection: jest.fn(),
+  deleteDoc: jest.fn(),
+  doc: jest.fn(),
+  getDoc: jest.fn().mockResolvedValue({
+    exists: jest.fn().mockReturnValue(true),
+    data: jest.fn().mockReturnValue({
+      withConverter: jest.fn(),
+      getUser: "admin",
+    }),
+  }),
+  getDocs: jest.fn(),
+  query: jest.fn(),
+  setDoc: jest.fn(),
+  where: jest.fn(),
 }));
 
 jest.mock("expo-auth-session/providers/google", () => ({
@@ -23,7 +35,9 @@ jest.mock("expo-auth-session/providers/google", () => ({
 }));
 
 jest.mock("firebase/auth", () => ({
-  getAuth: jest.fn(),
+  getAuth: jest.fn(() => {}),
+  initializeAuth: jest.fn(),
+  getReactNativePersistence: jest.fn(),
   GoogleAuthProvider: {
     credential: jest.fn(() => "mock-credential"), // Ensure this returns a mock credential as expected
   },
@@ -58,10 +72,6 @@ jest.mock("react-native-vector-icons/FontAwesome", () => {
 jest.mock("@react-native-async-storage/async-storage", () => ({
   getItem: jest.fn(),
   setItem: jest.fn(),
-}));
-
-jest.mock("firebase/app", () => ({
-  initializeApp: jest.fn(),
 }));
 
 jest.mock("react-native-vector-icons/MaterialIcons", () => {
@@ -121,15 +131,17 @@ jest.mock("@stripe/stripe-react-native", () => ({
   __esModule: true,
   StripeProvider: jest.fn(() => null),
   PaymentSheetError: jest.fn(),
-  initPaymentSheet: jest.fn(),
-  presentPaymentSheet: jest.fn(),
   confirmPaymentSheetPayment: jest.fn(),
   useStripe: jest.fn().mockReturnValue({
     confirmPayment: jest.fn(),
     createPaymentMethod: jest.fn(),
     retrievePaymentIntent: jest.fn(),
-    initPaymentSheet: jest.fn(),
-    presentPaymentSheet: jest.fn(),
+    initPaymentSheet: jest
+      .fn()
+      .mockResolvedValue(Promise.resolve({ error: null })),
+    presentPaymentSheet: jest
+      .fn()
+      .mockReturnValue(Promise.resolve({ error: null })),
     confirmPaymentSheetPayment: jest.fn(),
   }),
 }));
