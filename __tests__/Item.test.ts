@@ -39,6 +39,7 @@ describe("Item", () => {
       name: "Test Item",
       description: "This is a test item",
       price: "100",
+      image: image.toString(),
     };
     expect(item.toDict()).toEqual(expectedDict);
   });
