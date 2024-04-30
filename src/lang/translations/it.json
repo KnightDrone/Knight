@@ -1,0 +1,18 @@
+{
+  "login": {
+    "app-name": "Cavaliere Selvaggio",
+    "username": "Inserisci il tuo nome utente o indirizzo email",
+    "password": "Inserisci la tua password",
+    "login-button": "Accedi",
+    "reset-password": "Reimposta password",
+    "create-account": "Crea account",
+    "google-login": "Continua con Google"
+  },
+  "or-separator": "o",
+  "reset-password": {
+    "title": "Reimposta password",
+    "description": "Dacci la tua email e ti invieremo un link per reimpostare la tua password",
+    "email": "Inserisci la tua email",
+    "button": "Reimposta password"
+  }
+}

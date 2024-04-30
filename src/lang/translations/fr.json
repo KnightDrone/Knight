@@ -1,0 +1,18 @@
+{
+  "login": {
+    "app-name": "Chevalier Sauvage",
+    "username": "Entrez votre nom d'utilisateur ou e-mail",
+    "password": "Entrez votre mot de passe",
+    "login-button": "Connexion",
+    "reset-password": "Réinitialiser le mot de passe",
+    "create-account": "Créer un compte",
+    "google-login": "Continuer avec Google"
+  },
+  "or-separator": "ou",
+  "reset-password": {
+    "title": "Réinitialiser le mot de passe",
+    "description": "Donnez-nous votre adresse e-mail et nous vous enverrons un lien pour réinitialiser votre mot de passe",
+    "email": "Entrez votre adresse e-mail",
+    "button": "Réinitialiser le mot de passe"
+  }
+}

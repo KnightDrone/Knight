@@ -1,0 +1,18 @@
+{
+  "login": {
+    "app-name": "Cavalerul Sălbatic",
+    "username": "Introduceți numele de utilizator sau adresa email",
+    "password": "Introduceți parola",
+    "login-button": "Conectare",
+    "reset-password": "Resetare parolă",
+    "create-account": "Creați un cont",
+    "google-login": "Continuați cu Google"
+  },
+  "or-separator": "sau",
+  "reset-password": {
+    "title": "Resetare parolă",
+    "description": "Dați-ne adresa de email și vă vom trimite un link pentru resetarea parolei",
+    "email": "Introduceți adresa de email",
+    "button": "Resetare parolă"
+  }
+}

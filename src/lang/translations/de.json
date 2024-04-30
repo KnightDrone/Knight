@@ -1,0 +1,18 @@
+{
+  "login": {
+    "app-name": "Wild Knight",
+    "username": "Geben Sie Ihren Benutzernamen oder E-Mail",
+    "password": "Geben Sie Ihr Passwort ein",
+    "login-button": "Anmelden",
+    "reset-password": "Passwort zurücksetzen",
+    "create-account": "Konto erstellen",
+    "google-login": "Mit Google fortfahren"
+  },
+  "or-separator": "oder",
+  "reset-password": {
+    "title": "Passwort zurücksetzen",
+    "description": "Geben Sie uns Ihre E-Mail-Adresse und wir senden Ihnen einen Link zum Zurücksetzen Ihres Passworts",
+    "email": "Geben Sie Ihre E-Mail-Adresse ein",
+    "button": "Passwort zurücksetzen"
+  }
+}

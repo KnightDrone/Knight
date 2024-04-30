@@ -22,6 +22,7 @@ import { useFonts } from "expo-font";
 import KaiseiRegular from "../../assets/fonts/KaiseiDecol-Regular.ttf";
 
 import { registerRootComponent } from "expo";
+import { initI18n } from "../lang/i18n";
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -37,6 +38,8 @@ type RootStackParamList = {
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
+
+initI18n();
 
 function App() {
   const [fontsLoaded] = useFonts({
