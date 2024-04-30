@@ -48,9 +48,7 @@ const OrderPlacedTest = () => {
         <Stack.Screen
           name="OrderPlaced"
           initialParams={{
-            orderedItem: new Item(0, "Test Item", "Test Description", 0, 0, 10),
-            placedAt: Date.now(),
-            userLocation: "Test Location",
+            orderId: "1",
           }}
         >
           {(props) => <OrderPlaced {...props} />}

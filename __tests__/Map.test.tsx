@@ -164,10 +164,8 @@ describe("MapOverview Component", () => {
     fireEvent.press(getByTestId("order-button"));
 
     expect(navigate).toHaveBeenCalledWith("OrderMenu", {
-      orderLocation: {
-        latitude: 37.789,
-        longitude: -122.4324,
-      },
+      latitude: 37.789,
+      longitude: -122.4324,
     });
   });
 });
