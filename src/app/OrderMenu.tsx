@@ -9,15 +9,21 @@ import ItemCard from "../components/ItemCard";
 import FirestoreManager from "../services/FirestoreManager";
 import { Order, OrderLocation } from "../types/Order";
 import { auth } from "../services/Firebase";
+import { RouteProp } from "@react-navigation/native";
+import { RootStackParamList } from "../types/RootStackParamList";
 
-interface OrderProps {
-  orderLocation: OrderLocation;
-}
-
-export default function OrderMenu({ navigation }: any, props: OrderProps) {
+export default function OrderMenu({
+  route,
+  navigation,
+}: {
+  route: RouteProp<RootStackParamList, "OrderMenu">;
+  navigation: any;
+}) {
   const [fontsLoaded] = useFonts({
     "Kaisei-Regular": KaiseiRegular,
   });
+
+  const orderLocation: OrderLocation = route.params;
 
   const firestoreManager = new FirestoreManager();
 
@@ -41,9 +47,10 @@ export default function OrderMenu({ navigation }: any, props: OrderProps) {
     const user = auth.currentUser;
 
     if (user != null) {
-      const order = new Order(user.uid, item, props.orderLocation);
+      console.log(orderLocation);
+      const order = new Order(user.uid, item, orderLocation);
       firestoreManager.writeOrder(order);
-      navigation.navigate("OrderPlaced");
+      navigation.navigate("OrderPlaced", { orderId: order.getId() });
     } else {
       console.error("Could not find user.");
     }

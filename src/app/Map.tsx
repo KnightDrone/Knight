@@ -94,10 +94,8 @@ const MapOverview = ({ navigation }: any) => {
         style={[styles.button, styles.buttonBottomRight]}
         onPress={() => {
           navigation.navigate("OrderMenu", {
-            orderLocation: {
-              latitude: currentRegion.latitude,
-              longitude: currentRegion.longitude,
-            },
+            latitude: currentRegion.latitude,
+            longitude: currentRegion.longitude,
           });
         }}
       >
