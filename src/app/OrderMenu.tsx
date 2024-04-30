@@ -34,7 +34,9 @@ export default function OrderMenu({ navigation }: any) {
   return (
     <View style={styles.container} testID="order-menu-screen">
       <TriangleBackground />
-      <Text style={styles.text}>Choose your item</Text>
+      <Text style={styles.text} testID="order-menu-text">
+        Choose your item
+      </Text>
       {productButtons.map((button) => (
         <OrderButton
           title={button.item.getName()}
@@ -49,7 +51,13 @@ export default function OrderMenu({ navigation }: any) {
           <ItemCard
             isVisible={isVisible}
             handleClose={handleCloseCard}
-            handleOrder={() => navigation.navigate("OrderPlaced")}
+            handleOrder={() =>
+              navigation.navigate("OrderPlaced", {
+                orderedItem: button.item,
+                placedAt: Date.now(),
+                userLocation: "1234 Main St",
+              })
+            }
             item={button.item}
             key={`card-${button.item.getId()}`}
           />

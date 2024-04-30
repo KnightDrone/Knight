@@ -28,14 +28,15 @@ describe("ItemCard", () => {
 
   const mockHandleClose = jest.fn();
   const mockHandleOrder = jest.fn();
-  const image = require("../assets/images/splash.png");
+  const imageDir = "../assets/images/splash.png";
+  const image = require(imageDir);
   const mockItem = new Item(
     1,
     "Test Item",
     "Test Description",
+    10,
     image,
-    image,
-    10
+    image
   );
 
   it("renders correctly when isVisible is true", () => {

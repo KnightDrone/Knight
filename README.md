@@ -48,6 +48,68 @@ Note: Don't forget to import the component to the App.tsx
 
 For more information on how to use the react-navigation libray here are some links: -[React Navigation](https://reactnavigation.org/docs/getting-started) -[Using Typescript with React Navigation](https://react.dev/learn/typescript)
 
+### Firestore Manager
+
+The `FirestoreManager` class provides methods to interact with the Firestore database. Here's how you can use these methods:
+
+#### readOrder(id: string): Promise<any | null>
+
+This method reads data from the Firestore database by a given document id. It returns a Promise that resolves to the data of the document if it exists, or `null` if it doesn't.
+
+```typescript
+const firestoreManager = new FirestoreManager();
+const data = await firestoreManager.readOrder("documentId");
+```
+
+#### queryOrder(field: string, data: string): Promise<Order[] | null>
+
+This method queries data from the Firestore database based on a field and its value. It returns a Promise that resolves to an array of `Order` objects if any are found, or `null` if none are found.
+
+You can query for the following fields:
+
+- user
+- status
+- item name
+
+```typescript
+const firestoreManager = new FirestoreManager();
+const orders = await firestoreManager.queryOrder("user", "username");
+```
+
+#### writeOrder(order: Order): Promise<void>
+
+This method writes a specific `Order` object to the Firestore database. It returns a Promise that resolves when the write operation is complete.
+
+```typescript
+const firestoreManager = new FirestoreManager();
+await firestoreManager.writeOrder(order);
+```
+
+#### deleteOrder(orderId: string): Promise<void>
+
+This method deletes a document with a specific id from the Firestore database. It returns a Promise that resolves when the delete operation is complete.
+
+```typescript
+const firestoreManager = new FirestoreManager();
+await firestoreManager.deleteOrder("orderId");
+```
+
+#### updateOrder(orderId: string, field: string, data: string | Date | OrderLocation): Promise<void>
+
+This method updates a specific field of a document in the Firestore database. It returns a Promise that resolves when the update operation is complete.
+
+You can update the following fields:
+
+- operator
+- status
+- delivery date
+- location
+
+```typescript
+const firestoreManager = new FirestoreManager();
+await firestoreManager.updateOrder("orderId", "fieldName", "newData");
+```
+
 ### Architecture Diagram
 
 ![](architecure_diag.jpg)

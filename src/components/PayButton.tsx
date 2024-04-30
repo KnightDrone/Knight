@@ -88,6 +88,7 @@ export function PayButton({
 
   return (
     <Button
+      testID="pay-button"
       style="primary"
       text={loading ? "Loading..." : `CHF ${amount / 100}`}
       onPress={loading ? () => Alert.alert("Please wait") : openPaymentSheet}

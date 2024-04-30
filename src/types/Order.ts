@@ -1,5 +1,5 @@
+import uuid from "react-native-uuid";
 import { Item } from "./Item";
-import { autoId } from "@google-cloud/firestore/build/src/util";
 
 enum OrderStatus {
   Pending = "Pending",
@@ -29,15 +29,18 @@ class Order {
     user: string,
     item: Item,
     location: OrderLocation,
-    op_name?: string,
-    op_location?: OrderLocation
+    orderDate?: Date,
+    deliveryDate?: Date,
+    operator?: string,
+    op_location?: OrderLocation,
+    id?: string
   ) {
-    this.id = this.generateId();
+    this.id = id || uuid.v4().toString();
     this.user = user;
     this.item = item;
-    this.orderDate = new Date();
     this.status = OrderStatus.Pending;
-    this.deliveryDate = new Date();
+    this.orderDate = orderDate || new Date();
+    this.deliveryDate = deliveryDate || new Date();
     this.location = location;
     this.usrLocName = `Lat: ${location.latitude}, Long: ${location.longitude}`; //default boring name
     this.opName = op_name || "";
@@ -82,7 +85,7 @@ class Order {
     return this.deliveryDate;
   }
 
-  getLocation(): OrderLocation {
+  getOrderLocation(): OrderLocation {
     return this.location;
   }
   getUsrLocName(): string {
@@ -101,6 +104,7 @@ class Order {
     return {
       id: this.id,
       user: this.user,
+      operator: this.operator,
       item: JSON.stringify(this.item.toDict()),
       orderDate: this.orderDate.toString(),
       status: this.status,
@@ -108,14 +112,53 @@ class Order {
       location: JSON.stringify(this.location),
     };
   }
-  // Temporary method for testing, should NOT be used in production
-  private generateId(): string {
-    const timestamp = Date.now().toString();
-    const randomNumber = Math.floor(Math.random() * 1000)
-      .toString()
-      .padStart(3, "0");
-    return timestamp + randomNumber;
-  }
 }
 
-export { OrderStatus, OrderLocation, Order };
+const orderConverter = {
+  toFirestore: (order: Order) => {
+    return {
+      user: order.getUser(),
+      operator: order.getOpName(),
+      item: order.getItem().toDict(),
+      orderDate: order.getOrderDate(),
+      status: order.getStatus(),
+      deliveryDate: order.getDeliveryDate(),
+      location: {
+        latitude: order.getOrderLocation().latitude,
+        longitude: order.getOrderLocation().longitude,
+      },
+      op_location: {
+        latitude: order.getOperatorLocation().latitude,
+        longitude: order.getOperatorLocation().longitude,
+      },
+    };
+  },
+  fromFirestore: (snapshot: any) => {
+    const data = snapshot.data();
+    const id = snapshot.id;
+
+    const item = new Item(
+      data.item.id,
+      data.item.name,
+      data.item.description,
+      data.item.price
+    );
+    const order = new Order(
+      data.user,
+      item,
+      { latitude: data.location.latitude, longitude: data.location.longitude },
+      new Date(data.orderDate.seconds * 1000),
+      new Date(data.deliveryDate.seconds * 1000),
+      data.operator,
+      {
+        latitude: data.op_location.latitude,
+        longitude: data.op_location.longitude,
+      },
+      id
+    );
+
+    return order;
+  },
+};
+
+export { OrderStatus, OrderLocation, Order, orderConverter };
