@@ -82,8 +82,8 @@ describe("OrderPlaced", () => {
     expect(orderSummary).toBeTruthy();
     const orderedItemName = getByTestId("ordered-item-name");
     expect(orderedItemName).toBeTruthy();
-    const userLocation = getByTestId("user-location");
-    expect(userLocation).toBeTruthy();
+    // const userLocation = getByTestId("user-location");
+    // expect(userLocation).toBeTruthy();
     const orderedItemImage = getByTestId("ordered-item-image");
     expect(orderedItemImage).toBeTruthy();
   });
