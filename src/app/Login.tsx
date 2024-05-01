@@ -1,33 +1,20 @@
 import React, { useState, useEffect } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-  Image,
-  TouchableOpacity,
-  Platform,
-} from "react-native";
+import { Text, View, Image, TouchableOpacity } from "react-native";
 import {
   auth,
   GoogleAuthProvider,
-  onAuthStateChanged,
   signInWithCredential,
   signInWithEmailAndPassword,
 } from "../services/Firebase";
 import * as Google from "expo-auth-session/providers/google";
-import * as WebBrowser from "expo-web-browser";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Navigation imports
-import GoogleAuthConfig from "../types/GoogleAuthConfig";
 import { TextField } from "../ui/TextField";
 import { Button } from "../ui/Button";
 import { MessageBox } from "../ui/MessageBox";
 import { OrSeparator } from "../components/OrSeparator";
 import { useTranslation } from "react-i18next";
 import { langIcons, locales, useLocale } from "../lang/i18n";
-import { twMerge } from "tailwind-merge";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
 export default function Login({ navigation }: any) {
@@ -164,10 +151,7 @@ export default function Login({ navigation }: any) {
           <TouchableWithoutFeedback key={lang} onPress={() => setLocale(lang)}>
             <Image
               key={lang}
-              className={twMerge(
-                "w-8 h-8 transition-opacity",
-                locale != lang && "opacity-40"
-              )}
+              className={`w-8 h-8 transition-opacity ${locale != lang && "opacity-40"}`}
               source={langIcons[lang]}
             />
           </TouchableWithoutFeedback>
