@@ -42,7 +42,7 @@ const OrderCard = ({ order, onClick, opBool }: OrderCardProps) => {
   const price = item.getPrice();
   let locName = "";
   if (opBool) {
-    locName = order.getOpName();
+    locName = order.getOpLocName();
   } else {
     locName = order.getUsrLocName();
   }
