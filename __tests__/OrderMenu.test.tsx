@@ -16,6 +16,12 @@ jest.mock("../src/components/PayButton", () => ({
   },
 }));
 
+beforeAll(() => {
+  global.alert = jest.fn();
+  jest.spyOn(console, "error").mockImplementation(() => {});
+  jest.spyOn(console, "warn").mockImplementation(() => {});
+});
+
 describe("Order Menu", () => {
   //set globally useFont to true
   beforeEach(() => {
@@ -23,9 +29,9 @@ describe("Order Menu", () => {
   });
 
   it("renders correctly ", () => {
-    const { getByText } = render(<OrderMenu />);
+    const { getByText, getByTestId } = render(<OrderMenu />);
 
-    expect(getByText("Choose your item")).toBeTruthy();
+    expect(getByTestId("order-menu-text")).toBeTruthy();
     productButtons.forEach((button) => {
       expect(getByText(button.item.getName())).toBeTruthy();
     });
@@ -73,7 +79,7 @@ describe("Order Menu", () => {
   });
 
   it("can open and close every card", () => {
-    const { getByText, queryByTestId } = render(<OrderMenu />);
+    const { getByText } = render(<OrderMenu />);
     productButtons.forEach((button) => {
       fireEvent.press(getByText(button.item.getName()));
       expect(

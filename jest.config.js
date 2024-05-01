@@ -5,6 +5,11 @@ module.exports = {
   preset: "jest-expo",
   setupFiles: ["<rootDir>/jestSetupFile.js"],
   setupFilesAfterEnv: ["@testing-library/jest-native/extend-expect"],
+  globals: {
+    "process.env": {
+      EXPO_PUBLIC_STRIPE_ENDPOINT_URL: "your-stripe-endpoint-url",
+    },
+  },
   transform: {
     "^.+\\.(js|jsx|ts)$": "babel-jest",
     "^.+\\.tsx?$": [
@@ -14,7 +19,6 @@ module.exports = {
       },
     ],
   },
-  transformIgnorePatterns: ["node_modules/(?!react-native|react-navigation)/"],
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
   collectCoverage: true,
   // ignore the src/services/ folder

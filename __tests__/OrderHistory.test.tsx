@@ -1,12 +1,9 @@
 import React from "react";
-import { render, fireEvent, waitFor } from "@testing-library/react-native";
+import { render, waitFor } from "@testing-library/react-native";
 import OrderHistory from "../src/app/OrderHistory";
-import { Order, OrderStatus } from "../src/types/Order";
-import { Item } from "../src/types/Item";
-import { NavigationContainer } from "@react-navigation/native";
+import { RootStackParamList } from "../src/types/RootStackParamList";
 import { createStackNavigator } from "@react-navigation/stack";
-
-const Stack = createStackNavigator();
+import { NavigationContainer } from "@react-navigation/native";
 
 const mockNavigation = {
   navigate: jest.fn(),
@@ -26,6 +23,30 @@ jest.mock("@react-navigation/native", () => {
     useNavigation: () => mockNavigation,
   };
 });
+
+type OrderHistoryStack = {
+  OrderHistory: RootStackParamList["OrderHistory"];
+};
+
+const Stack = createStackNavigator<OrderHistoryStack>();
+
+const OrderHistoryTest = () => {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName={"OrderHistory"}>
+        <Stack.Screen
+          name="OrderHistory"
+          initialParams={{
+            opOrders: false,
+            userId: "user1",
+          }}
+        >
+          {(props) => <OrderHistory {...props} />}
+        </Stack.Screen>
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+};
 
 describe("OrderHistory", () => {
   it("renders correctly", async () => {
@@ -59,9 +80,7 @@ describe("OrderHistory", () => {
         { latitude: 25, longitude: 3.2275 } // Correct way to create an OrderLocation object
       ),
     ]);*/
-    const { getByText, getByTestId } = render(
-      <OrderHistory navigation={mockNavigation} userId={0} opOrders={false} />
-    );
+    const { getByText, getByTestId } = render(<OrderHistoryTest />);
 
     await waitFor(
       () => {
@@ -77,6 +96,7 @@ describe("OrderHistory", () => {
       { timeout: 2000 }
     );
   });
+
   /* I've wasted too much time trying to mock this, I give up
   it("renders an error message if fetching orders fails", async () => {
     // Mock fetchOrders to reject with an error

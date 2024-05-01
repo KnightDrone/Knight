@@ -23,19 +23,10 @@ import KaiseiRegular from "../../assets/fonts/KaiseiDecol-Regular.ttf";
 
 import { registerRootComponent } from "expo";
 import { initI18n } from "../lang/i18n";
+import { RootStackParamList } from "../types/RootStackParamList";
+import OrderHistory from "./OrderHistory";
 
 WebBrowser.maybeCompleteAuthSession();
-
-// Types for navigation handling
-// Should navigation be handled in a separate file??
-type RootStackParamList = {
-  Login: undefined;
-  SignUp: undefined;
-  ForgotPassword: undefined;
-  OrderMenu: undefined;
-  Map: undefined;
-  OrderPlaced: undefined;
-};
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -55,7 +46,7 @@ function App() {
       // setLoading(true);
       // const userJSON = await AsyncStorage.getItem("@user");
       // const userData = userJSON != null ? JSON.parse(userJSON) : null;
-      // if (userData){
+      // if (userData) {
       //   setUserInfo(userData);
       // }
     } catch (e) {
@@ -167,6 +158,9 @@ function App() {
         </Stack.Screen>
         <Stack.Screen name="OrderPlaced">
           {(props) => <OrderPlaced {...props} />}
+        </Stack.Screen>
+        <Stack.Screen name="OrderHistory">
+          {(props) => <OrderHistory {...props} />}
         </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
