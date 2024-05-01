@@ -14,6 +14,7 @@ import { TextField } from "../ui/TextField";
 import { Button } from "../ui/Button";
 import { OrSeparator } from "../components/OrSeparator";
 import { MessageBox } from "../ui/MessageBox";
+import { useTranslation } from "react-i18next";
 
 export default function SignUp({ navigation }: any) {
   const [user, setUser] = useState("");
@@ -54,33 +55,33 @@ export default function SignUp({ navigation }: any) {
   const validatePassword = (input: string) => {
     let newSuggestions = [];
     if (input.length < 8) {
-      newSuggestions.push("Password should be at least 8 characters long");
+      newSuggestions.push(t("password-suggestions.length"));
     }
     if (!/\d/.test(input)) {
-      newSuggestions.push("Add at least one number");
+      newSuggestions.push(t("password-suggestions.number"));
     }
 
     if (!/[A-Z]/.test(input) || !/[a-z]/.test(input)) {
-      newSuggestions.push("Include both upper and lower case letters");
+      newSuggestions.push(t("password-suggestions.upper-lower"));
     }
 
     if (!/[^A-Za-z0-9]/.test(input)) {
-      newSuggestions.push("Include at least one special character");
+      newSuggestions.push(t("password-suggestions.special"));
     }
 
     setSuggestions(newSuggestions);
 
     // Determine password strength based on suggestions
     if (newSuggestions.length === 0) {
-      setStrength("Very Strong");
+      setStrength(t("password-suggestions.very-strong"));
     } else if (newSuggestions.length <= 1) {
-      setStrength("Strong");
+      setStrength(t("password-suggestions.strong"));
     } else if (newSuggestions.length <= 2) {
-      setStrength("Moderate");
+      setStrength(t("password-suggestions.moderate"));
     } else if (newSuggestions.length <= 3) {
-      setStrength("Weak");
+      setStrength(t("password-suggestions.weak"));
     } else {
-      setStrength("Too Weak");
+      setStrength(t("password-suggestions.too-weak"));
     }
   };
 
@@ -108,15 +109,15 @@ export default function SignUp({ navigation }: any) {
 
   const getStrengthColor = () => {
     switch (strength) {
-      case "Too Weak":
+      case t("password-suggestions.too-weak"):
         return "red";
-      case "Weak":
+      case t("password-suggestions.weak"):
         return "orange";
-      case "Moderate":
+      case t("password-suggestions.moderate"):
         return "yellow";
-      case "Strong":
+      case t("password-suggestions.strong"):
         return "yellowgreen";
-      case "Very Strong":
+      case t("password-suggestions.very-strong"):
         return "green";
       default:
         return "#ccc";
@@ -125,18 +126,20 @@ export default function SignUp({ navigation }: any) {
 
   const getStrengthWidth = () => {
     switch (strength) {
-      case "Very Strong":
+      case t("password-suggestions.very-strong"):
         return "100%";
-      case "Strong":
+      case t("password-suggestions.strong"):
         return "75%";
-      case "Moderate":
+      case t("password-suggestions.moderate"):
         return "50%";
-      case "Weak":
+      case t("password-suggestions.weak"):
         return "25%";
       default:
         return "0%";
     }
   };
+
+  const { t } = useTranslation();
 
   return (
     <View
@@ -147,12 +150,12 @@ export default function SignUp({ navigation }: any) {
         className="text-4xl font-bold mb-16 text-center"
         testID="signup-title"
       >
-        Sign Up
+        {t("signup.title")}
       </Text>
 
       <View className="flex flex-col gap-3">
         <TextField
-          placeholder="Enter your username"
+          placeholder={t("signup.username")}
           value={user}
           onChangeText={setUser}
           type="text"
@@ -160,7 +163,7 @@ export default function SignUp({ navigation }: any) {
         />
 
         <TextField
-          placeholder="Enter your email"
+          placeholder={t("signup.email")}
           value={email}
           onChangeText={setEmail}
           type="email"
@@ -168,7 +171,7 @@ export default function SignUp({ navigation }: any) {
         />
 
         <TextField
-          placeholder="Enter your password"
+          placeholder={t("signup.password")}
           value={password}
           onChangeText={setPassword}
           type="password"
@@ -178,7 +181,7 @@ export default function SignUp({ navigation }: any) {
 
       <View className="w-full my-8 flex flex-col items-center bg-gray-100 p-4 rounded-lg">
         <Text testID="pw-strength" className="text-lg text-center">
-          Password Strength: {strength}
+          {strength}
         </Text>
         <View className="w-full h-4 bg-gray-300 rounded-lg m-2">
           <View
@@ -199,7 +202,7 @@ export default function SignUp({ navigation }: any) {
       </View>
 
       <Button
-        text="Sign Up"
+        text={t("signup.signup-button")}
         onPress={signUpWithEmail}
         style="primary"
         testID="sign-up-button"
@@ -208,7 +211,7 @@ export default function SignUp({ navigation }: any) {
       <OrSeparator />
 
       <Button
-        text="Continue with Google"
+        text={t("signup.google-login")}
         imgSrc={require("../../assets/images/google-icon.png")}
         onPress={() => promptAsync()}
         style="secondary"
