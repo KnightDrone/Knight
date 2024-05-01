@@ -4,7 +4,6 @@ import { User, onAuthStateChanged, auth } from "../services/Firebase";
 import * as WebBrowser from "expo-web-browser";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Icon from "react-native-vector-icons/MaterialIcons";
-import { StripeProvider } from "@stripe/stripe-react-native";
 
 import "./global.css";
 
@@ -58,11 +57,6 @@ function App() {
     return unsub;
   }, []);
 
-  // StripeProvider
-  const SPK = `process.env.STRIPE_PUBLISHABLE_KEY`;
-  console.log(SPK);
-  console.log(isLoggedIn);
-  console.log(userInfo);
   return <AppStack isLoggedIn={isLoggedIn} user={userInfo} />;
 
   //  return (
