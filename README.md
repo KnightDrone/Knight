@@ -38,63 +38,13 @@ For more information on how to test React components, consult the React Testing 
 
 ### Navigation
 
-For navigation we use the react-navigation library, which is setup in the navigation directory in the StackNavigation.tsx file. To be able to access a different screen one must go to the RootStackParamList type and add the name of the Screen and it's parameter.
-
-`src/types/RootStackParamList.tsx`
+For navigation we use the react-navigation library, which is setup in the App.tx file. To be able to access a different screen one must go to the RootStackParamList type and add the name of the Screen. If th e screen doesn't take any parameters then we write it as undefined. We then add it to the Stack Navigator. eg.
 
 ```javascript
-Map: undefined;
-OrderPlaced: {
-  orderedItem: Item;
-  placedAt: number;
-  userLocation: string;
-}
+<Stack.Screen name="ForgotPassword" component={ForgotPassword} />
 ```
 
-If the screen doesn't take any parameters then we write it as undefined. We then add it to the Stack Navigator. eg.
-
-`src/navigation/StackNavigation.tsx`
-
-```javascript
-<Screen name="ForgotPassword" component={ForgotPassword} />
-```
-
-if the screen takes parameters then we write it as follows:
-
-`src/navigation/StackNavigation.tsx`
-
-```javascript
-  <Screen name="OrderPlaced">
-    {(props: any) => <OrderPlaced {...props} />}
-  </Screen>
-```
-
-if your screen requires a back button there is a simple template we have been using for all the components here is an example of how it would look on the ForgotPassword screen:
-
-```javascript
-  <Screen
-    name="ForgotPassword"
-    component={ForgotPassword}
-    options={({ navigation }: any) => ({
-      headerShown: true,
-      headerTransparent: true,
-      headerTitle: "",
-      headerLeft: () => (
-        <HeaderBackButton
-          onPress={() => navigation.navigate("Login")}
-          labelVisible={false}
-          testID="forgot-password-back-button"
-        />
-      ),
-    })}
-  />
-```
-
-Don't forget to add the proper testID!!
-
-Note 1: You want to add the screen to the correct group so that it is properly organised in the correct segment.
-
-Note 2: Don't forget to import the component to the `src/navigation/StackNavigation.tsx` file.
+Note: Don't forget to import the component to the App.tsx
 
 For more information on how to use the react-navigation libray here are some links: -[React Navigation](https://reactnavigation.org/docs/getting-started) -[Using Typescript with React Navigation](https://react.dev/learn/typescript)
 

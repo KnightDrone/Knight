@@ -14,7 +14,7 @@ const topButtonPadding = 60;
 const sideButtonPadding = 30;
 
 // Use the navigation prop to navigate to another screen
-const Map = ({ navigation }: any) => {
+const MapOverview = ({ navigation }: any) => {
   const [currentRegion, setCurrentRegion] = useState({
     latitude: 37.789,
     longitude: -122.4324,
@@ -133,4 +133,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Map;
+export default MapOverview;
