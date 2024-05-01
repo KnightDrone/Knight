@@ -1,7 +1,5 @@
 import React from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
-import { useFonts } from "expo-font";
-import KaiseiRegular from "../../assets/fonts/KaiseiDecol-Regular.ttf";
 import { Item } from "../types/Item";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { BlurView } from "expo-blur";
@@ -20,10 +18,6 @@ function ItemCard({
   handleOrder,
   item,
 }: ItemCardProps) {
-  const [fontsLoaded] = useFonts({
-    "Kaisei-Regular": KaiseiRegular,
-  });
-
   if (!isVisible) {
     return null;
   }
@@ -106,17 +100,14 @@ const styles = StyleSheet.create({
     alignSelf: "flex-start",
   },
   closeButtonText: {
-    fontFamily: "Kaisei-Regular",
     fontSize: 18,
   },
   title: {
-    fontFamily: "Kaisei-Regular",
     fontSize: 24,
     fontWeight: "bold",
     marginVertical: 8,
   },
   description: {
-    fontFamily: "Kaisei-Regular",
     fontSize: 16,
     textAlign: "center",
     marginVertical: 8,
@@ -127,7 +118,6 @@ const styles = StyleSheet.create({
     marginVertical: 8,
   },
   price: {
-    fontFamily: "Kaisei-Regular",
     fontSize: 18,
     marginVertical: 8,
   },
@@ -139,7 +129,6 @@ const styles = StyleSheet.create({
     marginVertical: 8,
   },
   orderButtonText: {
-    fontFamily: "Kaisei-Regular",
     fontSize: 18,
     color: "#fff",
     textAlign: "center",
