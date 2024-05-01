@@ -15,12 +15,15 @@ import { useFonts } from "../__mocks__/expo-font";
 import Login from "../src/app/Login";
 import passwordsForTesting from "../src/utils/passwords";
 import { createUserWithEmailAndPassword } from "../src/services/Firebase";
+import { initI18n } from "../src/lang/i18n";
 
 useFonts.mockReturnValue([true]);
 
 // Avoid useless error messages
 beforeAll(() => {
   jest.spyOn(console, "error").mockImplementation(() => {});
+
+  initI18n();
 });
 
 const SignUpTest = () => {
