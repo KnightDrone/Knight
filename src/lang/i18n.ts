@@ -7,6 +7,7 @@ import ro from "./translations/ro.json";
 import fr from "./translations/fr.json";
 import de from "./translations/de.json";
 import it from "./translations/it.json";
+import es from "./translations/es.json";
 
 const resources = {
   en: {
@@ -23,6 +24,9 @@ const resources = {
   },
   it: {
     translation: it,
+  },
+  es: {
+    translation: es,
   },
 };
 
@@ -46,7 +50,7 @@ export function initI18n() {
     });
 }
 
-export const locales = ["en", "fr", "de", "it", "ro"] as const;
+export const locales = ["en", "es", "fr", "de", "it", "ro"] as const;
 
 type Locale = (typeof locales)[number];
 
@@ -64,4 +68,5 @@ export const langIcons = {
   fr: require(`../../assets/icons/lang/fr.png`),
   it: require(`../../assets/icons/lang/it.png`),
   ro: require(`../../assets/icons/lang/ro.png`),
+  es: require(`../../assets/icons/lang/es.png`),
 };
