@@ -81,10 +81,10 @@ function App() {
     return <Text>Loading...</Text>;
   }
 
-  const stripePK = process.env.STRIPE_PUBLISHABLE_KEY || "";
+  const stripePublishableKey = process.env.STRIPE_PUBLISHABLE_KEY || "";
 
   return (
-    <StripeProvider publishableKey={stripePK}>
+    <StripeProvider publishableKey={stripePublishableKey}>
       <NavigationContainer>
         <Stack.Navigator
           initialRouteName={userInfo ? "Map" : "Login"}
