@@ -14,5 +14,25 @@
     "description": "Geben Sie uns Ihre E-Mail-Adresse und wir senden Ihnen einen Link zum Zurücksetzen Ihres Passworts",
     "email": "Geben Sie Ihre E-Mail-Adresse ein",
     "button": "Passwort zurücksetzen"
+  },
+  "signup": {
+    "title": "Registrieren",
+    "username": "Geben Sie Ihren Benutzernamen ein",
+    "email": "Geben Sie Ihre E-Mail ein",
+    "password": "Geben Sie Ihr Passwort ein",
+    "password-strength": "Passwortstärke: ",
+    "signup-button": "Registrieren",
+    "google-login": "Mit Google fortfahren"
+  },
+  "password-suggestions": {
+    "length": "Bitte mindestens 8 Zeichen eingeben",
+    "upper-lower": "Bitte mindestens einen Groß- und einen Kleinbuchstaben einfügen",
+    "number": "Bitte mindestens eine Zahl einfügen",
+    "special": "Bitte mindestens ein Sonderzeichen einfügen",
+    "too-weak": "Passwort ist zu schwach",
+    "weak": "Passwort ist schwach",
+    "moderate": "Passwort ist moderat",
+    "strong": "Passwort ist stark",
+    "very-strong": "Passwort ist sehr stark"
   }
 }
