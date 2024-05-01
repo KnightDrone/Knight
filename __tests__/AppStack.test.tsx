@@ -5,7 +5,7 @@ import {
   fireEvent,
   waitFor,
 } from "@testing-library/react-native";
-import { AppStack } from "../src/navigation/StackNavigation";
+import { AppStack } from "../src/navigation/AppStack";
 import { describe } from "node:test";
 import * as Google from "expo-auth-session/providers/google";
 
@@ -86,17 +86,13 @@ beforeEach(() => {
 
 describe("AppStack Navigation Tests", () => {
   it("navigates to the Login screen when app starts", () => {
-    const { getByTestId } = render(
-      <AppStack isLoggedIn={"Login"} user={null} />
-    );
+    const { getByTestId } = render(<AppStack isLoggedIn={"Login"} />);
     // Check if the Login screen is displayed by looking for a specific text
     expect(getByTestId("login-screen")).toBeTruthy();
   });
 
   it("navigates to the Map screen when user is logged in", async () => {
-    const { queryByTestId } = render(
-      <AppStack isLoggedIn={"Map"} user={null} />
-    );
+    const { queryByTestId } = render(<AppStack isLoggedIn={"Map"} />);
     await waitFor(() => {
       // Check if the Map screen is displayed by looking for a specific text
       expect(queryByTestId("map-overview-screen")).toBeTruthy();
@@ -104,9 +100,7 @@ describe("AppStack Navigation Tests", () => {
   });
 
   it("navigates to ForgotPassword screen when 'Reset Password' is pressed", async () => {
-    const { queryByTestId } = render(
-      <AppStack isLoggedIn={"Login"} user={null} />
-    );
+    const { queryByTestId } = render(<AppStack isLoggedIn={"Login"} />);
     await waitFor(() => {
       fireEvent.press(queryByTestId("forgot-password-link"));
       // Check if the ForgotPassword screen is displayed by looking for a specific text
@@ -115,9 +109,7 @@ describe("AppStack Navigation Tests", () => {
   });
 
   it("navigates to ForgotPassword screen when 'Reset Password' is pressed then navigates back when back-button is pressed", async () => {
-    const { queryByTestId } = render(
-      <AppStack isLoggedIn={"Login"} user={null} />
-    );
+    const { queryByTestId } = render(<AppStack isLoggedIn={"Login"} />);
 
     fireEvent.press(queryByTestId("forgot-password-link"));
     fireEvent.press(queryByTestId("forgot-password-back-button"));
@@ -128,9 +120,7 @@ describe("AppStack Navigation Tests", () => {
   });
 
   it("navigates to SignUp screen when 'Sign Up' is pressed", async () => {
-    const { queryByTestId } = render(
-      <AppStack isLoggedIn={"Login"} user={null} />
-    );
+    const { queryByTestId } = render(<AppStack isLoggedIn={"Login"} />);
     await waitFor(() => {
       fireEvent.press(queryByTestId("sign-up-link"));
       // Check if the SignUp screen is displayed by looking for a specific text
@@ -139,9 +129,7 @@ describe("AppStack Navigation Tests", () => {
   });
 
   it("navigates to SignUp screen when 'Sign Up' is pressed then navigates back when back-button is pressed", async () => {
-    const { queryByTestId } = render(
-      <AppStack isLoggedIn={"Login"} user={null} />
-    );
+    const { queryByTestId } = render(<AppStack isLoggedIn={"Login"} />);
     fireEvent.press(queryByTestId("sign-up-link"));
     fireEvent.press(queryByTestId("sign-up-back-button"));
     await waitFor(() => {
@@ -152,7 +140,7 @@ describe("AppStack Navigation Tests", () => {
 
   it("navigates to the map screen after successful sign-up", async () => {
     const { getByText, getByTestId } = render(
-      <AppStack isLoggedIn={"Login"} user={null} />
+      <AppStack isLoggedIn={"Login"} />
     );
 
     // Mock is true (successful sign-up) by default in jestSetupFile.js
@@ -168,7 +156,7 @@ describe("AppStack Navigation Tests", () => {
 
   it("navigates Login -> Map -> OrderMenu", async () => {
     const { queryByTestId, getByTestId } = render(
-      <AppStack isLoggedIn={"Login"} user={null} />
+      <AppStack isLoggedIn={"Login"} />
     );
 
     fireEvent.changeText(getByTestId("email-input"), "test@example.com");
@@ -185,9 +173,7 @@ describe("AppStack Navigation Tests", () => {
   });
 
   it("navigates Map->OrderMenu", async () => {
-    const { queryByTestId } = render(
-      <AppStack isLoggedIn={"Map"} user={mockUser} />
-    );
+    const { queryByTestId } = render(<AppStack isLoggedIn={"Map"} />);
     fireEvent.press(queryByTestId("order-button"));
     await waitFor(() => {
       // Check if the Map screen is displayed by looking for a specific text
@@ -196,9 +182,7 @@ describe("AppStack Navigation Tests", () => {
   });
 
   it("navigates to OrderMenu then back to Map screen", async () => {
-    const { queryByTestId } = render(
-      <AppStack isLoggedIn={"Map"} user={mockUser} />
-    );
+    const { queryByTestId } = render(<AppStack isLoggedIn={"Map"} />);
     fireEvent.press(queryByTestId("order-button"));
     fireEvent.press(queryByTestId("order-menu-back-button"));
     await waitFor(() => {
@@ -208,9 +192,7 @@ describe("AppStack Navigation Tests", () => {
   });
 
   it("navigates Map->OrderMenu->OrderPlaced", async () => {
-    const { queryByTestId } = render(
-      <AppStack isLoggedIn={"Map"} user={mockUser} />
-    );
+    const { queryByTestId } = render(<AppStack isLoggedIn={"Map"} />);
     fireEvent.press(queryByTestId("order-button"));
     await waitFor(() => {
       // Check if the Map screen is displayed by looking for a specific text

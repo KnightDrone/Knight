@@ -10,11 +10,13 @@ import { HeaderBackButton } from "@react-navigation/elements";
 import { NavigationContainer } from "@react-navigation/native";
 import { RootStackParamList } from "../types/RootStackParamList";
 
+import { User } from "../services/Firebase";
+
 const { Navigator, Screen, Group } = createStackNavigator<RootStackParamList>();
 
 interface AppStackProps {
-  isLoggedIn: any;
-  user: any; // Define a more specific type if possible
+  isLoggedIn: "Login" | "Map";
+  user?: User | null; // Define a more specific type if possible
 }
 export const AppStack: React.FC<AppStackProps> = ({ isLoggedIn, user }) => {
   return (
