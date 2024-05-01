@@ -14,5 +14,25 @@
     "description": "Dacci la tua email e ti invieremo un link per reimpostare la tua password",
     "email": "Inserisci la tua email",
     "button": "Reimposta password"
+  },
+  "signup": {
+    "title": "Registrazione",
+    "username": "Inserisci il tuo nome utente",
+    "email": "Inserisci il tuo indirizzo email",
+    "password": "Inserisci la tua password",
+    "password-strength": "Forza della password: ",
+    "signup-button": "Registrati",
+    "google-login": "Continua con Google"
+  },
+  "password-suggestions": {
+    "length": "Includi almeno 8 caratteri",
+    "upper-lower": "Includi almeno una lettera maiuscola e una minuscola",
+    "number": "Includi almeno un numero",
+    "special": "Includi almeno un carattere speciale",
+    "too-weak": "La password è troppo debole",
+    "weak": "La password è debole",
+    "moderate": "La password è moderata",
+    "strong": "La password è forte",
+    "very-strong": "La password è molto forte"
   }
 }
