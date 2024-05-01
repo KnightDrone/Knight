@@ -46,6 +46,15 @@ const MapOverview = ({ navigation }: any) => {
     };
   }, []);
 
+  useEffect(() => {
+    if (autoCenter && marker) {
+      mapRef.current?.animateToRegion(
+        { ...marker, latitudeDelta: 0.005, longitudeDelta: 0.005 },
+        1000
+      );
+    }
+  }, [autoCenter, marker]);
+
   const checkPermissions = async () => {
     let { status } = await Location.requestForegroundPermissionsAsync();
     if (status !== "granted") {
@@ -72,35 +81,34 @@ const MapOverview = ({ navigation }: any) => {
           longitudeDelta: 0.005,
         };
         setMarker(newLocation);
-        if (autoCenter && mapRef.current) {
-          mapRef.current.animateToRegion(
-            { ...newLocation, latitudeDelta: 0.005, longitudeDelta: 0.005 },
-            1500
-          );
-        }
         setLoading(false);
       }
     );
   };
 
   const toggleAutoCenter = () => {
-    setAutoCenter(true);
     if (marker && mapRef.current) {
       mapRef.current.animateToRegion(
         { ...marker, latitudeDelta: 0.005, longitudeDelta: 0.005 },
         1000
       );
     }
+    setAutoCenter(true);
   };
 
   return (
     <View style={styles.container}>
       <MapView
+        onPanDrag={() => {
+          setAutoCenter(false);
+        }}
+        onPress={() => {
+          setAutoCenter(false);
+        }}
         testID="map-view"
         ref={mapRef}
         style={styles.map}
         initialRegion={currentRegion}
-        onPanDrag={() => setAutoCenter(false)}
         onRegionChangeComplete={setCurrentRegion}
       >
         {marker && <LocationMarker coordinate={marker} />}

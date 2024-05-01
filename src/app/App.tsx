@@ -19,7 +19,7 @@ import OrderPlaced from "./OrderPlaced";
 import "./global.css";
 
 import { useFonts } from "expo-font";
-//import KaiseiRegular from "../../assets/fonts/KaiseiDecol-Regular.ttf";
+import KaiseiRegular from "../../assets/fonts/KaiseiDecol-Regular.ttf";
 
 import { registerRootComponent } from "expo";
 
@@ -39,9 +39,9 @@ type RootStackParamList = {
 const Stack = createStackNavigator<RootStackParamList>();
 
 function App() {
-  // const [fontsLoaded] = useFonts({
-  //   "Kaisei-Regular": KaiseiRegular,
-  // });
+  const [fontsLoaded] = useFonts({
+    "Kaisei-Regular": KaiseiRegular,
+  });
 
   const [userInfo, setUserInfo] = useState<User | null>(null);
   const [loading, setLoading] = useState(false);
