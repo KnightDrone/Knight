@@ -4,6 +4,11 @@ import { StyleSheet, View, TouchableOpacity, Text, Alert } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
 import Icon from "react-native-vector-icons/MaterialIcons";
+import {
+  NavigationProp,
+  RouteProp,
+  useNavigation,
+} from "@react-navigation/native";
 
 const topButtonPadding = 60;
 const sideButtonPadding = 30;

@@ -11,6 +11,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { View, Text } from "react-native";
 import { RootStackParamList } from "../src/types/RootStackParamList";
+import { useFonts } from "../__mocks__/expo-font";
 import { Item } from "../src/types/Item";
 
 type OrderPlacedStack = {
@@ -19,6 +20,7 @@ type OrderPlacedStack = {
 };
 
 const Stack = createStackNavigator<OrderPlacedStack>();
+useFonts.mockReturnValue([true]);
 
 jest.mock("../src/components/PayButton", () => ({
   __esModule: true,
@@ -64,6 +66,10 @@ const OrderPlacedTest = () => {
 };
 
 describe("OrderPlaced", () => {
+  beforeAll(() => {
+    useFonts.mockReturnValue([true]);
+  });
+
   it("renders correctly", () => {
     // Render the component
     const { getByTestId } = render(<OrderPlacedTest />);

@@ -47,7 +47,7 @@ coverage/
 .vscode/
 
 # package lock
-# /package-lock.json
+package-lock.json
 
 # environment file
 .env
