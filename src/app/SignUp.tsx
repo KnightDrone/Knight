@@ -180,18 +180,18 @@ export default function SignUp({ navigation }: any) {
         <Text testID="pw-strength" className="text-lg text-center">
           Password Strength: {strength}
         </Text>
-        <View style={styles.strengthMeter}>
+        <View className="w-full h-4 bg-gray-300 rounded-lg m-2">
           <View
+            className="h-full rounded-lg"
             style={{
               width: getStrengthWidth(),
-              height: 20,
               backgroundColor: getStrengthColor(),
             }}
           />
         </View>
         <View>
           {suggestions.map((suggestion, index) => (
-            <Text key={index} style={styles.suggestionsText}>
+            <Text key={index} className="text-red-500 m-1">
               {suggestion}
             </Text>
           ))}
@@ -214,9 +214,6 @@ export default function SignUp({ navigation }: any) {
         style="secondary"
       />
 
-      {/* <Text style={styles.error} testID="signup-error-message">
-        {error}
-      </Text> */}
       {error && (
         <MessageBox
           message={error}
@@ -229,113 +226,3 @@ export default function SignUp({ navigation }: any) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  logo: {
-    width: 100,
-    height: 100,
-    marginBottom: 20,
-  },
-  title: {
-    fontSize: 24,
-    marginBottom: 20,
-    textAlign: "center",
-  },
-  button: {
-    marginTop: 10,
-    width: "80%",
-    borderColor: "black",
-    borderWidth: 1,
-    borderRadius: 5,
-    padding: 10,
-  },
-  input: {
-    width: "80%",
-    height: 40,
-    borderColor: "gray",
-    borderWidth: 1,
-    marginBottom: 10,
-    padding: 10,
-  },
-  passwordText: {
-    color: "black",
-    fontSize: 16,
-    textAlign: "left",
-    marginTop: 10,
-  },
-  error: {
-    color: "red",
-    marginTop: 10,
-  },
-  text: {
-    color: "black",
-    fontSize: 16,
-    textAlign: "center",
-    marginTop: 10,
-  },
-  lineContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    width: "80%",
-    marginVertical: 20,
-  },
-  line: {
-    flex: 1,
-    height: 1,
-    backgroundColor: "gray",
-  },
-  orText: {
-    width: 30,
-    textAlign: "center",
-  },
-  googleButtonText: {
-    color: "black",
-    fontSize: 16,
-    textAlign: "center",
-  },
-  linkText: {
-    color: "blue",
-    fontSize: 16,
-    textAlign: "center",
-    marginTop: 10,
-    textDecorationLine: "underline",
-  },
-  strengthText: {
-    fontWeight: "bold",
-    color: "black",
-    fontSize: 18,
-    marginBottom: 10,
-    marginTop: 10,
-  },
-  suggestionsText: {
-    color: "red",
-  },
-  strengthMeter: {
-    width: "80%",
-    height: 20,
-    backgroundColor: "#ccc",
-    marginTop: 10,
-    marginBottom: 10,
-    borderRadius: 10,
-    overflow: "hidden",
-  },
-  icon: {
-    position: "absolute",
-    marginRight: 10,
-  },
-  passwordContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    width: "80%",
-  },
-  eyeIcon: {
-    position: "absolute",
-    right: 10,
-  },
-});
