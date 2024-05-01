@@ -14,5 +14,25 @@
     "description": "Donnez-nous votre adresse e-mail et nous vous enverrons un lien pour réinitialiser votre mot de passe",
     "email": "Entrez votre adresse e-mail",
     "button": "Réinitialiser le mot de passe"
+  },
+  "signup": {
+    "title": "Créer un compte",
+    "username": "Entrez votre nom d'utilisateur",
+    "email": "Entrez votre adresse e-mail",
+    "password": "Entrez votre mot de passe",
+    "password-strength": "Fiabilité du mot de passe: ",
+    "signup-button": "Créer un compte",
+    "google-login": "Continuer avec Google"
+  },
+  "password-suggestions": {
+    "length": "Veuillez inclure au moins 8 caractères",
+    "upper-lower": "Veuillez inclure au moins une lettre majuscule et une lettre minuscule",
+    "number": "Veuillez inclure au moins un chiffre",
+    "special": "Veuillez inclure au moins un caractère spécial",
+    "too-weak": "Le mot de passe est trop faible",
+    "weak": "Le mot de passe est faible",
+    "moderate": "Le mot de passe est moyen",
+    "strong": "Le mot de passe est fort",
+    "very-strong": "Le mot de passe est très fort"
   }
 }
