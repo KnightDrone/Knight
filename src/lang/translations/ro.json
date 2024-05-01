@@ -14,5 +14,25 @@
     "description": "Dați-ne adresa de email și vă vom trimite un link pentru resetarea parolei",
     "email": "Introduceți adresa de email",
     "button": "Resetare parolă"
+  },
+  "signup": {
+    "title": "Înregistrare",
+    "username": "Introduceți numele de utilizator",
+    "email": "Introduceți adresa de email",
+    "password": "Introduceți parola",
+    "password-strength": "Puterea parolei: ",
+    "signup-button": "Înregistrare",
+    "google-login": "Continuați cu Google"
+  },
+  "password-suggestions": {
+    "length": "Vă rugăm să includeți cel puțin 8 caractere",
+    "upper-lower": "Vă rugăm să includeți cel puțin o literă mare și una mică",
+    "number": "Vă rugăm să includeți cel puțin un număr",
+    "special": "Vă rugăm să includeți cel puțin un caracter special",
+    "too-weak": "Parola este prea slabă",
+    "weak": "Parola este slabă",
+    "moderate": "Parola este moderată",
+    "strong": "Parola este puternică",
+    "very-strong": "Parola este foarte puternică"
   }
 }
