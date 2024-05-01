@@ -49,6 +49,82 @@ describe("App Navigation", () => {
     });
   });
 
+  it("logs in when the login button is pressed", async () => {
+    (Google.useAuthRequest as jest.Mock).mockReturnValue([
+      {},
+      { type: "fail", params: { id_token: "" } },
+      jest.fn(),
+    ]);
+
+    const { getByTestId, getByPlaceholderText, queryByTestId } = render(
+      <App />
+    );
+
+    await simulateLogin(getByPlaceholderText, getByTestId, queryByTestId);
+  });
+
+  it("logs in, go to map overview, and then go to order menu", async () => {
+    (Google.useAuthRequest as jest.Mock).mockReturnValue([
+      {},
+      { type: "fail", params: { id_token: "" } },
+      jest.fn(),
+    ]);
+
+    const { getByTestId, getByPlaceholderText, queryByTestId } = render(
+      <App />
+    );
+
+    await simulateLogin(getByPlaceholderText, getByTestId, queryByTestId);
+
+    const orderMenuButton = getByTestId("order-button");
+    fireEvent.press(orderMenuButton);
+
+    await waitFor(() => {
+      expect(queryByTestId("order-menu-screen")).toBeTruthy();
+    });
+  });
+
+  it("goes to order menu, then goes back", async () => {
+    const { getByTestId, queryByTestId } = render(<App />);
+
+    await waitFor(() => {
+      expect(queryByTestId("map-overview-screen")).toBeTruthy();
+    });
+
+    const orderMenuButton = getByTestId("order-button");
+    fireEvent.press(orderMenuButton);
+
+    await waitFor(() => {
+      expect(queryByTestId("order-menu-screen")).toBeTruthy();
+    });
+
+    const backButton = getByTestId("back-button");
+    fireEvent.press(backButton);
+
+    await waitFor(() => {
+      expect(queryByTestId("map-overview-screen")).toBeTruthy();
+    });
+  });
+
+  it("logs in and navigates through the app", async () => {
+    const { getByPlaceholderText, getByTestId, queryByTestId } = render(
+      <App />
+    );
+    await simulateLogin(getByPlaceholderText, getByTestId, queryByTestId);
+
+    const orderMenuButton = getByTestId("order-button");
+    fireEvent.press(orderMenuButton);
+
+    await waitFor(() => {
+      expect(queryByTestId("order-menu-screen")).toBeTruthy();
+    });
+
+    fireEvent.press(getByTestId("back-button"));
+    await waitFor(() => {
+      expect(queryByTestId("map-overview-screen")).toBeTruthy();
+    });
+  });
+
   it("onAuthStateChanged is called when the user logs in", async () => {
     const mockUser = { uid: "123", email: "random@gmail.com" };
     (onAuthStateChanged as jest.Mock).mockImplementation((auth, callback) => {

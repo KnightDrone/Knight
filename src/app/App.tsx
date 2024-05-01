@@ -16,7 +16,6 @@ function App() {
   const [userInfo, setUserInfo] = useState<User | null>(null);
   const [loading, setLoading] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState<"Login" | "Map">("Login");
-
   const checkLocalUser = async () => {
     try {
       // NOTE: Doesn't work with testing library
