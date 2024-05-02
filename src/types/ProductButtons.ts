@@ -1,4 +1,3 @@
-import { useTranslation } from "react-i18next";
 import { Item } from "./Item";
 
 interface ProductButton {
@@ -6,13 +5,11 @@ interface ProductButton {
   onPress: () => void;
 }
 
-const { t } = useTranslation();
-
 const names: string[] = [
-  t("items.first-aid"),
-  t("items.flashlight"),
-  t("items.thermal-blanket"),
-  t("items.powerbank"),
+  "items.first-aid",
+  "items.flashlight",
+  "items.thermal-blanket",
+  "items.powerbank",
 ];
 
 const iconDirs: string[] = [
@@ -48,10 +45,10 @@ const images: number[] = [
 const prices: number[] = [20, 15, 10, 30];
 
 const descriptions: string[] = [
-  t("items.first-aid-description"),
-  t("items.flashlight-description"),
-  t("items.thermal-blanket-description"),
-  t("items.powerbank-description"),
+  "items.first-aid-description",
+  "items.flashlight-description",
+  "items.thermal-blanket-description",
+  "items.powerbank-description",
 ];
 
 const items: Item[] = names.map((name, i) => {
