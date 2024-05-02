@@ -4,6 +4,7 @@ import MapView, { MapViewProps, Region } from "react-native-maps";
 import * as Location from "expo-location";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import LocationMarker from "../components/LocationMarker";
+import { waitFor } from "@testing-library/react-native";
 
 const topButtonPadding = 60;
 const sideButtonPadding = 30;
@@ -50,7 +51,7 @@ const MapOverview = ({ navigation }: any) => {
     if (autoCenter && marker) {
       mapRef.current?.animateToRegion(
         { ...marker, latitudeDelta: 0.005, longitudeDelta: 0.005 },
-        1000
+        500
       );
     }
   }, [autoCenter, marker]);
@@ -90,19 +91,18 @@ const MapOverview = ({ navigation }: any) => {
     if (marker && mapRef.current) {
       mapRef.current.animateToRegion(
         { ...marker, latitudeDelta: 0.005, longitudeDelta: 0.005 },
-        1000
+        2000
       );
     }
-    setAutoCenter(true);
+    setTimeout(() => {
+      setAutoCenter(true);
+    }, 2005);
   };
 
   return (
     <View style={styles.container}>
       <MapView
         onPanDrag={() => {
-          setAutoCenter(false);
-        }}
-        onPress={() => {
           setAutoCenter(false);
         }}
         testID="map-view"
