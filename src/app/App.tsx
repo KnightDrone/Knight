@@ -16,6 +16,7 @@ import ForgotPassword from "./ForgotPassword";
 import OrderMenu from "./OrderMenu";
 import MapOverview from "./Map";
 import OrderPlaced from "./OrderPlaced";
+import Settings from "./Setting";
 import "./global.css";
 
 import { registerRootComponent } from "expo";
@@ -152,6 +153,25 @@ function App() {
         <Stack.Screen name="OrderHistory">
           {(props) => <OrderHistory {...props} />}
         </Stack.Screen>
+        <Stack.Screen
+          name="Settings"
+          component={Settings} // Ensure this component is correctly defined and imported
+          options={({ navigation }) => ({
+            headerShown: true,
+            headerTransparent: true,
+            headerTitle: "", // No title or you can add "Settings" here
+            headerLeft: () => (
+              <HeaderBackButton
+                onPress={() => navigation.goBack()}
+                backImage={() => (
+                  <Icon name="arrow-back" size={24} color="black" />
+                )}
+                labelVisible={false}
+                testID="settings-back-button"
+              />
+            ),
+          })}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

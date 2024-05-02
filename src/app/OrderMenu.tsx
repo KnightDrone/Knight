@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import OrderButton from "../components/OrderButton";
-import { Text, StyleSheet, View } from "react-native";
+import { Text, StyleSheet, View, Button } from "react-native";
 import TriangleBackground from "../components/TriangleBackground";
 import { productButtons } from "../types/ProductButtons";
 import ItemCard from "../components/ItemCard";
@@ -53,6 +53,11 @@ export default function OrderMenu({ navigation }: any) {
           />
         );
       })}
+      <Button
+        title="Go to Settings"
+        onPress={() => navigation.navigate("Settings")}
+        color="#007AFF"
+      />
     </View>
   );
 }
