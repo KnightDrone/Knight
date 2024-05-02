@@ -34,5 +34,40 @@
     "moderate": "Password is moderate",
     "strong": "Password is strong",
     "very-strong": "Password is very strong"
+  },
+  "map": {
+    "permission-denied": "Permission to access location denied",
+    "permission-not-granted": "Location permission not granted",
+    "marker-title": "Current location",
+    "order-button": "Order"
+  },
+  "items": {
+    "first-aid": "First aid kit",
+    "first-aid-description": "Constains bandages, plasters, rubbing alcohol, asthma pump.",
+    "flashlight": "Flashlight",
+    "flashlight-description": "1000 lumens. Powered by two AA batteries.",
+    "thermal-blanket": "Thermal blanket",
+    "thermal-blanket-description": "Made of reflective material to contain body heat.",
+    "powerbank": "Power bank",
+    "powerbank-description": "20000 mAh battery. USB-C, lightning and USB-A connections."
+  },
+  "order-placed": {
+    "arriving-at": "Arriving at",
+    "on-its-way": "Your order is on its way",
+    "order-summary": "Order summary",
+    "location": "Location: ",
+    "order-complete": "Your order should have been delivered",
+    "thanks": "Thanks for trusting us",
+    "view-order-history": "View order history"
+  },
+  "order-history": {
+    "title": "Order history"
+  },
+  "order-menu": {
+    "choose-item": "Choose an item"
+  },
+  "global": {
+    "loading": "Loading...",
+    "wait": "Please wait..."
   }
 }

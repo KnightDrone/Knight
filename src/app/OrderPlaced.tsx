@@ -15,6 +15,8 @@ import { images } from "../types/ProductButtons";
 interface OrderPlacedProps {
   orderId: string;
 }
+import { useTranslation } from "react-i18next";
+import { TranslationKeys } from "../types/translation-keys";
 
 const OrderPlaced = ({
   navigation,
@@ -24,6 +26,8 @@ const OrderPlaced = ({
   route: RouteProp<RootStackParamList, "OrderPlaced">;
 }) => {
   const { orderId } = route.params;
+  const { t } = useTranslation();
+
   const [fadeAnim] = useState(new Animated.Value(0));
   const firestoreManager = new FirestoreManager();
 
@@ -94,7 +98,7 @@ const OrderPlaced = ({
       hour12: false,
     });
 
-    return `Arriving at ${formattedDate}`;
+    return `${t("order-placed.arriving-at")} ${formattedDate}`;
   };
 
   return (
@@ -104,14 +108,11 @@ const OrderPlaced = ({
     >
       <TriangleBackground color="#A0D1E4" />
       <View className="flex w-full flex-col items-center">
-        <Text
-          className=" text-3xl font-bold font-kaisei"
-          testID="order-placed-message"
-        >
-          Your order is on its way
+        <Text className=" text-3xl font-bold" testID="order-placed-message">
+          {t("order-placed.on-its-way")}
         </Text>
         <View className="my-2 flex items-start">
-          <Text className="text-lg my-2 font-kaisei" testID="arrival-time">
+          <Text className="text-lg my-2" testID="arrival-time">
             {getFormattedArrivalTime(new Date(arrivalTime))}
           </Text>
         </View>
@@ -138,14 +139,11 @@ const OrderPlaced = ({
           className="p-4 rounded-lg mt-24  w-11/12 justify-center items-center"
           style={{ backgroundColor: "#FFFBF1" }}
         >
-          <Text
-            className="text-2xl font-semibold font-kaisei"
-            testID="order-summary"
-          >
-            Order summary
+          <Text className="text-2xl font-semibold" testID="order-summary">
+            {t("order-placed.order-summary")}
           </Text>
           <Text className="text-xl my-2 font-kaisei" testID="ordered-item-name">
-            {orderedItem ? orderedItem.getName() : "Loading..."}
+            {orderedItem ? t(orderedItem.getName()) : "Loading..."}
           </Text>
           {/* <Text className="text-lg font-kaisei" testID="user-location">
             Location: {orderedItem ? userLocation : { latitude: -999, longitude: -999 }}
@@ -167,17 +165,14 @@ const OrderPlaced = ({
             opacity: fadeAnim,
           }}
         >
-          <Text
-            className="text-lg font-semibold font-kaisei"
-            testID="order-complete"
-          >
-            Your order should have been delivered!
+          <Text className="text-lg font-semibold" testID="order-complete">
+            {t("order-placed.order-complete")}
           </Text>
-          <Text className="text-lg font-kaisei" testID="order-complete-message">
-            Thanks for trusting us!
+          <Text className="text-lg" testID="order-complete-message">
+            {t("order-placed.thanks")}
           </Text>
           {/* <TouchableOpacity>
-            <Text className="text-red-500 font-kaisei" testID="report-issue">
+            <Text className="text-red-500" testID="report-issue">
               Report an issue
             </Text>
           </TouchableOpacity> */}
@@ -189,7 +184,7 @@ const OrderPlaced = ({
               opacity: completion >= 100 ? 1 : 0,
             }}
           >
-            <Text className="text-white font-kaisei">Continue</Text>
+            <Text className="text-white">Continue</Text>
           </TouchableOpacity>
         </Animated.View>
 
@@ -200,8 +195,8 @@ const OrderPlaced = ({
             navigation.navigate("OrderHistory", { opOrders: true })
           }
         >
-          <Text className="text-black font-kaisei underline">
-            View order history
+          <Text className="text-black underline">
+            {t("order-placed.view-order-history")}
           </Text>
         </TouchableOpacity>
       </View>

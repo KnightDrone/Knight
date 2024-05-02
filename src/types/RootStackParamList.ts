@@ -13,6 +13,7 @@ export type RootStackParamList = {
     longitude: number;
   };
   Map: undefined;
+  Settings: undefined;
   OrderPlaced: {
     orderId: string;
   };

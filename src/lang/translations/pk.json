@@ -34,5 +34,40 @@
     "moderate": "پاس ورڈ معتدل ہے",
     "strong": "پاس ورڈ مضبوط ہے",
     "very-strong": "پاس ورڈ بہت مضبوط ہے"
+  },
+  "map": {
+    "permission-denied": "مقام تک رسائی کی اجازت مسترد",
+    "permission-not-granted": "مقام کی اجازت نہیں ملی",
+    "marker-title": "موجودہ مقام",
+    "order-button": "آرڈر"
+  },
+  "items": {
+    "first-aid": "پہلی امداد کا کٹ",
+    "first-aid-description": "پٹیاں، پلاسٹر، رگڑنے والا الکحل، دمہ پمپ شامل ہیں۔",
+    "flashlight": "فلیش لائٹ",
+    "flashlight-description": "1000 لیومنز۔ دو AA بیٹریوں سے چلتی ہے۔",
+    "thermal-blanket": "حرارتی کمبل",
+    "thermal-blanket-description": "جسمانی حرارت کو محفوظ کرنے کے لئے عکاسی مواد سے بنا ہوا۔",
+    "powerbank": "پاور بینک",
+    "powerbank-description": "20000 mAh بیٹری۔ USB-C، لائٹننگ اور USB-A کنکشنز۔"
+  },
+  "order-placed": {
+    "arriving-at": "پہنچ رہا ہے",
+    "on-its-way": "آپ کا آرڈر راستے میں ہے",
+    "order-summary": "آرڈر کا خلاصہ",
+    "location": "مقام: ",
+    "order-complete": "آپ کا آرڈر پہنچ چکا ہونا چاہئے",
+    "thanks": "ہم پر اعتماد کرنے کا شکریہ",
+    "view-order-history": "آرڈر کی تاریخ دیکھیں"
+  },
+  "order-history": {
+    "title": "آرڈر کی تاریخ"
+  },
+  "order-menu": {
+    "choose-item": "آئٹم منتخب کریں"
+  },
+  "global": {
+    "loading": "لوڈ ہو رہا ہے...",
+    "wait": "براہ کرم انتظار کریں..."
   }
 }
