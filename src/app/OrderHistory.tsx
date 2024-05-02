@@ -14,7 +14,6 @@ import TriangleBackground from "../components/TriangleBackground";
 import { RootStackParamList } from "../types/RootStackParamList";
 import { RouteProp } from "@react-navigation/native";
 import { MessageBox } from "../ui/MessageBox";
-import { useTranslation } from "react-i18next";
 
 /* 
 NOTE: This is a temporary solution to simulate fetching orders from a server. Should be replaced with actual database calls
@@ -82,7 +81,6 @@ const OrderHistory = ({
 }) => {
   const { opOrders, userId } = route.params;
 
-  const { t } = useTranslation();
   const [orders, setOrders] = useState<Order[]>([]);
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState<Error | null>(null);
@@ -121,7 +119,7 @@ const OrderHistory = ({
           />
         </TouchableOpacity>
         <Text className="text-2xl font-bold text-center my-4">
-          {t("order-history.title")}
+          Order history
         </Text>
         <TouchableOpacity
           className="absolute right-4"
