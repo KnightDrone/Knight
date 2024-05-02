@@ -23,6 +23,44 @@ const mockNavigation = {
   fetchOrdersForUserMock: fetchOrdersForUserMock,
 }));*/
 
+jest.mock("../src/services/FirestoreManager", () => {
+  return {
+    __esModule: true,
+    default: jest.fn().mockImplementation(() => {
+      return {
+        queryOrder: jest
+          .fn()
+          .mockImplementation(() =>
+            Promise.resolve([
+              new Order(
+                "user1",
+                new Item(1, "mock item1", "description1", 1, 1, 10),
+                { latitude: 46.8182, longitude: 8.2275 },
+                new Date(),
+                OrderStatus.Delivered,
+                new Date(),
+                "Mattenhorn peak #3",
+                "St. Gallen Hospital",
+                { latitude: 55, longitude: 33 }
+              ),
+              new Order(
+                "user2",
+                new Item(2, "mock item2", "description1", 1, 1, 22),
+                { latitude: 46.8182, longitude: 8.2275 },
+                new Date(),
+                OrderStatus.Delivered,
+                new Date(),
+                "Mattenhorn peak #1",
+                "Pharmacy #5",
+                { latitude: 55, longitude: 33 }
+              ),
+            ])
+          ),
+      };
+    }),
+  };
+});
+
 jest.mock("@react-navigation/native", () => {
   return {
     ...jest.requireActual("@react-navigation/native"),
@@ -56,6 +94,7 @@ const OrderHistoryTest = () => {
 
 describe("OrderHistory", () => {
   it("renders correctly", async () => {
+    /*
     (
       queryOrder as jest.MockedFunction<typeof queryOrder>
     ).mockImplementationOnce(() =>
@@ -83,34 +122,17 @@ describe("OrderHistory", () => {
           { latitude: 55, longitude: 33 }
         ),
       ])
-    );
+    );*/
 
-    /*(OrderHistoryModule. as jest.Mock).mockResolvedValue([
-      new Order(
-        "user1",
-        new Item(1, "mock item1", "description1", 1, 1, 10),
-        { latitude: 46.8182, longitude: 8.2275 },
-        new Date(),
-        OrderStatus.Delivered,
-        new Date(),
-        "Mattenhorn peak #3",
-        "St. Gallen Hospital",
-        { latitude: 55, longitude: 33 }
-      ),
-      new Order(
-        "user2",
-        new Item(2, "mock item2", "description1", 1, 1, 22),
-        { latitude: 46.8182, longitude: 8.2275 },
-        new Date(),
-        OrderStatus.Delivered,
-        new Date(),
-        "Mattenhorn peak #1",
-        "Pharmacy #5",
-        { latitude: 55, longitude: 33 }
-      )
-    ]);*/
     const { getByText, getByTestId } = render(
-      <OrderHistory historyOp={false} userId={"1234567890"} />
+      <Stack.Screen
+        name="OrderHistory"
+        component={OrderHistory}
+        initialParams={{
+          historyOp: false,
+          userId: "user1",
+        }}
+      />
     );
 
     await waitFor(
