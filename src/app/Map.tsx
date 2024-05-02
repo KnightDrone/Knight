@@ -90,12 +90,12 @@ const MapOverview = ({ navigation }: any) => {
     if (marker && mapRef.current) {
       mapRef.current.animateToRegion(
         { ...marker, latitudeDelta: 0.005, longitudeDelta: 0.005 },
-        2000
+        1500
       );
     }
     setTimeout(() => {
       setAutoCenter(true);
-    }, 2005);
+    }, 1500);
   };
 
   return (
