@@ -14,10 +14,14 @@ const Stack = createStackNavigator();
 import Login from "../src/app/Login";
 import passwordsForTesting from "../src/utils/passwords";
 import { createUserWithEmailAndPassword } from "../src/services/Firebase";
+import { initI18n } from "../src/lang/i18n";
+import { t } from "i18next";
 
 // Avoid useless error messages
 beforeAll(() => {
   jest.spyOn(console, "error").mockImplementation(() => {});
+
+  initI18n();
 });
 
 const SignUpTest = () => {
@@ -85,61 +89,58 @@ describe("SignUp Component", () => {
     const passwordMap = [
       {
         password: passwordsForTesting[0],
-        strength: "Too Weak",
+        strength: t("password-suggestions.too-weak"),
         suggestions: [
-          "Password should be at least 8 characters long",
-          "Add at least one number",
-          "Include both upper and lower case letters",
-          "Include at least one special character",
+          t("password-suggestions.length"),
+          t("password-suggestions.number"),
+          t("password-suggestions.upper-lower"),
+          t("password-suggestions.special"),
         ],
       },
       {
         password: passwordsForTesting[1],
-        strength: "Weak",
+        strength: t("password-suggestions.weak"),
         suggestions: [
-          "Add at least one number",
-          "Include both upper and lower case letters",
-          "Include at least one special character",
+          t("password-suggestions.number"),
+          t("password-suggestions.special"),
+          t("password-suggestions.upper-lower"),
         ],
       },
       {
         password: passwordsForTesting[2],
-        strength: "Moderate",
+        strength: t("password-suggestions.moderate"),
         suggestions: [
-          "Include both upper and lower case letters",
-          "Include at least one special character",
+          t("password-suggestions.special"),
+          t("password-suggestions.upper-lower"),
         ],
       },
       {
         password: passwordsForTesting[3],
-        strength: "Moderate",
-        suggestions: ["Include at least one special character"],
+        strength: t("password-suggestions.moderate"),
+        suggestions: [t("password-suggestions.special")],
       },
       {
         password: passwordsForTesting[4],
-        strength: "Very Strong",
+        strength: t("password-suggestions.very-strong"),
         suggestions: [],
       },
       {
         password: passwordsForTesting[5],
-        strength: "Very Strong",
+        strength: t("password-suggestions.very-strong"),
         suggestions: [],
       },
       {
         password: passwordsForTesting[6],
-        strength: "Strong",
-        suggestions: ["Password should be at least 8 characters long"],
+        strength: t("password-suggestions.strong"),
+        suggestions: [t("password-suggestions.length")],
       },
     ];
 
     passwordMap.forEach((entry) => {
       fireEvent.changeText(passwordInput, entry.password);
       const passwordStrength = getByTestId("pw-strength");
-      expect(
-        passwordStrength.props.children[
-          passwordStrength.props.children.length - 1
-        ]
-      ).toBe(entry.strength);
+      expect(passwordStrength).toBeTruthy();
+      expect(getByText(entry.strength)).toBeTruthy();
       entry.suggestions.forEach((suggestion) => {
         expect(getByText(suggestion)).toBeTruthy();
       });

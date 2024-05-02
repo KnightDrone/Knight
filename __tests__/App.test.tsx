@@ -6,6 +6,7 @@ import App from "../src/app/App";
 import { onAuthStateChanged } from "../src/services/Firebase";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { View, Text } from "react-native";
+import { initI18n } from "../src/lang/i18n";
 
 beforeEach(() => {
   const mockPromptAsync = jest.fn();
@@ -16,6 +17,8 @@ beforeEach(() => {
     { type: "success", params: { id_token: "mock-id-token" } }, // Mocked response
     mockPromptAsync, // Mocked promptAsync function
   ]);
+
+  initI18n();
 });
 
 jest.mock("../src/components/PayButton", () => ({

@@ -2,10 +2,12 @@ import React from "react";
 import { fireEvent, render, waitFor } from "@testing-library/react-native";
 import ForgotPasswordScreen from "../src/app/ForgotPassword";
 import { sendPasswordResetEmail } from "../src/services/Firebase";
+import { initI18n } from "../src/lang/i18n";
 
 // Avoid useless error messages
 beforeAll(() => {
   jest.spyOn(console, "error").mockImplementation(() => {});
+  initI18n();
 });
 
 describe("ForgotPasswordScreen Component", () => {
