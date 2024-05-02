@@ -13,6 +13,7 @@ import { View, Text } from "react-native";
 import { RootStackParamList } from "../src/types/RootStackParamList";
 import { useFonts } from "../__mocks__/expo-font";
 import { Item } from "../src/types/Item";
+import FirestoreManager from "../src/services/FirestoreManager";
 import { read } from "fs";
 
 type OrderPlacedStack = {
@@ -22,19 +23,6 @@ type OrderPlacedStack = {
 
 const Stack = createStackNavigator<OrderPlacedStack>();
 useFonts.mockReturnValue([true]);
-
-jest.mock("../src/types/Item", () => {
-  return {
-    Item: jest.fn().mockImplementation((id, name, description, price) => {
-      return {
-        id: id,
-        name: name,
-        description: description,
-        price: price,
-      };
-    }),
-  };
-});
 
 jest.mock("../src/components/PayButton", () => ({
   __esModule: true,
@@ -55,14 +43,33 @@ beforeAll(() => {
   jest.spyOn(console, "warn").mockImplementation(() => {});
 });
 
+// jest.mock("../src/types/Item", () => {
+//   return {
+//     Item: jest.fn().mockImplementation((id, name, description, price) => {
+//       return {
+//         id: id,
+//         name: name,
+//         description: description,
+//         price: price,
+//       };
+//     }),
+//   };
+// });
+
 jest.mock("../src/services/FirestoreManager", () => {
-  readOrder: jest.fn().mockReturnValue({
-    getItem: jest
-      .fn()
-      .mockReturnValue(new Item(1, "Test Item", "Test Description", 100)),
-    getOrderDate: jest.fn().mockReturnValue(new Date()),
-    getOrderLocation: jest.fn().mockReturnValue({ latitude: 0, longitude: 0 }),
-  });
+  return {
+    default: jest.fn().mockImplementation(() => {
+      readOrder: jest.fn().mockReturnValue({
+        getItem: jest
+          .fn()
+          .mockReturnValue(new Item(1, "Test Item", "Test Description", 100)),
+        getOrderDate: jest.fn().mockReturnValue(new Date()),
+        getOrderLocation: jest
+          .fn()
+          .mockReturnValue({ latitude: 0, longitude: 0 }),
+      });
+    }),
+  };
 });
 
 const OrderPlacedTest = () => {
