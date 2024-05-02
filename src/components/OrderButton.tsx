@@ -5,6 +5,7 @@ import {
   StyleSheet,
   Image,
   ImageSourcePropType,
+  View,
 } from "react-native";
 import { buttonStyles } from "../styles/ButtonStyles";
 
@@ -16,9 +17,22 @@ interface ButtonProps {
 
 const Button: React.FC<ButtonProps> = ({ title, icon, onPress }) => {
   return (
-    <TouchableOpacity style={buttonStyles.order_button} onPress={onPress}>
-      <Image style={buttonStyles.image} source={icon} testID="image" />
-      <Text style={styles.text}>{title}</Text>
+    <TouchableOpacity
+      className="flex flex-row w-full"
+      style={buttonStyles.order_button}
+      onPress={onPress}
+    >
+      <View className="flex flex-row items-center w-full p-8">
+        <Image style={buttonStyles.image} source={icon} testID="image" />
+        <Text
+          className="w-2/3"
+          style={styles.text}
+          numberOfLines={1}
+          ellipsizeMode="clip"
+        >
+          {title}
+        </Text>
+      </View>
     </TouchableOpacity>
   );
 };
@@ -29,6 +43,6 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 24,
     lineHeight: 33,
-    marginLeft: 20,
+    marginLeft: 10,
   },
 });
