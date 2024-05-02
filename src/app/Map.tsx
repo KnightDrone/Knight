@@ -3,13 +3,7 @@ import { StyleSheet, View, TouchableOpacity, Text, Alert } from "react-native";
 import MapView, { MapViewProps, Region } from "react-native-maps";
 import * as Location from "expo-location";
 import Icon from "react-native-vector-icons/MaterialIcons";
-import {
-  NavigationProp,
-  RouteProp,
-  useNavigation,
-} from "@react-navigation/native";
 import LocationMarker from "../components/LocationMarker";
-import { waitFor } from "@testing-library/react-native";
 
 const topButtonPadding = 60;
 const sideButtonPadding = 30;
@@ -76,7 +70,7 @@ const MapOverview = ({ navigation }: any) => {
     setLoading(true);
     locationWatcher = await Location.watchPositionAsync(
       {
-        accuracy: Location.Accuracy.High,
+        accuracy: Location.Accuracy.BestForNavigation,
         distanceInterval: 1,
       },
       (location) => {
