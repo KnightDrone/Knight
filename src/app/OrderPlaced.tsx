@@ -142,10 +142,10 @@ const OrderPlaced = ({
           <Text className="text-2xl font-semibold" testID="order-summary">
             {t("order-placed.order-summary")}
           </Text>
-          <Text className="text-xl my-2 font-kaisei" testID="ordered-item-name">
-            {orderedItem ? t(orderedItem.getName()) : "Loading..."}
+          <Text className="text-xl my-2" testID="ordered-item-name">
+            {orderedItem ? t(orderedItem.getName() as any) : "Loading..."}
           </Text>
-          {/* <Text className="text-lg font-kaisei" testID="user-location">
+          {/* <Text className="text-lg" testID="user-location">
             Location: {orderedItem ? userLocation : { latitude: -999, longitude: -999 }}
           </Text> */}
           <Image
