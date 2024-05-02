@@ -86,6 +86,10 @@ class Order {
     return this.status;
   }
 
+  setStatus(status: OrderStatus) {
+    this.status = status;
+  }
+
   getDeliveryDate(): Date {
     return this.deliveryDate;
   }
@@ -105,18 +109,18 @@ class Order {
     return this.opLocation;
   }
 
-  toDict(): { [key: string]: string } {
-    return {
-      id: this.id,
-      user: this.user,
-      operator: this.opName,
-      item: JSON.stringify(this.item.toDict()),
-      orderDate: this.orderDate.toString(),
-      status: this.status,
-      deliveryDate: this.deliveryDate.toString(),
-      location: JSON.stringify(this.usrLocation),
-    };
-  }
+  // toDict(): { [key: string]: string } {
+  //   return {
+  //     id: this.id,
+  //     user: this.user,
+  //     operator: this.opName,
+  //     item: JSON.stringify(this.item.toDict()),
+  //     orderDate: this.orderDate.toString(),
+  //     status: this.status,
+  //     deliveryDate: this.deliveryDate.toString(),
+  //     location: JSON.stringify(this.usrLocation),
+  //   };
+  // }
 }
 
 const orderConverter = {
