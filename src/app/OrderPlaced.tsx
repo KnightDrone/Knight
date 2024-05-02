@@ -4,8 +4,6 @@ import "./global.css";
 import { RouteProp } from "@react-navigation/native";
 import { RootStackParamList } from "../types/RootStackParamList";
 import Icon from "react-native-vector-icons/Fontisto";
-import { useFonts } from "expo-font";
-import KaiseiRegular from "../../assets/fonts/KaiseiDecol-Regular.ttf";
 import TriangleBackground from "../components/TriangleBackground";
 import { Animated } from "react-native";
 import { secureRandom } from "../utils/random";
@@ -18,10 +16,6 @@ const OrderPlaced = ({
   navigation: any;
 }) => {
   const [fadeAnim] = useState(new Animated.Value(0));
-
-  const [fontsLoaded] = useFonts({
-    "Kaisei-Regular": KaiseiRegular,
-  });
 
   const { orderedItem, placedAt, userLocation } = route.params;
 

@@ -7,8 +7,6 @@ import {
   ImageSourcePropType,
 } from "react-native";
 import { buttonStyles } from "../styles/ButtonStyles";
-import { useFonts } from "expo-font";
-import KaiseiRegular from "../../assets/fonts/KaiseiDecol-Regular.ttf";
 
 interface ButtonProps {
   title: string;
@@ -17,10 +15,6 @@ interface ButtonProps {
 }
 
 const Button: React.FC<ButtonProps> = ({ title, icon, onPress }) => {
-  const [fontsLoaded] = useFonts({
-    "Kaisei-Regular": KaiseiRegular,
-  });
-
   return (
     <TouchableOpacity style={buttonStyles.order_button} onPress={onPress}>
       <Image style={buttonStyles.image} source={icon} testID="image" />
@@ -34,7 +28,6 @@ export default Button;
 const styles = StyleSheet.create({
   text: {
     fontSize: 24,
-    fontFamily: "Kaisei-Regular",
     lineHeight: 33,
     marginLeft: 20,
   },

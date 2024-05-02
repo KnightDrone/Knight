@@ -18,9 +18,6 @@ import MapOverview from "./Map";
 import OrderPlaced from "./OrderPlaced";
 import "./global.css";
 
-import { useFonts } from "expo-font";
-import KaiseiRegular from "../../assets/fonts/KaiseiDecol-Regular.ttf";
-
 import { registerRootComponent } from "expo";
 import { initI18n } from "../lang/i18n";
 import { RootStackParamList } from "../types/RootStackParamList";
@@ -33,10 +30,6 @@ const Stack = createStackNavigator<RootStackParamList>();
 initI18n();
 
 function App() {
-  const [fontsLoaded] = useFonts({
-    "Kaisei-Regular": KaiseiRegular,
-  });
-
   const [userInfo, setUserInfo] = useState<User | null>(null);
   const [loading, setLoading] = useState(false);
 

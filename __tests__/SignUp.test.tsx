@@ -11,14 +11,11 @@ import * as Google from "expo-auth-session/providers/google";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 const Stack = createStackNavigator();
-import { useFonts } from "../__mocks__/expo-font";
 import Login from "../src/app/Login";
 import passwordsForTesting from "../src/utils/passwords";
 import { createUserWithEmailAndPassword } from "../src/services/Firebase";
 import { initI18n } from "../src/lang/i18n";
 import { t } from "i18next";
-
-useFonts.mockReturnValue([true]);
 
 // Avoid useless error messages
 beforeAll(() => {
