@@ -32,6 +32,22 @@ jest.mock("../src/components/PayButton", () => ({
   },
 }));
 
+async function simulateLogin(
+  getByPlaceholderText: any,
+  getByTestId: any,
+  queryByTestId: any
+) {
+  const emailInput = getByPlaceholderText("Enter your username or email");
+  const passwordInput = getByPlaceholderText("Enter your password");
+  fireEvent.changeText(emailInput, "random@gmail.com");
+  fireEvent.changeText(passwordInput, "password");
+  fireEvent.press(getByTestId("login-button"));
+
+  await waitFor(() => {
+    expect(queryByTestId("map-overview-screen")).toBeTruthy();
+  });
+}
+
 beforeAll(() => {
   global.alert = jest.fn();
 
