@@ -15,12 +15,14 @@ import * as Google from "expo-auth-session/providers/google";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { Text } from "react-native";
+import { initI18n } from "../src/lang/i18n";
 
 const Stack = createStackNavigator();
 
 // Avoid useless error messages
 beforeAll(() => {
   jest.spyOn(console, "error").mockImplementation(() => {});
+  initI18n();
 });
 
 // Setup mock implementations

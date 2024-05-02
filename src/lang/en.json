@@ -1,0 +1,38 @@
+{
+  "login": {
+    "app-name": "Wild Knight",
+    "username": "Enter your username or email",
+    "password": "Enter your password",
+    "login-button": "Log in",
+    "reset-password": "Reset password",
+    "create-account": "Create account",
+    "google-login": "Continue with Google"
+  },
+  "or-separator": "or",
+  "reset-password": {
+    "title": "Reset password",
+    "description": "Give us your email and we will send you a link to reset your password",
+    "email": "Enter your email",
+    "button": "Reset password"
+  },
+  "signup": {
+    "title": "Sign up",
+    "username": "Enter your username",
+    "email": "Enter your email",
+    "password": "Enter your password",
+    "password-strength": "Password Strength: ",
+    "signup-button": "Sign up",
+    "google-login": "Continue with Google"
+  },
+  "password-suggestions": {
+    "length": "Please include at least 8 characters",
+    "upper-lower": "Please include at least one uppercase and one lowercase letter",
+    "number": "Please include at least one number",
+    "special": "Please include at least one special character",
+    "too-weak": "Password is too weak",
+    "weak": "Password is weak",
+    "moderate": "Password is moderate",
+    "strong": "Password is strong",
+    "very-strong": "Password is very strong"
+  }
+}
