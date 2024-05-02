@@ -117,7 +117,7 @@ const OrderPlaced = ({
             {t("order-placed.order-summary")}
           </Text>
           <Text className="text-xl my-2 font-kaisei" testID="ordered-item-name">
-            {t(orderedItem.getName())}
+            {orderedItem.getName()}
           </Text>
           <Text className="text-lg font-kaisei" testID="user-location">
             {t("order-placed.location")} {userLocation}
