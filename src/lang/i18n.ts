@@ -2,20 +2,19 @@ import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import "intl-pluralrules";
 
-import us from "./en-us.json";
-import uk from "./en-uk.json";
+import en from "./en.json";
 import ro from "./translations/ro.json";
 import fr from "./translations/fr.json";
 import de from "./translations/de.json";
 import it from "./translations/it.json";
 import es from "./translations/es.json";
+import pk from "./translations/pk.json";
+import dz from "./translations/dz.json";
+import gr from "./translations/gr.json";
 
 const resources = {
-  us: {
-    translation: us,
-  },
-  uk: {
-    translation: uk,
+  en: {
+    translation: en,
   },
   ro: {
     translation: ro,
@@ -32,11 +31,20 @@ const resources = {
   es: {
     translation: es,
   },
+  pk: {
+    translation: pk,
+  },
+  dz: {
+    translation: dz,
+  },
+  gr: {
+    translation: gr,
+  },
 };
 
 declare module "i18next" {
   interface CustomTypeOptions {
-    resources: (typeof resources)["us"];
+    resources: (typeof resources)["en"];
   }
 }
 
@@ -54,7 +62,17 @@ export function initI18n() {
     });
 }
 
-export const locales = ["us", "uk", "es", "fr", "de", "it", "ro"] as const;
+export const locales = [
+  "en",
+  "fr",
+  "de",
+  "it",
+  "es",
+  "pk",
+  "dz",
+  "ro",
+  "gr",
+] as const;
 
 type Locale = (typeof locales)[number];
 
@@ -67,11 +85,13 @@ export function useLocale() {
 }
 
 export const langIcons = {
-  us: require(`../../assets/icons/lang/en-us.png`),
-  uk: require(`../../assets/icons/lang/en-uk.png`),
+  en: require(`../../assets/icons/lang/en-us.png`),
   de: require(`../../assets/icons/lang/de.png`),
   fr: require(`../../assets/icons/lang/fr.png`),
   it: require(`../../assets/icons/lang/it.png`),
   ro: require(`../../assets/icons/lang/ro.png`),
   es: require(`../../assets/icons/lang/es.png`),
+  pk: require(`../../assets/icons/lang/pk.png`),
+  dz: require(`../../assets/icons/lang/dz.png`),
+  gr: require(`../../assets/icons/lang/gr.png`),
 };

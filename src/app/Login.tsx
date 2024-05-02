@@ -151,7 +151,7 @@ export default function Login({ navigation }: any) {
           <TouchableWithoutFeedback key={lang} onPress={() => setLocale(lang)}>
             <Image
               key={lang}
-              className={`w-8 h-8 transition-opacity ${locale != lang && "opacity-40"}`}
+              className={`w-6 h-6 transition-opacity ${locale != lang && "opacity-40"}`}
               source={langIcons[lang]}
             />
           </TouchableWithoutFeedback>
