@@ -4,7 +4,6 @@ import { Item } from "../types/Item";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { BlurView } from "expo-blur";
 import { PayButton } from "./PayButton";
-import { useTranslation } from "react-i18next";
 
 interface ItemCardProps {
   isVisible: boolean;
@@ -23,8 +22,6 @@ function ItemCard({
     return null;
   }
 
-  const { t } = useTranslation();
-
   return (
     <View style={styles.visibleCard} testID={`item-card-view-${item.getId()}`}>
       <BlurView intensity={10} style={styles.blurContainer} testID="blur-view">
@@ -36,8 +33,8 @@ function ItemCard({
           >
             <Icon name="close" size={20} color="#000" testID="close-icon" />
           </TouchableOpacity>
-          <Text style={styles.title}>{t(item.getName())}</Text>
-          <Text style={styles.description}>{t(item.getDescription())}</Text>
+          <Text style={styles.title}>{item.getName()}</Text>
+          <Text style={styles.description}>{item.getDescription()}</Text>
           <Image
             style={styles.image}
             source={item.getImage()}
