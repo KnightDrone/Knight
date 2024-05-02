@@ -14,7 +14,6 @@ import {
 } from "firebase/auth";
 
 import ReactNativeAsyncStorage from "@react-native-async-storage/async-storage";
-import { get } from "http";
 import {
   getFirestore,
   collection,
