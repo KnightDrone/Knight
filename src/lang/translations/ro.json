@@ -34,40 +34,5 @@
     "moderate": "Parola este moderată",
     "strong": "Parola este puternică",
     "very-strong": "Parola este foarte puternică"
-  },
-  "map": {
-    "permission-denied": "Permisiunea de accesare a locației a fost refuzată",
-    "permission-not-granted": "Permisiunea de localizare nu a fost acordată",
-    "marker-title": "Locația curentă",
-    "order-button": "Comandă"
-  },
-  "items": {
-    "first-aid": "Kit de prim ajutor",
-    "first-aid-description": "Conține bandaje, plasturi, alcool pentru frecție, pompă pentru astm.",
-    "flashlight": "Lanterna",
-    "flashlight-description": "1000 lumeni. Alimentat de două baterii AA.",
-    "thermal-blanket": "Pătură termică",
-    "thermal-blanket-description": "Fabricat din material reflectorizant pentru a reține căldura corpului.",
-    "powerbank": "Baterie externă",
-    "powerbank-description": "Baterie de 20000 mAh. Conexiuni USB-C, lightning și USB-A."
-  },
-  "order-placed": {
-    "arriving-at": "Ajunge la",
-    "on-its-way": "Comanda ta este în drum",
-    "order-summary": "Rezumatul comenzii",
-    "location": "Locație: ",
-    "order-complete": "Comanda ta ar fi trebuit să fie livrată",
-    "thanks": "Mulțumim pentru încrederea acordată",
-    "view-order-history": "Vezi istoricul comenzilor"
-  },
-  "order-history": {
-    "title": "Istoricul comenzilor"
-  },
-  "order-menu": {
-    "choose-item": "Alege un articol"
-  },
-  "global": {
-    "loading": "Se încarcă...",
-    "wait": "Vă rugăm să așteptați..."
   }
 }
