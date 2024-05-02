@@ -34,40 +34,5 @@
     "moderate": "La password è moderata",
     "strong": "La password è forte",
     "very-strong": "La password è molto forte"
-  },
-  "map": {
-    "permission-denied": "Permesso di accedere alla posizione negato",
-    "permission-not-granted": "Permesso di localizzazione non concesso",
-    "marker-title": "Posizione attuale",
-    "order-button": "Ordina"
-  },
-  "items": {
-    "first-aid": "Kit di pronto soccorso",
-    "first-aid-description": "Contiene bende, cerotti, alcool denaturato, pompa per asma.",
-    "flashlight": "Torcia",
-    "flashlight-description": "1000 lumen. Alimentato da due batterie AA.",
-    "thermal-blanket": "Coperta termica",
-    "thermal-blanket-description": "Realizzato in materiale riflettente per trattenere il calore corporeo.",
-    "powerbank": "Power bank",
-    "powerbank-description": "Batteria da 20000 mAh. Connessioni USB-C, lightning e USB-A."
-  },
-  "order-placed": {
-    "arriving-at": "Arriva a",
-    "on-its-way": "Il tuo ordine è in viaggio",
-    "order-summary": "Riepilogo dell'ordine",
-    "location": "Posizione: ",
-    "order-complete": "Il tuo ordine dovrebbe essere stato consegnato",
-    "thanks": "Grazie per averci fatto confidenza",
-    "view-order-history": "Visualizza lo storico degli ordini"
-  },
-  "order-history": {
-    "title": "Storico degli ordini"
-  },
-  "order-menu": {
-    "choose-item": "Scegli un articolo"
-  },
-  "global": {
-    "loading": "Caricamento...",
-    "wait": "Attendere prego..."
   }
 }
