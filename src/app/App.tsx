@@ -8,9 +8,16 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 import "./global.css";
 
 import { registerRootComponent } from "expo";
+import { initI18n } from "../lang/i18n";
+import { RootStackParamList } from "../types/RootStackParamList";
+import OrderHistory from "./OrderHistory";
 import { AppStack } from "../navigation/AppStack";
 
 WebBrowser.maybeCompleteAuthSession();
+
+const Stack = createStackNavigator<RootStackParamList>();
+
+initI18n();
 
 function App() {
   const [userInfo, setUserInfo] = useState<User | null>(null);

@@ -6,6 +6,7 @@ import App from "../src/app/App";
 import { onAuthStateChanged } from "../src/services/Firebase";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { View, Text } from "react-native";
+import { initI18n } from "../src/lang/i18n";
 
 beforeEach(() => {
   const mockPromptAsync = jest.fn();
@@ -16,6 +17,8 @@ beforeEach(() => {
     { type: "success", params: { id_token: "mock-id-token" } }, // Mocked response
     mockPromptAsync, // Mocked promptAsync function
   ]);
+
+  initI18n();
 });
 
 jest.mock("../src/components/PayButton", () => ({
@@ -35,23 +38,6 @@ beforeAll(() => {
   // Avoid useless error messages
   jest.spyOn(console, "error").mockImplementation(() => {});
 });
-
-// Helper function to simulate login actions
-async function simulateLogin(
-  getByPlaceholderText: any,
-  getByTestId: any,
-  queryByTestId: any
-) {
-  const emailInput = getByPlaceholderText("Enter your username or email");
-  const passwordInput = getByPlaceholderText("Enter your password");
-  fireEvent.changeText(emailInput, "random@gmail.com");
-  fireEvent.changeText(passwordInput, "password");
-  fireEvent.press(getByTestId("login-button"));
-
-  await waitFor(() => {
-    expect(queryByTestId("map-overview-screen")).toBeTruthy();
-  });
-}
 
 describe("App Navigation", () => {
   it("renders the login screen as the initial route", () => {

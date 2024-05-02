@@ -1,30 +1,21 @@
 import React, { useState, useEffect } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-  Image,
-  TouchableOpacity,
-  Platform,
-} from "react-native";
+import { Text, View, Image, TouchableOpacity } from "react-native";
 import {
   auth,
   GoogleAuthProvider,
-  onAuthStateChanged,
   signInWithCredential,
   signInWithEmailAndPassword,
 } from "../services/Firebase";
 import * as Google from "expo-auth-session/providers/google";
-import * as WebBrowser from "expo-web-browser";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Navigation imports
-import GoogleAuthConfig from "../types/GoogleAuthConfig";
 import { TextField } from "../ui/TextField";
 import { Button } from "../ui/Button";
 import { MessageBox } from "../ui/MessageBox";
 import { OrSeparator } from "../components/OrSeparator";
+import { useTranslation } from "react-i18next";
+import { langIcons, locales, useLocale } from "../lang/i18n";
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
 export default function Login({ navigation }: any) {
   const [email, setEmail] = useState("");
@@ -73,6 +64,10 @@ export default function Login({ navigation }: any) {
 
   const [showPassword, setShowPassword] = useState(false);
 
+  const { t } = useTranslation();
+
+  const [locale, setLocale] = useLocale();
+
   return (
     <View
       className="flex-1 bg-white items-center justify-center px-8"
@@ -82,7 +77,9 @@ export default function Login({ navigation }: any) {
         className="w-64 h-64"
         source={require("../../assets/images/usedLogo.png")}
       />
-      <Text className="text-4xl font-bold mb-16 text-center">Wild Knight</Text>
+      <Text className="text-4xl font-bold mb-16 text-center">
+        {t("login.app-name")}
+      </Text>
 
       {error && (
         <MessageBox
@@ -94,7 +91,7 @@ export default function Login({ navigation }: any) {
 
       <View className="flex flex-col gap-3 w-full">
         <TextField
-          placeholder="Enter your username or email"
+          placeholder={t("login.username")}
           value={email}
           onChangeText={setEmail}
           type="email"
@@ -102,7 +99,7 @@ export default function Login({ navigation }: any) {
         />
 
         <TextField
-          placeholder="Enter your password"
+          placeholder={t("login.password")}
           value={password}
           onChangeText={setPassword}
           type="password"
@@ -110,7 +107,7 @@ export default function Login({ navigation }: any) {
         />
 
         <Button
-          text="Log in"
+          text={t("login.login-button")}
           onPress={logInWithEmail}
           style="primary"
           testID="login-button"
@@ -124,7 +121,7 @@ export default function Login({ navigation }: any) {
             className="text-primary-500 text-center mt-2.5"
             onPress={() => navigation.navigate("ForgotPassword")}
           >
-            Reset password
+            {t("login.reset-password")}
           </Text>
         </TouchableOpacity>
 
@@ -134,7 +131,7 @@ export default function Login({ navigation }: any) {
             onPress={() => navigation.navigate("SignUp")}
             testID="sign-up-link"
           >
-            Create account
+            {t("login.create-account")}
           </Text>
         </TouchableOpacity>
       </View>
@@ -142,11 +139,25 @@ export default function Login({ navigation }: any) {
       <OrSeparator />
 
       <Button
-        text="Continue with Google"
+        text={t("login.google-login")}
         imgSrc={require("../../assets/images/google-icon.png")}
         onPress={() => promptAsync()}
         style="secondary"
       />
+
+      <View className="flex flex-row items-center justify-center gap-4 mt-12">
+        {/* <Text>Choose your language</Text> */}
+
+        {locales.map((lang) => (
+          <TouchableWithoutFeedback key={lang} onPress={() => setLocale(lang)}>
+            <Image
+              key={lang}
+              className={`w-6 h-6 transition-opacity ${locale != lang && "opacity-40"}`}
+              source={langIcons[lang]}
+            />
+          </TouchableWithoutFeedback>
+        ))}
+      </View>
     </View>
   );
 }

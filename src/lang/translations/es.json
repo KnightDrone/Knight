@@ -1,0 +1,38 @@
+{
+  "login": {
+    "app-name": "Caballero Salvaje",
+    "username": "Ingresa tu nombre de usuario o correo electrónico",
+    "password": "Ingresa tu contraseña",
+    "login-button": "Iniciar sesión",
+    "reset-password": "Restablecer contraseña",
+    "create-account": "Crear cuenta",
+    "google-login": "Continuar con Google"
+  },
+  "or-separator": "o",
+  "reset-password": {
+    "title": "Restablecer contraseña",
+    "description": "Danos tu correo electrónico y te enviaremos un enlace para restablecer tu contraseña",
+    "email": "Ingresa tu correo electrónico",
+    "button": "Restablecer contraseña"
+  },
+  "signup": {
+    "title": "Registrarse",
+    "username": "Ingresa tu nombre de usuario",
+    "email": "Ingresa tu correo electrónico",
+    "password": "Ingresa tu contraseña",
+    "password-strength": "Fortaleza de la contraseña: ",
+    "signup-button": "Registrarse",
+    "google-login": "Continuar con Google"
+  },
+  "password-suggestions": {
+    "length": "Por favor incluye al menos 8 caracteres",
+    "upper-lower": "Por favor incluye al menos una letra mayúscula y una minúscula",
+    "number": "Por favor incluye al menos un número",
+    "special": "Por favor incluye al menos un carácter especial",
+    "too-weak": "La contraseña es muy débil",
+    "weak": "La contraseña es débil",
+    "moderate": "La contraseña es moderada",
+    "strong": "La contraseña es fuerte",
+    "very-strong": "La contraseña es muy fuerte"
+  }
+}
