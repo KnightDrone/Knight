@@ -1,0 +1,131 @@
+// Settings.tsx
+import React from "react";
+import {
+  ScrollView,
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  SafeAreaView,
+} from "react-native";
+import Icon from "react-native-vector-icons/MaterialIcons";
+
+interface SettingsProps {
+  onItemPress?: (itemName: string) => void;
+}
+
+interface SettingsSection {
+  title: string;
+  data: { name: string; icon: string }[];
+}
+
+const Settings: React.FC<SettingsProps> = ({ onItemPress }) => {
+  const settingsSections: SettingsSection[] = [
+    {
+      title: "Account",
+      data: [
+        { name: "Edit profile", icon: "edit" },
+        { name: "Security", icon: "security" },
+        { name: "Notifications", icon: "notifications" },
+        { name: "Privacy", icon: "privacy-tip" },
+      ],
+    },
+    {
+      title: "Support & About",
+      data: [
+        { name: "My Subscription", icon: "subscriptions" },
+        { name: "Help & Support", icon: "help" },
+        { name: "Terms and Policies", icon: "gavel" },
+      ],
+    },
+    {
+      title: "Actions",
+      data: [
+        { name: "Report a problem", icon: "report-problem" },
+        { name: "Add account", icon: "person-add" },
+        { name: "Log out", icon: "logout" },
+      ],
+    },
+  ];
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <Text style={styles.mainHeader}>Settings</Text>
+      <ScrollView>
+        {settingsSections.map((section, index) => (
+          <View key={index} style={styles.section}>
+            <Text style={styles.header}>{section.title}</Text>
+            {section.data.map((item, itemIndex) => (
+              <TouchableOpacity
+                key={itemIndex}
+                style={styles.item}
+                onPress={() =>
+                  onItemPress
+                    ? onItemPress(item.name)
+                    : console.log(`${item.name} pressed`)
+                }
+                testID={`${item.name}-button`}
+              >
+                <Icon
+                  name={item.icon}
+                  size={24}
+                  style={styles.icon}
+                  testID={`${item.icon}-icon`}
+                />
+                <Text style={styles.text}>{item.name}</Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+        ))}
+      </ScrollView>
+    </SafeAreaView>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#F9F9F9",
+  },
+  mainHeader: {
+    fontSize: 22,
+    fontWeight: "bold",
+    textAlign: "center",
+    paddingVertical: 20,
+    backgroundColor: "#fff",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 1.5,
+    elevation: 3,
+  },
+  section: {
+    paddingHorizontal: 20,
+    paddingTop: 10,
+    paddingBottom: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: "#E0E0E0",
+    backgroundColor: "#FFF",
+  },
+  header: {
+    fontSize: 18,
+    fontWeight: "bold",
+    paddingVertical: 10,
+    color: "#000",
+  },
+  item: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingVertical: 10,
+  },
+  icon: {
+    color: "#757575",
+    marginRight: 20,
+  },
+  text: {
+    fontSize: 16,
+    color: "#424242",
+  },
+});
+
+export default Settings;

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, Image, TouchableOpacity } from "react-native";
+import { Text, View, Image, TouchableOpacity, Platform } from "react-native";
 import {
   auth,
   GoogleAuthProvider,
@@ -16,6 +16,7 @@ import { OrSeparator } from "../components/OrSeparator";
 import { useTranslation } from "react-i18next";
 import { langIcons, locales, useLocale } from "../lang/i18n";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
+import GoogleAuthConfig from "../types/GoogleAuthConfig";
 
 export default function Login({ navigation }: any) {
   const [email, setEmail] = useState("");
@@ -27,6 +28,12 @@ export default function Login({ navigation }: any) {
     androidClientId: process.env.ANDROID_CLIENT_ID_OAUTH,
     webClientId: process.env.WEB_CLIENT_ID_OAUTH,
     redirectUri: process.env.REDIRECT_URI,
+  });
+
+  const config = Platform.select({
+    web: GoogleAuthConfig.web,
+    ios: GoogleAuthConfig.ios,
+    android: GoogleAuthConfig.android,
   });
 
   useEffect(() => {
