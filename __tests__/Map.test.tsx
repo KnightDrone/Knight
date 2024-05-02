@@ -46,8 +46,10 @@ describe("MapOverview", () => {
 
   it("navigates to OrderMenu when order button is pressed", () => {
     const navigate = jest.fn();
-    const { getByText } = render(<MapOverview navigation={{ navigate }} />);
-    fireEvent.press(getByText("Order"));
+    const { getByText, getByTestId } = render(
+      <MapOverview navigation={{ navigate }} />
+    );
+    fireEvent.press(getByText("map.order-button"));
     expect(navigate).toHaveBeenCalledWith("OrderMenu");
   });
 
