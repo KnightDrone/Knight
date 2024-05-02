@@ -4,6 +4,8 @@ import { Item } from "../types/Item";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { BlurView } from "expo-blur";
 import { PayButton } from "./PayButton";
+import { useTranslation } from "react-i18next";
+import { TranslationKeys } from "../types/translation-keys";
 
 interface ItemCardProps {
   isVisible: boolean;
@@ -18,6 +20,8 @@ function ItemCard({
   handleOrder,
   item,
 }: ItemCardProps) {
+  const { t } = useTranslation();
+
   if (!isVisible) {
     return null;
   }
@@ -33,8 +37,12 @@ function ItemCard({
           >
             <Icon name="close" size={20} color="#000" testID="close-icon" />
           </TouchableOpacity>
-          <Text style={styles.title}>{item.getName()}</Text>
-          <Text style={styles.description}>{item.getDescription()}</Text>
+          <Text style={styles.title}>
+            {t(item.getName() as TranslationKeys)}
+          </Text>
+          <Text style={styles.description}>
+            {t(item.getDescription() as TranslationKeys)}
+          </Text>
           <Image
             style={styles.image}
             source={item.getImage()}
@@ -106,6 +114,8 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
     marginVertical: 8,
+    justifyContent: "center",
+    textAlign: "center",
   },
   description: {
     fontSize: 16,
