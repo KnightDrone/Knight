@@ -34,5 +34,11 @@
     "moderate": "Password is moderate",
     "strong": "Password is strong",
     "very-strong": "Password is very strong"
+  },
+  "map": {
+    "permission-denied": "Permission to access location denied",
+    "permission-not-granted": "Location permission not granted",
+    "marker-title": "Current location",
+    "order-button": "Order"
   }
 }
