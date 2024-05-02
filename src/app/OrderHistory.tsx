@@ -14,6 +14,7 @@ import TriangleBackground from "../components/TriangleBackground";
 import { RootStackParamList } from "../types/RootStackParamList";
 import { RouteProp } from "@react-navigation/native";
 import { MessageBox } from "../ui/MessageBox";
+import FirestoreManager from "../services/FirestoreManager";
 
 /* 
 NOTE: This is a temporary solution to simulate fetching orders from a server. Should be replaced with actual database calls
@@ -64,7 +65,8 @@ const OrderHistory = ({
   route: RouteProp<RootStackParamList, "OrderHistory">;
   navigation: any;
 }) => {
-  const { opOrders, userId } = route.params;
+  const firestoreManager = new FirestoreManager();
+  const { historyOp, userId } = route.params;
 
   const [orders, setOrders] = useState<Order[]>([]);
   const [refreshing, setRefreshing] = useState(false);
@@ -77,8 +79,12 @@ const OrderHistory = ({
   const fetchOrders = async () => {
     setRefreshing(true);
     try {
-      const newOrders = await fetchOrdersForUserMock(userId, opOrders);
-      if (newOrders.length === 0) {
+      const field = historyOp ? "operator" : "user";
+      const newOrders = await firestoreManager.queryOrder(field, userId);
+
+      if (newOrders === null) {
+        setError(new Error("Failed to fetch from database."));
+      } else if (newOrders.length === 0) {
         setError(new Error("No orders have been made yet, check back later."));
       } else {
         const sortedOrders = newOrders.sort(

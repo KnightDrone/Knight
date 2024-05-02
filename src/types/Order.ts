@@ -6,6 +6,7 @@ enum OrderStatus {
   Shipped = "Shipped",
   Delivered = "Delivered",
   Cancelled = "Cancelled",
+  Accepted = "Accepted",
 }
 
 interface OrderLocation {

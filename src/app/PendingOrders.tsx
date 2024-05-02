@@ -12,8 +12,9 @@ import { Button } from "../ui/Button";
 import { Order } from "../types/Order";
 import { Item } from "../types/Item";
 import TriangleBackground from "../components/TriangleBackground";
+import FirestoreManager from "../services/FirestoreManager";
 
-/* §
+/* 
 NOTE: This is a temporary solution to simulate fetching pending orders from a server. Should be replaced with actual database calls
 */
 const fetchPendingOrders = async (): Promise<Order[]> => {
@@ -52,6 +53,7 @@ const fetchPendingOrders = async (): Promise<Order[]> => {
 // TODO: Maybe add some search bar to filter?
 
 const PendingOrders = ({ navigation }: any) => {
+  const firestoreManager = new FirestoreManager();
   const [orders, setOrders] = useState<Order[]>([]);
   const [refreshing, setRefreshing] = useState(false);
   useEffect(() => {
@@ -73,7 +75,11 @@ const PendingOrders = ({ navigation }: any) => {
   // ---------------------------------------------------------
   const fetchOrders = async () => {
     setRefreshing(true);
-    const newOrders = await fetchPendingOrders();
+    // const newOrders = await fetchPendingOrders();
+    const newOrders = await firestoreManager.queryOrder(
+      "status",
+      OrderStatus.Pending
+    );
     // Sort the orders by date so that the oldest orders are shown first
     const sortedOrders = newOrders.sort(
       (a, b) => a.getOrderDate().getTime() - b.getOrderDate().getTime()
