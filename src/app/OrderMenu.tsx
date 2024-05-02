@@ -4,6 +4,8 @@ import { Text, StyleSheet, View } from "react-native";
 import TriangleBackground from "../components/TriangleBackground";
 import { productButtons } from "../types/ProductButtons";
 import ItemCard from "../components/ItemCard";
+import { useTranslation } from "react-i18next";
+import { TranslationKeys } from "../types/translation-keys";
 
 interface OrderProps {
   // Define your component props here
@@ -11,6 +13,8 @@ interface OrderProps {
 }
 
 export default function OrderMenu({ navigation }: any) {
+  const { t } = useTranslation();
+
   const [visibleItemId, setVisibleItemId] = useState<number | null>(null);
 
   const handleOpenCard = (itemId: number) => {
@@ -25,11 +29,11 @@ export default function OrderMenu({ navigation }: any) {
     <View style={styles.container} testID="order-menu-screen">
       <TriangleBackground />
       <Text style={styles.text} testID="order-menu-text">
-        Choose your item
+        {t("order-menu.choose-item")}
       </Text>
       {productButtons.map((button) => (
         <OrderButton
-          title={button.item.getName()}
+          title={t(button.item.getName() as TranslationKeys)}
           icon={button.item.getIcon()}
           onPress={() => handleOpenCard(button.item.getId())}
           key={button.item.getId()}
