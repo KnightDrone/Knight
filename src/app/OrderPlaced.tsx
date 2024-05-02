@@ -7,7 +7,6 @@ import Icon from "react-native-vector-icons/Fontisto";
 import TriangleBackground from "../components/TriangleBackground";
 import { Animated } from "react-native";
 import { secureRandom } from "../utils/random";
-import { useTranslation } from "react-i18next";
 
 const OrderPlaced = ({
   route,
@@ -16,8 +15,6 @@ const OrderPlaced = ({
   route: RouteProp<RootStackParamList, "OrderPlaced">;
   navigation: any;
 }) => {
-  const { t } = useTranslation();
-
   const [fadeAnim] = useState(new Animated.Value(0));
 
   const { orderedItem, placedAt, userLocation } = route.params;
@@ -66,7 +63,7 @@ const OrderPlaced = ({
       hour12: false,
     });
 
-    return `${t("order-placed.arriving-at")} ${formattedDate}`;
+    return `Arriving at ${formattedDate}`;
   };
 
   return (
@@ -80,7 +77,7 @@ const OrderPlaced = ({
           className=" text-3xl font-bold font-kaisei"
           testID="order-placed-message"
         >
-          {t("order-placed.on-its-way")}
+          Your order is on its way
         </Text>
         <View className="my-2 flex items-start">
           <Text className="text-lg my-2 font-kaisei" testID="arrival-time">
@@ -114,13 +111,13 @@ const OrderPlaced = ({
             className="text-2xl font-semibold font-kaisei"
             testID="order-summary"
           >
-            {t("order-placed.order-summary")}
+            Order summary
           </Text>
           <Text className="text-xl my-2 font-kaisei" testID="ordered-item-name">
             {orderedItem.getName()}
           </Text>
           <Text className="text-lg font-kaisei" testID="user-location">
-            {t("order-placed.location")} {userLocation}
+            Location: {userLocation}
           </Text>
           <Image
             className="w-64 h-64 rounded-lg"
@@ -139,10 +136,10 @@ const OrderPlaced = ({
             className="text-lg font-semibold font-kaisei"
             testID="order-complete"
           >
-            {t("order-placed.order-complete")}
+            Your order should have been delivered!
           </Text>
           <Text className="text-lg font-kaisei" testID="order-complete-message">
-            {t("order-placed.thanks")}
+            Thanks for trusting us!
           </Text>
           {/* <TouchableOpacity>
             <Text className="text-red-500 font-kaisei" testID="report-issue">
@@ -169,7 +166,7 @@ const OrderPlaced = ({
           }
         >
           <Text className="text-black font-kaisei underline">
-            {t("order-placed.view-order-history")}
+            View order history
           </Text>
         </TouchableOpacity>
       </View>
