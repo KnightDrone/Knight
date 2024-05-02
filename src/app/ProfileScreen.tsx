@@ -18,9 +18,7 @@ const ProfileScreen = () => {
 
   return (
     <ScrollView style={styles.container}>
-      <View style={styles.headerContainer}>
-        <Text style={styles.headerText}>Edit Profile</Text>
-      </View>
+      <View style={styles.headerContainer}></View>
       <View style={styles.profileImageContainer}>
         {/* Placeholder for profile image */}
       </View>

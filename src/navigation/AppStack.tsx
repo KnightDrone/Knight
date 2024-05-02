@@ -119,7 +119,21 @@ export const AppStack: React.FC<AppStackProps> = ({ isLoggedIn, user }) => {
           >
             {(props: any) => <Settings {...props} />}
           </Screen>
-          <Screen name="ProfileScreen">
+          <Screen
+            name="ProfileScreen"
+            options={({ navigation }: any) => ({
+              headerShown: true,
+              headerTitle: "Edit Profile",
+              headerLeft: () => (
+                <HeaderBackButton
+                  onPress={() => navigation.goBack()}
+                  labelVisible={false}
+                  labelStyle={{ color: "black" }}
+                  testID="Profile-back-button"
+                />
+              ),
+            })}
+          >
             {(props: any) => <ProfileScreen {...props} />}
           </Screen>
         </Group>
