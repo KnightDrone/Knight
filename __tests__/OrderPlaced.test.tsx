@@ -12,6 +12,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { View, Text } from "react-native";
 import { RootStackParamList } from "../src/types/RootStackParamList";
 import { Item } from "../src/types/Item";
+import { Order } from "../src/types/Order";
 import FirestoreManager from "../src/services/FirestoreManager";
 import { read } from "fs";
 
@@ -41,35 +42,6 @@ beforeAll(() => {
   jest.spyOn(console, "warn").mockImplementation(() => {});
 });
 
-// jest.mock("../src/types/Item", () => {
-//   return {
-//     Item: jest.fn().mockImplementation((id, name, description, price) => {
-//       return {
-//         id: id,
-//         name: name,
-//         description: description,
-//         price: price,
-//       };
-//     }),
-//   };
-// });
-
-jest.mock("../src/services/FirestoreManager", () => {
-  return {
-    default: jest.fn().mockImplementation(() => {
-      readOrder: jest.fn().mockReturnValue({
-        getItem: jest
-          .fn()
-          .mockReturnValue(new Item(1, "Test Item", "Test Description", 100)),
-        getOrderDate: jest.fn().mockReturnValue(new Date()),
-        getOrderLocation: jest
-          .fn()
-          .mockReturnValue({ latitude: 0, longitude: 0 }),
-      });
-    }),
-  };
-});
-
 const OrderPlacedTest = () => {
   return (
     <NavigationContainer>
@@ -77,7 +49,7 @@ const OrderPlacedTest = () => {
         <Stack.Screen
           name="OrderPlaced"
           initialParams={{
-            orderId: "1",
+            orderId: "07b35de9-7f42-4d5c-9953-e8c586c349d2",
           }}
         >
           {(props) => <OrderPlaced {...props} />}
