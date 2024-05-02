@@ -18,7 +18,13 @@ interface SettingsProps {
 
 interface SettingsSection {
   title: string;
-  data: { name: string; icon: string }[];
+  data: SettingsItem[];
+}
+
+interface SettingsItem {
+  name: string;
+  icon: string;
+  action?: () => void;
 }
 
 const Settings: React.FC<SettingsProps> = ({
@@ -67,10 +73,13 @@ const Settings: React.FC<SettingsProps> = ({
               <TouchableOpacity
                 key={itemIndex}
                 style={styles.item}
-                onPress={() =>
-                  onItemPress
-                    ? onItemPress(item.name)
-                    : console.log(`${item.name} pressed`)
+                onPress={
+                  item.action
+                    ? item.action
+                    : () =>
+                        onItemPress
+                          ? onItemPress(item.name)
+                          : console.log(`${item.name} pressed`)
                 }
                 testID={`${item.name}-button`}
               >
