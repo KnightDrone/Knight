@@ -4,7 +4,11 @@ import { StyleSheet, View, TouchableOpacity, Text, Alert } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
 import Icon from "react-native-vector-icons/MaterialIcons";
-import { useTranslation } from "react-i18next";
+import {
+  NavigationProp,
+  RouteProp,
+  useNavigation,
+} from "@react-navigation/native";
 
 const topButtonPadding = 60;
 const sideButtonPadding = 30;
@@ -18,8 +22,6 @@ const MapOverview = ({ navigation }: any) => {
     longitudeDelta: 0.0421,
   });
 
-  const { t } = useTranslation();
-
   const [marker, setMarker] = useState({
     latitude: 37.789,
     longitude: -122.4324,
@@ -31,7 +33,7 @@ const MapOverview = ({ navigation }: any) => {
     let { status } = await Location.requestForegroundPermissionsAsync();
     if (status !== "granted") {
       setLocationPermission(false);
-      Alert.alert(t("map.permission-denied"));
+      Alert.alert("Permission to access location was denied");
       return false;
     }
     setLocationPermission(true);
@@ -59,7 +61,7 @@ const MapOverview = ({ navigation }: any) => {
         longitude: location.coords.longitude,
       });
     } else {
-      Alert.alert(t("map.permission-not-granted"));
+      Alert.alert("Location permission not granted");
     }
   };
 
@@ -74,7 +76,7 @@ const MapOverview = ({ navigation }: any) => {
         <Marker
           testID="map-marker"
           coordinate={marker}
-          title={t("map.marker-title")}
+          title="Current Location"
         />
       </MapView>
 
@@ -92,7 +94,7 @@ const MapOverview = ({ navigation }: any) => {
         style={[styles.button, styles.buttonBottomRight]}
         onPress={() => navigation.navigate("OrderMenu")}
       >
-        <Text style={styles.buttonText}>{t("map.order-button")}</Text>
+        <Text style={styles.buttonText}>Order</Text>
       </TouchableOpacity>
     </View>
   );
