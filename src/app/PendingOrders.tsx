@@ -9,10 +9,11 @@ import {
 } from "react-native";
 import OrderCard from "../components/OrderCard";
 import { Button } from "../ui/Button";
-import { Order } from "../types/Order";
+import { Order, OrderStatus } from "../types/Order";
 import { Item } from "../types/Item";
 import TriangleBackground from "../components/TriangleBackground";
 import FirestoreManager from "../services/FirestoreManager";
+import { MessageBox } from "../ui/MessageBox";
 
 /* 
 NOTE: This is a temporary solution to simulate fetching pending orders from a server. Should be replaced with actual database calls
@@ -56,6 +57,7 @@ const PendingOrders = ({ navigation }: any) => {
   const firestoreManager = new FirestoreManager();
   const [orders, setOrders] = useState<Order[]>([]);
   const [refreshing, setRefreshing] = useState(false);
+  const [error, setError] = useState<Error | null>(null);
   useEffect(() => {
     fetchOrders();
   }, []);
@@ -75,17 +77,30 @@ const PendingOrders = ({ navigation }: any) => {
   // ---------------------------------------------------------
   const fetchOrders = async () => {
     setRefreshing(true);
-    // const newOrders = await fetchPendingOrders();
-    const newOrders = await firestoreManager.queryOrder(
-      "status",
-      OrderStatus.Pending
-    );
-    // Sort the orders by date so that the oldest orders are shown first
-    const sortedOrders = newOrders.sort(
-      (a, b) => a.getOrderDate().getTime() - b.getOrderDate().getTime()
-    );
-    setOrders(sortedOrders);
-    setRefreshing(false);
+    try {
+      const newOrders = await firestoreManager.queryOrder(
+        "status",
+        OrderStatus.Pending
+      );
+      if (newOrders === null) {
+        setError(new Error("Failed to fetch from database."));
+      } else if (newOrders.length === 0) {
+        setError(
+          new Error("No orders pending orders at the moment, check back later.")
+        );
+      } else {
+        // Sort the orders by date so that the oldest orders are shown first
+        const sortedOrders = newOrders.sort(
+          (a, b) => a.getOrderDate().getTime() - b.getOrderDate().getTime()
+        );
+        setOrders(sortedOrders);
+        setError(null); // Clear the error if the fetch is successful
+      }
+    } catch (err) {
+      setError(err as Error);
+    } finally {
+      setRefreshing(false);
+    }
   };
 
   return (
@@ -118,23 +133,31 @@ const PendingOrders = ({ navigation }: any) => {
       </View>
 
       <TriangleBackground color="#A0D1E4" />
-
-      <FlatList
-        data={orders}
-        renderItem={({ item }) => (
-          <OrderCard
-            order={item}
-            onClick={() => handleOpenCard(item)}
-            opBool={false}
-          /> // opBool is false because we want to show the user's location name
-        )}
-        keyExtractor={(item) => item.getId()}
-        onEndReached={fetchOrders}
-        onEndReachedThreshold={0.1}
-        refreshing={refreshing}
-        onRefresh={fetchOrders}
-        testID="order-list"
-      />
+      {error ? (
+        <MessageBox
+          message={error.message}
+          style="error"
+          onClose={() => setError(null)}
+          testID="error-box"
+        />
+      ) : (
+        <FlatList
+          data={orders}
+          renderItem={({ item }) => (
+            <OrderCard
+              order={item}
+              onClick={() => handleOpenCard(item)}
+              opBool={false}
+            /> // opBool is false because we want to show the user's location name
+          )}
+          keyExtractor={(item) => item.getId()}
+          onEndReached={fetchOrders}
+          onEndReachedThreshold={0.1}
+          refreshing={refreshing}
+          onRefresh={fetchOrders}
+          testID="order-list"
+        />
+      )}
       {selectedOrder && (
         <Modal animationType="none" transparent={true} visible={true}>
           <View className="flex-1 justify-center items-center bg-opacity-100">

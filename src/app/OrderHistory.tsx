@@ -85,7 +85,9 @@ const OrderHistory = ({
       if (newOrders === null) {
         setError(new Error("Failed to fetch from database."));
       } else if (newOrders.length === 0) {
-        setError(new Error("No orders have been made yet, check back later."));
+        setError(
+          new Error("No orders have been made yet. Go place some orders :)")
+        );
       } else {
         const sortedOrders = newOrders.sort(
           (a, b) => b.getOrderDate().getTime() - a.getOrderDate().getTime()
@@ -139,7 +141,7 @@ const OrderHistory = ({
           // if I am an operator, I want to see the user's location name
           // if I am user, I want to see where I ordered from
           renderItem={({ item }) => (
-            <OrderCard order={item} opBool={!opOrders} />
+            <OrderCard order={item} opBool={!historyOp} />
           )}
           keyExtractor={(item) => item.getId()}
           onEndReached={fetchOrders}
