@@ -12,6 +12,20 @@ const names: string[] = [
   "Power bank",
 ];
 
+const iconDirs: string[] = [
+  "../../assets/icons/first_aid_icon.png",
+  "../../assets/icons/flashlight_icon.png",
+  "../../assets/icons/blanket_icon.png",
+  "../../assets/icons/powerbank_icon.png",
+];
+
+const imageDirs: string[] = [
+  "../../assets/images/first_aid.png",
+  "../../assets/images/flashlight.png",
+  "../../assets/images/thermal_blanket.png",
+  "../../assets/images/powerbank.png",
+];
+
 // require is used to import images,
 // it returns a number that can be used to display the image
 const icons: number[] = [
@@ -38,7 +52,7 @@ const descriptions: string[] = [
 ];
 
 const items: Item[] = names.map((name, i) => {
-  return new Item(i, name, descriptions[i], icons[i], images[i], prices[i]);
+  return new Item(i, name, descriptions[i], prices[i], icons[i], images[i]);
 });
 
 export const productButtons: ProductButton[] = [

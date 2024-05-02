@@ -28,7 +28,7 @@ export function TextField({
       )}
     >
       <TextInput
-        className="h-12 w-full"
+        className="h-12 w-full pr-6"
         placeholder={placeholder}
         value={value}
         secureTextEntry={type === "password" && !showPassword}

@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import OrderButton from "../components/OrderButton";
 import { Text, StyleSheet, View } from "react-native";
-import { useFonts } from "expo-font";
-import KaiseiRegular from "../../assets/fonts/KaiseiDecol-Regular.ttf";
 import TriangleBackground from "../components/TriangleBackground";
 import { productButtons } from "../types/ProductButtons";
 import ItemCard from "../components/ItemCard";
@@ -13,15 +11,7 @@ interface OrderProps {
 }
 
 export default function OrderMenu({ navigation }: any) {
-  const [fontsLoaded] = useFonts({
-    "Kaisei-Regular": KaiseiRegular,
-  });
-
   const [visibleItemId, setVisibleItemId] = useState<number | null>(null);
-
-  if (!fontsLoaded) {
-    return <Text>Loading...</Text>;
-  }
 
   const handleOpenCard = (itemId: number) => {
     setVisibleItemId(itemId);
@@ -34,7 +24,9 @@ export default function OrderMenu({ navigation }: any) {
   return (
     <View style={styles.container} testID="order-menu-screen">
       <TriangleBackground />
-      <Text style={styles.text}>Choose your item</Text>
+      <Text style={styles.text} testID="order-menu-text">
+        Choose your item
+      </Text>
       {productButtons.map((button) => (
         <OrderButton
           title={button.item.getName()}
@@ -49,7 +41,13 @@ export default function OrderMenu({ navigation }: any) {
           <ItemCard
             isVisible={isVisible}
             handleClose={handleCloseCard}
-            handleOrder={() => navigation.navigate("OrderPlaced")}
+            handleOrder={() =>
+              navigation.navigate("OrderPlaced", {
+                orderedItem: button.item,
+                placedAt: Date.now(),
+                userLocation: "1234 Main St",
+              })
+            }
             item={button.item}
             key={`card-${button.item.getId()}`}
           />
@@ -73,7 +71,6 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 36,
     marginBottom: 33,
-    fontFamily: "Kaisei-Regular",
     lineHeight: 40,
     alignSelf: "center",
   },

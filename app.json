@@ -40,16 +40,7 @@
           }
         }
       ],
-      [
-        "expo-font",
-        {
-          "fonts": [
-            "./assets/fonts/KaiseiDecol-Regular.ttf",
-            "./assets/fonts/KaiseiDecol-Medium.ttf",
-            "./assets/fonts/KaiseiDecol-Bold.ttf"
-          ]
-        }
-      ]
+      "expo-localization"
     ],
     "extra": {
       "eas": {

@@ -2,7 +2,6 @@ import React from "react";
 import { render, fireEvent } from "@testing-library/react-native";
 import ItemCard from "../src/components/ItemCard";
 import { Item } from "../src/types/Item";
-import { useFonts } from "../__mocks__/expo-font";
 import { View, Text } from "react-native";
 
 // Avoid useless error messages
@@ -22,20 +21,17 @@ jest.mock("../src/components/PayButton", () => ({
 }));
 
 describe("ItemCard", () => {
-  beforeEach(() => {
-    useFonts.mockReturnValue([true]);
-  });
-
   const mockHandleClose = jest.fn();
   const mockHandleOrder = jest.fn();
-  const image = require("../assets/images/splash.png");
+  const imageDir = "../assets/images/splash.png";
+  const image = require(imageDir);
   const mockItem = new Item(
     1,
     "Test Item",
     "Test Description",
+    10,
     image,
-    image,
-    10
+    image
   );
 
   it("renders correctly when isVisible is true", () => {

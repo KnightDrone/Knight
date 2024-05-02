@@ -16,9 +16,6 @@ import { Text } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 const Stack = createStackNavigator();
-import { useFonts } from "../__mocks__/expo-font";
-
-useFonts.mockReturnValue([true]);
 
 describe("test", () => {
   it("should render the app", async () => {
