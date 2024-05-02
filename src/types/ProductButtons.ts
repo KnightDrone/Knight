@@ -6,10 +6,10 @@ interface ProductButton {
 }
 
 const names: string[] = [
-  "First aid kit",
-  "Flashlight",
-  "Thermal blanket",
-  "Power bank",
+  "items.first-aid",
+  "items.flashlight",
+  "items.thermal-blanket",
+  "items.powerbank",
 ];
 
 const iconDirs: string[] = [
@@ -45,10 +45,10 @@ const images: number[] = [
 const prices: number[] = [20, 15, 10, 30];
 
 const descriptions: string[] = [
-  "Constains bandages, plasters, rubbing alcohol, asthma pump.",
-  "1000 lumens. Powered by two AA batteries.",
-  "Made of reflective material to contain body heat.",
-  "20000 mAh battery. USB-C, lightning and USB-A connections.",
+  "items.first-aid-description",
+  "items.flashlight-description",
+  "items.thermal-blanket-description",
+  "items.powerbank-description",
 ];
 
 const items: Item[] = names.map((name, i) => {
