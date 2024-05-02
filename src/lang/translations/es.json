@@ -34,40 +34,5 @@
     "moderate": "La contraseña es moderada",
     "strong": "La contraseña es fuerte",
     "very-strong": "La contraseña es muy fuerte"
-  },
-  "map": {
-    "permission-denied": "Permiso para acceder a la ubicación denegado",
-    "permission-not-granted": "Permiso de ubicación no concedido",
-    "marker-title": "Ubicación actual",
-    "order-button": "Ordenar"
-  },
-  "items": {
-    "first-aid": "Botiquín de primeros auxilios",
-    "first-aid-description": "Contiene vendas, apósitos, alcohol para frotar, bomba de asma.",
-    "flashlight": "Linterna",
-    "flashlight-description": "1000 lúmenes. Alimentado por dos pilas AA.",
-    "thermal-blanket": "Manta térmica",
-    "thermal-blanket-description": "Hecho de material reflectante para contener el calor corporal.",
-    "powerbank": "Banco de energía",
-    "powerbank-description": "Batería de 20000 mAh. Conexiones USB-C, lightning y USB-A."
-  },
-  "order-placed": {
-    "arriving-at": "Llegando a",
-    "on-its-way": "Tu pedido está en camino",
-    "order-summary": "Resumen del pedido",
-    "location": "Ubicación: ",
-    "order-complete": "Tu pedido debería haber sido entregado",
-    "thanks": "Gracias por confiar en nosotros",
-    "view-order-history": "Ver historial de pedidos"
-  },
-  "order-history": {
-    "title": "Historial de pedidos"
-  },
-  "order-menu": {
-    "choose-item": "Elige un artículo"
-  },
-  "global": {
-    "loading": "Cargando...",
-    "wait": "Por favor espera..."
   }
 }
