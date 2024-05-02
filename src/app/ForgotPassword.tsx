@@ -4,12 +4,14 @@ import { auth, sendPasswordResetEmail } from "../services/Firebase";
 import { TextField } from "../ui/TextField";
 import { Button } from "../ui/Button";
 import { MessageBox } from "../ui/MessageBox";
+import { useTranslation } from "react-i18next";
 
 export default function ForgotPasswordScreen() {
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
+  const { t } = useTranslation();
 
   const handleForgotPassword = () => {
     sendPasswordResetEmail(auth, email)
@@ -34,16 +36,14 @@ export default function ForgotPasswordScreen() {
         className="text-3xl font-bold mb-12 text-center"
         testID="title-text"
       >
-        Reset Password
+        {t("reset-password.title")}
       </Text>
 
       <Text className="mb-12 text-xl text-center" testID="email-text">
-        Give us your email and we'll
-        {"\n"}
-        send you a password reset link.
+        {t("reset-password.description")}
       </Text>
       <TextField
-        placeholder="Enter your email"
+        placeholder={t("reset-password.email")}
         onChangeText={setEmail}
         value={email}
         type="email"
@@ -51,7 +51,7 @@ export default function ForgotPasswordScreen() {
       />
 
       <Button
-        text="Reset Password"
+        text={t("reset-password.button")}
         onPress={handleForgotPassword}
         style="primary"
         testID="reset-password-button"
