@@ -15,7 +15,7 @@ import { AppStack } from "../navigation/AppStack";
 
 WebBrowser.maybeCompleteAuthSession();
 
-const Stack = createStackNavigator<RootStackParamList>();
+// const Stack = createStackNavigator<RootStackParamList>();
 
 initI18n();
 
