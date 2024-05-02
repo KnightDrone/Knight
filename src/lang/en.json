@@ -40,15 +40,5 @@
     "permission-not-granted": "Location permission not granted",
     "marker-title": "Current location",
     "order-button": "Order"
-  },
-  "items": {
-    "first-aid": "First aid kit",
-    "first-aid-description": "Constains bandages, plasters, rubbing alcohol, asthma pump.",
-    "flashlight": "Flashlight",
-    "flashlight-description": "1000 lumens. Powered by two AA batteries.",
-    "thermal-blanket": "Thermal blanket",
-    "thermal-blanket-description": "Made of reflective material to contain body heat.",
-    "powerbank": "Power bank",
-    "powerbank-description": "20000 mAh battery. USB-C, lightning and USB-A connections."
   }
 }
