@@ -21,7 +21,7 @@ NOTE: This is a temporary solution to simulate fetching orders from a server. Sh
 */
 // depending on the value of OP orders we should fetch orders from the history of orders, where the user was operator, or where the user was the buyer
 // Still waiting for Firestore class to be implemented
-const fetchOrdersForUserMock = async (
+/*const fetchOrdersForUserMock = async (
   userId: String,
   opOrders: Boolean
 ): Promise<Order[]> => {
@@ -54,7 +54,7 @@ const fetchOrdersForUserMock = async (
       resolve(orders);
     }, 1000); // 1 second delay
   });
-};
+};*/
 
 // TODO: Maybe add some search bar to filter?
 

@@ -18,7 +18,7 @@ import { MessageBox } from "../ui/MessageBox";
 /* 
 NOTE: This is a temporary solution to simulate fetching pending orders from a server. Should be replaced with actual database calls
 */
-const fetchPendingOrders = async (): Promise<Order[]> => {
+/*const fetchPendingOrdersMock = async (): Promise<Order[]> => {
   return new Promise((resolve) => {
     setTimeout(async () => {
       const orders: Order[] = [
@@ -49,7 +49,7 @@ const fetchPendingOrders = async (): Promise<Order[]> => {
       resolve(orders);
     }, 1000); // 1 second delay
   });
-};
+};*/
 
 // TODO: Maybe add some search bar to filter?
 

@@ -4,7 +4,13 @@ import OrderHistory from "../src/app/OrderHistory";
 import { RootStackParamList } from "../src/types/RootStackParamList";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
+import { Order, OrderStatus } from "../src/types/Order";
+import { Item } from "../src/types/Item";
+import * as OrderHistoryModule from "../src/app/OrderHistory";
+import queryOrder from "../src/services/FirestoreManager";
 
+// Mock the module
+jest.mock("../src/app/OrderHistory");
 const mockNavigation = {
   navigate: jest.fn(),
   goBack: jest.fn(),
@@ -37,7 +43,7 @@ const OrderHistoryTest = () => {
         <Stack.Screen
           name="OrderHistory"
           initialParams={{
-            opOrders: false,
+            historyOp: false,
             userId: "user1",
           }}
         >
@@ -50,37 +56,62 @@ const OrderHistoryTest = () => {
 
 describe("OrderHistory", () => {
   it("renders correctly", async () => {
-    /*fetchOrdersForUserMock.mockResolvedValue([
+    (
+      queryOrder as jest.MockedFunction<typeof queryOrder>
+    ).mockImplementationOnce(() =>
+      Promise.resolve([
+        new Order(
+          "user1",
+          new Item(1, "mock item1", "description1", 1, 1, 10),
+          { latitude: 46.8182, longitude: 8.2275 },
+          new Date(),
+          OrderStatus.Delivered,
+          new Date(),
+          "Mattenhorn peak #3",
+          "St. Gallen Hospital",
+          { latitude: 55, longitude: 33 }
+        ),
+        new Order(
+          "user2",
+          new Item(2, "mock item2", "description1", 1, 1, 22),
+          { latitude: 46.8182, longitude: 8.2275 },
+          new Date(),
+          OrderStatus.Delivered,
+          new Date(),
+          "Mattenhorn peak #1",
+          "Pharmacy #5",
+          { latitude: 55, longitude: 33 }
+        ),
+      ])
+    );
+
+    /*(OrderHistoryModule. as jest.Mock).mockResolvedValue([
       new Order(
         "user1",
         new Item(1, "mock item1", "description1", 1, 1, 10),
-        { latitude: 46.8182, longitude: 8.2275 }, // Correct way to create an OrderLocation object
+        { latitude: 46.8182, longitude: 8.2275 },
+        new Date(),
+        OrderStatus.Delivered,
+        new Date(),
+        "Mattenhorn peak #3",
         "St. Gallen Hospital",
-        { latitude: 55, longitude: 33 } // Correct way to create an OrderLocation object
+        { latitude: 55, longitude: 33 }
       ),
       new Order(
         "user2",
-        new Item(2, "mock item2", "description2", 2, 2, 22),
-        { latitude: 40.8182, longitude: 8.2275 }, // Correct way to create an OrderLocation object
-        "Drone Station 1", // "Drone Station 1", "St. Gallen Hospital", "Jeffrey's Clinic"
-        { latitude: 59, longitude: 38 } // Correct way to create an OrderLocation object
-      ),
-      new Order(
-        "user3",
-        new Item(3, "mock item3", "description3", 3, 3, 330),
-        { latitude: 0, longitude: 0 }, // Correct way to create an OrderLocation object
-        "Jeffrey's Clinic", // "Drone Station 1", "St. Gallen Hospital", "Jeffrey's Clinic"
-        { latitude: 25, longitude: 3.2275 } // Correct way to create an OrderLocation object
-      ),
-      new Order(
-        "user4",
-        new Item(3, "item4", "description3", 3, 3, 330),
-        { latitude: 0, longitude: 0 }, // Correct way to create an OrderLocation object
-        "Jeffrey's Clinic", // "Drone Station 1", "St. Gallen Hospital", "Jeffrey's Clinic"
-        { latitude: 25, longitude: 3.2275 } // Correct way to create an OrderLocation object
-      ),
+        new Item(2, "mock item2", "description1", 1, 1, 22),
+        { latitude: 46.8182, longitude: 8.2275 },
+        new Date(),
+        OrderStatus.Delivered,
+        new Date(),
+        "Mattenhorn peak #1",
+        "Pharmacy #5",
+        { latitude: 55, longitude: 33 }
+      )
     ]);*/
-    const { getByText, getByTestId } = render(<OrderHistoryTest />);
+    const { getByText, getByTestId } = render(
+      <OrderHistory historyOp={false} userId={"1234567890"} />
+    );
 
     await waitFor(
       () => {
@@ -89,8 +120,8 @@ describe("OrderHistory", () => {
         expect(getByText("Order history")).toBeTruthy();
         expect(getByText("mock item1")).toBeTruthy();
         expect(getByText("10 CHF")).toBeTruthy();
-        expect(getByText("mock item2")).toBeTruthy();
 
+        expect(getByText("mock item2")).toBeTruthy();
         expect(getByText("22 CHF")).toBeTruthy();
       },
       { timeout: 2000 }
