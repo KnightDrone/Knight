@@ -23,6 +23,19 @@ type OrderPlacedStack = {
 const Stack = createStackNavigator<OrderPlacedStack>();
 useFonts.mockReturnValue([true]);
 
+jest.mock("../src/types/Item", () => {
+  return {
+    Item: jest.fn().mockImplementation((id, name, description, price) => {
+      return {
+        id: id,
+        name: name,
+        description: description,
+        price: price,
+      };
+    }),
+  };
+});
+
 jest.mock("../src/components/PayButton", () => ({
   __esModule: true,
   PayButton: () => {
