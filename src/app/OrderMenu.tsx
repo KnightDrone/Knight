@@ -5,7 +5,6 @@ import TriangleBackground from "../components/TriangleBackground";
 import { productButtons } from "../types/ProductButtons";
 import ItemCard from "../components/ItemCard";
 import { useTranslation } from "react-i18next";
-import { TranslationKeys } from "../types/translation-keys";
 
 interface OrderProps {
   // Define your component props here
@@ -33,7 +32,7 @@ export default function OrderMenu({ navigation }: any) {
       </Text>
       {productButtons.map((button) => (
         <OrderButton
-          title={t(button.item.getName() as TranslationKeys)}
+          title={t(button.item.getName())}
           icon={button.item.getIcon()}
           onPress={() => handleOpenCard(button.item.getId())}
           key={button.item.getId()}

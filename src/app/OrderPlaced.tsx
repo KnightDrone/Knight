@@ -8,7 +8,6 @@ import TriangleBackground from "../components/TriangleBackground";
 import { Animated } from "react-native";
 import { secureRandom } from "../utils/random";
 import { useTranslation } from "react-i18next";
-import { TranslationKeys } from "../types/translation-keys";
 
 const OrderPlaced = ({
   route,
@@ -118,7 +117,7 @@ const OrderPlaced = ({
             {t("order-placed.order-summary")}
           </Text>
           <Text className="text-xl my-2 font-kaisei" testID="ordered-item-name">
-            {t(orderedItem.getName() as TranslationKeys)}
+            {t(orderedItem.getName())}
           </Text>
           <Text className="text-lg font-kaisei" testID="user-location">
             {t("order-placed.location")} {userLocation}
