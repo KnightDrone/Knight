@@ -12,6 +12,7 @@ import { RootStackParamList } from "../types/RootStackParamList";
 
 import { User } from "../services/Firebase";
 import OrderHistory from "../app/OrderHistory";
+import Settings from "../app/Setting";
 
 const { Navigator, Screen, Group } = createStackNavigator<RootStackParamList>();
 
@@ -99,6 +100,9 @@ export const AppStack: React.FC<AppStackProps> = ({ isLoggedIn, user }) => {
           </Screen>
           <Screen name="OrderHistory">
             {(props: any) => <OrderHistory {...props} />}
+          </Screen>
+          <Screen name="Settings">
+            {(props: any) => <Settings {...props} />}
           </Screen>
         </Group>
       </Navigator>
