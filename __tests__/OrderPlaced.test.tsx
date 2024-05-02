@@ -34,6 +34,21 @@ jest.mock("../src/components/PayButton", () => ({
   },
 }));
 
+jest.mock("../src/services/FirestoreManager", () => {
+  return jest.fn().mockImplementation(() => {
+    return {
+      readOrder: jest.fn().mockImplementation(() => {
+        return new Order(
+          "07b35de9-7f42-4d5c-9953-e8c586c349d2",
+          new Item(0, "test", "test", 10),
+          { latitude: 0, longitude: 0 }
+        );
+      }),
+      updateOrder: jest.fn(),
+    };
+  });
+});
+
 beforeAll(() => {
   global.alert = jest.fn();
 
