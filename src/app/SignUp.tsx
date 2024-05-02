@@ -33,6 +33,12 @@ export default function SignUp({ navigation }: any) {
     redirectUri: process.env.REDIRECT_URI,
   });
 
+  const config = Platform.select({
+    web: GoogleAuthConfig.web,
+    ios: GoogleAuthConfig.ios,
+    android: GoogleAuthConfig.android,
+  });
+
   useEffect(() => {
     if (response?.type === "success") {
       const { id_token } = response.params;
