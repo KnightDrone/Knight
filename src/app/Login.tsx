@@ -102,6 +102,7 @@ export default function Login({ navigation }: any) {
           value={email}
           onChangeText={setEmail}
           type="email"
+          testID="email-input"
         />
 
         <TextField

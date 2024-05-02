@@ -50,7 +50,6 @@ const Settings: React.FC<SettingsProps> = ({ onItemPress }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.mainHeader}>Settings</Text>
       <ScrollView>
         {settingsSections.map((section, index) => (
           <View key={index} style={styles.section}>

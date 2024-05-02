@@ -20,7 +20,6 @@ const OrderPlaced = ({
   const { t } = useTranslation();
 
   const [fadeAnim] = useState(new Animated.Value(0));
-
   const { orderedItem, placedAt, userLocation } = route.params;
 
   const [arrivalTime, setArrivalTime] = useState<number>(0);
