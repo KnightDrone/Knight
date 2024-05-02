@@ -5,10 +5,10 @@
     "version": "1.0.0",
     "scheme": "knight",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/usedLogo.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/images/splash.png",
+      "image": "./assets/images/usedLogo.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -21,14 +21,14 @@
     "android": {
       "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "foregroundImage": "./assets/images/usedLogo.png",
         "backgroundColor": "#ffffff"
       },
       "permissions": ["android.permission.DETECT_SCREEN_CAPTURE"],
       "package": "com.swent.knight"
     },
     "web": {
-      "favicon": "./assets/images/favicon.png",
+      "favicon": "./assets/images/usedLogo.png",
       "bundler": "metro"
     },
     "plugins": [
