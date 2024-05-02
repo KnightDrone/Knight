@@ -51,6 +51,15 @@
     "powerbank": "Power bank",
     "powerbank-description": "20000 mAh battery. USB-C, lightning and USB-A connections."
   },
+  "order-placed": {
+    "arriving-at": "Arriving at",
+    "on-its-way": "Your order is on its way",
+    "order-summary": "Order summary",
+    "location": "Location: ",
+    "order-complete": "Your order should have been delivered",
+    "thanks": "Thanks for trusting us",
+    "view-order-history": "View order history"
+  },
   "global": {
     "loading": "Loading...",
     "wait": "Please wait..."
