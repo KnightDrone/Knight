@@ -12,6 +12,7 @@ import { initI18n } from "../lang/i18n";
 import { RootStackParamList } from "../types/RootStackParamList";
 import OrderHistory from "./OrderHistory";
 import { AppStack } from "../navigation/AppStack";
+import { StripeProvider } from "@stripe/stripe-react-native";
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -64,7 +65,13 @@ function App() {
     return unsub;
   }, []);
 
-  return <AppStack isLoggedIn={isLoggedIn} user={userInfo} />;
+  const stripePublishableKey = process.env.STRIPE_PUBLISHABLE_KEY || "";
+
+  return (
+    <StripeProvider publishableKey={stripePublishableKey}>
+      <AppStack isLoggedIn={isLoggedIn} user={userInfo} />
+    </StripeProvider>
+  );
 }
 
 registerRootComponent(App);
