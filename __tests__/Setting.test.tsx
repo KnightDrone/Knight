@@ -1,12 +1,12 @@
 // Settings.test.tsx
 import React from "react";
 import { render, fireEvent } from "@testing-library/react-native";
-import Settings from "../src/app/Setting"; // Adjust the import based on your file structure
+import Settings from "../src/app/Setting";
 
 describe("Settings Component", () => {
   it("renders correctly", () => {
     const { getByText } = render(<Settings />);
-    expect(getByText("Settings")).toBeTruthy();
+    expect(getByText("Account")).toBeTruthy();
   });
 
   it("contains correct sections and items", () => {
@@ -29,3 +29,22 @@ describe("Settings Component", () => {
     expect(getByText("Edit profile")).toBeTruthy();
   });
 });
+// Mock Navigation and Firebase as necessary
+jest.mock("@react-navigation/native", () => ({
+  useNavigation: () => ({
+    replace: jest.fn(),
+    navigate: jest.fn(),
+  }),
+}));
+
+// Mock the Alert module directly
+jest.mock("react-native/Libraries/Alert/Alert", () => ({
+  alert: jest.fn(),
+}));
+
+jest.mock("../src/services/Firebase", () => ({
+  // Ensure this path is correct
+  auth: {
+    signOut: jest.fn(() => Promise.resolve()),
+  },
+}));
