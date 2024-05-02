@@ -23,18 +23,13 @@ export default function Login({ navigation }: any) {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const [request, response, promptAsync] = Google.useAuthRequest({
-    iosClientId: process.env.IOS_CLIENT_ID_OAUTH,
-    androidClientId: process.env.ANDROID_CLIENT_ID_OAUTH,
-    webClientId: process.env.WEB_CLIENT_ID_OAUTH,
-    redirectUri: process.env.REDIRECT_URI,
-  });
-
   const config = Platform.select({
     web: GoogleAuthConfig.web,
     ios: GoogleAuthConfig.ios,
     android: GoogleAuthConfig.android,
   });
+
+  const [request, response, promptAsync] = Google.useAuthRequest(config);
 
   useEffect(() => {
     if (response?.type === "success") {
