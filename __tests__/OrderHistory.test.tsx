@@ -4,6 +4,7 @@ import OrderHistory from "../src/app/OrderHistory";
 import { RootStackParamList } from "../src/types/RootStackParamList";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
+import { initI18n } from "../src/lang/i18n";
 import { Order, OrderStatus } from "../src/types/Order";
 import { Item } from "../src/types/Item";
 import * as OrderHistoryModule from "../src/app/OrderHistory";
@@ -91,6 +92,10 @@ const OrderHistoryTest = () => {
     </NavigationContainer>
   );
 };
+
+beforeEach(() => {
+  initI18n();
+});
 
 describe("OrderHistory", () => {
   it("renders correctly", async () => {

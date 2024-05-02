@@ -1,0 +1,73 @@
+{
+  "login": {
+    "app-name": "وايلد نايت",
+    "username": "أدخل اسم المستخدم أو البريد الإلكتروني",
+    "password": "أدخل كلمة المرور الخاصة بك",
+    "login-button": "تسجيل الدخول",
+    "reset-password": "إعادة تعيين كلمة المرور",
+    "create-account": "إنشاء حساب",
+    "google-login": "المتابعة مع جوجل"
+  },
+  "or-separator": "أو",
+  "reset-password": {
+    "title": "إعادة تعيين كلمة المرور",
+    "description": "أعطنا بريدك الإلكتروني وسنرسل لك رابطًا لإعادة تعيين كلمة المرور",
+    "email": "أدخل بريدك الإلكتروني",
+    "button": "إعادة تعيين كلمة المرور"
+  },
+  "signup": {
+    "title": "الاشتراك",
+    "username": "أدخل اسم المستخدم",
+    "email": "أدخل بريدك الإلكتروني",
+    "password": "أدخل كلمة المرور",
+    "password-strength": "قوة كلمة المرور: ",
+    "signup-button": "الاشتراك",
+    "google-login": "المتابعة مع جوجل"
+  },
+  "password-suggestions": {
+    "length": "يرجى تضمين 8 أحرف على الأقل",
+    "upper-lower": "يرجى تضمين حرف كبير واحد على الأقل وحرف صغير",
+    "number": "يرجى تضمين رقم واحد على الأقل",
+    "special": "يرجى تضمين حرف خاص واحد على الأقل",
+    "too-weak": "كلمة المرور ضعيفة جدا",
+    "weak": "كلمة المرور ضعيفة",
+    "moderate": "كلمة المرور معتدلة",
+    "strong": "كلمة المرور قوية",
+    "very-strong": "كلمة المرور قوية جدا"
+  },
+  "map": {
+    "permission-denied": "تم رفض الإذن للوصول إلى الموقع",
+    "permission-not-granted": "لم يتم منح إذن الموقع",
+    "marker-title": "الموقع الحالي",
+    "order-button": "طلب"
+  },
+  "items": {
+    "first-aid": "صندوق الإسعافات الأولية",
+    "first-aid-description": "يحتوي على أشرطة، لصقات، الكحول، مضخة الربو.",
+    "flashlight": "كشاف",
+    "flashlight-description": "1000 لومن. يعمل بواسطة بطاريتين AA.",
+    "thermal-blanket": "بطانية حرارية",
+    "thermal-blanket-description": "مصنوعة من مادة عاكسة للحفاظ على حرارة الجسم.",
+    "powerbank": "بنك الطاقة",
+    "powerbank-description": "بطارية 20000 مللي أمبير في الساعة. موصلات USB-C، البرق وUSB-A."
+  },
+  "order-placed": {
+    "arriving-at": "وصول في",
+    "on-its-way": "طلبك في الطريق",
+    "order-summary": "ملخص الطلب",
+    "location": "الموقع: ",
+    "order-complete": "كان يجب أن يتم توصيل طلبك",
+    "thanks": "شكرا لثقتك بنا",
+    "view-order-history": "عرض تاريخ الطلب"
+  },
+  "order-history": {
+    "title": "تاريخ الطلب"
+  },
+  "order-menu": {
+    "choose-item": "اختر عنصرا"
+  },
+  "global": {
+    "loading": "جار التحميل...",
+    "wait": "الرجاء الانتظار..."
+  }
+}
