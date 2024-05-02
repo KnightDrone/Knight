@@ -34,5 +34,40 @@
     "moderate": "Passwort ist moderat",
     "strong": "Passwort ist stark",
     "very-strong": "Passwort ist sehr stark"
+  },
+  "map": {
+    "permission-denied": "Zugriff auf Standort verweigert",
+    "permission-not-granted": "Standortberechtigung nicht erteilt",
+    "marker-title": "Aktueller Standort",
+    "order-button": "Bestellen"
+  },
+  "items": {
+    "first-aid": "Erste-Hilfe-Set",
+    "first-aid-description": "Enthält Verbände, Pflaster, Reibealkohol, Asthmapumpe.",
+    "flashlight": "Taschenlampe",
+    "flashlight-description": "1000 Lumen. Betrieben mit zwei AA-Batterien.",
+    "thermal-blanket": "Thermodecke",
+    "thermal-blanket-description": "Hergestellt aus reflektierendem Material, um Körperwärme zu speichern.",
+    "powerbank": "Powerbank",
+    "powerbank-description": "20000 mAh Batterie. USB-C, Lightning und USB-A Anschlüsse."
+  },
+  "order-placed": {
+    "arriving-at": "Ankunft bei",
+    "on-its-way": "Ihre Bestellung ist unterwegs",
+    "order-summary": "Bestellübersicht",
+    "location": "Standort: ",
+    "order-complete": "Ihre Bestellung sollte zugestellt worden sein",
+    "thanks": "Danke, dass Sie uns vertrauen",
+    "view-order-history": "Bestellverlauf anzeigen"
+  },
+  "order-history": {
+    "title": "Bestellverlauf"
+  },
+  "order-menu": {
+    "choose-item": "Wählen Sie einen Artikel"
+  },
+  "global": {
+    "loading": "Laden...",
+    "wait": "Bitte warten..."
   }
 }
