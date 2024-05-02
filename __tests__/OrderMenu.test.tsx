@@ -1,7 +1,6 @@
 import React from "react";
 import { screen, render, fireEvent } from "@testing-library/react-native";
 import OrderMenu from "../src/app/OrderMenu";
-import { useFonts } from "../__mocks__/expo-font";
 import { productButtons } from "../src/types/ProductButtons";
 import { View, Text } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
@@ -54,11 +53,6 @@ const OrderMenuTest = () => {
 };
 
 describe("Order Menu", () => {
-  //set globally useFont to true
-  beforeEach(() => {
-    useFonts.mockReturnValue([true]);
-  });
-
   it("renders correctly ", () => {
     const { getByText, getByTestId } = render(<OrderMenuTest />);
 
@@ -69,7 +63,6 @@ describe("Order Menu", () => {
   });
 
   it("does not render when fonts are not loaded", () => {
-    useFonts.mockReturnValue([false]);
     const { queryByText } = render(<OrderMenuTest />);
 
     productButtons.forEach((button) => {
