@@ -101,7 +101,21 @@ export const AppStack: React.FC<AppStackProps> = ({ isLoggedIn, user }) => {
           <Screen name="OrderHistory">
             {(props: any) => <OrderHistory {...props} />}
           </Screen>
-          <Screen name="Settings">
+          <Screen
+            name="Settings"
+            options={({ navigation }: any) => ({
+              headerShown: true,
+              headerTitle: "Settings",
+              headerLeft: () => (
+                <HeaderBackButton
+                  onPress={() => navigation.goBack()}
+                  labelVisible={false}
+                  labelStyle={{ color: "black" }}
+                  testID="settings-back-button"
+                />
+              ),
+            })}
+          >
             {(props: any) => <Settings {...props} />}
           </Screen>
         </Group>
