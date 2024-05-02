@@ -114,6 +114,8 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
     marginVertical: 8,
+    justifyContent: "center",
+    textAlign: "center",
   },
   description: {
     fontSize: 16,
