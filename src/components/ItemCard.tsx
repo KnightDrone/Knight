@@ -20,11 +20,11 @@ function ItemCard({
   handleOrder,
   item,
 }: ItemCardProps) {
-  const { t } = useTranslation();
-
   if (!isVisible) {
     return null;
   }
+
+  const { t } = useTranslation();
 
   return (
     <View style={styles.visibleCard} testID={`item-card-view-${item.getId()}`}>
