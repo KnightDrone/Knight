@@ -36,6 +36,23 @@ beforeAll(() => {
   jest.spyOn(console, "error").mockImplementation(() => {});
 });
 
+// Helper function to simulate login actions
+async function simulateLogin(
+  getByPlaceholderText: any,
+  getByTestId: any,
+  queryByTestId: any
+) {
+  const emailInput = getByPlaceholderText("Enter your username or email");
+  const passwordInput = getByPlaceholderText("Enter your password");
+  fireEvent.changeText(emailInput, "random@gmail.com");
+  fireEvent.changeText(passwordInput, "password");
+  fireEvent.press(getByTestId("login-button"));
+
+  await waitFor(() => {
+    expect(queryByTestId("map-overview-screen")).toBeTruthy();
+  });
+}
+
 describe("App Navigation", () => {
   it("renders the login screen as the initial route", () => {
     const { getByTestId } = render(<App />);
@@ -98,7 +115,7 @@ describe("App Navigation", () => {
       expect(queryByTestId("order-menu-screen")).toBeTruthy();
     });
 
-    const backButton = getByTestId("back-button");
+    const backButton = getByTestId("order-menu-back-button");
     fireEvent.press(backButton);
 
     await waitFor(() => {
@@ -119,7 +136,7 @@ describe("App Navigation", () => {
       expect(queryByTestId("order-menu-screen")).toBeTruthy();
     });
 
-    fireEvent.press(getByTestId("back-button"));
+    fireEvent.press(getByTestId("order-menu-back-button"));
     await waitFor(() => {
       expect(queryByTestId("map-overview-screen")).toBeTruthy();
     });

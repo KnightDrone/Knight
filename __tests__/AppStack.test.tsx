@@ -29,11 +29,6 @@ beforeAll(() => {
   jest.spyOn(console, "error").mockImplementation(() => {});
 });
 
-// Avoid useless error messages
-beforeAll(() => {
-  jest.spyOn(console, "error").mockImplementation(() => {});
-});
-
 jest.mock("../src/services/Firebase", () => ({
   auth: jest.fn(),
   GoogleAuthProvider: {
@@ -61,23 +56,6 @@ jest.mock("react-native-vector-icons/MaterialIcons", () => {
     __esModule: true,
     default: jest.fn().mockImplementation((props) => <View {...props} />),
   };
-});
-
-// Avoid useless error messages
-beforeAll(() => {
-  jest.spyOn(console, "error").mockImplementation(() => {});
-});
-
-// Setup mock implementations
-beforeEach(() => {
-  const mockPromptAsync = jest.fn();
-
-  // Mock the Google authentication request setup
-  (Google.useAuthRequest as jest.Mock).mockReturnValue([
-    {}, // Mocked request
-    { type: "success", params: { id_token: "mock-id-token" } }, // Mocked response
-    mockPromptAsync, // Mocked promptAsync function
-  ]);
 });
 
 //// =*=*=*=*=*=*=*=*=*
