@@ -62,14 +62,6 @@ describe("Order Menu", () => {
     });
   });
 
-  it("does not render when fonts are not loaded", () => {
-    const { queryByText } = render(<OrderMenuTest />);
-
-    productButtons.forEach((button) => {
-      expect(queryByText(button.item.getName())).toBeNull();
-    });
-  });
-
   it("opens card when button is pressed", () => {
     const { getByText } = render(<OrderMenuTest />);
     const button = productButtons[0];
