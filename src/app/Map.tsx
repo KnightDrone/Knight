@@ -3,6 +3,7 @@ import { StyleSheet, View, TouchableOpacity, Text, Alert } from "react-native";
 import MapView, { MapViewProps, Region } from "react-native-maps";
 import * as Location from "expo-location";
 import Icon from "react-native-vector-icons/MaterialIcons";
+import { useTranslation } from "react-i18next";
 import LocationMarker from "../components/LocationMarker";
 
 const topButtonPadding = 60;
@@ -20,6 +21,8 @@ const MapOverview = ({ navigation }: any) => {
     latitudeDelta: 0.0922,
     longitudeDelta: 0.0421,
   });
+
+  const { t } = useTranslation();
 
   type LocationType = {
     latitude: number;
@@ -58,7 +61,7 @@ const MapOverview = ({ navigation }: any) => {
   const checkPermissions = async () => {
     let { status } = await Location.requestForegroundPermissionsAsync();
     if (status !== "granted") {
-      Alert.alert("Permission to access location was denied");
+      Alert.alert(t("map.permission-denied"));
       return false;
     }
     return true;
@@ -131,7 +134,7 @@ const MapOverview = ({ navigation }: any) => {
         style={[styles.button, styles.buttonBottomRight]}
         onPress={() => navigation.navigate("OrderMenu")}
       >
-        <Text style={styles.buttonText}>Order</Text>
+        <Text style={styles.buttonText}>{t("map.order-button")}</Text>
       </TouchableOpacity>
     </View>
   );

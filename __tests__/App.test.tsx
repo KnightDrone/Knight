@@ -32,6 +32,22 @@ jest.mock("../src/components/PayButton", () => ({
   },
 }));
 
+async function simulateLogin(
+  getByPlaceholderText: any,
+  getByTestId: any,
+  queryByTestId: any
+) {
+  const emailInput = getByPlaceholderText("Enter your username or email");
+  const passwordInput = getByPlaceholderText("Enter your password");
+  fireEvent.changeText(emailInput, "random@gmail.com");
+  fireEvent.changeText(passwordInput, "password");
+  fireEvent.press(getByTestId("login-button"));
+
+  await waitFor(() => {
+    expect(queryByTestId("map-overview-screen")).toBeTruthy();
+  });
+}
+
 beforeAll(() => {
   global.alert = jest.fn();
 
@@ -47,6 +63,82 @@ describe("App Navigation", () => {
 
   it("directly logs in with Google due to the mock implementation", async () => {
     const { queryByTestId } = render(<App />);
+    await waitFor(() => {
+      expect(queryByTestId("map-overview-screen")).toBeTruthy();
+    });
+  });
+
+  it("logs in when the login button is pressed", async () => {
+    (Google.useAuthRequest as jest.Mock).mockReturnValue([
+      {},
+      { type: "fail", params: { id_token: "" } },
+      jest.fn(),
+    ]);
+
+    const { getByTestId, getByPlaceholderText, queryByTestId } = render(
+      <App />
+    );
+
+    await simulateLogin(getByPlaceholderText, getByTestId, queryByTestId);
+  });
+
+  it("logs in, go to map overview, and then go to order menu", async () => {
+    (Google.useAuthRequest as jest.Mock).mockReturnValue([
+      {},
+      { type: "fail", params: { id_token: "" } },
+      jest.fn(),
+    ]);
+
+    const { getByTestId, getByPlaceholderText, queryByTestId } = render(
+      <App />
+    );
+
+    await simulateLogin(getByPlaceholderText, getByTestId, queryByTestId);
+
+    const orderMenuButton = getByTestId("order-button");
+    fireEvent.press(orderMenuButton);
+
+    await waitFor(() => {
+      expect(queryByTestId("order-menu-screen")).toBeTruthy();
+    });
+  });
+
+  it("goes to order menu, then goes back", async () => {
+    const { getByTestId, queryByTestId } = render(<App />);
+
+    await waitFor(() => {
+      expect(queryByTestId("map-overview-screen")).toBeTruthy();
+    });
+
+    const orderMenuButton = getByTestId("order-button");
+    fireEvent.press(orderMenuButton);
+
+    await waitFor(() => {
+      expect(queryByTestId("order-menu-screen")).toBeTruthy();
+    });
+
+    const backButton = getByTestId("order-menu-back-button");
+    fireEvent.press(backButton);
+
+    await waitFor(() => {
+      expect(queryByTestId("map-overview-screen")).toBeTruthy();
+    });
+  });
+
+  it("logs in and navigates through the app", async () => {
+    const { getByPlaceholderText, getByTestId, queryByTestId } = render(
+      <App />
+    );
+    await simulateLogin(getByPlaceholderText, getByTestId, queryByTestId);
+
+    const orderMenuButton = getByTestId("order-button");
+    fireEvent.press(orderMenuButton);
+
+    await waitFor(() => {
+      expect(queryByTestId("order-menu-screen")).toBeTruthy();
+    });
+
+    fireEvent.press(getByTestId("order-menu-back-button"));
     await waitFor(() => {
       expect(queryByTestId("map-overview-screen")).toBeTruthy();
     });
