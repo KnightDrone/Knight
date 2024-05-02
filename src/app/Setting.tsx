@@ -8,6 +8,8 @@ import {
   TouchableOpacity,
   SafeAreaView,
 } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import ProfileScreen from "./ProfileScreen";
 import Icon from "react-native-vector-icons/MaterialIcons";
 
 interface SettingsProps {
@@ -19,12 +21,19 @@ interface SettingsSection {
   data: { name: string; icon: string }[];
 }
 
-const Settings: React.FC<SettingsProps> = ({ onItemPress }) => {
+const Settings: React.FC<SettingsProps> = ({
+  onItemPress,
+  navigation,
+}: any) => {
   const settingsSections: SettingsSection[] = [
     {
       title: "Account",
       data: [
-        { name: "Edit profile", icon: "edit" },
+        {
+          name: "Edit profile",
+          icon: "edit",
+          action: () => navigation.navigate("ProfileScreen"),
+        } as { name: string; icon: string; action: () => void },
         { name: "Security", icon: "security" },
         { name: "Notifications", icon: "notifications" },
         { name: "Privacy", icon: "privacy-tip" },
