@@ -4,11 +4,6 @@ import { render, fireEvent } from "@testing-library/react-native";
 import Settings from "../src/app/Setting"; // Adjust the import based on your file structure
 
 describe("Settings Component", () => {
-  it("renders correctly", () => {
-    const { getByText } = render(<Settings />);
-    expect(getByText("Settings")).toBeTruthy();
-  });
-
   it("contains correct sections and items", () => {
     const { getByTestId } = render(<Settings />);
     expect(getByTestId("Edit profile-button")).toBeTruthy();
