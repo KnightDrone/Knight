@@ -117,9 +117,7 @@ describe("AppStack Navigation Tests", () => {
   });
 
   it("navigates to the map screen after successful sign-up", async () => {
-    const { getByText, getByTestId } = render(
-      <AppStack isLoggedIn={"Login"} />
-    );
+    const { getByTestId } = render(<AppStack isLoggedIn={"Login"} />);
 
     // Mock is true (successful sign-up) by default in jestSetupFile.js
     // Simulate successful sign-up
@@ -130,7 +128,6 @@ describe("AppStack Navigation Tests", () => {
       expect(screen.getByTestId("map-overview-screen")).toBeTruthy();
     });
   });
-  const mockUser = { uid: "123", email: "random@gmail.com" };
 
   it("navigates Login -> Map -> OrderMenu", async () => {
     const { queryByTestId, getByTestId } = render(

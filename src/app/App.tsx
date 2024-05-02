@@ -58,14 +58,6 @@ function App() {
   }, []);
 
   return <AppStack isLoggedIn={isLoggedIn} user={userInfo} />;
-
-  //  return (
-  //    <StripeProvider
-  //      publishableKey="pk_test_51P8Q7xCV7IqsBTg04oVoBPhRWFCEHkCn8sQpi1FBfalK90rL3LJf5itGwY8UrjXDTUPnirvr7flvhbfv4tcCnA4400Z4rrqQfR"
-  //    >
-  //      <AppStack isLoggedIn={isLoggedIn} user={userInfo} />
-  //    </StripeProvider>
-  //  );
 }
 
 registerRootComponent(App);
