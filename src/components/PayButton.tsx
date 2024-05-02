@@ -3,10 +3,9 @@ import {
   StripeError,
   useStripe,
 } from "@stripe/stripe-react-native";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "../ui/Button";
 import { Alert } from "react-native";
-import { useTranslation } from "react-i18next";
 
 export function PayButton({
   amount,
@@ -19,7 +18,6 @@ export function PayButton({
 }) {
   const { initPaymentSheet, presentPaymentSheet } = useStripe();
   const [loading, setLoading] = useState(true);
-  const { t } = useTranslation();
 
   const fetchPaymentSheetParams = async () => {
     if (!process.env.EXPO_PUBLIC_STRIPE_ENDPOINT_URL) {
@@ -92,8 +90,8 @@ export function PayButton({
     <Button
       testID="pay-button"
       style="primary"
-      text={loading ? t("global.loading") : `CHF ${amount / 100}`}
-      onPress={loading ? () => Alert.alert(t("global.wait")) : openPaymentSheet}
+      text={loading ? "Loading..." : `CHF ${amount / 100}`}
+      onPress={loading ? () => Alert.alert("Please wait") : openPaymentSheet}
     />
   );
 }

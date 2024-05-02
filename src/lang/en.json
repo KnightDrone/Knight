@@ -50,9 +50,5 @@
     "thermal-blanket-description": "Made of reflective material to contain body heat.",
     "powerbank": "Power bank",
     "powerbank-description": "20000 mAh battery. USB-C, lightning and USB-A connections."
-  },
-  "global": {
-    "loading": "Loading...",
-    "wait": "Please wait..."
   }
 }
