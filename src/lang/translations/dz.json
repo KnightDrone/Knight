@@ -34,5 +34,40 @@
     "moderate": "كلمة المرور معتدلة",
     "strong": "كلمة المرور قوية",
     "very-strong": "كلمة المرور قوية جدا"
+  },
+  "map": {
+    "permission-denied": "تم رفض الإذن للوصول إلى الموقع",
+    "permission-not-granted": "لم يتم منح إذن الموقع",
+    "marker-title": "الموقع الحالي",
+    "order-button": "طلب"
+  },
+  "items": {
+    "first-aid": "صندوق الإسعافات الأولية",
+    "first-aid-description": "يحتوي على أشرطة، لصقات، الكحول، مضخة الربو.",
+    "flashlight": "كشاف",
+    "flashlight-description": "1000 لومن. يعمل بواسطة بطاريتين AA.",
+    "thermal-blanket": "بطانية حرارية",
+    "thermal-blanket-description": "مصنوعة من مادة عاكسة للحفاظ على حرارة الجسم.",
+    "powerbank": "بنك الطاقة",
+    "powerbank-description": "بطارية 20000 مللي أمبير في الساعة. موصلات USB-C، البرق وUSB-A."
+  },
+  "order-placed": {
+    "arriving-at": "وصول في",
+    "on-its-way": "طلبك في الطريق",
+    "order-summary": "ملخص الطلب",
+    "location": "الموقع: ",
+    "order-complete": "كان يجب أن يتم توصيل طلبك",
+    "thanks": "شكرا لثقتك بنا",
+    "view-order-history": "عرض تاريخ الطلب"
+  },
+  "order-history": {
+    "title": "تاريخ الطلب"
+  },
+  "order-menu": {
+    "choose-item": "اختر عنصرا"
+  },
+  "global": {
+    "loading": "جار التحميل...",
+    "wait": "الرجاء الانتظار..."
   }
 }
