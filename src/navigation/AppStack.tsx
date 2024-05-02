@@ -11,6 +11,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { RootStackParamList } from "../types/RootStackParamList";
 
 import { User } from "../services/Firebase";
+import OrderHistory from "../app/OrderHistory";
 
 const { Navigator, Screen, Group } = createStackNavigator<RootStackParamList>();
 
@@ -96,8 +97,10 @@ export const AppStack: React.FC<AppStackProps> = ({ isLoggedIn, user }) => {
           <Screen name="OrderPlaced">
             {(props: any) => <OrderPlaced {...props} />}
           </Screen>
+          <Screen name="OrderHistory">
+            {(props: any) => <OrderHistory {...props} />}
+          </Screen>
         </Group>
-        {/** Add more groups here **/}
       </Navigator>
     </NavigationContainer>
   );
