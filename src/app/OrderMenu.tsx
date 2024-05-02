@@ -29,7 +29,7 @@ export default function OrderMenu({ navigation }: any) {
     <View style={styles.container} testID="order-menu-screen">
       <TriangleBackground />
       <Text style={styles.text} testID="order-menu-text">
-        Choose your item
+        {t("order-menu.choose-item")}
       </Text>
       {productButtons.map((button) => (
         <OrderButton
