@@ -60,6 +60,12 @@
     "thanks": "Thanks for trusting us",
     "view-order-history": "View order history"
   },
+  "order-history": {
+    "title": "Order history"
+  },
+  "order-menu": {
+    "choose-item": "Choose an item"
+  },
   "global": {
     "loading": "Loading...",
     "wait": "Please wait..."
