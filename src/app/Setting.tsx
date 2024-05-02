@@ -7,10 +7,12 @@ import {
   StyleSheet,
   TouchableOpacity,
   SafeAreaView,
+  Alert,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import ProfileScreen from "./ProfileScreen";
 import Icon from "react-native-vector-icons/MaterialIcons";
+import { auth } from "../services/Firebase";
 
 interface SettingsProps {
   onItemPress?: (itemName: string) => void;
@@ -31,6 +33,30 @@ const Settings: React.FC<SettingsProps> = ({
   onItemPress,
   navigation,
 }: any) => {
+  const handleLogout = () => {
+    Alert.alert(
+      "Confirm Logout",
+      "Are you sure you want to logout?",
+      [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel",
+        },
+        { text: "OK", onPress: () => logoutUser() },
+      ],
+      { cancelable: false }
+    );
+  };
+
+  const logoutUser = async () => {
+    try {
+      await auth.signOut();
+      navigation.replace("Login"); // Use 'replace' to prevent going back to the settings screen
+    } catch (error) {
+      Alert.alert("Logout Failed", "Unable to logout at this time.");
+    }
+  };
   const settingsSections: SettingsSection[] = [
     {
       title: "Account",
@@ -58,7 +84,7 @@ const Settings: React.FC<SettingsProps> = ({
       data: [
         { name: "Report a problem", icon: "report-problem" },
         { name: "Add account", icon: "person-add" },
-        { name: "Log out", icon: "logout" },
+        { name: "Log out", action: handleLogout, icon: "logout" },
       ],
     },
   ];
