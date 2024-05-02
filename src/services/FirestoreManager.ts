@@ -27,6 +27,7 @@ export default class FirestoreManager {
    */
   async readOrder(id: string): Promise<any | null> {
     const docRef = doc(firestore, "orders", id).withConverter(orderConverter);
+
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
