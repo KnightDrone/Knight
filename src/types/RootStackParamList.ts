@@ -17,7 +17,8 @@ export type RootStackParamList = {
     userLocation: string;
   };
   OrderHistory: {
-    opOrders: boolean;
+    historyOp: boolean;
     userId: string;
   };
+  PendingOrders: undefined; // Added for PendingOrders
 };
