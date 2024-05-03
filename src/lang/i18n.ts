@@ -7,7 +7,7 @@ import ro from "./translations/ro.json";
 import fr from "./translations/fr.json";
 import de from "./translations/de.json";
 import it from "./translations/it.json";
-import es from "./translations/es.json";
+// import es from "./translations/es.json";
 import pk from "./translations/pk.json";
 import dz from "./translations/dz.json";
 import gr from "./translations/gr.json";
@@ -28,9 +28,9 @@ const resources = {
   it: {
     translation: it,
   },
-  es: {
-    translation: es,
-  },
+  // es: {
+  //   translation: es,
+  // },
   pk: {
     translation: pk,
   },
@@ -67,7 +67,7 @@ export const locales = [
   "fr",
   "de",
   "it",
-  "es",
+  // "es",
   "pk",
   "dz",
   "ro",
@@ -90,7 +90,7 @@ export const langIcons = {
   fr: require(`../../assets/icons/lang/fr.png`),
   it: require(`../../assets/icons/lang/it.png`),
   ro: require(`../../assets/icons/lang/ro.png`),
-  es: require(`../../assets/icons/lang/es.png`),
+  // es: require(`../../assets/icons/lang/es.png`),
   pk: require(`../../assets/icons/lang/pk.png`),
   dz: require(`../../assets/icons/lang/dz.png`),
   gr: require(`../../assets/icons/lang/gr.png`),
