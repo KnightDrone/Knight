@@ -10,6 +10,7 @@ export type RootStackParamList = {
   OrderMenu: undefined;
   Map: undefined;
   Settings: undefined;
+  ProfileScreen: undefined;
   OrderPlaced: {
     orderedItem: Item;
     placedAt: number;
