@@ -2,17 +2,27 @@ import React, { useState } from "react";
 import OrderButton from "../components/OrderButton";
 import { Text, StyleSheet, View, Button } from "react-native";
 import TriangleBackground from "../components/TriangleBackground";
-import { productButtons } from "../types/ProductButtons";
+import { productButtons, ProductButton } from "../types/ProductButtons";
 import ItemCard from "../components/ItemCard";
 import { useTranslation } from "react-i18next";
 import { TranslationKeys } from "../types/translation-keys";
+import FirestoreManager from "../services/FirestoreManager";
+import { Order, OrderLocation } from "../types/Order";
+import { auth } from "../services/Firebase";
+import { RouteProp } from "@react-navigation/native";
+import { RootStackParamList } from "../types/RootStackParamList";
 
-interface OrderProps {
-  // Define your component props here
-  // will pass location and maybe user info here
-}
+export default function OrderMenu({
+  route,
+  navigation,
+}: {
+  route: RouteProp<RootStackParamList, "OrderMenu">;
+  navigation: any;
+}) {
+  const orderLocation: OrderLocation = route.params;
 
-export default function OrderMenu({ navigation }: any) {
+  const firestoreManager = new FirestoreManager();
+
   const { t } = useTranslation();
 
   const [visibleItemId, setVisibleItemId] = useState<number | null>(null);
@@ -23,6 +33,20 @@ export default function OrderMenu({ navigation }: any) {
 
   const handleCloseCard = () => {
     setVisibleItemId(null);
+  };
+
+  // sends order to firestore and then navigates to OrderPlaced
+  const handleOrderCard = (button: ProductButton) => {
+    const item = button.item;
+    const user = auth.currentUser;
+
+    if (user != null) {
+      const order = new Order(user.uid, item, orderLocation);
+      firestoreManager.writeOrder(order);
+      navigation.navigate("OrderPlaced", { orderId: order.getId() });
+    } else {
+      console.error("Could not find user.");
+    }
   };
 
   return (
@@ -45,13 +69,7 @@ export default function OrderMenu({ navigation }: any) {
           <ItemCard
             isVisible={isVisible}
             handleClose={handleCloseCard}
-            handleOrder={() =>
-              navigation.navigate("OrderPlaced", {
-                orderedItem: button.item,
-                placedAt: Date.now(),
-                userLocation: "1234 Main St",
-              })
-            }
+            handleOrder={() => handleOrderCard(button)}
             item={button.item}
             key={`card-${button.item.getId()}`}
           />

@@ -7,27 +7,60 @@ import Icon from "react-native-vector-icons/Fontisto";
 import TriangleBackground from "../components/TriangleBackground";
 import { Animated } from "react-native";
 import { secureRandom } from "../utils/random";
+import FirestoreManager from "../services/FirestoreManager";
+import { Item } from "../types/Item";
+import { OrderLocation } from "../types/Order";
+import { images } from "../types/ProductButtons";
+import { auth } from "../services/Firebase";
+
+interface OrderPlacedProps {
+  orderId: string;
+}
 import { useTranslation } from "react-i18next";
 import { TranslationKeys } from "../types/translation-keys";
 
 const OrderPlaced = ({
-  route,
   navigation,
+  route,
 }: {
-  route: RouteProp<RootStackParamList, "OrderPlaced">;
   navigation: any;
+  route: RouteProp<RootStackParamList, "OrderPlaced">;
 }) => {
+  const { orderId } = route.params;
   const { t } = useTranslation();
 
   const [fadeAnim] = useState(new Animated.Value(0));
-  const { orderedItem, placedAt, userLocation } = route.params;
+  const firestoreManager = new FirestoreManager();
+
+  const [orderedItem, setOrderedItem] = useState<Item>();
+  const [placedAt, setPlacedAt] = useState<Date>(new Date());
+  const [userLocation, setUserLocation] = useState<OrderLocation>({
+    latitude: -999,
+    longitude: -999,
+  });
+
+  useEffect(() => {
+    const fetchOrder = async () => {
+      const order = await firestoreManager.readOrder(orderId);
+      setOrderedItem(order.getItem());
+      setPlacedAt(order.getOrderDate());
+      setUserLocation(order.getUsrLocation());
+    };
+
+    fetchOrder();
+  }, [orderId]);
 
   const [arrivalTime, setArrivalTime] = useState<number>(0);
 
   useEffect(() => {
     const additionalMinutes: number = 10 + secureRandom() * 15;
-    const arrivalTime = placedAt + additionalMinutes * 60 * 1000;
+    const arrivalTime = placedAt.getTime() + additionalMinutes * 60 * 1000;
     setArrivalTime(arrivalTime);
+    firestoreManager.updateOrder(
+      orderId,
+      "deliveryDate",
+      new Date(arrivalTime)
+    );
   }, [placedAt]);
 
   const [completion, setCompletion] = useState(0);
@@ -111,15 +144,19 @@ const OrderPlaced = ({
             {t("order-placed.order-summary")}
           </Text>
           <Text className="text-xl my-2" testID="ordered-item-name">
-            {t(orderedItem.getName() as TranslationKeys)}
+            {orderedItem ? t(orderedItem.getName() as any) : "Loading..."}
           </Text>
-          <Text className="text-lg" testID="user-location">
-            {t("order-placed.location")} {userLocation}
-          </Text>
+          {/* <Text className="text-lg" testID="user-location">
+            Location: {orderedItem ? userLocation : { latitude: -999, longitude: -999 }}
+          </Text> */}
           <Image
             className="w-64 h-64 rounded-lg"
             testID="ordered-item-image"
-            source={orderedItem.getImage()}
+            source={
+              orderedItem
+                ? images[orderedItem.getId()]
+                : require("../../assets/icons/question_mark_icon.jpg")
+            }
           />
         </View>
 
@@ -156,7 +193,10 @@ const OrderPlaced = ({
           className="mt-4"
           testID="view-order-history"
           onPress={() =>
-            navigation.navigate("OrderHistory", { opOrders: true })
+            navigation.navigate("OrderHistory", {
+              opOrders: true,
+              userId: auth.currentUser ? auth.currentUser.uid : "",
+            })
           }
         >
           <Text className="text-black underline">

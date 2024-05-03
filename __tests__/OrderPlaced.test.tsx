@@ -12,6 +12,9 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { View, Text } from "react-native";
 import { RootStackParamList } from "../src/types/RootStackParamList";
 import { Item } from "../src/types/Item";
+import { Order } from "../src/types/Order";
+import FirestoreManager from "../src/services/FirestoreManager";
+import { read } from "fs";
 
 type OrderPlacedStack = {
   OrderPlaced: RootStackParamList["OrderPlaced"];
@@ -31,6 +34,31 @@ jest.mock("../src/components/PayButton", () => ({
   },
 }));
 
+jest.mock("../src/services/FirestoreManager", () => {
+  return jest.fn().mockImplementation(() => {
+    return {
+      readOrder: jest.fn().mockImplementation(() => {
+        return new Order(
+          "07b35de9-7f42-4d5c-9953-e8c586c349d2",
+          new Item(0, "test", "test", 10),
+          { latitude: 0, longitude: 0 }
+        );
+      }),
+      updateOrder: jest.fn(),
+    };
+  });
+});
+
+jest.mock("../src/services/Firebase", () => {
+  return {
+    auth: {
+      currentUser: {
+        uid: "07b35de9-7f42-4d5c-9953-e8c586c349d2",
+      },
+    },
+  };
+});
+
 beforeAll(() => {
   global.alert = jest.fn();
 
@@ -46,9 +74,7 @@ const OrderPlacedTest = () => {
         <Stack.Screen
           name="OrderPlaced"
           initialParams={{
-            orderedItem: new Item(0, "Test Item", "Test Description", 0, 0, 10),
-            placedAt: Date.now(),
-            userLocation: "Test Location",
+            orderId: "07b35de9-7f42-4d5c-9953-e8c586c349d2",
           }}
         >
           {(props) => <OrderPlaced {...props} />}
@@ -78,8 +104,8 @@ describe("OrderPlaced", () => {
     expect(orderSummary).toBeTruthy();
     const orderedItemName = getByTestId("ordered-item-name");
     expect(orderedItemName).toBeTruthy();
-    const userLocation = getByTestId("user-location");
-    expect(userLocation).toBeTruthy();
+    // const userLocation = getByTestId("user-location");
+    // expect(userLocation).toBeTruthy();
     const orderedItemImage = getByTestId("ordered-item-image");
     expect(orderedItemImage).toBeTruthy();
   });
