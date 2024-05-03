@@ -9,8 +9,6 @@ import {
   SafeAreaView,
   Alert,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import ProfileScreen from "./ProfileScreen";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { auth } from "../services/Firebase";
 
@@ -52,7 +50,10 @@ const Settings: React.FC<SettingsProps> = ({
   const logoutUser = async () => {
     try {
       await auth.signOut();
-      navigation.replace("Login"); // Use 'replace' to prevent going back to the settings screen
+      navigation.reset({
+        index: 0,
+        routes: [{ name: "Login" }],
+      });
     } catch (error) {
       Alert.alert("Logout Failed", "Unable to logout at this time.");
     }
