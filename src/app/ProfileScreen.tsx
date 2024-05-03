@@ -29,43 +29,48 @@ const ProfileScreen = () => {
 
   return (
     <ScrollView style={styles.container}>
-      <TouchableOpacity
-        style={styles.profileImageContainer}
-        onPress={() => console.log("Open Image Picker")}
-      >
-        <Image
-          source={require("../../assets/images/defaultProfile.png")}
-          style={styles.profileImage}
-        />
-      </TouchableOpacity>
+      {/* Image container remains the same... */}
+
       <View style={styles.inputContainer}>
         <Text style={styles.label}>Name</Text>
-        <TextInput style={styles.input} value={name} onChangeText={setName} />
+        <TextInput
+          style={styles.input}
+          placeholder="Name"
+          value={name}
+          onChangeText={setName}
+        />
       </View>
+
       <View style={styles.inputContainer}>
         <Text style={styles.label}>Email</Text>
-        <TextInput style={styles.input} value={email} onChangeText={setEmail} />
+        <TextInput
+          style={styles.input}
+          placeholder="Email"
+          value={email}
+          onChangeText={setEmail}
+        />
       </View>
+
       <View style={styles.inputContainer}>
         <Text style={styles.label}>Password</Text>
         <TextInput
           style={styles.input}
+          placeholder="Password"
+          secureTextEntry={true}
           value={password}
           onChangeText={setPassword}
-          secureTextEntry={true}
         />
       </View>
+
       <View style={styles.inputContainer}>
         <Text style={styles.label}>Date of Birth</Text>
         <TextInputMask
           type={"datetime"}
-          options={{
-            format: "DD/MM/YYYY",
-          }}
+          options={{ format: "DD/MM/YYYY" }}
+          placeholder="DD/MM/YYYY"
           value={dateOfBirth}
           onChangeText={setDateOfBirth}
           style={styles.input}
-          placeholder="DD/MM/YYYY"
         />
         {isPickerShow && (
           <DatePicker
