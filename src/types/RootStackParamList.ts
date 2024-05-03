@@ -14,6 +14,7 @@ export type RootStackParamList = {
   };
   Map: undefined;
   Settings: undefined;
+  ProfileScreen: undefined;
   OrderPlaced: {
     orderId: string;
   };

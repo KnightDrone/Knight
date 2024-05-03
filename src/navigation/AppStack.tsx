@@ -13,6 +13,7 @@ import { RootStackParamList } from "../types/RootStackParamList";
 import { User } from "../services/Firebase";
 import OrderHistory from "../app/OrderHistory";
 import Settings from "../app/Setting";
+import ProfileScreen from "../app/ProfileScreen";
 
 const { Navigator, Screen, Group } = createStackNavigator<RootStackParamList>();
 
@@ -117,6 +118,23 @@ export const AppStack: React.FC<AppStackProps> = ({ isLoggedIn, user }) => {
             })}
           >
             {(props: any) => <Settings {...props} />}
+          </Screen>
+          <Screen
+            name="ProfileScreen"
+            options={({ navigation }: any) => ({
+              headerShown: true,
+              headerTitle: "Edit Profile",
+              headerLeft: () => (
+                <HeaderBackButton
+                  onPress={() => navigation.goBack()}
+                  labelVisible={false}
+                  labelStyle={{ color: "black" }}
+                  testID="Profile-back-button"
+                />
+              ),
+            })}
+          >
+            {(props: any) => <ProfileScreen {...props} />}
           </Screen>
         </Group>
       </Navigator>
