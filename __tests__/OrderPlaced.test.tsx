@@ -49,6 +49,16 @@ jest.mock("../src/services/FirestoreManager", () => {
   });
 });
 
+jest.mock("../src/services/Firebase", () => {
+  return {
+    auth: {
+      currentUser: {
+        uid: "07b35de9-7f42-4d5c-9953-e8c586c349d2",
+      },
+    },
+  };
+});
+
 beforeAll(() => {
   global.alert = jest.fn();
 
