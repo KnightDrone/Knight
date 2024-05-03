@@ -16,18 +16,18 @@ jobs:
     - name: Create Google Services JSON File
       env:
         GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES }}
-      run: echo $GOOGLE_SERVICES_JSON | base64 -di > ./google-services.json && cat google-services.json
+      run: echo $GOOGLE_SERVICES_JSON | base64 -di > ./google-services.json
 
     - name: Create eas.json File
       env:
         EAS_JSON: ${{ secrets.EAS }}
-      run: echo $EAS_JSON | base64 -di > ./eas.json && cat eas.json
+      run: echo $EAS_JSON | base64 -di > ./eas.json
 
     - name: Update app.json File
       env:
         APP_JSON: ${{ secrets.APP_JSON }}
       run: |
-        rm app.json && echo $APP_JSON | base64 -di > ./app.json && cat app.json
+        rm app.json && echo $APP_JSON | base64 -di > ./app.json
 
     - name: 🏗 Setup Node
       uses: actions/setup-node@v3
@@ -57,10 +57,13 @@ jobs:
 
     - name: 👷 Build app (Local)
       run: |
-        eas build --local --non-interactive --output=./app-build --platform=android --profile=preview > /dev/null 2>&1
+        eas build --local \
+          --non-interactive \
+          --platform=android \
+          --profile=preview
 
     - name: 📱 Upload binary
       uses: actions/upload-artifact@v2
       with:
         name: app-android
-        path: app-build
+        path: /tmp/runner/eas-build-local-nodejs/*/build/android/app/build/outputs/apk/release/app-release.apk
