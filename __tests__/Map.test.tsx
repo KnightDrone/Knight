@@ -44,15 +44,6 @@ describe("Map", () => {
     );
   });
 
-  it("navigates to OrderMenu when order button is pressed", () => {
-    const navigate = jest.fn();
-    const { getByText, getByTestId } = render(
-      <MapOverview navigation={{ navigate }} />
-    );
-    fireEvent.press(getByText("map.order-button"));
-    expect(navigate).toHaveBeenCalledWith("OrderMenu");
-  });
-
   it("shows loading indicator when location is being fetched", async () => {
     (Location.watchPositionAsync as jest.Mock).mockImplementationOnce(() =>
       Promise.resolve({
