@@ -81,7 +81,7 @@ const OrderHistory = ({
   const fetchOrders = async () => {
     setRefreshing(true);
     try {
-      const field = historyOp ? "operator" : "user";
+      const field = historyOp ? "operatorId" : "userId";
       const newOrders = await firestoreManager.queryOrder(field, userId);
 
       if (newOrders === null) {
