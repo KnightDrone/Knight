@@ -8,6 +8,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { View, Text } from "react-native";
 import { initI18n } from "../src/lang/i18n";
 
+import * as Location from "expo-location";
+
 beforeEach(() => {
   const mockPromptAsync = jest.fn();
 
@@ -20,6 +22,19 @@ beforeEach(() => {
 
   initI18n();
 });
+
+jest.mock("expo-location", () => {
+  const originalModule = jest.requireActual("expo-location");
+  return {
+    __esModule: true,
+    ...originalModule,
+    requestForegroundPermissionsAsync: jest.fn(),
+    watchPositionAsync: jest.fn(),
+  };
+});
+
+jest.mock("react-native-vector-icons/MaterialIcons", () => "Icon");
+jest.mock("../src/components/LocationMarker", () => "LocationMarker");
 
 jest.mock("../src/components/PayButton", () => ({
   __esModule: true,
@@ -44,7 +59,7 @@ async function simulateLogin(
   fireEvent.press(getByTestId("login-button"));
 
   await waitFor(() => {
-    expect(queryByTestId("map-overview-screen")).toBeTruthy();
+    expect(queryByTestId("map-view")).toBeTruthy();
   });
 }
 
@@ -56,6 +71,21 @@ beforeAll(() => {
 });
 
 describe("App Navigation", () => {
+  beforeEach(() => {
+    (Location.requestForegroundPermissionsAsync as jest.Mock).mockResolvedValue(
+      { status: "granted" }
+    );
+    (Location.watchPositionAsync as jest.Mock).mockImplementation(() => {
+      return Promise.resolve({
+        remove: jest.fn(),
+      });
+    });
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it("renders the login screen as the initial route", () => {
     const { getByTestId } = render(<App />);
     expect(getByTestId("login-screen")).toBeTruthy();
@@ -64,7 +94,7 @@ describe("App Navigation", () => {
   it("directly logs in with Google due to the mock implementation", async () => {
     const { queryByTestId } = render(<App />);
     await waitFor(() => {
-      expect(queryByTestId("map-overview-screen")).toBeTruthy();
+      expect(queryByTestId("map-view")).toBeTruthy();
     });
   });
 
@@ -107,7 +137,7 @@ describe("App Navigation", () => {
     const { getByTestId, queryByTestId } = render(<App />);
 
     await waitFor(() => {
-      expect(queryByTestId("map-overview-screen")).toBeTruthy();
+      expect(queryByTestId("map-view")).toBeTruthy();
     });
 
     const orderMenuButton = getByTestId("order-button");
@@ -121,7 +151,7 @@ describe("App Navigation", () => {
     fireEvent.press(backButton);
 
     await waitFor(() => {
-      expect(queryByTestId("map-overview-screen")).toBeTruthy();
+      expect(queryByTestId("map-view")).toBeTruthy();
     });
   });
 
@@ -140,7 +170,7 @@ describe("App Navigation", () => {
 
     fireEvent.press(getByTestId("order-menu-back-button"));
     await waitFor(() => {
-      expect(queryByTestId("map-overview-screen")).toBeTruthy();
+      expect(queryByTestId("map-view")).toBeTruthy();
     });
   });
 
@@ -154,7 +184,7 @@ describe("App Navigation", () => {
     const { queryByTestId } = render(<App />);
 
     await waitFor(() => {
-      expect(queryByTestId("map-overview-screen")).toBeTruthy();
+      expect(queryByTestId("map-view")).toBeTruthy();
       expect(onAuthStateChanged).toHaveBeenCalled();
       expect(AsyncStorage.setItem).toHaveBeenCalledWith(
         "@user",
@@ -173,7 +203,7 @@ describe("App Navigation", () => {
 
     const { queryByTestId } = render(<App />);
     await waitFor(() => {
-      expect(queryByTestId("map-overview-screen")).toBeTruthy();
+      expect(queryByTestId("map-view")).toBeTruthy();
       expect(onAuthStateChanged).toHaveBeenCalled();
       expect(AsyncStorage.removeItem).toHaveBeenCalledWith("@user");
     });
@@ -196,7 +226,7 @@ describe("App Navigation", () => {
 
     const { queryByTestId } = render(<App />);
     await waitFor(() => {
-      expect(queryByTestId("map-overview-screen")).toBeTruthy();
+      expect(queryByTestId("map-view")).toBeTruthy();
       expect(onAuthStateChanged).toHaveBeenCalled();
       expect(AsyncStorage.setItem).toHaveBeenCalledWith(
         "@user",
@@ -220,7 +250,7 @@ describe("App Navigation", () => {
 
     const { queryByTestId } = render(<App />);
     await waitFor(() => {
-      expect(queryByTestId("map-overview-screen")).toBeTruthy();
+      expect(queryByTestId("map-view")).toBeTruthy();
       expect(onAuthStateChanged).toHaveBeenCalled();
       expect(AsyncStorage.removeItem).toHaveBeenCalledWith("@user");
       expect(alert).toHaveBeenCalledWith(new Error("AsyncStorage error"));
