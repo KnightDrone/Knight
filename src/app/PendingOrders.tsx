@@ -148,6 +148,8 @@ const PendingOrders = ({ navigation }: any) => {
               order={item}
               onClick={() => handleOpenCard(item)}
               opBool={false}
+              testId={`order-card-${item.getId()}`}
+              onClickTestId={`order-card-${item.getId()}-button`}
             /> // opBool is false because we want to show the user's location name
           )}
           keyExtractor={(item) => item.getId()}
@@ -163,6 +165,7 @@ const PendingOrders = ({ navigation }: any) => {
           <View className="flex-1 justify-center items-center bg-opacity-100">
             <View className="bg-white border-2 border-gray-500 p-5 items-start justify-start shadow-lg w-[300] h-[180] rounded-lg relative">
               <TouchableOpacity
+                testID="close-card-button"
                 onPress={() => handleCloseCard()}
                 className="absolute right-5 top-5 "
               >
