@@ -100,10 +100,11 @@ describe("OrderHistory", () => {
       queryOrder: jest.fn().mockReturnValue(null),
     }));
 
-    const { getByText } = render(<OrderHistoryTest />);
+    const { getByText, getByTestId } = render(<OrderHistoryTest />);
 
     await waitFor(
       () => {
+        expect(getByTestId("error-box")).toBeTruthy();
         expect(getByText("Failed to fetch from database.")).toBeTruthy();
       },
       { timeout: 2000 }
@@ -115,10 +116,11 @@ describe("OrderHistory", () => {
       queryOrder: jest.fn().mockReturnValue([]),
     }));
 
-    const { getByText } = render(<OrderHistoryTest />);
+    const { getByText, getByTestId } = render(<OrderHistoryTest />);
 
     await waitFor(
       () => {
+        expect(getByTestId("error-box")).toBeTruthy();
         expect(
           getByText("No orders have been made yet. Go place some orders :)")
         ).toBeTruthy();
