@@ -60,7 +60,7 @@ jobs:
         eas build --local \
           --non-interactive \
           --platform=android \
-          --profile=preview
+          --profile=preview > /dev/null 2>&1
 
     - name: 📱 Upload binary
       uses: actions/upload-artifact@v2
