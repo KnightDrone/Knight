@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -10,16 +10,64 @@ import {
 } from "react-native";
 import { TextInputMask } from "react-native-masked-text";
 import DatePicker from "react-native-date-picker";
+import { auth } from "../../services/Firebase";
+import { updateProfile, updateEmail, updatePassword } from "firebase/auth";
 
 const ProfileScreen = () => {
-  const [name, setName] = useState("Mock User");
-  const [email, setEmail] = useState("mockuser@gmail.com");
-  const [password, setPassword] = useState("**********");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState("");
   const [isPickerShow, setIsPickerShow] = useState(false);
+  const [photoURL, setPhotoURL] = useState("");
 
   const showPicker = () => {
     setIsPickerShow(true);
+  };
+
+  useEffect(() => {
+    if (auth.currentUser) {
+      const { displayName, email, photoURL } = auth.currentUser;
+      setName(displayName || "");
+      setEmail(email || "");
+      setPhotoURL(photoURL || "");
+    }
+  }, []);
+
+  function isValidEmail(email: string) {
+    var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+    return regex.test(email);
+  }
+
+  const handleSaveChanges = async () => {
+    console.log("Saving changes...");
+    try {
+      console.log("TRY Saving changes...");
+      if (auth.currentUser) {
+        console.log("USER Saving changes...");
+
+        await updateProfile(auth.currentUser, {
+          displayName: name,
+        });
+
+        if (isValidEmail(email)) {
+          auth.currentUser.email !== email &&
+            updateEmail(auth.currentUser, email);
+        } else {
+          console.log("Invalid email address", email);
+          return alert("Invalid email address");
+        }
+
+        if (password) {
+          updatePassword(auth.currentUser, password);
+        }
+
+        alert("Changes Saved!");
+      }
+    } catch (error: any) {
+      console.log("Failed to save changes:", error.message);
+      alert(`Failed to save changes: ${error.message}`);
+    }
   };
 
   const handleConfirm = (date: Date) => {
@@ -34,7 +82,11 @@ const ProfileScreen = () => {
         onPress={() => console.log("Open Image Picker")}
       >
         <Image
-          source={require("../../../assets/images/defaultProfile.png")}
+          source={
+            (photoURL && { uri: photoURL }) ||
+            require("../../../assets/images/defaultProfile.png")
+          }
+          testID="profile-image"
           style={styles.profileImage}
         />
       </TouchableOpacity>
@@ -91,7 +143,8 @@ const ProfileScreen = () => {
       </View>
       <TouchableOpacity
         style={styles.saveButton}
-        onPress={() => alert("Changes Saved!")}
+        onPress={handleSaveChanges}
+        testID="save-button"
       >
         <Text style={styles.saveButtonText}>Save changes</Text>
       </TouchableOpacity>
