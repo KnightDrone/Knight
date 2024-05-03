@@ -78,8 +78,8 @@ describe("Map", () => {
     fireEvent.press(getByTestId("order-button"));
 
     expect(navigate).toHaveBeenCalledWith("OrderMenu", {
-      latitude: 37.789,
-      longitude: -122.4324,
-    });
+      latitude: undefined,
+      longitude: undefined,
+    }); // we no longer initialize with a default location
   });
 });
