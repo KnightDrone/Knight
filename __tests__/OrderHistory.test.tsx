@@ -1,9 +1,12 @@
 import React from "react";
-import { render, waitFor } from "@testing-library/react-native";
+import { fireEvent, render, waitFor } from "@testing-library/react-native";
 import OrderHistory from "../src/app/OrderHistory";
 import { RootStackParamList } from "../src/types/RootStackParamList";
-import { createStackNavigator } from "@react-navigation/stack";
-import { NavigationContainer } from "@react-navigation/native";
+import {
+  createStackNavigator,
+  StackNavigationProp,
+} from "@react-navigation/stack";
+import { NavigationContainer, RouteProp } from "@react-navigation/native";
 import { initI18n } from "../src/lang/i18n";
 import { Order, OrderStatus } from "../src/types/Order";
 import { Item } from "../src/types/Item";
@@ -95,6 +98,39 @@ describe("OrderHistory", () => {
     );
   });
 
+  it("navigates back", async () => {
+    const mockNavigation = {
+      goBack: jest.fn(),
+    };
+
+    const mockRoute: RouteProp<RootStackParamList, "OrderHistory"> = {
+      key: "OrderHistory",
+      name: "OrderHistory",
+      params: {
+        historyOp: false,
+        userId: "user1",
+      },
+    };
+
+    const { getByTestId } = render(
+      <OrderHistory
+        navigation={
+          mockNavigation as unknown as StackNavigationProp<OrderHistoryStack>
+        }
+        route={mockRoute}
+      />
+    );
+
+    await waitFor(() => {
+      expect(getByTestId("x-button")).toBeTruthy();
+    });
+
+    const xButton = getByTestId("x-button");
+    fireEvent.press(xButton);
+
+    expect(mockNavigation.goBack).toHaveBeenCalledTimes(1);
+  });
+
   it("fails to fetch orders", async () => {
     (FirestoreManager as jest.Mock).mockImplementationOnce(() => ({
       queryOrder: jest.fn().mockReturnValue(null),
@@ -109,6 +145,8 @@ describe("OrderHistory", () => {
       },
       { timeout: 2000 }
     );
+
+    fireEvent.press(getByTestId("error-box"));
   });
 
   it("returns empty orders", async () => {
@@ -124,6 +162,22 @@ describe("OrderHistory", () => {
         expect(
           getByText("No orders have been made yet. Go place some orders :)")
         ).toBeTruthy();
+      },
+      { timeout: 2000 }
+    );
+  });
+
+  it("queryOrder throws an error", async () => {
+    (FirestoreManager as jest.Mock).mockImplementationOnce(() => ({
+      queryOrder: jest.fn().mockRejectedValue(new Error("Query failed.")),
+    }));
+
+    const { getByText, getByTestId } = render(<OrderHistoryTest />);
+
+    await waitFor(
+      () => {
+        expect(getByTestId("error-box")).toBeTruthy();
+        expect(getByText("Query failed.")).toBeTruthy();
       },
       { timeout: 2000 }
     );
