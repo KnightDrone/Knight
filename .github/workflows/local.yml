@@ -60,10 +60,28 @@ jobs:
         eas build --local \
           --non-interactive \
           --platform=android \
-          --profile=preview > /dev/null 2>&1
+          --profile=preview \
+          --output=./ \
+          --build-logger-level=fatal \
+          --json --non-interactive
 
     - name: 📱 Upload binary
       uses: actions/upload-artifact@v2
       with:
         name: app-android
         path: /tmp/runner/eas-build-local-nodejs/*/build/android/app/build/outputs/apk/release/app-release.apk
+
+    - name: 📱 Upload binary
+      uses: actions/upload-artifact@v2
+      with:
+        name: app-android
+        path: ./build/android/app/build/outputs/apk/release/app-release.apk
+    
+    - name: 📱 Upload binary
+      uses: actions/upload-artifact@v2
+      with:
+        name: app-android
+        path: ./*/build/android/app/build/outputs/apk/release/app-release.apk
+
+    - name: List APK directory
+      run: ls -l /tmp/runner/eas-build-local-nodejs/*/build/android/app/build/outputs/apk/release/
