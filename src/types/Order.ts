@@ -25,6 +25,7 @@ class Order {
   private usrLocName: string;
   private operatorId: string;
   private opLocation: OrderLocation;
+  private operatorName: string;
 
   constructor(
     userId: string,
@@ -35,6 +36,7 @@ class Order {
     deliveryDate?: Date,
     usrLocName?: string, // this is for when reconstructing from Firestore
     operatorId?: string,
+    operatorName?: string,
     opLocation?: OrderLocation,
     id?: string
   ) {
@@ -49,6 +51,7 @@ class Order {
       usrLocName ||
       `Lat: ${usrLocation.latitude}, Long: ${usrLocation.longitude}`; //default boring name
     this.operatorId = operatorId || "";
+    this.operatorName = operatorName || "";
     this.opLocation = opLocation || { latitude: -999, longitude: -999 };
   }
   // This is done outside constructor as it is bad practice to have async calls in constructor, this method sh
@@ -109,6 +112,10 @@ class Order {
     return this.opLocation;
   }
 
+  getOpName(): string {
+    return this.operatorName;
+  }
+
   // toDict(): { [key: string]: string } {
   //   return {
   //     id: this.id,
@@ -141,6 +148,7 @@ const orderConverter = {
         latitude: order.getOpLocation().latitude,
         longitude: order.getOpLocation().longitude,
       },
+      operatorName: order.getOpName(),
     };
   },
   fromFirestore: (snapshot: any) => {
@@ -165,6 +173,7 @@ const orderConverter = {
       new Date(data.deliveryDate.seconds * 1000),
       data.usrLocName,
       data.operatorId,
+      data.operatorName,
       {
         latitude: data.opLocation.latitude,
         longitude: data.opLocation.longitude,

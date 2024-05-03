@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { View, Text, Image, StyleSheet } from "react-native";
 import { Order } from "../types/Order";
 import { TouchableOpacity } from "react-native";
+import { useTranslation } from "react-i18next";
 
 const formatDate = (date: Date) => {
   const monthNames = [
@@ -44,13 +45,14 @@ const OrderCard = ({
   testId,
   onClickTestId,
 }: OrderCardProps) => {
+  const { t } = useTranslation();
   const item = order.getItem();
-  const name = item.getName();
+  const name = t(item.getName() as any);
   const orderDate = order.getOrderDate();
   const price = item.getPrice();
   let locName = "";
   if (opBool) {
-    locName = order.getOpLocName();
+    locName = order.getOperator();
   } else {
     locName = order.getUsrLocName();
   }

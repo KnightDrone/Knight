@@ -11,6 +11,7 @@ import FirestoreManager from "../services/FirestoreManager";
 import { Item } from "../types/Item";
 import { OrderLocation } from "../types/Order";
 import { images } from "../types/ProductButtons";
+import { auth } from "../services/Firebase";
 
 interface OrderPlacedProps {
   orderId: string;
@@ -192,7 +193,10 @@ const OrderPlaced = ({
           className="mt-4"
           testID="view-order-history"
           onPress={() =>
-            navigation.navigate("OrderHistory", { opOrders: true })
+            navigation.navigate("OrderHistory", {
+              opOrders: true,
+              userId: auth.currentUser ? auth.currentUser.uid : "",
+            })
           }
         >
           <Text className="text-black underline">
