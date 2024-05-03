@@ -43,7 +43,7 @@ const OrderPlaced = ({
       const order = await firestoreManager.readOrder(orderId);
       setOrderedItem(order.getItem());
       setPlacedAt(order.getOrderDate());
-      setUserLocation(order.getOrderLocation());
+      setUserLocation(order.getUsrLocation());
     };
 
     fetchOrder();
