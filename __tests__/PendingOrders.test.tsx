@@ -22,6 +22,7 @@ jest.mock("../src/services/FirestoreManager", () => {
                 OrderStatus.Delivered,
                 new Date(),
                 "Mattenhorn peak #3",
+                "abc",
                 "St. Gallen Hospital",
                 { latitude: 55, longitude: 33 },
                 "1"
@@ -34,6 +35,7 @@ jest.mock("../src/services/FirestoreManager", () => {
                 OrderStatus.Delivered,
                 new Date(),
                 "Mattenhorn peak #1",
+                "def",
                 "Pharmacy #5",
                 { latitude: 55, longitude: 33 },
                 "2"

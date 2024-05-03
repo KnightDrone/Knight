@@ -8,13 +8,13 @@ import {
 
 describe("Order", () => {
   let order: Order;
-  const user = "John Doe";
+  const userId = "John Doe";
   const imageDir = "../assets/images/splash.png";
   const image = require(imageDir);
   const item = new Item(1, "Test Item", "Test Description", 10, image, image);
   const orderDate = new Date();
   const deliveryDate = new Date();
-  const operator = "Hospital";
+  const operatorId = "Hospital";
   const location: OrderLocation = {
     latitude: 0,
     longitude: 0,
@@ -23,17 +23,19 @@ describe("Order", () => {
     latitude: -999,
     longitude: -999,
   };
+  const operatorName = "St. Gallen Hospital";
 
   beforeEach(() => {
     order = new Order(
-      user,
+      userId,
       item,
       location,
       orderDate,
       OrderStatus.Pending,
       deliveryDate,
       "Mattenhorn peak #3", // "usrLocName"
-      operator,
+      operatorId,
+      operatorName,
       operatorLocation
     );
   });
@@ -43,7 +45,7 @@ describe("Order", () => {
   });
 
   it("should have the correct properties", () => {
-    expect(order.getUser()).toBe(user);
+    expect(order.getUser()).toBe(userId);
     expect(order.getItem()).toBe(item);
     expect(order.getOrderDate().getTime()).toBeCloseTo(orderDate.getTime(), -2);
     expect(order.getStatus()).toBe(OrderStatus.Pending);
@@ -52,7 +54,8 @@ describe("Order", () => {
       -2
     );
     expect(order.getUsrLocation()).toEqual(location);
-    expect(order.getOpLocName()).toBe(operator);
+    expect(order.getOperator()).toBe(operatorId);
+    expect(order.getOpName()).toBe(operatorName);
     expect(order.getOpLocation()).toEqual(operatorLocation);
   });
 
@@ -83,8 +86,8 @@ describe("Order", () => {
   it("returns the correct dictionary", () => {
     const expectedDict = {
       id: order.getId(),
-      user: user,
-      operator: "Hospital",
+      userId: userId,
+      operatorId: "Hospital",
       item: JSON.stringify(item.toDict()),
       orderDate: orderDate.toString(),
       status: OrderStatus.Pending,

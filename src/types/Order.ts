@@ -16,30 +16,32 @@ interface OrderLocation {
 
 class Order {
   private id: string;
-  private user: string;
+  private userId: string;
   private item: Item;
   private usrLocation: OrderLocation;
   private orderDate: Date;
   private status: OrderStatus;
   private deliveryDate: Date;
   private usrLocName: string;
-  private opName: string;
+  private operatorId: string;
   private opLocation: OrderLocation;
+  private operatorName: string;
 
   constructor(
-    user: string,
+    userId: string,
     item: Item,
     usrLocation: OrderLocation,
     orderDate?: Date,
     status?: OrderStatus,
     deliveryDate?: Date,
     usrLocName?: string, // this is for when reconstructing from Firestore
-    opName?: string,
-    op_location?: OrderLocation,
+    operatorId?: string,
+    operatorName?: string,
+    opLocation?: OrderLocation,
     id?: string
   ) {
     this.id = id || uuid.v4().toString();
-    this.user = user;
+    this.userId = userId;
     this.item = item;
     this.usrLocation = usrLocation;
     this.orderDate = orderDate || new Date();
@@ -48,8 +50,9 @@ class Order {
     this.usrLocName =
       usrLocName ||
       `Lat: ${usrLocation.latitude}, Long: ${usrLocation.longitude}`; //default boring name
-    this.opName = opName || "";
-    this.opLocation = op_location || { latitude: -999, longitude: -999 };
+    this.operatorId = operatorId || "";
+    this.operatorName = operatorName || "";
+    this.opLocation = opLocation || { latitude: -999, longitude: -999 };
   }
   // This is done outside constructor as it is bad practice to have async calls in constructor, this method sh
   async locSearch() {
@@ -71,7 +74,7 @@ class Order {
   }
 
   getUser(): string {
-    return this.user;
+    return this.userId;
   }
 
   getItem(): Item {
@@ -101,19 +104,23 @@ class Order {
     return this.usrLocName;
   }
 
-  getOpLocName(): string {
-    return this.opName;
+  getOperator(): string {
+    return this.operatorId;
   }
 
   getOpLocation(): OrderLocation {
     return this.opLocation;
   }
 
+  getOpName(): string {
+    return this.operatorName;
+  }
+
   // toDict(): { [key: string]: string } {
   //   return {
   //     id: this.id,
-  //     user: this.user,
-  //     operator: this.opName,
+  //     userId: this.userId,
+  //     operatorId: this.operatorId,
   //     item: JSON.stringify(this.item.toDict()),
   //     orderDate: this.orderDate.toString(),
   //     status: this.status,
@@ -126,7 +133,8 @@ class Order {
 const orderConverter = {
   toFirestore: (order: Order) => {
     return {
-      user: order.getUser(),
+      userId: order.getUser(),
+      operatorId: order.getOperator(),
       item: order.getItem().toDict(),
       orderDate: order.getOrderDate(),
       usrLocation: {
@@ -136,11 +144,11 @@ const orderConverter = {
       status: order.getStatus(),
       deliveryDate: order.getDeliveryDate(),
       usrLocName: order.getUsrLocName(),
-      operator: order.getOpLocName(),
       opLocation: {
         latitude: order.getOpLocation().latitude,
         longitude: order.getOpLocation().longitude,
       },
+      operatorName: order.getOpName(),
     };
   },
   fromFirestore: (snapshot: any) => {
@@ -154,7 +162,7 @@ const orderConverter = {
       data.item.price
     );
     const order = new Order(
-      data.user,
+      data.userId,
       item,
       {
         latitude: data.usrLocation.latitude,
@@ -164,7 +172,8 @@ const orderConverter = {
       data.status,
       new Date(data.deliveryDate.seconds * 1000),
       data.usrLocName,
-      data.operator,
+      data.operatorId,
+      data.operatorName,
       {
         latitude: data.opLocation.latitude,
         longitude: data.opLocation.longitude,

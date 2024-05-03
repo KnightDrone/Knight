@@ -85,7 +85,7 @@ export function useLocale() {
 }
 
 export const langIcons = {
-  en: require(`../../assets/icons/lang/en-us.png`),
+  en: require(`../../assets/icons/lang/en-uk.png`),
   de: require(`../../assets/icons/lang/de.png`),
   fr: require(`../../assets/icons/lang/fr.png`),
   it: require(`../../assets/icons/lang/it.png`),

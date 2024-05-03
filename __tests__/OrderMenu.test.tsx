@@ -3,6 +3,9 @@ import { screen, render, fireEvent } from "@testing-library/react-native";
 import OrderMenu from "../src/app/OrderMenu";
 import { productButtons } from "../src/types/ProductButtons";
 import { View, Text } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import { RootStackParamList } from "../src/types/RootStackParamList";
 
 jest.mock("../src/components/PayButton", () => ({
   __esModule: true,
@@ -21,9 +24,37 @@ beforeAll(() => {
   jest.spyOn(console, "warn").mockImplementation(() => {});
 });
 
+type OrderPlacedStack = {
+  OrderMenu: RootStackParamList["OrderMenu"];
+  OrderPlaced: RootStackParamList["OrderPlaced"];
+};
+
+const Stack = createStackNavigator<OrderPlacedStack>();
+
+const OrderMenuTest = () => {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName={"OrderMenu"}>
+        <Stack.Screen
+          name="OrderMenu"
+          initialParams={{
+            latitude: -999,
+            longitude: -999,
+          }}
+        >
+          {(props) => <OrderMenu {...props} />}
+        </Stack.Screen>
+        <Stack.Screen name="OrderPlaced">
+          {(props) => <View testID="order-placed">Order Placed Screen</View>}
+        </Stack.Screen>
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+};
+
 describe("Order Menu", () => {
   it("renders correctly ", () => {
-    const { getByText, getByTestId } = render(<OrderMenu />);
+    const { getByText, getByTestId } = render(<OrderMenuTest />);
 
     expect(getByTestId("order-menu-text")).toBeTruthy();
     productButtons.forEach((button) => {
@@ -32,7 +63,7 @@ describe("Order Menu", () => {
   });
 
   it("opens card when button is pressed", () => {
-    const { getByText } = render(<OrderMenu />);
+    const { getByText } = render(<OrderMenuTest />);
     const button = productButtons[0];
     fireEvent.press(getByText(button.item.getName()));
 
@@ -42,7 +73,7 @@ describe("Order Menu", () => {
   });
 
   it("closes card when close button is pressed", () => {
-    const { getByText, queryByTestId } = render(<OrderMenu />);
+    const { getByText, queryByTestId } = render(<OrderMenuTest />);
     const button = productButtons[0];
     fireEvent.press(getByText(button.item.getName()));
     fireEvent.press(screen.getByTestId("close-button"));
@@ -51,7 +82,7 @@ describe("Order Menu", () => {
   });
 
   it("opens only one card at a time", () => {
-    const { getByText, queryByTestId } = render(<OrderMenu />);
+    const { getByText, queryByTestId } = render(<OrderMenuTest />);
     const button = productButtons[0];
     const button2 = productButtons[1];
     fireEvent.press(getByText(button.item.getName()));
@@ -64,7 +95,7 @@ describe("Order Menu", () => {
   });
 
   it("can open and close every card", () => {
-    const { getByText } = render(<OrderMenu />);
+    const { getByText } = render(<OrderMenuTest />);
     productButtons.forEach((button) => {
       fireEvent.press(getByText(button.item.getName()));
       expect(
