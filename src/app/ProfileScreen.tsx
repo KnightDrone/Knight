@@ -2,63 +2,99 @@ import React, { useState } from "react";
 import {
   View,
   Text,
-  TextInput,
   StyleSheet,
-  Button,
   ScrollView,
+  Image,
+  TouchableOpacity,
+  TextInput,
 } from "react-native";
-import { Picker } from "@react-native-picker/picker";
+import { TextInputMask } from "react-native-masked-text";
+import DatePicker from "react-native-date-picker";
 
 const ProfileScreen = () => {
-  const [name, setName] = useState("Melissa Peters");
-  const [email, setEmail] = useState("melpeters@gmail.com");
+  const [name, setName] = useState("Mock User");
+  const [email, setEmail] = useState("mockuser@gmail.com");
   const [password, setPassword] = useState("**********");
-  const [dateOfBirth, setDateOfBirth] = useState("23/05/1995");
-  const [country, setCountry] = useState("Nigeria");
+  const [dateOfBirth, setDateOfBirth] = useState("");
+  const [isPickerShow, setIsPickerShow] = useState(false);
+
+  const showPicker = () => {
+    setIsPickerShow(true);
+  };
+
+  const handleConfirm = (date: Date) => {
+    setIsPickerShow(false);
+    setDateOfBirth(date.toLocaleDateString("en-GB")); // formats date as DD/MM/YYYY
+  };
 
   return (
     <ScrollView style={styles.container}>
-      <View style={styles.headerContainer}></View>
-      <View style={styles.profileImageContainer}>
-        {/* Placeholder for profile image */}
-      </View>
+      <TouchableOpacity
+        style={styles.profileImageContainer}
+        onPress={() => console.log("Open Image Picker")}
+      >
+        <Image
+          source={require("../../assets/images/defaultProfile.png")}
+          style={styles.profileImage}
+        />
+      </TouchableOpacity>
       <View style={styles.inputContainer}>
         <Text style={styles.label}>Name</Text>
-        <TextInput style={styles.input} value={name} onChangeText={setName} />
+        <TextInput
+          style={styles.input}
+          placeholder="Name"
+          value={name}
+          onChangeText={setName}
+        />
       </View>
+
       <View style={styles.inputContainer}>
         <Text style={styles.label}>Email</Text>
-        <TextInput style={styles.input} value={email} onChangeText={setEmail} />
+        <TextInput
+          style={styles.input}
+          placeholder="Email"
+          value={email}
+          onChangeText={setEmail}
+        />
       </View>
+
       <View style={styles.inputContainer}>
         <Text style={styles.label}>Password</Text>
         <TextInput
           style={styles.input}
+          placeholder="Password"
+          secureTextEntry={true}
           value={password}
           onChangeText={setPassword}
-          secureTextEntry={true}
         />
       </View>
+
       <View style={styles.inputContainer}>
         <Text style={styles.label}>Date of Birth</Text>
-        <TextInput
-          style={styles.input}
+        <TextInputMask
+          type={"datetime"}
+          options={{ format: "DD/MM/YYYY" }}
+          placeholder="DD/MM/YYYY"
           value={dateOfBirth}
           onChangeText={setDateOfBirth}
+          style={styles.input}
         />
+        {isPickerShow && (
+          <DatePicker
+            modal
+            open={isPickerShow}
+            date={new Date()}
+            onConfirm={handleConfirm}
+            onCancel={() => setIsPickerShow(false)}
+          />
+        )}
       </View>
-      <View style={styles.inputContainer}>
-        <Text style={styles.label}>Country/Region</Text>
-        <Picker
-          selectedValue={country}
-          onValueChange={(itemValue, itemIndex) => setCountry(itemValue)}
-          style={styles.picker}
-        >
-          <Picker.Item label="Nigeria" value="Nigeria" />
-          {/* Add other countries as needed */}
-        </Picker>
-      </View>
-      <Button title="Save changes" onPress={() => alert("Changes Saved!")} />
+      <TouchableOpacity
+        style={styles.saveButton}
+        onPress={() => alert("Changes Saved!")}
+      >
+        <Text style={styles.saveButtonText}>Save changes</Text>
+      </TouchableOpacity>
     </ScrollView>
   );
 };
@@ -67,34 +103,57 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-  },
-  headerContainer: {
-    marginBottom: 20,
-  },
-  headerText: {
-    fontSize: 20,
-    fontWeight: "bold",
+    backgroundColor: "#fff",
   },
   profileImageContainer: {
+    justifyContent: "center",
     alignItems: "center",
-    marginBottom: 20,
+    marginBottom: 30,
+    height: 200,
+  },
+  profileImage: {
+    width: 180,
+    height: 180,
+    borderRadius: 90,
+    borderWidth: 4,
+    borderColor: "#ddd",
   },
   inputContainer: {
-    marginBottom: 15,
+    marginBottom: 20,
+    backgroundColor: "#f7f7f7",
+    borderRadius: 10,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
   },
   label: {
     fontSize: 16,
+    fontWeight: "bold",
     marginBottom: 5,
   },
   input: {
     height: 40,
-    borderColor: "gray",
-    borderWidth: 1,
     padding: 10,
+    backgroundColor: "white",
+    borderRadius: 5,
   },
   picker: {
     height: 50,
     width: "100%",
+    backgroundColor: "white",
+    borderRadius: 5,
+  },
+  saveButton: {
+    backgroundColor: "#007AFF", // iOS blue button color
+    borderRadius: 10,
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    alignItems: "center",
+    marginTop: 10,
+  },
+  saveButtonText: {
+    color: "white",
+    fontSize: 18,
+    fontWeight: "bold",
   },
 });
 
