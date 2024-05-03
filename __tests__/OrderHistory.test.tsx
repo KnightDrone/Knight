@@ -1,27 +1,52 @@
 import React from "react";
-import { render, waitFor } from "@testing-library/react-native";
+import { fireEvent, render, waitFor } from "@testing-library/react-native";
 import OrderHistory from "../src/app/OrderHistory";
 import { RootStackParamList } from "../src/types/RootStackParamList";
-import { createStackNavigator } from "@react-navigation/stack";
-import { NavigationContainer } from "@react-navigation/native";
+import {
+  createStackNavigator,
+  StackNavigationProp,
+} from "@react-navigation/stack";
+import { NavigationContainer, RouteProp } from "@react-navigation/native";
 import { initI18n } from "../src/lang/i18n";
+import { Order, OrderStatus } from "../src/types/Order";
+import { Item } from "../src/types/Item";
+import FirestoreManager from "../src/services/FirestoreManager";
 
-const mockNavigation = {
-  navigate: jest.fn(),
-  goBack: jest.fn(),
-  reset: jest.fn(),
-};
-
-// Mock the module that exports fetchOrdersForUserMock
-/*jest.mock("../src/app/OrderHistory", () => ({
-  ...jest.requireActual("../src/app/OrderHistory"),
-  fetchOrdersForUserMock: fetchOrdersForUserMock,
-}));*/
-
-jest.mock("@react-navigation/native", () => {
+jest.mock("../src/services/FirestoreManager", () => {
   return {
-    ...jest.requireActual("@react-navigation/native"),
-    useNavigation: () => mockNavigation,
+    __esModule: true,
+    default: jest.fn().mockImplementation(() => {
+      return {
+        queryOrder: jest
+          .fn()
+          .mockImplementation(() =>
+            Promise.resolve([
+              new Order(
+                "user1",
+                new Item(1, "mock item1", "description1", 10, 1, 1),
+                { latitude: 46.8182, longitude: 8.2275 },
+                new Date(),
+                OrderStatus.Delivered,
+                new Date(),
+                "Mattenhorn peak #3",
+                "St. Gallen Hospital",
+                { latitude: 55, longitude: 33 }
+              ),
+              new Order(
+                "user2",
+                new Item(2, "mock item2", "description1", 22, 1, 1),
+                { latitude: 46.8182, longitude: 8.2275 },
+                new Date(),
+                OrderStatus.Delivered,
+                new Date(),
+                "Mattenhorn peak #1",
+                "Pharmacy #5",
+                { latitude: 55, longitude: 33 }
+              ),
+            ])
+          ),
+      };
+    }),
   };
 });
 
@@ -38,7 +63,7 @@ const OrderHistoryTest = () => {
         <Stack.Screen
           name="OrderHistory"
           initialParams={{
-            opOrders: false,
+            historyOp: false,
             userId: "user1",
           }}
         >
@@ -55,80 +80,106 @@ beforeEach(() => {
 
 describe("OrderHistory", () => {
   it("renders correctly", async () => {
-    /*fetchOrdersForUserMock.mockResolvedValue([
-      new Order(
-        "user1",
-        new Item(1, "mock item1", "description1", 1, 1, 10),
-        { latitude: 46.8182, longitude: 8.2275 }, // Correct way to create an OrderLocation object
-        "St. Gallen Hospital",
-        { latitude: 55, longitude: 33 } // Correct way to create an OrderLocation object
-      ),
-      new Order(
-        "user2",
-        new Item(2, "mock item2", "description2", 2, 2, 22),
-        { latitude: 40.8182, longitude: 8.2275 }, // Correct way to create an OrderLocation object
-        "Drone Station 1", // "Drone Station 1", "St. Gallen Hospital", "Jeffrey's Clinic"
-        { latitude: 59, longitude: 38 } // Correct way to create an OrderLocation object
-      ),
-      new Order(
-        "user3",
-        new Item(3, "mock item3", "description3", 3, 3, 330),
-        { latitude: 0, longitude: 0 }, // Correct way to create an OrderLocation object
-        "Jeffrey's Clinic", // "Drone Station 1", "St. Gallen Hospital", "Jeffrey's Clinic"
-        { latitude: 25, longitude: 3.2275 } // Correct way to create an OrderLocation object
-      ),
-      new Order(
-        "user4",
-        new Item(3, "item4", "description3", 3, 3, 330),
-        { latitude: 0, longitude: 0 }, // Correct way to create an OrderLocation object
-        "Jeffrey's Clinic", // "Drone Station 1", "St. Gallen Hospital", "Jeffrey's Clinic"
-        { latitude: 25, longitude: 3.2275 } // Correct way to create an OrderLocation object
-      ),
-    ]);*/
     const { getByText, getByTestId } = render(<OrderHistoryTest />);
 
     await waitFor(
       () => {
         expect(getByTestId("menu-button")).toBeTruthy();
         expect(getByTestId("x-button")).toBeTruthy();
+        expect(getByTestId("x-icon")).toBeTruthy();
         expect(getByText("Order history")).toBeTruthy();
         expect(getByText("mock item1")).toBeTruthy();
         expect(getByText("10 CHF")).toBeTruthy();
-        expect(getByText("mock item2")).toBeTruthy();
 
+        expect(getByText("mock item2")).toBeTruthy();
         expect(getByText("22 CHF")).toBeTruthy();
       },
       { timeout: 2000 }
     );
   });
 
-  /* I've wasted too much time trying to mock this, I give up
-  it("renders an error message if fetching orders fails", async () => {
-    // Mock fetchOrders to reject with an error
-    fetchOrdersForUserMock.mockRejectedValue(new Error("Failed to fetch orders"));
+  it("navigates back", async () => {
+    const mockNavigation = {
+      goBack: jest.fn(),
+    };
 
-    const { getByText } = render(
-      <OrderHistory navigation={mockNavigation} userId={0} opOrders={false} />
+    const mockRoute: RouteProp<RootStackParamList, "OrderHistory"> = {
+      key: "OrderHistory",
+      name: "OrderHistory",
+      params: {
+        historyOp: false,
+        userId: "user1",
+      },
+    };
+
+    const { getByTestId } = render(
+      <OrderHistory
+        navigation={
+          mockNavigation as unknown as StackNavigationProp<OrderHistoryStack>
+        }
+        route={mockRoute}
+      />
     );
 
     await waitFor(() => {
-      expect(getByText("Failed to fetch orders")).toBeTruthy();
-    }, { timeout: 2000 });
+      expect(getByTestId("x-button")).toBeTruthy();
+    });
+
+    const xButton = getByTestId("x-button");
+    fireEvent.press(xButton);
+
+    expect(mockNavigation.goBack).toHaveBeenCalledTimes(1);
   });
 
-  it("renders a message if there are no orders", async () => {
-    // Mock fetchOrders to resolve with an empty array
-    fetchOrdersForUserMock.mockResolvedValue([]);
+  it("fails to fetch orders", async () => {
+    (FirestoreManager as jest.Mock).mockImplementationOnce(() => ({
+      queryOrder: jest.fn().mockReturnValue(null),
+    }));
 
-    const { getByText } = render(
-      <OrderHistory navigation={mockNavigation} userId={0} opOrders={false} />
+    const { getByText, getByTestId } = render(<OrderHistoryTest />);
+
+    await waitFor(
+      () => {
+        expect(getByTestId("error-box")).toBeTruthy();
+        expect(getByText("Failed to fetch from database.")).toBeTruthy();
+      },
+      { timeout: 2000 }
     );
 
-    await waitFor(() => {
-      expect(
-        getByText("No orders have been made yet, check back later.")
-      ).toBeTruthy();
-    }, { timeout: 2000 });
+    fireEvent.press(getByTestId("error-box"));
   });
-  */
+
+  it("returns empty orders", async () => {
+    (FirestoreManager as jest.Mock).mockImplementationOnce(() => ({
+      queryOrder: jest.fn().mockReturnValue([]),
+    }));
+
+    const { getByText, getByTestId } = render(<OrderHistoryTest />);
+
+    await waitFor(
+      () => {
+        expect(getByTestId("error-box")).toBeTruthy();
+        expect(
+          getByText("No orders have been made yet. Go place some orders :)")
+        ).toBeTruthy();
+      },
+      { timeout: 2000 }
+    );
+  });
+
+  it("queryOrder throws an error", async () => {
+    (FirestoreManager as jest.Mock).mockImplementationOnce(() => ({
+      queryOrder: jest.fn().mockRejectedValue(new Error("Query failed.")),
+    }));
+
+    const { getByText, getByTestId } = render(<OrderHistoryTest />);
+
+    await waitFor(
+      () => {
+        expect(getByTestId("error-box")).toBeTruthy();
+        expect(getByText("Query failed.")).toBeTruthy();
+      },
+      { timeout: 2000 }
+    );
+  });
 });

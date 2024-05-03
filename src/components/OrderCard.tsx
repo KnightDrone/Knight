@@ -31,31 +31,32 @@ const formatDate = (date: Date) => {
 interface OrderCardProps {
   order: Order;
   onClick?: () => void;
+  opBool: boolean;
+  testId?: string;
+  onClickTestId?: string;
 }
-
-const OrderCard = ({ order, onClick }: OrderCardProps) => {
+// opBool is used to determine if the location name should be the operator's name or the user's location name
+// This component is used for both PendingOrders and OrderHistory, and thus the location information chosen to be displayed should be chosen appropiately
+const OrderCard = ({
+  order,
+  onClick,
+  opBool,
+  testId,
+  onClickTestId,
+}: OrderCardProps) => {
   const item = order.getItem();
   const name = item.getName();
   const orderDate = order.getOrderDate();
   const price = item.getPrice();
-  const location = order.getOrderLocation();
-  //let locName = order.getOpName();
-  // Attempt to fetch the location name from the coordinates using Nominatim API
-  /*useEffect(() => {
-    if (locName === "") {
-      const location = order.getLocation();
-      fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${location.latitude}&lon=${location.longitude}`)
-        .then(response => response.json())
-        .then(data => setLocName(data.display_name))
-        .catch(error => console.error(error));
-    }
-  }, []);*/
+  let locName = "";
+  if (opBool) {
+    locName = order.getOpLocName();
+  } else {
+    locName = order.getUsrLocName();
+  }
 
-  const locName =
-    order.getOpName() ||
-    `Lat: ${location.latitude}, Long: ${location.longitude}`;
   const content = (
-    <View className="flex-1">
+    <View className="flex-1" testID={testId}>
       <Text className="text-left font-bold">{name}</Text>
       <View className="flex-row items-center">
         <Image
@@ -70,6 +71,7 @@ const OrderCard = ({ order, onClick }: OrderCardProps) => {
   // The OrderCards are clickable only if the onClick function is passed as a prop, this is for the purpose of OrderCard's in the context of History vs Pending Orders
   return onClick ? (
     <TouchableOpacity
+      testID={onClickTestId}
       className="bg-white flex-1 rounded-lg shadow-md m-2 flex-row p-2 border-2 border-gray-300"
       onPress={onClick}
     >

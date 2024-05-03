@@ -61,11 +61,10 @@ export default class FirestoreManager {
       });
       if (orders.length == 0) {
         console.log("No orders found for " + field + ": " + data);
-        return null;
       } else {
         console.log(orders.length + " orders found for " + field + ": " + data);
-        return orders;
       }
+      return orders; // Case of no orders found we return empty array
     } else {
       console.log("No valid query field provided");
       return null;
