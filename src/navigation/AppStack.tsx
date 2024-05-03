@@ -5,7 +5,7 @@ import SignUp from "./../app/SignUp";
 import ForgotPassword from "./../app/ForgotPassword";
 import OrderPlaced from "./../app/OrderPlaced";
 import OrderMenu from "../app/OrderMenu";
-import Map from "../app/Map";
+import MapOverview from "../app/Map";
 import { HeaderBackButton } from "@react-navigation/elements";
 import { NavigationContainer } from "@react-navigation/native";
 import { RootStackParamList } from "../types/RootStackParamList";
@@ -77,7 +77,7 @@ export const AppStack: React.FC<AppStackProps> = ({ isLoggedIn, user }) => {
         </Group>
         <Group>
           <Screen name="Map" options={{ title: "Map for User" }}>
-            {(props: any) => <Map {...props} />}
+            {(props: any) => <MapOverview {...props} />}
           </Screen>
           <Screen
             name="OrderMenu"

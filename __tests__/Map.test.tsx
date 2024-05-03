@@ -1,6 +1,6 @@
 import React from "react";
 import { render, fireEvent, waitFor } from "@testing-library/react-native";
-import Map from "../src/app/Map";
+import MapOverview from "../src/app/Map";
 import * as Location from "expo-location";
 
 jest.mock("expo-location", () => {
@@ -33,12 +33,12 @@ describe("Map", () => {
   });
 
   it("renders correctly", () => {
-    const { getByTestId } = render(<Map />);
+    const { getByTestId } = render(<MapOverview />);
     expect(getByTestId("map-view")).toBeTruthy();
   });
 
   it("requests location permission on mount", async () => {
-    render(<Map />);
+    render(<MapOverview />);
     await waitFor(() =>
       expect(Location.requestForegroundPermissionsAsync).toHaveBeenCalled()
     );
@@ -47,7 +47,7 @@ describe("Map", () => {
   it("navigates to OrderMenu when order button is pressed", () => {
     const navigate = jest.fn();
     const { getByText, getByTestId } = render(
-      <Map navigation={{ navigate }} />
+      <MapOverview navigation={{ navigate }} />
     );
     fireEvent.press(getByText("map.order-button"));
     expect(navigate).toHaveBeenCalledWith("OrderMenu");
@@ -59,21 +59,21 @@ describe("Map", () => {
         remove: jest.fn(),
       })
     );
-    const { getByText } = render(<Map />);
+    const { getByText } = render(<MapOverview />);
     expect(getByText("Loading your location...")).toBeTruthy();
   });
 
   it("toggles auto-centering when map is dragged", () => {
     const setAutoCenter = jest.fn();
     React.useState = jest.fn(() => [true, setAutoCenter]);
-    const { getByTestId } = render(<Map />);
+    const { getByTestId } = render(<MapOverview />);
     fireEvent(getByTestId("map-view"), "onPanDrag");
     expect(setAutoCenter).toHaveBeenCalledWith(false);
   });
 
   it("centers map to user location when auto-center button is pressed", () => {
     const animateToRegionMock = jest.fn();
-    const { getByTestId } = render(<Map />);
+    const { getByTestId } = render(<MapOverview />);
     const button = getByTestId("my-location-button");
     fireEvent.press(button);
     //expect(animateToRegionMock).toHaveBeenCalled();

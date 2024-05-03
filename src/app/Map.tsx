@@ -9,7 +9,7 @@ import LocationMarker from "../components/LocationMarker";
 const topButtonPadding = 60;
 const sideButtonPadding = 30;
 
-const Map = ({ navigation }: any) => {
+const MapOverview = ({ navigation }: any) => {
   type MapViewRef = {
     animateToRegion: (region: Region, duration?: number) => void;
   };
@@ -176,4 +176,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Map;
+export default MapOverview;
