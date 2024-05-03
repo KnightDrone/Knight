@@ -132,34 +132,39 @@ const PendingOrders = ({ navigation }: any) => {
         </TouchableOpacity>
       </View>
 
-      <TriangleBackground color="#A0D1E4" />
-      {error ? (
+      {
+        error && (
+          <TriangleBackground color="#A0D1E4" bottom={-125} />
+        ) /* These are some magic numbers that I figured out by trial and error*/
+      }
+      {!error && <TriangleBackground color="#A0D1E4" bottom={-200} />}
+      {error && (
         <MessageBox
           message={error.message}
           style="error"
           onClose={() => setError(null)}
           testID="error-box"
         />
-      ) : (
-        <FlatList
-          data={orders}
-          renderItem={({ item }) => (
-            <OrderCard
-              order={item}
-              onClick={() => handleOpenCard(item)}
-              opBool={false}
-              testId={`order-card-${item.getId()}`}
-              onClickTestId={`order-card-${item.getId()}-button`}
-            /> // opBool is false because we want to show the user's location name
-          )}
-          keyExtractor={(item) => item.getId()}
-          onEndReached={fetchOrders}
-          onEndReachedThreshold={0.1}
-          refreshing={refreshing}
-          onRefresh={fetchOrders}
-          testID="order-list"
-        />
       )}
+      <FlatList
+        data={orders}
+        renderItem={({ item }) => (
+          <OrderCard
+            order={item}
+            onClick={() => handleOpenCard(item)}
+            opBool={false}
+            testId={`order-card-${item.getId()}`}
+            onClickTestId={`order-card-${item.getId()}-button`}
+          /> // opBool is false because we want to show the user's location name
+        )}
+        keyExtractor={(item) => item.getId()}
+        onEndReached={fetchOrders}
+        onEndReachedThreshold={0.1}
+        refreshing={refreshing}
+        onRefresh={fetchOrders}
+        testID="order-list"
+      />
+
       {selectedOrder && (
         <Modal animationType="none" transparent={true} visible={true}>
           <View className="flex-1 justify-center items-center bg-opacity-100">

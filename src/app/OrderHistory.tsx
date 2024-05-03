@@ -105,7 +105,6 @@ const OrderHistory = ({
   };
   return (
     <View className="mt-16" testID="order-history-screen">
-      <TriangleBackground color="#A0D1E4" />
       <View className="flex-row items-center justify-center">
         <TouchableOpacity className="absolute left-4" testID="menu-button">
           <Image
@@ -128,32 +127,36 @@ const OrderHistory = ({
           />
         </TouchableOpacity>
       </View>
-
-      <TriangleBackground color="#A0D1E4" />
-      {error ? (
+      {
+        error && (
+          <TriangleBackground color="#A0D1E4" bottom={-125} />
+        ) /* These are some magic numbers that I figured out by trial and error*/
+      }
+      {!error && <TriangleBackground color="#A0D1E4" bottom={-200} />}
+      {error && (
         <MessageBox
           message={error.message}
           style="error"
           onClose={() => setError(null)}
           testID="error-box"
         />
-      ) : (
-        <FlatList
-          className="mt-4 min-h-full"
-          data={orders}
-          // if I am an operator, I want to see the user's location name
-          // if I am user, I want to see where I ordered from
-          renderItem={({ item }) => (
-            <OrderCard order={item} opBool={!historyOp} />
-          )}
-          keyExtractor={(item) => item.getId()}
-          onEndReached={fetchOrders}
-          onEndReachedThreshold={0.1}
-          refreshing={refreshing}
-          onRefresh={fetchOrders}
-          testID="orderHistoryFlatList"
-        />
       )}
+
+      <FlatList
+        className="mt-4 min-h-full"
+        data={orders}
+        // if I am an operator, I want to see the user's location name
+        // if I am user, I want to see where I ordered from
+        renderItem={({ item }) => (
+          <OrderCard order={item} opBool={!historyOp} />
+        )}
+        keyExtractor={(item) => item.getId()}
+        onEndReached={fetchOrders}
+        onEndReachedThreshold={0.1}
+        refreshing={refreshing}
+        onRefresh={fetchOrders}
+        testID="orderHistoryFlatList"
+      />
     </View>
   );
 };
