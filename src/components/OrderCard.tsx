@@ -52,7 +52,7 @@ const OrderCard = ({
   const price = item.getPrice();
   let locName = "";
   if (opBool) {
-    locName = order.getOperator();
+    locName = order.getOpName();
   } else {
     locName = order.getUsrLocName();
   }
