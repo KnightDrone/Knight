@@ -1,8 +1,9 @@
-name: build apk locally
+name: Build App
 on:
   push:
     branches:
-      - main  # Adjust this if you want it to run on different or multiple branches
+      - main
+      - eas-build
 
 jobs:
   build:
@@ -29,6 +30,13 @@ jobs:
 
     - name: 📦 Install dependencies
       run: npm install
+
+    - name: Setup JDK (21)
+      uses: actions/setup-java@v3
+      with:
+        java-version: 21
+        distribution: 'temurin'
+        cache: 'gradle'
 
     - name: 👷 Build app (Local)
       run: |
