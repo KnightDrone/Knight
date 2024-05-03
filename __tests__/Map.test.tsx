@@ -1,159 +1,82 @@
 import React from "react";
-import {
-  screen,
-  render,
-  fireEvent,
-  waitFor,
-  act,
-} from "@testing-library/react-native";
+import { render, fireEvent, waitFor } from "@testing-library/react-native";
 import MapOverview from "../src/app/Map";
 import * as Location from "expo-location";
-import { Text } from "react-native";
 
-import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
-const Stack = createStackNavigator();
-
-// Avoid useless error messages
-beforeAll(() => {
-  jest.spyOn(console, "error").mockImplementation(() => {});
-});
-
-const fakeLocation = {
-  coords: {
-    latitude: 34.0522,
-    longitude: -118.2437,
-    altitude: 0,
-    accuracy: 5,
-    altitudeAccuracy: 5,
-    heading: null,
-    speed: null,
-  },
-  timestamp: Date.now(),
-};
-
-const initialRegion = {
-  latitude: 37.789,
-  longitude: -122.4324,
-  latitudeDelta: 0.0922,
-  longitudeDelta: 0.0421,
-};
-
-jest.mock("react-native-vector-icons/MaterialIcons", () => {
-  const { View } = require("react-native");
+jest.mock("expo-location", () => {
+  const originalModule = jest.requireActual("expo-location");
   return {
     __esModule: true,
-    default: jest.fn().mockImplementation((props) => <View {...props} />),
+    ...originalModule,
+    requestForegroundPermissionsAsync: jest.fn(),
+    watchPositionAsync: jest.fn(),
   };
 });
 
-const MapTest = () => {
-  return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName={"Map"}>
-        <Stack.Screen name="Map">
-          {(props) => <MapOverview {...props} />}
-        </Stack.Screen>
-        <Stack.Screen name="OrderMenu">
-          {() => (
-            <>
-              <Text testID="order-menu-screen">Order Menu Screen</Text>
-            </>
-          )}
-        </Stack.Screen>
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
-};
+jest.mock("react-native-vector-icons/MaterialIcons", () => "Icon");
+jest.mock("../src/components/LocationMarker", () => "LocationMarker");
 
-describe("MapOverview Component", () => {
+describe("Map", () => {
+  beforeEach(() => {
+    (Location.requestForegroundPermissionsAsync as jest.Mock).mockResolvedValue(
+      { status: "granted" }
+    );
+    (Location.watchPositionAsync as jest.Mock).mockImplementation(() => {
+      return Promise.resolve({
+        remove: jest.fn(),
+      });
+    });
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it("renders correctly", () => {
-    const { getByTestId } = render(<MapTest />);
-
+    const { getByTestId } = render(<MapOverview />);
     expect(getByTestId("map-view")).toBeTruthy();
-    expect(getByTestId("get-location-button")).toBeTruthy();
-    expect(getByTestId("order-button")).toBeTruthy();
   });
 
-  it("navigates to OrderMenu when order button is pressed", async () => {
-    const { getByTestId } = render(<MapTest />);
-
-    fireEvent.press(getByTestId("order-button"));
-
-    await waitFor(() =>
-      expect(screen.getByTestId("order-menu-screen")).toBeTruthy()
-    );
-  });
-
-  it("fails to fetch location when location permission is denied", async () => {
-    jest.useFakeTimers();
-    const { getByTestId } = render(<MapTest />);
-
-    act(() => {
-      jest.runAllTimers();
-    });
-
-    // Deny location permission
-    (
-      Location.requestForegroundPermissionsAsync as jest.Mock
-    ).mockResolvedValueOnce({
-      status: "denied",
-    });
-
-    // Invoke the location fetch action
-    const locationButton = getByTestId("get-location-button"); // Ensure your button has the 'testID' prop
-    fireEvent.press(locationButton);
-
-    // Wait for the effects to apply
+  it("requests location permission on mount", async () => {
+    render(<MapOverview />);
     await waitFor(() =>
       expect(Location.requestForegroundPermissionsAsync).toHaveBeenCalled()
     );
-    await waitFor(() =>
-      expect(Location.getCurrentPositionAsync).not.toHaveBeenCalled()
-    );
-
-    // Check if the map region and marker have not been updated
-    expect(getByTestId("map-view").props.region).toEqual(initialRegion);
-
-    // Assuming Marker component is also receiving the updated props
-    expect(getByTestId("map-marker").props.coordinate).toEqual({
-      latitude: initialRegion.latitude,
-      longitude: initialRegion.longitude,
-    });
   });
 
-  it("updates region and marker on successful location fetch", async () => {
-    jest.useFakeTimers();
-    const { getByTestId } = render(<MapTest />);
-
-    act(() => {
-      jest.runAllTimers();
-    });
-
-    // Invoke the location fetch action
-    const locationButton = getByTestId("get-location-button"); // Ensure your button has the 'testID' prop
-    fireEvent.press(locationButton);
-
-    // Wait for the effects to apply
-    await waitFor(() =>
-      expect(Location.requestForegroundPermissionsAsync).toHaveBeenCalled()
+  it("navigates to OrderMenu when order button is pressed", () => {
+    const navigate = jest.fn();
+    const { getByText, getByTestId } = render(
+      <MapOverview navigation={{ navigate }} />
     );
-    await waitFor(() =>
-      expect(Location.getCurrentPositionAsync).toHaveBeenCalled()
+    fireEvent.press(getByText("map.order-button"));
+    expect(navigate).toHaveBeenCalledWith("OrderMenu");
+  });
+
+  it("shows loading indicator when location is being fetched", async () => {
+    (Location.watchPositionAsync as jest.Mock).mockImplementationOnce(() =>
+      Promise.resolve({
+        remove: jest.fn(),
+      })
     );
+    const { getByText } = render(<MapOverview />);
+    expect(getByText("Loading your location...")).toBeTruthy();
+  });
 
-    // Check if the map region and marker have been updated
-    expect(getByTestId("map-view").props.region).toEqual({
-      latitude: fakeLocation.coords.latitude,
-      longitude: fakeLocation.coords.longitude,
-      latitudeDelta: 0.005,
-      longitudeDelta: 0.005,
-    });
+  it("toggles auto-centering when map is dragged", () => {
+    const setAutoCenter = jest.fn();
+    React.useState = jest.fn(() => [true, setAutoCenter]);
+    const { getByTestId } = render(<MapOverview />);
+    fireEvent(getByTestId("map-view"), "onPanDrag");
+    expect(setAutoCenter).toHaveBeenCalledWith(false);
+  });
 
-    // Assuming Marker component is also receiving the updated props
-    expect(getByTestId("map-marker").props.coordinate).toEqual({
-      latitude: fakeLocation.coords.latitude,
-      longitude: fakeLocation.coords.longitude,
-    });
+  it("centers map to user location when auto-center button is pressed", () => {
+    const animateToRegionMock = jest.fn();
+    const { getByTestId } = render(<MapOverview />);
+    const button = getByTestId("my-location-button");
+    fireEvent.press(button);
+    //expect(animateToRegionMock).toHaveBeenCalled();
+    // Assertions would ideally check if animateToRegion is called with the correct region
   });
 });

@@ -8,8 +8,22 @@ import {
 import { AppStack } from "../src/navigation/AppStack";
 import { describe } from "node:test";
 import * as Google from "expo-auth-session/providers/google";
+import * as Location from "expo-location";
 
 import { signInWithEmailAndPassword } from "../src/services/Firebase";
+
+jest.mock("expo-location", () => {
+  const originalModule = jest.requireActual("expo-location");
+  return {
+    __esModule: true,
+    ...originalModule,
+    requestForegroundPermissionsAsync: jest.fn(),
+    watchPositionAsync: jest.fn(),
+  };
+});
+
+jest.mock("react-native-vector-icons/MaterialIcons", () => "Icon");
+jest.mock("../src/components/LocationMarker", () => "LocationMarker");
 
 beforeEach(() => {
   const mockPromptAsync = jest.fn();
@@ -63,6 +77,21 @@ jest.mock("react-native-vector-icons/MaterialIcons", () => {
 //// =*=*=*=*=*=*=*=*=*
 
 describe("AppStack Navigation Tests", () => {
+  beforeEach(() => {
+    (Location.requestForegroundPermissionsAsync as jest.Mock).mockResolvedValue(
+      { status: "granted" }
+    );
+    (Location.watchPositionAsync as jest.Mock).mockImplementation(() => {
+      return Promise.resolve({
+        remove: jest.fn(),
+      });
+    });
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it("navigates to the Login screen when app starts", () => {
     const { getByTestId } = render(<AppStack isLoggedIn={"Login"} />);
     // Check if the Login screen is displayed by looking for a specific text
@@ -73,7 +102,7 @@ describe("AppStack Navigation Tests", () => {
     const { queryByTestId } = render(<AppStack isLoggedIn={"Map"} />);
     await waitFor(() => {
       // Check if the Map screen is displayed by looking for a specific text
-      expect(queryByTestId("map-overview-screen")).toBeTruthy();
+      expect(queryByTestId("map-view")).toBeTruthy();
     });
   });
 
@@ -125,7 +154,7 @@ describe("AppStack Navigation Tests", () => {
     fireEvent.press(getByTestId("sign-up-button"));
     // Wait for any async actions to complete
     await waitFor(() => {
-      expect(screen.getByTestId("map-overview-screen")).toBeTruthy();
+      expect(screen.getByTestId("map-view")).toBeTruthy();
     });
   });
 
@@ -149,9 +178,12 @@ describe("AppStack Navigation Tests", () => {
 
   it("navigates Map->OrderMenu", async () => {
     const { queryByTestId } = render(<AppStack isLoggedIn={"Map"} />);
+    // Wait for the loading state to complete
+    await waitFor(() => {
+      expect(queryByTestId("map-view")).toBeTruthy();
+    });
     fireEvent.press(queryByTestId("order-button"));
     await waitFor(() => {
-      // Check if the Map screen is displayed by looking for a specific text
       expect(screen.queryByTestId("order-menu-screen")).toBeTruthy();
     });
   });
@@ -162,7 +194,7 @@ describe("AppStack Navigation Tests", () => {
     fireEvent.press(queryByTestId("order-menu-back-button"));
     await waitFor(() => {
       // Check if the OrderMenu screen is displayed by looking for a specific text
-      expect(screen.getByTestId("map-overview-screen")).toBeTruthy();
+      expect(screen.getByTestId("map-view")).toBeTruthy();
     });
   });
 
