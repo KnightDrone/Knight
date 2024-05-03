@@ -162,4 +162,4 @@ await firestoreManager.updateOrder("orderId", "fieldName", "newData");
 
 ### Architecture Diagram
 
-![](architecure_diag.jpg)
+![](arch_diag.png)
