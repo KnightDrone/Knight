@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { TextInputMask } from "react-native-masked-text";
 import DatePicker from "react-native-date-picker";
-import { auth, firestore } from "../services/Firebase";
+import { auth, doc, firestore, getDoc } from "../services/Firebase";
 import firebase from "../services/Firebase";
 
 const ProfileScreen = () => {
@@ -25,12 +25,10 @@ const ProfileScreen = () => {
       try {
         const user = auth.currentUser;
         if (user) {
-          const userData = await firestore
-            .collection("users")
-            .doc(user.uid)
-            .get();
-          if (userData.exists) {
-            const { name, email, password } = userData.data();
+          const userData = await doc(firestore, "users", user.uid);
+          const userDataSnapshot = await getDoc(userData);
+          if (userDataSnapshot.exists()) {
+            const { name, email, password } = userDataSnapshot.data();
             setName(name);
             setEmail(email);
             setPassword(password);
@@ -55,7 +53,7 @@ const ProfileScreen = () => {
 
   const saveChanges = async () => {
     try {
-      const user = firebase.auth().currentUser;
+      const user = auth.currentUser;
       if (user) {
         await firebase.firestore().collection("users").doc(user.uid).update({
           name,
