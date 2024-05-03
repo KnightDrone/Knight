@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -10,13 +10,39 @@ import {
 } from "react-native";
 import { TextInputMask } from "react-native-masked-text";
 import DatePicker from "react-native-date-picker";
+import { auth, firestore } from "../services/Firebase";
+import firebase from "../services/Firebase";
 
 const ProfileScreen = () => {
-  const [name, setName] = useState("Mock User");
-  const [email, setEmail] = useState("mockuser@gmail.com");
-  const [password, setPassword] = useState("**********");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState("");
   const [isPickerShow, setIsPickerShow] = useState(false);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const user = auth.currentUser;
+        if (user) {
+          const userData = await firestore
+            .collection("users")
+            .doc(user.uid)
+            .get();
+          if (userData.exists) {
+            const { name, email, password } = userData.data();
+            setName(name);
+            setEmail(email);
+            setPassword(password);
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    fetchUserData();
+  }, []);
 
   const showPicker = () => {
     setIsPickerShow(true);
@@ -27,17 +53,31 @@ const ProfileScreen = () => {
     setDateOfBirth(date.toLocaleDateString("en-GB")); // formats date as DD/MM/YYYY
   };
 
+  const saveChanges = async () => {
+    try {
+      const user = firebase.auth().currentUser;
+      if (user) {
+        await firebase.firestore().collection("users").doc(user.uid).update({
+          name,
+          email,
+          password,
+          dateOfBirth,
+        });
+        alert("Changes Saved!");
+      }
+    } catch (error) {
+      console.error("Error updating user data:", error);
+    }
+  };
+
   return (
     <ScrollView style={styles.container}>
-      <TouchableOpacity
-        style={styles.profileImageContainer}
-        onPress={() => console.log("Open Image Picker")}
-      >
+      <View style={styles.profileImageContainer}>
         <Image
           source={require("../../assets/images/defaultProfile.png")}
           style={styles.profileImage}
         />
-      </TouchableOpacity>
+      </View>
       <View style={styles.inputContainer}>
         <Text style={styles.label}>Name</Text>
         <TextInput
@@ -89,10 +129,7 @@ const ProfileScreen = () => {
           />
         )}
       </View>
-      <TouchableOpacity
-        style={styles.saveButton}
-        onPress={() => alert("Changes Saved!")}
-      >
+      <TouchableOpacity style={styles.saveButton} onPress={saveChanges}>
         <Text style={styles.saveButtonText}>Save changes</Text>
       </TouchableOpacity>
     </ScrollView>
