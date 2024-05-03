@@ -9,7 +9,7 @@ import LocationMarker from "../components/LocationMarker";
 const topButtonPadding = 60;
 const sideButtonPadding = 30;
 
-const MapOverview = ({ navigation }: any) => {
+const Map = ({ navigation }: any) => {
   type MapViewRef = {
     animateToRegion: (region: Region, duration?: number) => void;
   };
@@ -131,6 +131,7 @@ const MapOverview = ({ navigation }: any) => {
       </TouchableOpacity>
 
       <TouchableOpacity
+        testID="order-button"
         style={[styles.button, styles.buttonBottomRight]}
         onPress={() => navigation.navigate("OrderMenu")}
       >
@@ -175,4 +176,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MapOverview;
+export default Map;

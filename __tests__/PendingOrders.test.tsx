@@ -26,7 +26,7 @@ describe("PendingOrders Component", () => {
     expect(orderList).toBeDefined();
   });
 
-  it.only("fetches orders", () => {
+  it("fetches orders", () => {
     jest.useFakeTimers();
     const { getByTestId } = render(<PendingOrders />);
 
