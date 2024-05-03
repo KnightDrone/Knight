@@ -1,0 +1,45 @@
+name: build apk locally
+on:
+  push:
+    branches:
+      - main  # Adjust this if you want it to run on different or multiple branches
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: 🏗 Setup repo
+      uses: actions/checkout@v3
+
+    - name: 🏗 Setup Node
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18.x'
+        cache: 'npm'
+
+    - name: 🏗 Setup Expo and EAS
+      uses: expo/expo-github-action@v8
+      with:
+        token: ${{ secrets.EXPO_TOKEN }}
+        expo-version: latest
+        eas-version: latest
+
+    - name: 🏗 Setup EAS local builds
+      run: npm install -g eas-cli-local-build-plugin
+
+    - name: 📦 Install dependencies
+      run: npm install
+
+    - name: 👷 Build app (Local)
+      run: |
+        eas build --local \
+          --non-interactive \
+          --output=./app-build \
+          --platform=android \
+          --profile=preview
+
+    - name: 📱 Upload binary
+      uses: actions/upload-artifact@v2
+      with:
+        name: app-android
+        path: app-build
