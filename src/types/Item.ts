@@ -3,9 +3,7 @@ export class Item {
   private name: string;
   private description: string;
   private icon: number;
-  //private iconDir: string;
   private image: number;
-  //private imageDir: string;
   private price: number;
 
   constructor(
@@ -20,8 +18,8 @@ export class Item {
     this.name = name;
     this.description = description;
     this.price = price;
-    this.icon = icon || 0;
     this.image = image || 0;
+    this.icon = icon || 0;
   }
 
   getId(): number {

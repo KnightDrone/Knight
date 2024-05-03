@@ -27,6 +27,7 @@ export default class FirestoreManager {
    */
   async readOrder(id: string): Promise<any | null> {
     const docRef = doc(firestore, "orders", id).withConverter(orderConverter);
+
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
@@ -41,13 +42,14 @@ export default class FirestoreManager {
   /**
    * Method to query data from the database based on user, status, or item name
    *
-   * @param field - The field to query by. Must be one of these: "user", "status", "item.name", "operator"
+   * @param field - The field to query by. Must be one of these: "userId", "status", "item.name", "operatorId"
    * @param data - The data to query for. Must match the field type
    * @returns - An array of orders that match the query
    */
   async queryOrder(field: string, data: string): Promise<Order[] | null> {
-    const validFields = ["user", "status", "item.name", "operator"];
-
+    const validFields = ["userId", "status", "item.name", "operatorId"];
+    console.log("field " + field);
+    console.log("data " + data);
     if (validFields.includes(field)) {
       var orders: Order[] = [];
       const q = query(
@@ -112,7 +114,7 @@ export default class FirestoreManager {
    * Method to update an order in the database
    *
    * @param orderId - The id of the order to update
-   * @param field - The field to update
+   * @param field - The field to update, valid fields include: "operatorId", "status", "deliveryDate", "location", "operatorName"
    * @param data - The data to update the field with
    * @returns - None
    */
@@ -122,7 +124,13 @@ export default class FirestoreManager {
     data: string | Date | OrderLocation
   ): Promise<void> {
     const orderRef = doc(firestore, "orders", orderId);
-    const validFields = ["operator", "status", "deliveryDate", "location"];
+    const validFields = [
+      "operatorId",
+      "status",
+      "deliveryDate",
+      "location",
+      "operatorName",
+    ];
     try {
       if (validFields.includes(field)) {
         await setDoc(orderRef, { [field]: data }, { merge: true });

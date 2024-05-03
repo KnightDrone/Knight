@@ -47,8 +47,8 @@ const auth = initializeAuth(app, {
   persistence: getReactNativePersistence(ReactNativeAsyncStorage),
 });
 
-export default app;
 export {
+  app,
   auth,
   GoogleAuthProvider,
   signInWithCredential,

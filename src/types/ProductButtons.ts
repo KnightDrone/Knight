@@ -55,7 +55,7 @@ const items: Item[] = names.map((name, i) => {
   return new Item(i, name, descriptions[i], prices[i], icons[i], images[i]);
 });
 
-export const productButtons: ProductButton[] = [
+const productButtons: ProductButton[] = [
   {
     item: items[0],
     onPress: () => console.log("First aid kit"),
@@ -73,3 +73,5 @@ export const productButtons: ProductButton[] = [
     onPress: () => console.log("Power bank"),
   },
 ];
+
+export { ProductButton, productButtons, images };
