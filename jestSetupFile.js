@@ -51,6 +51,10 @@ jest.mock("firebase/auth", () => ({
   signInWithRedirect: jest.fn(() => Promise.resolve({ user: true })), // Explicitly return a resolved promise
   sendPasswordResetEmail: jest.fn(() => Promise.resolve()),
   onAuthStateChanged: jest.fn(),
+  updateCurrentUser: jest.fn(),
+  updateEmail: jest.fn(),
+  updatePassword: jest.fn(),
+  updateProfile: jest.fn(),
 }));
 
 jest.mock("@react-navigation/native", () => ({
