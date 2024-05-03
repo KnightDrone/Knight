@@ -32,10 +32,18 @@ interface OrderCardProps {
   order: Order;
   onClick?: () => void;
   opBool: boolean;
+  testId?: string;
+  onClickTestId?: string;
 }
 // opBool is used to determine if the location name should be the operator's name or the user's location name
 // This component is used for both PendingOrders and OrderHistory, and thus the location information chosen to be displayed should be chosen appropiately
-const OrderCard = ({ order, onClick, opBool }: OrderCardProps) => {
+const OrderCard = ({
+  order,
+  onClick,
+  opBool,
+  testId,
+  onClickTestId,
+}: OrderCardProps) => {
   const item = order.getItem();
   const name = item.getName();
   const orderDate = order.getOrderDate();
@@ -48,7 +56,7 @@ const OrderCard = ({ order, onClick, opBool }: OrderCardProps) => {
   }
 
   const content = (
-    <View className="flex-1">
+    <View className="flex-1" testID={testId}>
       <Text className="text-left font-bold">{name}</Text>
       <View className="flex-row items-center">
         <Image
@@ -63,6 +71,7 @@ const OrderCard = ({ order, onClick, opBool }: OrderCardProps) => {
   // The OrderCards are clickable only if the onClick function is passed as a prop, this is for the purpose of OrderCard's in the context of History vs Pending Orders
   return onClick ? (
     <TouchableOpacity
+      testID={onClickTestId}
       className="bg-white flex-1 rounded-lg shadow-md m-2 flex-row p-2 border-2 border-gray-300"
       onPress={onClick}
     >
