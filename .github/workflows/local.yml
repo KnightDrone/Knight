@@ -61,7 +61,6 @@ jobs:
           --non-interactive \
           --platform=android \
           --profile=preview \
-          --build-logger-level=error \
           --json --non-interactive
 
     - name: 📱 Upload binary
