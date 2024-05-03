@@ -5,6 +5,7 @@ on:
       - main
       - build-apk
       - eas-build
+      - M2
 
 jobs:
   build:
