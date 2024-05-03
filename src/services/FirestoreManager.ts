@@ -114,7 +114,7 @@ export default class FirestoreManager {
    * Method to update an order in the database
    *
    * @param orderId - The id of the order to update
-   * @param field - The field to update, valid fields include: "operatorId", "status", "deliveryDate", "location"
+   * @param field - The field to update, valid fields include: "operatorId", "status", "deliveryDate", "location", "operatorName"
    * @param data - The data to update the field with
    * @returns - None
    */
@@ -124,7 +124,13 @@ export default class FirestoreManager {
     data: string | Date | OrderLocation
   ): Promise<void> {
     const orderRef = doc(firestore, "orders", orderId);
-    const validFields = ["operatorId", "status", "deliveryDate", "location"];
+    const validFields = [
+      "operatorId",
+      "status",
+      "deliveryDate",
+      "location",
+      "operatorName",
+    ];
     try {
       if (validFields.includes(field)) {
         await setDoc(orderRef, { [field]: data }, { merge: true });
