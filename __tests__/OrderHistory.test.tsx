@@ -7,6 +7,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { initI18n } from "../src/lang/i18n";
 import { Order, OrderStatus } from "../src/types/Order";
 import { Item } from "../src/types/Item";
+import FirestoreManager from "../src/services/FirestoreManager";
 
 jest.mock("../src/services/FirestoreManager", () => {
   return {
@@ -82,6 +83,7 @@ describe("OrderHistory", () => {
       () => {
         expect(getByTestId("menu-button")).toBeTruthy();
         expect(getByTestId("x-button")).toBeTruthy();
+        expect(getByTestId("x-icon")).toBeTruthy();
         expect(getByText("Order history")).toBeTruthy();
         expect(getByText("mock item1")).toBeTruthy();
         expect(getByText("10 CHF")).toBeTruthy();
@@ -93,33 +95,35 @@ describe("OrderHistory", () => {
     );
   });
 
-  /* I've wasted too much time trying to mock this, I give up
-  it("renders an error message if fetching orders fails", async () => {
-    // Mock fetchOrders to reject with an error
-    fetchOrdersForUserMock.mockRejectedValue(new Error("Failed to fetch orders"));
+  it("fails to fetch orders", async () => {
+    (FirestoreManager as jest.Mock).mockImplementationOnce(() => ({
+      queryOrder: jest.fn().mockReturnValue(null),
+    }));
 
-    const { getByText } = render(
-      <OrderHistory navigation={mockNavigation} userId={0} opOrders={false} />
+    const { getByText } = render(<OrderHistoryTest />);
+
+    await waitFor(
+      () => {
+        expect(getByText("Failed to fetch from database.")).toBeTruthy();
+      },
+      { timeout: 2000 }
     );
-
-    await waitFor(() => {
-      expect(getByText("Failed to fetch orders")).toBeTruthy();
-    }, { timeout: 2000 });
   });
 
-  it("renders a message if there are no orders", async () => {
-    // Mock fetchOrders to resolve with an empty array
-    fetchOrdersForUserMock.mockResolvedValue([]);
+  it("returns empty orders", async () => {
+    (FirestoreManager as jest.Mock).mockImplementationOnce(() => ({
+      queryOrder: jest.fn().mockReturnValue([]),
+    }));
 
-    const { getByText } = render(
-      <OrderHistory navigation={mockNavigation} userId={0} opOrders={false} />
+    const { getByText } = render(<OrderHistoryTest />);
+
+    await waitFor(
+      () => {
+        expect(
+          getByText("No orders have been made yet. Go place some orders :)")
+        ).toBeTruthy();
+      },
+      { timeout: 2000 }
     );
-
-    await waitFor(() => {
-      expect(
-        getByText("No orders have been made yet, check back later.")
-      ).toBeTruthy();
-    }, { timeout: 2000 });
   });
-  */
 });

@@ -124,6 +124,7 @@ const OrderHistory = ({
           <Image
             source={require("../../assets/icons/x_icon.png")}
             className="w-5 h-5"
+            testID="x-icon"
           />
         </TouchableOpacity>
       </View>
