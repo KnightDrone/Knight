@@ -23,6 +23,7 @@ describe("Order", () => {
     latitude: -999,
     longitude: -999,
   };
+  const operatorName = "St. Gallen Hospital";
 
   beforeEach(() => {
     order = new Order(
@@ -34,6 +35,7 @@ describe("Order", () => {
       deliveryDate,
       "Mattenhorn peak #3", // "usrLocName"
       operatorId,
+      operatorName,
       operatorLocation
     );
   });
@@ -52,7 +54,8 @@ describe("Order", () => {
       -2
     );
     expect(order.getUsrLocation()).toEqual(location);
-    expect(order.getOpLocName()).toBe(operatorId);
+    expect(order.getOperator()).toBe(operatorId);
+    expect(order.getOpName()).toBe(operatorName);
     expect(order.getOpLocation()).toEqual(operatorLocation);
   });
 
