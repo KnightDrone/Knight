@@ -11,7 +11,7 @@ const sideButtonPadding = 30;
 
 const MapOverview = ({ navigation }: any) => {
   type MapViewRef = {
-    animateToRegion: (region: Region, duration?: number) => void;
+    animateToRegion: (marker: LocationType, duration?: number) => void;
   };
 
   const mapRef = useRef<MapView | null>(null);
@@ -35,6 +35,10 @@ const MapOverview = ({ navigation }: any) => {
   const [loading, setLoading] = useState(true);
   const [autoCenter, setAutoCenter] = useState(true);
 
+  function animateToRegion(marker: LocationType, duration: number) {
+    mapRef.current?.animateToRegion(marker, 500);
+  }
+
   useEffect(() => {
     const initMap = async () => {
       const allowed = await checkPermissions();
@@ -51,10 +55,7 @@ const MapOverview = ({ navigation }: any) => {
 
   useEffect(() => {
     if (autoCenter && marker) {
-      mapRef.current?.animateToRegion(
-        { ...marker, latitudeDelta: 0.005, longitudeDelta: 0.005 },
-        500
-      );
+      animateToRegion(marker, 500);
     }
   }, [autoCenter, marker]);
 
@@ -91,14 +92,11 @@ const MapOverview = ({ navigation }: any) => {
 
   const toggleAutoCenter = () => {
     if (marker && mapRef.current) {
-      mapRef.current.animateToRegion(
-        { ...marker, latitudeDelta: 0.005, longitudeDelta: 0.005 },
-        1500
-      );
+      animateToRegion(marker, 1500);
     }
     setTimeout(() => {
       setAutoCenter(true);
-    }, 1500);
+    }, 500);
   };
 
   return (
