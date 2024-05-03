@@ -129,7 +129,7 @@ jest.mock("@react-native-async-storage/async-storage", () =>
 
 jest.mock("@stripe/stripe-react-native", () => ({
   __esModule: true,
-  StripeProvider: jest.fn(() => null),
+  StripeProvider: ({ children }) => children,
   PaymentSheetError: jest.fn(),
   confirmPaymentSheetPayment: jest.fn(),
   useStripe: jest.fn().mockReturnValue({

@@ -66,6 +66,7 @@ export function PayButton({
       defaultBillingDetails: {
         name: "Jane Doe",
       },
+      returnURL: "knight://stripe-redirect",
     });
     if (!error) {
       setLoading(false);

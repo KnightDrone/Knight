@@ -5,9 +5,6 @@ module.exports = {
   presets: [require("nativewind/preset")],
   theme: {
     extend: {
-      fontFamily: {
-        kaisei: ["Kaisei-Regular"],
-      },
       colors: {
         primary: {
           50: "#eff9fc",

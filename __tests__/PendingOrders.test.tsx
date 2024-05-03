@@ -1,5 +1,5 @@
 import React from "react";
-import { render } from "@testing-library/react-native";
+import { act, render } from "@testing-library/react-native";
 import PendingOrders from "../src/app/PendingOrders";
 import { Order, OrderStatus } from "../src/types/Order";
 import { Item } from "../src/types/Item";
@@ -65,5 +65,20 @@ describe("PendingOrders Component", () => {
 
     const orderList = getByTestId("order-list");
     expect(orderList).toBeDefined();
+  });
+
+  it.only("fetches orders", () => {
+    jest.useFakeTimers();
+    const { getByTestId } = render(<PendingOrders />);
+
+    act(() => {
+      jest.advanceTimersByTime(10_000); // 10s
+    });
+
+    const orderList = getByTestId("order-list");
+    expect(orderList).toBeDefined();
+
+    const orderItems = orderList.children;
+    expect(orderItems).toHaveLength(2);
   });
 });

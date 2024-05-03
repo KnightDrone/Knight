@@ -9,6 +9,7 @@ export type RootStackParamList = {
   ForgotPassword: undefined;
   OrderMenu: undefined;
   Map: undefined;
+  Settings: undefined;
   OrderPlaced: {
     orderedItem: Item;
     placedAt: number;
