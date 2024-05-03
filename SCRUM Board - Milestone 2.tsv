@@ -1,0 +1,49 @@
+Title	URL	Assignees	Status
+Operator sign up/sign in	https://github.com/KnightDrone/Knight/issues/131	zak-2213	In Development
+Extract hardcoded strings from remaining screens (i18next)	https://github.com/KnightDrone/Knight/issues/107	alexp34	In Development
+Address SonarCloud issues	https://github.com/KnightDrone/Knight/issues/132	Tiberiu02	In Development
+As a user I would like to see where I am using a map.	https://github.com/KnightDrone/Knight/issues/4	alexp34	Done In Sprint #4
+Setup payments	https://github.com/KnightDrone/Knight/issues/87	Tiberiu02	Done in Sprint #5
+Create the UI for the app settings screen	https://github.com/KnightDrone/Knight/issues/94	harismalik-1	Done In Sprint #4
+Add settings screen navigation in the navigation stack	https://github.com/KnightDrone/Knight/issues/155	harismalik-1	Done In Sprint #4
+Setup NativeWind and convert existing components	https://github.com/KnightDrone/Knight/issues/61	Tiberiu02	Done In Sprint #4
+tests not working	https://github.com/KnightDrone/Knight/issues/47	alexp34, EduardoNeville, harismalik-1, kalil0321, Tiberiu02, yperez-ZzzZz, zak-2213	Done In Sprint #4
+Fix Google Sign In	https://github.com/KnightDrone/Knight/issues/48	kalil0321	Done In Sprint #4
+Adding React i18n	https://github.com/KnightDrone/Knight/issues/105	Tiberiu02	Done in Sprint #6
+Write the backend code for user logout and navigate back to the login screen swiftly	https://github.com/KnightDrone/Knight/issues/154	harismalik-1	Done in Sprint #6
+Navigate to the profile screen from the app settings	https://github.com/KnightDrone/Knight/issues/95	alexp34, harismalik-1	Done in Sprint #6
+Order history screen with firestore connection	https://github.com/KnightDrone/Knight/issues/86	yperez-ZzzZz	Done in Sprint #6
+Pending Orders screen with firestore connection	https://github.com/KnightDrone/Knight/issues/122	yperez-ZzzZz	Done in Sprint #6
+Send order to database	https://github.com/KnightDrone/Knight/issues/21	zak-2213	Done in Sprint #6
+ Switch the app language to French	https://github.com/KnightDrone/Knight/issues/108		Done in Sprint #6
+Show Live location on the map with a blue dot	https://github.com/KnightDrone/Knight/issues/90	EduardoNeville	Done in Sprint #6
+As a user, I would like to switch to German	https://github.com/KnightDrone/Knight/issues/109		Done in Sprint #6
+Allow the user to view the profile information and be able to update it	https://github.com/KnightDrone/Knight/issues/156	harismalik-1	Done in Sprint #6
+Create a Profile Screen UI as designed in the Figma	https://github.com/KnightDrone/Knight/issues/120	harismalik-1	Done in Sprint #5
+implement firestore	https://github.com/KnightDrone/Knight/issues/49	zak-2213	Done in Sprint #5
+Improve log in & sign up pages	https://github.com/KnightDrone/Knight/issues/89	alexp34	In Development
+Revoke Firebase config file	https://github.com/KnightDrone/Knight/issues/79	kalil0321	Done in Sprint #6
+[!!!!!!!!!!!] Add @YuChen-Qian to project scrum board	https://github.com/KnightDrone/Knight/issues/72	alexp34, EduardoNeville, harismalik-1, kalil0321, yperez-ZzzZz, zak-2213	Done In Sprint #4
+As an operator, I would like to reject an order	https://github.com/KnightDrone/Knight/issues/69	EduardoNeville, yperez-ZzzZz	In Development
+As a user I need to be able to swiflty navigate between screens and be able to see options in the form of drawer on the side of the applicaiton	https://github.com/KnightDrone/Knight/issues/43	alexp34, harismalik-1	Done in Sprint #5
+Use NominatimAPI to reverse search name of user location	https://github.com/KnightDrone/Knight/issues/119	yperez-ZzzZz	Done in Sprint #5
+As an operator, I would like to see pending orders	https://github.com/KnightDrone/Knight/issues/67	yperez-ZzzZz	Done in Sprint #5
+As a user, I would like to pay using my card or google pay	https://github.com/KnightDrone/Knight/issues/50	alexp34, harismalik-1, kalil0321, Tiberiu02	Done in Sprint #5
+As a user I would like to see how long until my order arrives	https://github.com/KnightDrone/Knight/issues/24	kalil0321, zak-2213	Done in Sprint #5
+As an operator, I would like to see previous orders I handled	https://github.com/KnightDrone/Knight/issues/66	EduardoNeville, yperez-ZzzZz	Sprint Backlog
+As a user, I would like to search for a specific Order within my OrderHistory	https://github.com/KnightDrone/Knight/issues/145	yperez-ZzzZz	Sprint Backlog
+As an operator, I would like to filter the PendingOrders	https://github.com/KnightDrone/Knight/issues/144	yperez-ZzzZz	Sprint Backlog
+As an operator, I would like to log in	https://github.com/KnightDrone/Knight/issues/158		Sprint Backlog
+As an operator, I would like to accept an order	https://github.com/KnightDrone/Knight/issues/68	EduardoNeville	In Development
+As a user, I would like to see my previous orders	https://github.com/KnightDrone/Knight/issues/84	yperez-ZzzZz	Done in Sprint #5
+Using DJI API	https://github.com/KnightDrone/Knight/issues/70	harismalik-1, kalil0321, Tiberiu02	In Development
+As a user, I would like to know where the location of the drone in order to have an estimate on arrival time	https://github.com/KnightDrone/Knight/issues/74		Done in Sprint #6
+As a user, I would like to log in using my username instead of email	https://github.com/KnightDrone/Knight/issues/83		Product Backlog
+Fix MapOverview: API_KEY is needed	https://github.com/KnightDrone/Knight/issues/78	alexp34, harismalik-1	Done in Sprint #6
+As a user, when clicking on an order from my "Order History" I would like to see more details such as transaction ID, the route the drone took, etc.	https://github.com/KnightDrone/Knight/issues/82		Product Backlog
+As an operator, I would like to see the pending orders marked on the map	https://github.com/KnightDrone/Knight/issues/143		Product Backlog
+Environment variables not loading	https://github.com/KnightDrone/Knight/issues/96	zak-2213	Done in Sprint #5
+Adding CI for building APK on merge	https://github.com/KnightDrone/Knight/issues/114	kalil0321	Done in Sprint #6
+Connect DJI Api with the app	https://github.com/KnightDrone/Knight/issues/135	harismalik-1	In Development
+Add search bar to the top of OrderHistory screen	https://github.com/KnightDrone/Knight/issues/152	yperez-ZzzZz	In Development
+Add filter buttons & tools to PendingOrders	https://github.com/KnightDrone/Knight/issues/153	yperez-ZzzZz	In Development
