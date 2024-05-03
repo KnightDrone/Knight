@@ -7,22 +7,6 @@ import { NavigationContainer } from "@react-navigation/native";
 import { initI18n } from "../src/lang/i18n";
 import { Order, OrderStatus } from "../src/types/Order";
 import { Item } from "../src/types/Item";
-import * as OrderHistoryModule from "../src/app/OrderHistory";
-import queryOrder from "../src/services/FirestoreManager";
-
-// Mock the module
-jest.mock("../src/app/OrderHistory");
-const mockNavigation = {
-  navigate: jest.fn(),
-  goBack: jest.fn(),
-  reset: jest.fn(),
-};
-
-// Mock the module that exports fetchOrdersForUserMock
-/*jest.mock("../src/app/OrderHistory", () => ({
-  ...jest.requireActual("../src/app/OrderHistory"),
-  fetchOrdersForUserMock: fetchOrdersForUserMock,
-}));*/
 
 jest.mock("../src/services/FirestoreManager", () => {
   return {
@@ -35,7 +19,7 @@ jest.mock("../src/services/FirestoreManager", () => {
             Promise.resolve([
               new Order(
                 "user1",
-                new Item(1, "mock item1", "description1", 1, 1, 10),
+                new Item(1, "mock item1", "description1", 10, 1, 1),
                 { latitude: 46.8182, longitude: 8.2275 },
                 new Date(),
                 OrderStatus.Delivered,
@@ -46,7 +30,7 @@ jest.mock("../src/services/FirestoreManager", () => {
               ),
               new Order(
                 "user2",
-                new Item(2, "mock item2", "description1", 1, 1, 22),
+                new Item(2, "mock item2", "description1", 22, 1, 1),
                 { latitude: 46.8182, longitude: 8.2275 },
                 new Date(),
                 OrderStatus.Delivered,
@@ -59,13 +43,6 @@ jest.mock("../src/services/FirestoreManager", () => {
           ),
       };
     }),
-  };
-});
-
-jest.mock("@react-navigation/native", () => {
-  return {
-    ...jest.requireActual("@react-navigation/native"),
-    useNavigation: () => mockNavigation,
   };
 });
 
@@ -99,46 +76,7 @@ beforeEach(() => {
 
 describe("OrderHistory", () => {
   it("renders correctly", async () => {
-    /*
-    (
-      queryOrder as jest.MockedFunction<typeof queryOrder>
-    ).mockImplementationOnce(() =>
-      Promise.resolve([
-        new Order(
-          "user1",
-          new Item(1, "mock item1", "description1", 1, 1, 10),
-          { latitude: 46.8182, longitude: 8.2275 },
-          new Date(),
-          OrderStatus.Delivered,
-          new Date(),
-          "Mattenhorn peak #3",
-          "St. Gallen Hospital",
-          { latitude: 55, longitude: 33 }
-        ),
-        new Order(
-          "user2",
-          new Item(2, "mock item2", "description1", 1, 1, 22),
-          { latitude: 46.8182, longitude: 8.2275 },
-          new Date(),
-          OrderStatus.Delivered,
-          new Date(),
-          "Mattenhorn peak #1",
-          "Pharmacy #5",
-          { latitude: 55, longitude: 33 }
-        ),
-      ])
-    );*/
-
-    const { getByText, getByTestId } = render(
-      <Stack.Screen
-        name="OrderHistory"
-        component={OrderHistory}
-        initialParams={{
-          historyOp: false,
-          userId: "user1",
-        }}
-      />
-    );
+    const { getByText, getByTestId } = render(<OrderHistoryTest />);
 
     await waitFor(
       () => {
