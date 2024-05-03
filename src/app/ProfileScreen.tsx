@@ -29,8 +29,15 @@ const ProfileScreen = () => {
 
   return (
     <ScrollView style={styles.container}>
-      {/* Image container remains the same... */}
-
+      <TouchableOpacity
+        style={styles.profileImageContainer}
+        onPress={() => console.log("Open Image Picker")}
+      >
+        <Image
+          source={require("../../assets/images/defaultProfile.png")}
+          style={styles.profileImage}
+        />
+      </TouchableOpacity>
       <View style={styles.inputContainer}>
         <Text style={styles.label}>Name</Text>
         <TextInput
