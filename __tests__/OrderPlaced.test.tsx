@@ -23,7 +23,7 @@ type OrderPlacedStack = {
 
 const Stack = createStackNavigator<OrderPlacedStack>();
 
-jest.mock("../src/components/PayButton", () => ({
+jest.mock("../src/components/buttons/PayButton", () => ({
   __esModule: true,
   PayButton: () => {
     return (

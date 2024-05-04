@@ -9,7 +9,7 @@ beforeAll(() => {
   jest.spyOn(console, "error").mockImplementation(() => {});
 });
 
-jest.mock("../src/components/PayButton", () => ({
+jest.mock("../src/components/buttons/PayButton", () => ({
   __esModule: true,
   PayButton: () => {
     return (

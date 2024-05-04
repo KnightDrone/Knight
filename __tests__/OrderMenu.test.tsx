@@ -7,7 +7,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { RootStackParamList } from "../src/types/RootStackParamList";
 
-jest.mock("../src/components/PayButton", () => ({
+jest.mock("../src/components/buttons/PayButton", () => ({
   __esModule: true,
   PayButton: () => {
     return (
