@@ -7,14 +7,14 @@ import {
   Button,
   TouchableOpacity,
 } from "react-native";
-import OrderCard from "../components/OrderCard";
-import { Order, OrderStatus } from "../types/Order";
-import { Item } from "../types/Item";
-import TriangleBackground from "../components/TriangleBackground";
-import { RootStackParamList } from "../types/RootStackParamList";
+import OrderCard from "../../components/cards/OrderCard";
+import { Order, OrderStatus } from "../../types/Order";
+import { Item } from "../../types/Item";
+import TriangleBackground from "../../components/TriangleBackground";
+import { RootStackParamList } from "../../types/RootStackParamList";
 import { RouteProp } from "@react-navigation/native";
-import { MessageBox } from "../ui/MessageBox";
-import FirestoreManager from "../services/FirestoreManager";
+import { MessageBox } from "../../ui/MessageBox";
+import FirestoreManager from "../../services/FirestoreManager";
 import { useTranslation } from "react-i18next";
 
 /* 

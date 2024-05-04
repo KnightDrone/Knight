@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Text, View } from "react-native";
-import { auth, sendPasswordResetEmail } from "../services/Firebase";
-import { TextField } from "../ui/TextField";
-import { Button } from "../ui/Button";
-import { MessageBox } from "../ui/MessageBox";
+import { auth, sendPasswordResetEmail } from "../../services/Firebase";
+import { TextField } from "../../ui/TextField";
+import { Button } from "../../ui/Button";
+import { MessageBox } from "../../ui/MessageBox";
 import { useTranslation } from "react-i18next";
 
 export default function ForgotPasswordScreen() {

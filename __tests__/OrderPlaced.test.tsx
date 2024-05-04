@@ -6,7 +6,7 @@ import {
   screen,
   act,
 } from "@testing-library/react-native";
-import OrderPlaced from "../src/app/OrderPlaced";
+import OrderPlaced from "../src/app/order/OrderPlaced";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { View, Text } from "react-native";

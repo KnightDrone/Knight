@@ -12,7 +12,7 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import ProfileScreen from "./ProfileScreen";
 import Icon from "react-native-vector-icons/MaterialIcons";
-import { auth } from "../services/Firebase";
+import { auth } from "../../services/Firebase";
 
 interface SettingsProps {
   onItemPress?: (itemName: string) => void;

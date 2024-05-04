@@ -1,6 +1,6 @@
 import React from "react";
 import { render, fireEvent } from "@testing-library/react-native";
-import OrderButton from "../src/components/OrderButton";
+import OrderButton from "../src/components/buttons/OrderButton";
 
 describe("Order Button Component", () => {
   it("renders correctly", () => {

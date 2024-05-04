@@ -5,18 +5,18 @@ import {
   GoogleAuthProvider,
   signInWithCredential,
   signInWithEmailAndPassword,
-} from "../services/Firebase";
+} from "../../services/Firebase";
 import * as Google from "expo-auth-session/providers/google";
 
 // Navigation imports
-import { TextField } from "../ui/TextField";
-import { Button } from "../ui/Button";
-import { MessageBox } from "../ui/MessageBox";
-import { OrSeparator } from "../components/OrSeparator";
+import { TextField } from "../../ui/TextField";
+import { Button } from "../../ui/Button";
+import { MessageBox } from "../../ui/MessageBox";
+import { OrSeparator } from "../../components/OrSeparator";
 import { useTranslation } from "react-i18next";
-import { langIcons, locales, useLocale } from "../lang/i18n";
+import { langIcons, locales, useLocale } from "../../lang/i18n";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
-import GoogleAuthConfig from "../types/GoogleAuthConfig";
+import GoogleAuthConfig from "../../types/GoogleAuthConfig";
 
 export default function Login({ navigation }: any) {
   const [email, setEmail] = useState("");

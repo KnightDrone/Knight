@@ -1,6 +1,6 @@
 import React from "react";
 import { fireEvent, render, waitFor } from "@testing-library/react-native";
-import ForgotPasswordScreen from "../src/app/ForgotPassword";
+import ForgotPasswordScreen from "../src/app/login-signup/ForgotPassword";
 import { sendPasswordResetEmail } from "../src/services/Firebase";
 import { initI18n } from "../src/lang/i18n";
 

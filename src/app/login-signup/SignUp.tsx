@@ -6,14 +6,14 @@ import {
   GoogleAuthProvider,
   signInWithCredential,
   createUserWithEmailAndPassword,
-} from "../services/Firebase";
+} from "../../services/Firebase";
 // -----------------------------------------------
 import * as Google from "expo-auth-session/providers/google";
-import GoogleAuthConfig from "../types/GoogleAuthConfig";
-import { TextField } from "../ui/TextField";
-import { Button } from "../ui/Button";
-import { OrSeparator } from "../components/OrSeparator";
-import { MessageBox } from "../ui/MessageBox";
+import GoogleAuthConfig from "../../types/GoogleAuthConfig";
+import { TextField } from "../../ui/TextField";
+import { Button } from "../../ui/Button";
+import { OrSeparator } from "../../components/OrSeparator";
+import { MessageBox } from "../../ui/MessageBox";
 import { useTranslation } from "react-i18next";
 
 export default function SignUp({ navigation }: any) {

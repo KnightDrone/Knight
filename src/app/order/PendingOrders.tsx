@@ -7,13 +7,13 @@ import {
   TouchableOpacity,
   Modal,
 } from "react-native";
-import OrderCard from "../components/OrderCard";
-import { Button } from "../ui/Button";
-import { Order, OrderStatus } from "../types/Order";
-import { Item } from "../types/Item";
-import TriangleBackground from "../components/TriangleBackground";
-import FirestoreManager from "../services/FirestoreManager";
-import { MessageBox } from "../ui/MessageBox";
+import OrderCard from "../../components/cards/OrderCard";
+import { Button } from "../../ui/Button";
+import { Order, OrderStatus } from "../../types/Order";
+import { Item } from "../../types/Item";
+import TriangleBackground from "../../components/TriangleBackground";
+import FirestoreManager from "../../services/FirestoreManager";
+import { MessageBox } from "../../ui/MessageBox";
 
 /* 
 NOTE: This is a temporary solution to simulate fetching pending orders from a server. Should be replaced with actual database calls

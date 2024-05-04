@@ -1,6 +1,6 @@
 import React from "react";
 import { fireEvent, render, waitFor } from "@testing-library/react-native";
-import OrderHistory from "../src/app/OrderHistory";
+import OrderHistory from "../src/app/order/OrderHistory";
 import { RootStackParamList } from "../src/types/RootStackParamList";
 import {
   createStackNavigator,

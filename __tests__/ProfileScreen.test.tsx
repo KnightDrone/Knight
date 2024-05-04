@@ -1,6 +1,6 @@
 import React from "react";
 import { render, fireEvent } from "@testing-library/react-native";
-import ProfileScreen from "../src/app/ProfileScreen";
+import ProfileScreen from "../src/app/settings/ProfileScreen";
 
 describe("ProfileScreen", () => {
   it("renders all inputs and buttons", () => {

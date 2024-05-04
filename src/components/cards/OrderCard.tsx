@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, Image, StyleSheet } from "react-native";
-import { Order } from "../types/Order";
+import { Order } from "../../types/Order";
 import { TouchableOpacity } from "react-native";
 import { useTranslation } from "react-i18next";
 

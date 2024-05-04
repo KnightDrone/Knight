@@ -1,19 +1,19 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import Login from "./../app/Login";
-import SignUp from "./../app/SignUp";
-import ForgotPassword from "./../app/ForgotPassword";
-import OrderPlaced from "./../app/OrderPlaced";
-import OrderMenu from "../app/OrderMenu";
+import Login from "../app/login-signup/Login";
+import SignUp from "../app/login-signup/SignUp";
+import ForgotPassword from "../app/login-signup/ForgotPassword";
+import OrderPlaced from "../app/order/OrderPlaced";
+import OrderMenu from "../app/order/OrderMenu";
 import MapOverview from "../app/Map";
 import { HeaderBackButton } from "@react-navigation/elements";
 import { NavigationContainer } from "@react-navigation/native";
 import { RootStackParamList } from "../types/RootStackParamList";
 
 import { User } from "../services/Firebase";
-import OrderHistory from "../app/OrderHistory";
-import Settings from "../app/Setting";
-import ProfileScreen from "../app/ProfileScreen";
+import OrderHistory from "../app/order/OrderHistory";
+import Settings from "../app/settings/Setting";
+import ProfileScreen from "../app/settings/ProfileScreen";
 
 const { Navigator, Screen, Group } = createStackNavigator<RootStackParamList>();
 

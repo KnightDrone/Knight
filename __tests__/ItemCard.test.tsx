@@ -1,6 +1,6 @@
 import React from "react";
 import { render, fireEvent } from "@testing-library/react-native";
-import ItemCard from "../src/components/ItemCard";
+import ItemCard from "../src/components/cards/ItemCard";
 import { Item } from "../src/types/Item";
 import { View, Text } from "react-native";
 
