@@ -213,7 +213,7 @@ export default function SignUp({ navigation }: any) {
 
       <Button
         text={t("signup.google-login")}
-        imgSrc={require("../../assets/images/google-icon.png")}
+        imgSrc={require("../../../assets/images/google-icon.png")}
         onPress={() => promptAsync()}
         style="secondary"
       />

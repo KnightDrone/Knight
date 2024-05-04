@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, Image, TouchableOpacity } from "react-native";
-import "./global.css";
+import "../global.css";
 import { RouteProp } from "@react-navigation/native";
 import { RootStackParamList } from "../../types/RootStackParamList";
 import Icon from "react-native-vector-icons/Fontisto";
@@ -155,7 +155,7 @@ const OrderPlaced = ({
             source={
               orderedItem
                 ? images[orderedItem.getId()]
-                : require("../../assets/icons/question_mark_icon.jpg")
+                : require("../../../assets/icons/question_mark_icon.jpg")
             }
           />
         </View>

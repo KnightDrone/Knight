@@ -108,7 +108,7 @@ const OrderHistory = ({
       <View className="flex-row items-center justify-center">
         <TouchableOpacity className="absolute left-4" testID="menu-button">
           <Image
-            source={require("../../assets/icons/menu_icon.png")}
+            source={require("../../../assets/icons/menu_icon.png")}
             className="w-9 h-9"
           />
         </TouchableOpacity>
@@ -121,7 +121,7 @@ const OrderHistory = ({
           onPress={() => navigation.goBack()}
         >
           <Image
-            source={require("../../assets/icons/x_icon.png")}
+            source={require("../../../assets/icons/x_icon.png")}
             className="w-5 h-5"
             testID="x-icon"
           />

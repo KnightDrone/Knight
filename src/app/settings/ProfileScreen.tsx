@@ -34,7 +34,7 @@ const ProfileScreen = () => {
         onPress={() => console.log("Open Image Picker")}
       >
         <Image
-          source={require("../../assets/images/defaultProfile.png")}
+          source={require("../../../assets/images/defaultProfile.png")}
           style={styles.profileImage}
         />
       </TouchableOpacity>

@@ -62,7 +62,7 @@ const OrderCard = ({
       <Text className="text-left font-bold">{name}</Text>
       <View className="flex-row items-center">
         <Image
-          source={require("../../assets/icons/calendar_icon.png")}
+          source={require("../../../assets/icons/calendar_icon.png")}
           className="w-5 h-5"
         />
         <Text className="ml-2">{formatDate(orderDate)}</Text>
