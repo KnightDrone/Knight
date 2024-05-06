@@ -202,9 +202,11 @@ describe("SignUp Component", () => {
 
     const { getByText, getByTestId, findByTestId } = render(<SignUpTest />);
 
+    const userNameInput = getByTestId("username-input");
     const emailInput = getByTestId("email-input");
     const passwordInput = getByTestId("password-input");
 
+    fireEvent.changeText(userNameInput, "Test User");
     fireEvent.changeText(emailInput, "test@gmail.com");
     fireEvent.changeText(passwordInput, "password123");
 
@@ -215,7 +217,7 @@ describe("SignUp Component", () => {
 
     await waitFor(() =>
       expect(getByTestId("signup-error-message").props.children).toBe(
-        "Please input email and password."
+        "Sign Up failed. Please check your credentials."
       )
     );
   });
