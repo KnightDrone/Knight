@@ -6,12 +6,12 @@ import {
   waitFor,
 } from "@testing-library/react-native";
 import { Text } from "react-native";
-import SignUp from "../src/app/login-signup/SignUp";
+import SignUp from "../src/app/auth/SignUp";
 import * as Google from "expo-auth-session/providers/google";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 const Stack = createStackNavigator();
-import Login from "../src/app/login-signup/Login";
+import Login from "../src/app/auth/Login";
 import passwordsForTesting from "../src/utils/passwords";
 import { createUserWithEmailAndPassword } from "../src/services/Firebase";
 import { initI18n } from "../src/lang/i18n";
