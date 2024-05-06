@@ -77,7 +77,13 @@ jest.mock("../src/services/FirestoreManager", () => {
   return jest.fn().mockImplementation(() => {
     return {
       readData: jest.fn().mockImplementation(() => {
-        return new User("2", "jane@example.com", new Date(), "Jane Doe");
+        return new User(
+          "2",
+          "jane@example.com",
+          new Date(),
+          "********",
+          "Jane Doe"
+        );
       }),
       updateData: jest.fn(),
     };
