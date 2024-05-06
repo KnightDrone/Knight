@@ -16,43 +16,37 @@ import {
   OrderStatus,
 } from "../types/Order";
 import { User, userConverter } from "../types/User";
+import { FirestoreDataConverter } from "@firebase/firestore";
 
 export default class FirestoreManager {
-  constructor() {}
+  private converterDictionary: { [key: string]: FirestoreDataConverter<any> };
 
-  /**
-   * Method to read order by id from the database
-   *
-   * @param id - The id of the order to read
-   * @returns - The order with the specified id
-   */
-  async readOrder(id: string): Promise<any | null> {
-    const docRef = doc(firestore, "orders", id).withConverter(orderConverter);
-
-    const docSnap = await getDoc(docRef);
-
-    if (docSnap.exists()) {
-      console.log("Order with id " + id + " found in the database");
-      return docSnap.data();
-    } else {
-      console.log("No such document!");
-      return null;
-    }
+  constructor() {
+    // Dictionary to map collection names to their respective converters
+    this.converterDictionary = {
+      users: userConverter,
+      orders: orderConverter,
+    };
   }
 
   /**
-   * Method to read user by id from the database
+   * Method to read data by id from the database
    *
-   * @param id - The id of the user to read
-   * @returns - The user with the specified id
+   * @param collection - The collection to read from, "users" or "orders"
+   * @param id - The id of the data to read
+   * @returns - The order with the specified id
    */
-  async readUser(id: string): Promise<any | null> {
-    const docRef = doc(firestore, "users", id).withConverter(userConverter);
+  async readOrder(collection: string, id: string): Promise<any | null> {
+    const docRef = doc(firestore, collection, id).withConverter(
+      this.converterDictionary[collection]
+    );
 
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
-      console.log("User with id " + id + " found in the database");
+      console.log(
+        "Document with id " + id + " found in the " + collection + " database"
+      );
       return docSnap.data();
     } else {
       console.log("No such document!");
@@ -95,78 +89,98 @@ export default class FirestoreManager {
   }
 
   /**
-   * Method to write an order to the database
+   * Method to write data to the database
    *
-   * @param order - The order to write to the database
+   * @param collection - The collection to write to, "users" or "orders"
+   * @param order - The data to write to the database
    * @returns - None
    */
-  async writeOrder(order: Order): Promise<void> {
+  async writeOrder(collection: string, data: any): Promise<void> {
     try {
       await setDoc(
-        doc(firestore, "orders", order.getId()).withConverter(orderConverter),
-        order
+        doc(firestore, collection, data.getId()).withConverter(
+          this.converterDictionary[collection]
+        ),
+        data
       );
       console.log(
-        "Order with id " + order.getId() + " successfully added to the database"
+        "Document with id " +
+          data.getId() +
+          " successfully added to the " +
+          collection +
+          " database"
       );
     } catch (e) {
-      console.error("Error adding order to the database: ", e);
+      console.error("Error adding document to the database: ", e);
     }
   }
 
   /**
    * Method to delete an order from the database
    *
-   * @param orderId - The id of the order to delete
+   * @param collection - The collection to delete from, "users" or "orders"
+   * @param orderId - The id of the data to delete
    * @returns - None
    */
-  async deleteOrder(orderId: string): Promise<void> {
+  async deleteOrder(collection: string, id: string): Promise<void> {
     try {
-      await deleteDoc(doc(firestore, "orders", orderId));
+      await deleteDoc(doc(firestore, collection, id));
       console.log(
-        "Order with id " + orderId + " successfully deleted from the database"
+        "Document with id " +
+          id +
+          " successfully deleted from the " +
+          collection +
+          " database"
       );
     } catch (e) {
-      console.error("Error deleting order from the database: ", e);
+      console.error("Error deleting document from the database: ", e);
     }
   }
 
   /**
    * Method to update an order in the database
    *
-   * @param orderId - The id of the order to update
-   * @param field - The field to update, valid fields include: "operatorId", "status", "deliveryDate", "location", "operatorName"
+   * @param collection - the collection to update, "users" or "orders"
+   * @param id - The id of the data to update
+   * @param field - The field to update, valid fields include: "operatorId", "status", "deliveryDate", "location", "operatorName" for 'orders' collection and "displayName", "email" for "users" collection
    * @param data - The data to update the field with
    * @returns - None
    */
   async updateOrder(
-    orderId: string,
+    collection: string,
+    id: string,
     field: string,
     data: string | Date | OrderLocation
   ): Promise<void> {
-    const orderRef = doc(firestore, "orders", orderId);
-    const validFields = [
-      "operatorId",
-      "status",
-      "deliveryDate",
-      "location",
-      "operatorName",
-    ];
+    const orderRef = doc(firestore, collection, id);
+    const validFields: { [key: string]: string[] } = {
+      orders: [
+        "operatorId",
+        "status",
+        "deliveryDate",
+        "location",
+        "operatorName",
+      ],
+      users: ["email", "displayName"],
+    };
+
     try {
-      if (validFields.includes(field)) {
+      if (validFields[collection].includes(field)) {
         await setDoc(orderRef, { [field]: data }, { merge: true });
         console.log(
-          "Order with id " +
-            orderId +
+          "Document with id " +
+            id +
             " successfully updated " +
             field +
-            " field in the database"
+            " field in the " +
+            collection +
+            " database"
         );
       } else {
         console.log("No valid field provided to update");
       }
     } catch (e) {
-      console.error("Error updating order in the database: ", e);
+      console.error("Error updating document in the database: ", e);
     }
   }
 }
