@@ -17,11 +17,13 @@ import { useTranslation } from "react-i18next";
 import { langIcons, locales, useLocale } from "../../lang/i18n";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import GoogleAuthConfig from "../../types/GoogleAuthConfig";
+import { FirestoreManager, DBUser } from "../../services/FirestoreManager";
 
 export default function Login({ navigation }: any) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const firestoreManager = new FirestoreManager();
 
   const config = Platform.select({
     web: GoogleAuthConfig.web,
@@ -35,13 +37,32 @@ export default function Login({ navigation }: any) {
     if (response?.type === "success") {
       const { id_token } = response.params;
       const credential = GoogleAuthProvider.credential(id_token);
-      signInWithCredential(auth, credential)
-        .then(() => {
-          navigation.navigate("Map"); // Navigate after successful login
-        })
-        .catch((error: any) => {
-          console.error(error);
-        });
+      signInWithCredential(auth, credential).then((result) => {
+        const newUser =
+          result.user.metadata.creationTime ===
+          result.user.metadata.lastSignInTime;
+        if (newUser) {
+          const userData: DBUser = {
+            name: result.user.displayName || "",
+            email: result.user.email || "",
+            photoURL: result.user.photoURL || "",
+            role: "user",
+            createdAt: new Date(),
+          };
+
+          firestoreManager.createUser(result.user.uid, userData).then(() => {
+            navigation.navigate("Map");
+          });
+        } else {
+          firestoreManager.getUser(result.user.uid).then((user) => {
+            if (user && user.role === "user") {
+              navigation.navigate("Map");
+            } else {
+              navigation.navigate("OperatorMap");
+            }
+          });
+        }
+      });
     }
   }, [response]);
 
@@ -54,7 +75,13 @@ export default function Login({ navigation }: any) {
           password
         );
         if (response.user) {
-          navigation.navigate("Map");
+          const user = await firestoreManager.getUser(response.user.uid);
+          console.log("User: ", user);
+          if (user && user.role === "user") {
+            navigation.navigate("Map");
+          } else {
+            navigation.navigate("OperatorMap");
+          }
         } else {
           setError("Invalid credentials");
         }

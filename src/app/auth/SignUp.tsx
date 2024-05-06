@@ -15,6 +15,7 @@ import { Button } from "../../ui/Button";
 import { OrSeparator } from "../../components/OrSeparator";
 import { MessageBox } from "../../ui/MessageBox";
 import { useTranslation } from "react-i18next";
+import { DBUser, FirestoreManager } from "../../services/FirestoreManager";
 
 export default function SignUp({ navigation }: any) {
   const [user, setUser] = useState("");
@@ -34,6 +35,7 @@ export default function SignUp({ navigation }: any) {
   });
 
   const [request, response, promptAsync] = Google.useAuthRequest(config);
+  const firestoreManager = new FirestoreManager();
 
   useEffect(() => {
     if (response?.type === "success") {
@@ -98,7 +100,19 @@ export default function SignUp({ navigation }: any) {
     if (email && password) {
       createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
-          navigation.navigate("Map");
+          const userData: DBUser = {
+            name: user,
+            email: email,
+            photoURL: "",
+            role: "user",
+            createdAt: new Date(),
+          };
+
+          firestoreManager
+            .createUser(userCredential.user.uid, userData)
+            .then(() => {
+              navigation.navigate("Map");
+            });
         })
         .catch((error) => {
           setError("Sign Up failed. Please check your credentials.");
