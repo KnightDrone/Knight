@@ -39,11 +39,10 @@ jobs:
             EAS_JSON: ${{ secrets.EAS }}
         run: echo $EAS_JSON | base64 -di > ./eas.json
 
-      - name: Update app.json File
+      - name: Create app.json File
         env:
             APP_JSON: ${{ secrets.APP_JSON }}
-        run: |
-            rm app.json && echo $APP_JSON | base64 -di > ./app.json
+        run: echo $APP_JSON | base64 -di > ./app.json
 
       - name: Checkout repository
         uses: actions/checkout@v3
