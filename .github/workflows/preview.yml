@@ -1,18 +1,5 @@
 name: preview
-on: 
-    pull_request:
-        branches:
-            - main
-            - build-apk
-            - eas-build
-            - M*
-    push:
-        branches:
-            - main
-            - build-apk
-            - eas-build
-            - M*
-            - operator-login
+on: pull_request
 
 jobs:
   update:
