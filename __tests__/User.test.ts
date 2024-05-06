@@ -90,4 +90,18 @@ describe("User", () => {
     );
     expect(user.getPhotoURL()).toBe("../assets/images/defaultProfile.png");
   });
+
+  it("should get created at date", () => {
+    const date = new Date();
+    const user = new User(
+      "1",
+      "test@example.com",
+      false,
+      "Test User",
+      new Date(),
+      "../assets/images/defaultProfile.png",
+      date
+    );
+    expect(user.getCreatedAt()).toBe(date);
+  });
 });
