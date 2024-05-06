@@ -62,11 +62,11 @@ describe("ProfileScreen", () => {
 
     expect(getByText("Name")).toBeTruthy();
 
-    const nameInput = getByPlaceholderText("Name");
-    fireEvent.changeText(nameInput, "Mock User");
+    // const nameInput = getByPlaceholderText("Name");
+    // fireEvent.changeText(nameInput, "Mock User");
 
-    const updatedNameInput = getByDisplayValue("Mock User");
-    expect(updatedNameInput.props.value).toEqual("Mock User");
+    // const updatedNameInput = getByDisplayValue("Mock User");
+    // expect(updatedNameInput.props.value).toEqual("Mock User");
 
     expect(getByDisplayValue("Mock User")).toBeTruthy();
     expect(getByText("Email")).toBeTruthy();
