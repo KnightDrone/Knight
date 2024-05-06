@@ -44,7 +44,7 @@ jest.mock("../src/services/FirestoreManager", () => {
           { latitude: 0, longitude: 0 }
         );
       }),
-      updateOrder: jest.fn(),
+      updateData: jest.fn(),
     };
   });
 });

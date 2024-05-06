@@ -2,6 +2,16 @@ import React from "react";
 import { render, fireEvent } from "@testing-library/react-native";
 import ProfileScreen from "../src/app/ProfileScreen";
 
+jest.mock("../src/services/Firebase", () => {
+  return {
+    auth: {
+      currentUser: {
+        uid: "07b35de9-7f42-4d5c-9953-e8c586c349d2",
+      },
+    },
+  };
+});
+
 describe("ProfileScreen", () => {
   it("renders all inputs and buttons", () => {
     const { getByPlaceholderText } = render(<ProfileScreen />);

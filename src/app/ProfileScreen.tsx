@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { TextInputMask } from "react-native-masked-text";
 import DatePicker from "react-native-date-picker";
-import { auth, doc, firestore, getDoc } from "../services/Firebase";
+import { auth } from "../services/Firebase";
 import FirestoreManager from "../services/FirestoreManager";
 import { User } from "../types/User";
 
@@ -26,7 +26,8 @@ const ProfileScreen = () => {
   useEffect(() => {
     const fetchData = async () => {
       const user = auth.currentUser;
-      if (user) {
+
+      if (user !== null) {
         const userData = await firestoreManager.readData("users", user.uid);
         setName(userData.getDisplayName());
         setEmail(userData.getEmail());

@@ -42,7 +42,7 @@ export default function OrderMenu({
 
     if (user != null) {
       const order = new Order(user.uid, item, orderLocation);
-      firestoreManager.writeOrder(order);
+      firestoreManager.writeData("orders", order);
       navigation.navigate("OrderPlaced", { orderId: order.getId() });
     } else {
       console.error("Could not find user.");
