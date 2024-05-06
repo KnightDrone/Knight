@@ -15,6 +15,7 @@ import { Button } from "../../ui/Button";
 import { OrSeparator } from "../../components/OrSeparator";
 import { MessageBox } from "../../ui/MessageBox";
 import { useTranslation } from "react-i18next";
+import { User } from "../../types/User";
 
 export default function SignUp({ navigation }: any) {
   const [user, setUser] = useState("");
@@ -86,19 +87,15 @@ export default function SignUp({ navigation }: any) {
     }
   };
 
-  // const writeUserData = async (response: UserCredential) => {
-  //   set(ref(database, "users/" + response.user.uid), {
-  //     username: user,
-  //     email: email,
-  //     orders: [], // This will create an empty list for orders
-  //   });
-  // };
-
   const signUpWithEmail = async () => {
     if (email && password) {
       createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
-          navigation.navigate("Map");
+          if (auth.currentUser != null) {
+            const user = new User(auth.currentUser?.uid, email, false, "");
+            navigation.navigate("Map");
+          } else {
+          }
         })
         .catch((error) => {
           setError("Sign Up failed. Please check your credentials.");

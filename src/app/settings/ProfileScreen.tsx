@@ -44,7 +44,7 @@ const ProfileScreen = () => {
         setName(userData.getDisplayName());
         setEmail(userData.getEmail());
         setDateOfBirth(userData.getBirthday().toLocaleDateString("en-GB"));
-        setPassword(userData.getPassword());
+        setPhotoURL(userData.getPhotoURL());
       } else {
         console.error("No user logged in");
       }
