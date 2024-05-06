@@ -14,7 +14,7 @@ on:
             - build-apk
             - eas-build
             - M*
-            
+
 jobs:
   preview:
     name: Create preview
@@ -34,7 +34,7 @@ jobs:
       - name: Install dependencies
         run: npm install
       - name: Publish to Expo & create a QR code
-        uses: expo/expo-preview-action@v1
+        uses: expo/expo-preview-action@v1.2.2
         with:
           channel: pr-${{ github.event.number }}
         id: preview
