@@ -12,7 +12,7 @@ import { Button } from "../../ui/Button";
 import { Order, OrderStatus } from "../../types/Order";
 import { Item } from "../../types/Item";
 import TriangleBackground from "../../components/TriangleBackground";
-import FirestoreManager from "../../services/FirestoreManager";
+import { FirestoreManager } from "../../services/FirestoreManager";
 import { MessageBox } from "../../ui/MessageBox";
 
 /* 

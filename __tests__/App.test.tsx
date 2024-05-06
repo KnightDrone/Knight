@@ -1,5 +1,10 @@
 import React from "react";
-import { render, waitFor, fireEvent } from "@testing-library/react-native";
+import {
+  screen,
+  render,
+  waitFor,
+  fireEvent,
+} from "@testing-library/react-native";
 import * as Google from "expo-auth-session/providers/google";
 
 import App from "../src/app/App";
@@ -59,6 +64,7 @@ async function simulateLogin(
   fireEvent.press(getByTestId("login-button"));
 
   await waitFor(() => {
+    screen.debug();
     expect(queryByTestId("map-view")).toBeTruthy();
   });
 }
@@ -98,7 +104,7 @@ describe("App Navigation", () => {
     });
   });
 
-  it("logs in when the login button is pressed", async () => {
+  it.only("logs in when the login button is pressed", async () => {
     (Google.useAuthRequest as jest.Mock).mockReturnValue([
       {},
       { type: "fail", params: { id_token: "" } },

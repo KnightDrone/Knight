@@ -14,7 +14,7 @@ import TriangleBackground from "../../components/TriangleBackground";
 import { RootStackParamList } from "../../types/RootStackParamList";
 import { RouteProp } from "@react-navigation/native";
 import { MessageBox } from "../../ui/MessageBox";
-import FirestoreManager from "../../services/FirestoreManager";
+import { FirestoreManager } from "../../services/FirestoreManager";
 import { useTranslation } from "react-i18next";
 
 /* 

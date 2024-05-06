@@ -41,14 +41,57 @@ jest.mock("firebase/auth", () => ({
   GoogleAuthProvider: {
     credential: jest.fn(() => "mock-credential"), // Ensure this returns a mock credential as expected
   },
-  signInWithCredential: jest.fn(() => Promise.resolve({ user: true })), // Explicitly return a resolved promise
-  signInWithEmailAndPassword: jest.fn(() => Promise.resolve({ user: true })), // Explicitly return a resolved promise
-  signOut: jest.fn(() => Promise.resolve()), // Explicitly return a resolved promise
+  signInWithCredential: jest.fn(() =>
+    Promise.resolve({
+      user: {
+        metadata: {
+          creationTime: 0,
+          lastSignInTime: 0,
+        },
+      },
+    })
+  ),
+  signInWithEmailAndPassword: jest.fn(() =>
+    Promise.resolve({
+      user: {
+        metadata: {
+          creationTime: 0,
+          lastSignInTime: 0,
+        },
+      },
+    })
+  ),
+  signOut: jest.fn(() => Promise.resolve()),
   createUserWithEmailAndPassword: jest.fn(() =>
-    Promise.resolve({ user: true })
+    Promise.resolve({
+      user: {
+        metadata: {
+          creationTime: 0,
+          lastSignInTime: 0,
+        },
+      },
+    })
+  ),
+  signInWithPopup: jest.fn(() =>
+    Promise.resolve({
+      user: {
+        metadata: {
+          creationTime: 0,
+          lastSignInTime: 0,
+        },
+      },
+    })
   ), // Explicitly return a resolved promise
-  signInWithPopup: jest.fn(() => Promise.resolve({ user: true })), // Explicitly return a resolved promise
-  signInWithRedirect: jest.fn(() => Promise.resolve({ user: true })), // Explicitly return a resolved promise
+  signInWithRedirect: jest.fn(() =>
+    Promise.resolve({
+      user: {
+        metadata: {
+          creationTime: 0,
+          lastSignInTime: 0,
+        },
+      },
+    })
+  ), // Explicitly return a resolved promise
   sendPasswordResetEmail: jest.fn(() => Promise.resolve()),
   onAuthStateChanged: jest.fn(),
   updateCurrentUser: jest.fn(),
@@ -149,3 +192,26 @@ jest.mock("@stripe/stripe-react-native", () => ({
     confirmPaymentSheetPayment: jest.fn(),
   }),
 }));
+
+jest.mock("./src/services/FirestoreManager", () => {
+  return {
+    __esModule: true,
+    FirestoreManager: jest.fn().mockImplementation(() => {
+      return {
+        createUser: jest.fn().mockResolvedValue({}),
+        updateUser: jest.fn().mockResolvedValue({}),
+        getUser: jest.fn().mockResolvedValue({
+          name: "name",
+          email: "email@example.com",
+          role: "user",
+          createdAt: new Date(),
+        }),
+        readOrder: jest.fn(),
+        queryOrder: jest.fn(),
+        writeOrder: jest.fn(),
+        deleteOrder: jest.fn(),
+        updateOrder: jest.fn(),
+      };
+    }),
+  };
+});
