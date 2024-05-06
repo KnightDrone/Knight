@@ -36,7 +36,7 @@ jest.mock("expo-location", () => {
 jest.mock("react-native-vector-icons/MaterialIcons", () => "Icon");
 jest.mock("../src/components/LocationMarker", () => "LocationMarker");
 
-jest.mock("../src/components/PayButton", () => ({
+jest.mock("../src/components/buttons/PayButton", () => ({
   __esModule: true,
   PayButton: () => {
     return (

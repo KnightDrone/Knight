@@ -10,7 +10,7 @@ import {
   Alert,
 } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
-import { auth } from "../services/Firebase";
+import { auth } from "../../services/Firebase";
 
 interface SettingsProps {
   onItemPress?: (itemName: string) => void;

@@ -1,23 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, Image, TouchableOpacity } from "react-native";
-import "./global.css";
+import "../global.css";
 import { RouteProp } from "@react-navigation/native";
-import { RootStackParamList } from "../types/RootStackParamList";
+import { RootStackParamList } from "../../types/RootStackParamList";
 import Icon from "react-native-vector-icons/Fontisto";
-import TriangleBackground from "../components/TriangleBackground";
+import TriangleBackground from "../../components/TriangleBackground";
 import { Animated } from "react-native";
-import { secureRandom } from "../utils/random";
-import FirestoreManager from "../services/FirestoreManager";
-import { Item } from "../types/Item";
-import { OrderLocation } from "../types/Order";
-import { images } from "../types/ProductButtons";
-import { auth } from "../services/Firebase";
+import { secureRandom } from "../../utils/random";
+import FirestoreManager from "../../services/FirestoreManager";
+import { Item } from "../../types/Item";
+import { OrderLocation } from "../../types/Order";
+import { images } from "../../types/ProductButtons";
+import { auth } from "../../services/Firebase";
 
 interface OrderPlacedProps {
   orderId: string;
 }
 import { useTranslation } from "react-i18next";
-import { TranslationKeys } from "../types/translation-keys";
+import { TranslationKeys } from "../../types/translation-keys";
 
 const OrderPlaced = ({
   navigation,
@@ -155,7 +155,7 @@ const OrderPlaced = ({
             source={
               orderedItem
                 ? images[orderedItem.getId()]
-                : require("../../assets/icons/question_mark_icon.jpg")
+                : require("../../../assets/icons/question_mark_icon.jpg")
             }
           />
         </View>

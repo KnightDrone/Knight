@@ -5,7 +5,7 @@ import {
   fireEvent,
   waitFor,
 } from "@testing-library/react-native";
-import Login from "../src/app/Login";
+import Login from "../src/app/auth/Login";
 import {
   GoogleAuthProvider,
   signInWithCredential,

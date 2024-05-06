@@ -7,7 +7,7 @@ import "./global.css";
 
 import { registerRootComponent } from "expo";
 import { initI18n } from "../lang/i18n";
-import { AppStack } from "../navigation/AppStack";
+import { AppStack } from "./AppStack";
 import { StripeProvider } from "@stripe/stripe-react-native";
 
 WebBrowser.maybeCompleteAuthSession();

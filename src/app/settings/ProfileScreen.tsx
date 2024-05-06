@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { TextInputMask } from "react-native-masked-text";
 import DatePicker from "react-native-date-picker";
-import { auth } from "../services/Firebase";
+import { auth } from "../../services/Firebase";
 import { updateProfile, updateEmail, updatePassword } from "firebase/auth";
 
 const ProfileScreen = () => {
@@ -84,7 +84,7 @@ const ProfileScreen = () => {
         <Image
           source={
             (photoURL && { uri: photoURL }) ||
-            require("../../assets/images/defaultProfile.png")
+            require("../../../assets/images/defaultProfile.png")
           }
           testID="profile-image"
           style={styles.profileImage}

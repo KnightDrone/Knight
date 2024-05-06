@@ -1,6 +1,46 @@
 import React from "react";
+import ProfileScreen from "../src/app/settings/ProfileScreen";
 import { render, fireEvent, waitFor } from "@testing-library/react-native";
-import ProfileScreen from "../src/app/ProfileScreen";
+
+jest.mock("firebase/auth", () => ({
+  initializeAuth: jest.fn().mockReturnValue({
+    onAuthStateChanged: jest.fn(),
+    currentUser: {
+      email: "email@example.com",
+      photoURL: "mock-photo-url",
+      displayName: "mock-display-name",
+    },
+  }),
+  getReactNativePersistence: jest.fn(),
+  updateCurrentUser: jest.fn(),
+  updateEmail: jest.fn(),
+  updatePassword: jest.fn(),
+  updateProfile: jest.fn(),
+}));
+
+beforeAll(() => {
+  global.alert = jest.fn();
+});
+
+jest.mock("firebase/auth", () => ({
+  initializeAuth: jest.fn().mockReturnValue({
+    onAuthStateChanged: jest.fn(),
+    currentUser: {
+      email: "email@example.com",
+      photoURL: "mock-photo-url",
+      displayName: "mock-display-name",
+    },
+  }),
+  getReactNativePersistence: jest.fn(),
+  updateCurrentUser: jest.fn(),
+  updateEmail: jest.fn(),
+  updatePassword: jest.fn(),
+  updateProfile: jest.fn(),
+}));
+
+beforeAll(() => {
+  global.alert = jest.fn();
+});
 
 jest.mock("firebase/auth", () => ({
   initializeAuth: jest.fn().mockReturnValue({

@@ -1,7 +1,7 @@
 // Settings.test.tsx
 import React from "react";
 import { render, fireEvent } from "@testing-library/react-native";
-import Settings from "../src/app/Setting";
+import Settings from "../src/app/settings/Setting";
 
 describe("Settings Component", () => {
   it("renders correctly", () => {
