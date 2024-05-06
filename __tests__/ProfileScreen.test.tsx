@@ -1,6 +1,7 @@
 import React from "react";
 import { render, fireEvent } from "@testing-library/react-native";
 import ProfileScreen from "../src/app/ProfileScreen";
+import { User } from "../src/types/User";
 
 jest.mock("../src/services/Firebase", () => {
   return {
@@ -10,6 +11,17 @@ jest.mock("../src/services/Firebase", () => {
       },
     },
   };
+});
+
+jest.mock("../src/services/FirestoreManager", () => {
+  return jest.fn().mockImplementation(() => {
+    return {
+      readData: jest.fn().mockImplementation(() => {
+        return new User("2", "jane@example.com", new Date(), "Jane Doe");
+      }),
+      updateData: jest.fn(),
+    };
+  });
 });
 
 describe("ProfileScreen", () => {
@@ -49,6 +61,13 @@ describe("ProfileScreen", () => {
     const { getByText, getByDisplayValue } = render(<ProfileScreen />);
 
     expect(getByText("Name")).toBeTruthy();
+
+    const nameInput = getByPlaceholderText("Name");
+    fireEvent.changeText(nameInput, "Mock User");
+
+    const updatedNameInput = getByDisplayValue("Mock User");
+    expect(updatedNameInput.props.value).toEqual("Mock User");
+
     expect(getByDisplayValue("Mock User")).toBeTruthy();
     expect(getByText("Email")).toBeTruthy();
     expect(getByDisplayValue("mockuser@gmail.com")).toBeTruthy();
