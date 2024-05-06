@@ -36,7 +36,7 @@ export default class FirestoreManager {
    * @param id - The id of the data to read
    * @returns - The order with the specified id
    */
-  async readOrder(collection: string, id: string): Promise<any | null> {
+  async readData(collection: string, id: string): Promise<any | null> {
     const docRef = doc(firestore, collection, id).withConverter(
       this.converterDictionary[collection]
     );
@@ -92,10 +92,10 @@ export default class FirestoreManager {
    * Method to write data to the database
    *
    * @param collection - The collection to write to, "users" or "orders"
-   * @param order - The data to write to the database
+   * @param data - The data to write to the database
    * @returns - None
    */
-  async writeOrder(collection: string, data: any): Promise<void> {
+  async writeData(collection: string, data: any): Promise<void> {
     try {
       await setDoc(
         doc(firestore, collection, data.getId()).withConverter(
@@ -119,10 +119,10 @@ export default class FirestoreManager {
    * Method to delete an order from the database
    *
    * @param collection - The collection to delete from, "users" or "orders"
-   * @param orderId - The id of the data to delete
+   * @param id - The id of the data to delete
    * @returns - None
    */
-  async deleteOrder(collection: string, id: string): Promise<void> {
+  async deleteData(collection: string, id: string): Promise<void> {
     try {
       await deleteDoc(doc(firestore, collection, id));
       console.log(
@@ -146,7 +146,7 @@ export default class FirestoreManager {
    * @param data - The data to update the field with
    * @returns - None
    */
-  async updateOrder(
+  async updateData(
     collection: string,
     id: string,
     field: string,

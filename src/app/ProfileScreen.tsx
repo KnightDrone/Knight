@@ -11,7 +11,10 @@ import {
 import { TextInputMask } from "react-native-masked-text";
 import DatePicker from "react-native-date-picker";
 import { auth, doc, firestore, getDoc } from "../services/Firebase";
-import firebase from "../services/Firebase";
+import FirestoreManager from "../services/FirestoreManager";
+import { User } from "../types/User";
+
+const firestoreManager = new FirestoreManager();
 
 const ProfileScreen = () => {
   const [name, setName] = useState("");
@@ -21,25 +24,18 @@ const ProfileScreen = () => {
   const [isPickerShow, setIsPickerShow] = useState(false);
 
   useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const user = auth.currentUser;
-        if (user) {
-          const userData = await doc(firestore, "users", user.uid);
-          const userDataSnapshot = await getDoc(userData);
-          if (userDataSnapshot.exists()) {
-            const { name, email, password } = userDataSnapshot.data();
-            setName(name);
-            setEmail(email);
-            setPassword(password);
-          }
-        }
-      } catch (error) {
-        console.error("Error fetching user data:", error);
+    const fetchData = async () => {
+      const user = auth.currentUser;
+      if (user) {
+        const userData = await firestoreManager.readData("users", user.uid);
+        setName(userData.getDisplayName());
+        setEmail(userData.getEmail());
+        setDateOfBirth(userData.getBirthday().toLocaleDateString("en-GB"));
+      } else {
+        console.error("No user logged in");
       }
     };
-
-    fetchUserData();
+    fetchData();
   }, []);
 
   const showPicker = () => {
@@ -48,19 +44,20 @@ const ProfileScreen = () => {
 
   const handleConfirm = (date: Date) => {
     setIsPickerShow(false);
-    setDateOfBirth(date.toLocaleDateString("en-GB")); // formats date as DD/MM/YYYY
+    // setDateOfBirth(date.toLocaleDateString("en-GB")); // formats date as DD/MM/YYYY
   };
+
+  function parseDate(dateString: string): Date {
+    const [day, month, year] = dateString.split("/");
+    return new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
+  }
 
   const saveChanges = async () => {
     try {
       const user = auth.currentUser;
       if (user) {
-        await firebase.firestore().collection("users").doc(user.uid).update({
-          name,
-          email,
-          password,
-          dateOfBirth,
-        });
+        const newUser = new User(user.uid, email, parseDate(dateOfBirth), name);
+        await firestoreManager.writeData("users", user);
         alert("Changes Saved!");
       }
     } catch (error) {
