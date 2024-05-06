@@ -71,12 +71,12 @@ jobs:
         name: app-android
         path: /home/runner/work/Knight/Knight/build-*.apk
       
-    - name: Archive Artifact
-      run: tar -czvf release.tar.gz /home/runner/work/Knight/Knight/build-*.apk
-    - uses: actions/upload-artifact@v2
-      with:
-        name: release
-        path: release.tar.gz
+    # - name: Archive Artifact
+    #   run: tar -czvf release.tar.gz /home/runner/work/Knight/Knight/build-*.apk
+    # - uses: actions/upload-artifact@v2
+    #   with:
+    #     name: release
+    #     path: release.tar.gz
 
   # create-release:
   #   needs: build
