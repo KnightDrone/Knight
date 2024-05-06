@@ -49,10 +49,26 @@ jest.mock("../src/services/Firebase", () => ({
     credential: jest.fn(),
   },
   signInWithCredential: jest.fn(() =>
-    Promise.resolve({ user: { uid: "12345" } })
+    Promise.resolve({
+      user: {
+        metadata: {
+          creationTime: 0,
+          lastSignInTime: 0,
+        },
+        uid: "12345",
+      },
+    })
   ),
   signInWithEmailAndPassword: jest.fn(() =>
-    Promise.resolve({ user: { uid: "12345" } })
+    Promise.resolve({
+      user: {
+        metadata: {
+          creationTime: 0,
+          lastSignInTime: 0,
+        },
+        uid: "12345",
+      },
+    })
   ),
 }));
 

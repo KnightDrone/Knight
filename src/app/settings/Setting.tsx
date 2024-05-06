@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { auth } from "../../services/Firebase";
+import { FirestoreManager } from "../../services/FirestoreManager";
 
 interface SettingsProps {
   onItemPress?: (itemName: string) => void;
@@ -31,6 +32,23 @@ const Settings: React.FC<SettingsProps> = ({
   onItemPress,
   navigation,
 }: any) => {
+  const firestoreManager = new FirestoreManager();
+
+  const handleBecomeOperator = async () => {
+    const user = auth.currentUser;
+    if (user != null) {
+      const userData = await firestoreManager.getUser(user.uid);
+      if (userData && userData.role === "operator") {
+        Alert.alert("Already an operator", "You are already an operator.");
+      } else {
+        firestoreManager.updateUser(user.uid, { role: "operator" });
+        Alert.alert("Success", "You are now an operator.");
+      }
+    } else {
+      Alert.alert("Error", "Could not find user.");
+    }
+  };
+
   const handleLogout = () => {
     Alert.alert(
       "Confirm Logout",
@@ -85,6 +103,11 @@ const Settings: React.FC<SettingsProps> = ({
       data: [
         { name: "Report a problem", icon: "report-problem" },
         { name: "Add account", icon: "person-add" },
+        {
+          name: "Become an operator",
+          action: handleBecomeOperator,
+          icon: "work",
+        },
         { name: "Log out", action: handleLogout, icon: "logout" },
       ],
     },

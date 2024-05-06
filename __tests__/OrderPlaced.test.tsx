@@ -13,7 +13,7 @@ import { View, Text } from "react-native";
 import { RootStackParamList } from "../src/types/RootStackParamList";
 import { Item } from "../src/types/Item";
 import { Order } from "../src/types/Order";
-import FirestoreManager from "../src/services/FirestoreManager";
+import { FirestoreManager } from "../src/services/FirestoreManager";
 import { read } from "fs";
 
 type OrderPlacedStack = {
@@ -35,18 +35,21 @@ jest.mock("../src/components/buttons/PayButton", () => ({
 }));
 
 jest.mock("../src/services/FirestoreManager", () => {
-  return jest.fn().mockImplementation(() => {
-    return {
-      readOrder: jest.fn().mockImplementation(() => {
-        return new Order(
-          "07b35de9-7f42-4d5c-9953-e8c586c349d2",
-          new Item(0, "test", "test", 10),
-          { latitude: 0, longitude: 0 }
-        );
-      }),
-      updateOrder: jest.fn(),
-    };
-  });
+  return {
+    __esModule: true,
+    FirestoreManager: jest.fn().mockImplementation(() => {
+      return {
+        readOrder: jest.fn().mockImplementation(() => {
+          return new Order(
+            "07b35de9-7f42-4d5c-9953-e8c586c349d2",
+            new Item(0, "test", "test", 10),
+            { latitude: 0, longitude: 0 }
+          );
+        }),
+        updateOrder: jest.fn(),
+      };
+    }),
+  };
 });
 
 jest.mock("../src/services/Firebase", () => {

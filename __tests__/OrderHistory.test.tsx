@@ -10,12 +10,12 @@ import { NavigationContainer, RouteProp } from "@react-navigation/native";
 import { initI18n } from "../src/lang/i18n";
 import { Order, OrderStatus } from "../src/types/Order";
 import { Item } from "../src/types/Item";
-import FirestoreManager from "../src/services/FirestoreManager";
+import { FirestoreManager } from "../src/services/FirestoreManager";
 
 jest.mock("../src/services/FirestoreManager", () => {
   return {
     __esModule: true,
-    default: jest.fn().mockImplementation(() => {
+    FirestoreManager: jest.fn().mockImplementation(() => {
       return {
         queryOrder: jest
           .fn()
