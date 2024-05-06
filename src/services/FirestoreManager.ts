@@ -142,7 +142,7 @@ export default class FirestoreManager {
    *
    * @param collection - the collection to update, "users" or "orders"
    * @param id - The id of the data to update
-   * @param field - The field to update, valid fields include: "operatorId", "status", "deliveryDate", "location", "operatorName" for 'orders' collection and "displayName", "email" for "users" collection
+   * @param field - The field to update, valid fields include: "operatorId", "status", "deliveryDate", "location", "operatorName" for 'orders' collection and "displayName", "birthday", "email" for "users" collection
    * @param data - The data to update the field with
    * @returns - None
    */
@@ -161,7 +161,7 @@ export default class FirestoreManager {
         "location",
         "operatorName",
       ],
-      users: ["email", "displayName"],
+      users: ["email", "displayName", "birthday"],
     };
 
     try {
