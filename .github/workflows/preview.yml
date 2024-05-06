@@ -1,10 +1,26 @@
-name: update
-on: push
+name: preview
+on: 
+    pull_request:
+        branches:
+            - main
+            - build-apk
+            - eas-build
+            - M*
+    push:
+        branches:
+            - main
+            - build-apk
+            - eas-build
+            - M*
+            - operator-login
 
 jobs:
   update:
     name: EAS Update
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
     steps:
       - name: Check for EXPO_TOKEN
         run: |
@@ -12,6 +28,22 @@ jobs:
             echo "You must provide an EXPO_TOKEN secret linked to this project's Expo account in this repo's secrets. Learn more: https://docs.expo.dev/eas-update/github-actions"
             exit 1
           fi
+
+      - name: Create Google Services JSON File
+        env:
+            GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES }}
+        run: echo $GOOGLE_SERVICES_JSON | base64 -di > ./google-services.json
+
+      - name: Create eas.json File
+        env:
+            EAS_JSON: ${{ secrets.EAS }}
+        run: echo $EAS_JSON | base64 -di > ./eas.json
+
+      - name: Update app.json File
+        env:
+            APP_JSON: ${{ secrets.APP_JSON }}
+        run: |
+            rm app.json && echo $APP_JSON | base64 -di > ./app.json
 
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -31,5 +63,7 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Publish update
-        run: eas update --auto
+      - name: Create preview
+        uses: expo/expo-github-action/preview@v8
+        with:
+          command: eas update --auto
