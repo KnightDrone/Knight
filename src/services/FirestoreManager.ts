@@ -15,12 +15,13 @@ import {
   OrderLocation,
   OrderStatus,
 } from "../types/Order";
+import { User, userConverter } from "../types/User";
 
 export default class FirestoreManager {
   constructor() {}
 
   /**
-   * Method to read data by id from the database
+   * Method to read order by id from the database
    *
    * @param id - The id of the order to read
    * @returns - The order with the specified id
@@ -32,6 +33,26 @@ export default class FirestoreManager {
 
     if (docSnap.exists()) {
       console.log("Order with id " + id + " found in the database");
+      return docSnap.data();
+    } else {
+      console.log("No such document!");
+      return null;
+    }
+  }
+
+  /**
+   * Method to read user by id from the database
+   *
+   * @param id - The id of the user to read
+   * @returns - The user with the specified id
+   */
+  async readUser(id: string): Promise<any | null> {
+    const docRef = doc(firestore, "users", id).withConverter(userConverter);
+
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      console.log("User with id " + id + " found in the database");
       return docSnap.data();
     } else {
       console.log("No such document!");

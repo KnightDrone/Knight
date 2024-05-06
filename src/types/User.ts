@@ -1,4 +1,4 @@
-export class User {
+class User {
   private uid: string;
   private email: string;
   private displayName: string;
@@ -30,7 +30,7 @@ export class User {
   }
 }
 
-const UserConverter = {
+const userConverter = {
   toFirestore: (user: User) => {
     return {
       uid: user.getId(),
@@ -46,3 +46,5 @@ const UserConverter = {
     return user;
   },
 };
+
+export { User, userConverter };
