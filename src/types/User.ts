@@ -4,19 +4,22 @@ class User {
   private displayName: string;
   private dob: Date; // date of birth
   private password: string;
+  private photoURL: string;
 
   constructor(
     uid: string,
     email: string,
     dob: Date,
     password: string,
-    displayName: string
+    displayName: string,
+    photoURL?: string
   ) {
-    this.displayName = displayName || "";
+    this.displayName = displayName;
     this.email = email;
     this.uid = uid;
     this.dob = dob;
     this.password = password;
+    this.photoURL = photoURL || "../../../assets/images/defaultProfile.png";
   }
 
   getId() {

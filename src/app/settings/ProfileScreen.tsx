@@ -45,11 +45,6 @@ const ProfileScreen = () => {
     fetchData();
   }, []);
 
-  function isValidEmail(email: string) {
-    var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-    return regex.test(email);
-  }
-
   function parseDate(dateString: string): Date {
     const [day, month, year] = dateString.split("/");
     return new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
