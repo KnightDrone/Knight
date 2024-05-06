@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -10,11 +10,8 @@ import {
 } from "react-native";
 import { TextInputMask } from "react-native-masked-text";
 import DatePicker from "react-native-date-picker";
-import { auth } from "../services/Firebase";
-import FirestoreManager from "../services/FirestoreManager";
-import { User } from "../types/User";
-
-const firestoreManager = new FirestoreManager();
+import { auth } from "../../services/Firebase";
+import { updateProfile, updateEmail, updatePassword } from "firebase/auth";
 
 const ProfileScreen = () => {
   const [name, setName] = useState("");
@@ -22,58 +19,77 @@ const ProfileScreen = () => {
   const [password, setPassword] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState("");
   const [isPickerShow, setIsPickerShow] = useState(false);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const user = auth.currentUser;
-
-      if (user !== null) {
-        const userData = await firestoreManager.readData("users", user.uid);
-        setName(userData.getDisplayName());
-        setEmail(userData.getEmail());
-        setDateOfBirth(userData.getBirthday().toLocaleDateString("en-GB"));
-      } else {
-        console.error("No user logged in");
-      }
-    };
-    fetchData();
-  }, []);
+  const [photoURL, setPhotoURL] = useState("");
 
   const showPicker = () => {
     setIsPickerShow(true);
   };
 
-  const handleConfirm = (date: Date) => {
-    setIsPickerShow(false);
-    // setDateOfBirth(date.toLocaleDateString("en-GB")); // formats date as DD/MM/YYYY
-  };
+  useEffect(() => {
+    if (auth.currentUser) {
+      const { displayName, email, photoURL } = auth.currentUser;
+      setName(displayName || "");
+      setEmail(email || "");
+      setPhotoURL(photoURL || "");
+    }
+  }, []);
 
-  function parseDate(dateString: string): Date {
-    const [day, month, year] = dateString.split("/");
-    return new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
+  function isValidEmail(email: string) {
+    var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+    return regex.test(email);
   }
 
-  const saveChanges = async () => {
+  const handleSaveChanges = async () => {
+    console.log("Saving changes...");
     try {
-      const user = auth.currentUser;
-      if (user) {
-        const newUser = new User(user.uid, email, parseDate(dateOfBirth), name);
-        await firestoreManager.writeData("users", user);
+      console.log("TRY Saving changes...");
+      if (auth.currentUser) {
+        console.log("USER Saving changes...");
+
+        await updateProfile(auth.currentUser, {
+          displayName: name,
+        });
+
+        if (isValidEmail(email)) {
+          auth.currentUser.email !== email &&
+            updateEmail(auth.currentUser, email);
+        } else {
+          console.log("Invalid email address", email);
+          return alert("Invalid email address");
+        }
+
+        if (password) {
+          updatePassword(auth.currentUser, password);
+        }
+
         alert("Changes Saved!");
       }
-    } catch (error) {
-      console.error("Error updating user data:", error);
+    } catch (error: any) {
+      console.log("Failed to save changes:", error.message);
+      alert(`Failed to save changes: ${error.message}`);
     }
+  };
+
+  const handleConfirm = (date: Date) => {
+    setIsPickerShow(false);
+    setDateOfBirth(date.toLocaleDateString("en-GB")); // formats date as DD/MM/YYYY
   };
 
   return (
     <ScrollView style={styles.container}>
-      <View style={styles.profileImageContainer}>
+      <TouchableOpacity
+        style={styles.profileImageContainer}
+        onPress={() => console.log("Open Image Picker")}
+      >
         <Image
-          source={require("../../assets/images/defaultProfile.png")}
+          source={
+            (photoURL && { uri: photoURL }) ||
+            require("../../../assets/images/defaultProfile.png")
+          }
+          testID="profile-image"
           style={styles.profileImage}
         />
-      </View>
+      </TouchableOpacity>
       <View style={styles.inputContainer}>
         <Text style={styles.label}>Name</Text>
         <TextInput
@@ -125,7 +141,11 @@ const ProfileScreen = () => {
           />
         )}
       </View>
-      <TouchableOpacity style={styles.saveButton} onPress={saveChanges}>
+      <TouchableOpacity
+        style={styles.saveButton}
+        onPress={handleSaveChanges}
+        testID="save-button"
+      >
         <Text style={styles.saveButtonText}>Save changes</Text>
       </TouchableOpacity>
     </ScrollView>

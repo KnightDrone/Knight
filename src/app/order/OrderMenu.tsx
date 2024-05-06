@@ -1,16 +1,16 @@
 import React, { useState } from "react";
-import OrderButton from "../components/OrderButton";
+import OrderButton from "../../components/buttons/OrderButton";
 import { Text, StyleSheet, View, Button } from "react-native";
-import TriangleBackground from "../components/TriangleBackground";
-import { productButtons, ProductButton } from "../types/ProductButtons";
-import ItemCard from "../components/ItemCard";
+import TriangleBackground from "../../components/TriangleBackground";
+import { productButtons, ProductButton } from "../../types/ProductButtons";
+import ItemCard from "../../components/cards/ItemCard";
 import { useTranslation } from "react-i18next";
-import { TranslationKeys } from "../types/translation-keys";
-import FirestoreManager from "../services/FirestoreManager";
-import { Order, OrderLocation } from "../types/Order";
-import { auth } from "../services/Firebase";
+import { TranslationKeys } from "../../types/translation-keys";
+import FirestoreManager from "../../services/FirestoreManager";
+import { Order, OrderLocation } from "../../types/Order";
+import { auth } from "../../services/Firebase";
 import { RouteProp } from "@react-navigation/native";
-import { RootStackParamList } from "../types/RootStackParamList";
+import { RootStackParamList } from "../../types/RootStackParamList";
 
 export default function OrderMenu({
   route,

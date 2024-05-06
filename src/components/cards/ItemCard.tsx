@@ -1,11 +1,11 @@
 import React from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
-import { Item } from "../types/Item";
+import { Item } from "../../types/Item";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { BlurView } from "expo-blur";
-import { PayButton } from "./PayButton";
+import { PayButton } from "../buttons/PayButton";
 import { useTranslation } from "react-i18next";
-import { TranslationKeys } from "../types/translation-keys";
+import { TranslationKeys } from "../../types/translation-keys";
 
 interface ItemCardProps {
   isVisible: boolean;

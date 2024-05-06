@@ -1,6 +1,6 @@
 import { act, fireEvent, render, waitFor } from "@testing-library/react-native";
 import { Alert } from "react-native";
-import { PayButton } from "../src/components/PayButton";
+import { PayButton } from "../src/components/buttons/PayButton";
 import { useStripe } from "@stripe/stripe-react-native";
 import React from "react";
 import { initI18n } from "../src/lang/i18n";

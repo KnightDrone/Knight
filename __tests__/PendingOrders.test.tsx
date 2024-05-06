@@ -1,6 +1,6 @@
 import React from "react";
 import { fireEvent, render, waitFor } from "@testing-library/react-native";
-import PendingOrders from "../src/app/PendingOrders";
+import PendingOrders from "../src/app/order/PendingOrders";
 import { Order, OrderStatus } from "../src/types/Order";
 import { Item } from "../src/types/Item";
 import FirestoreManager from "../src/services/FirestoreManager";

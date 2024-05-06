@@ -5,7 +5,7 @@ import {
   fireEvent,
   waitFor,
 } from "@testing-library/react-native";
-import { AppStack } from "../src/navigation/AppStack";
+import { AppStack } from "../src/app/AppStack";
 import { describe } from "node:test";
 import * as Google from "expo-auth-session/providers/google";
 import * as Location from "expo-location";

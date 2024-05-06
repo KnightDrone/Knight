@@ -4,7 +4,7 @@ import {
   useStripe,
 } from "@stripe/stripe-react-native";
 import React, { useEffect, useState } from "react";
-import { Button } from "../ui/Button";
+import { Button } from "../../ui/Button";
 import { Alert } from "react-native";
 import { useTranslation } from "react-i18next";
 

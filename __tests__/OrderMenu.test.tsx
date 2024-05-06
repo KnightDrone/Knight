@@ -1,13 +1,13 @@
 import React from "react";
 import { screen, render, fireEvent } from "@testing-library/react-native";
-import OrderMenu from "../src/app/OrderMenu";
+import OrderMenu from "../src/app/order/OrderMenu";
 import { productButtons } from "../src/types/ProductButtons";
 import { View, Text } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { RootStackParamList } from "../src/types/RootStackParamList";
 
-jest.mock("../src/components/PayButton", () => ({
+jest.mock("../src/components/buttons/PayButton", () => ({
   __esModule: true,
   PayButton: () => {
     return (

@@ -1,6 +1,66 @@
 import React from "react";
-import { render, fireEvent } from "@testing-library/react-native";
-import ProfileScreen from "../src/app/ProfileScreen";
+import ProfileScreen from "../src/app/settings/ProfileScreen";
+import { render, fireEvent, waitFor } from "@testing-library/react-native";
+
+jest.mock("firebase/auth", () => ({
+  initializeAuth: jest.fn().mockReturnValue({
+    onAuthStateChanged: jest.fn(),
+    currentUser: {
+      email: "email@example.com",
+      photoURL: "mock-photo-url",
+      displayName: "mock-display-name",
+    },
+  }),
+  getReactNativePersistence: jest.fn(),
+  updateCurrentUser: jest.fn(),
+  updateEmail: jest.fn(),
+  updatePassword: jest.fn(),
+  updateProfile: jest.fn(),
+}));
+
+beforeAll(() => {
+  global.alert = jest.fn();
+});
+
+jest.mock("firebase/auth", () => ({
+  initializeAuth: jest.fn().mockReturnValue({
+    onAuthStateChanged: jest.fn(),
+    currentUser: {
+      email: "email@example.com",
+      photoURL: "mock-photo-url",
+      displayName: "mock-display-name",
+    },
+  }),
+  getReactNativePersistence: jest.fn(),
+  updateCurrentUser: jest.fn(),
+  updateEmail: jest.fn(),
+  updatePassword: jest.fn(),
+  updateProfile: jest.fn(),
+}));
+
+beforeAll(() => {
+  global.alert = jest.fn();
+});
+
+jest.mock("firebase/auth", () => ({
+  initializeAuth: jest.fn().mockReturnValue({
+    onAuthStateChanged: jest.fn(),
+    currentUser: {
+      email: "email@example.com",
+      photoURL: "mock-photo-url",
+      displayName: "mock-display-name",
+    },
+  }),
+  getReactNativePersistence: jest.fn(),
+  updateCurrentUser: jest.fn(),
+  updateEmail: jest.fn(),
+  updatePassword: jest.fn(),
+  updateProfile: jest.fn(),
+}));
+
+beforeAll(() => {
+  global.alert = jest.fn();
+});
 import { User } from "../src/types/User";
 
 jest.mock("../src/services/Firebase", () => {
@@ -34,59 +94,64 @@ describe("ProfileScreen", () => {
     expect(getByPlaceholderText("DD/MM/YYYY")).toBeTruthy();
   });
 
-  it("allows input to be entered", () => {
+  it("allows input to be entered", async () => {
     const { getByPlaceholderText } = render(<ProfileScreen />);
 
     fireEvent.changeText(getByPlaceholderText("Name"), "Jane Doe");
-    expect(getByPlaceholderText("Name").props.value).toBe("Jane Doe");
+    await waitFor(() =>
+      expect(getByPlaceholderText("Name").props.value).toBe("Jane Doe")
+    );
 
     fireEvent.changeText(getByPlaceholderText("Email"), "jane@example.com");
     fireEvent.changeText(getByPlaceholderText("Password"), "newpassword");
     fireEvent.changeText(getByPlaceholderText("DD/MM/YYYY"), "01/01/1990");
   });
 
-  it("handles save button press", () => {
-    const { getByText } = render(<ProfileScreen />);
-    const saveButton = getByText("Save changes");
+  it("handles save button press", async () => {
+    const { getByTestId, getByPlaceholderText } = render(<ProfileScreen />);
+    const saveButton = getByTestId("save-button");
     fireEvent.press(saveButton);
-    expect(global.alert).toHaveBeenCalledWith("Changes Saved!");
+    await waitFor(() =>
+      expect(global.alert).toHaveBeenCalledWith("Changes Saved!")
+    );
+
+    fireEvent.changeText(getByPlaceholderText("Email"), "janexample.com");
+    fireEvent.press(saveButton);
+    await waitFor(() =>
+      expect(global.alert).toHaveBeenCalledWith("Invalid email address")
+    );
+    fireEvent.changeText(getByPlaceholderText("Email"), "jane@example.com");
+    fireEvent.changeText(getByPlaceholderText("Password"), "newpassword");
+    fireEvent.press(saveButton);
+    await waitFor(() =>
+      expect(global.alert).toHaveBeenCalledWith("Changes Saved!")
+    );
   });
 });
 
-// Mocking the global alert function
-global.alert = jest.fn();
-
-describe("ProfileScreen", () => {
+describe("ProfileScreen Component", () => {
   it("renders all inputs and buttons", () => {
     const { getByText, getByDisplayValue } = render(<ProfileScreen />);
 
     expect(getByText("Name")).toBeTruthy();
-
-    // const nameInput = getByPlaceholderText("Name");
-    // fireEvent.changeText(nameInput, "Mock User");
-
-    // const updatedNameInput = getByDisplayValue("Mock User");
-    // expect(updatedNameInput.props.value).toEqual("Mock User");
-
-    expect(getByDisplayValue("Mock User")).toBeTruthy();
+    expect(getByDisplayValue("mock-display-name")).toBeTruthy();
     expect(getByText("Email")).toBeTruthy();
-    expect(getByDisplayValue("mockuser@gmail.com")).toBeTruthy();
+    expect(getByDisplayValue("email@example.com")).toBeTruthy();
     expect(getByText("Password")).toBeTruthy();
-    expect(getByDisplayValue("**********")).toBeTruthy();
     expect(getByText("Save changes")).toBeTruthy();
   });
 
   it("allows input to be entered", () => {
     const { getByDisplayValue } = render(<ProfileScreen />);
 
-    const nameInput = getByDisplayValue("Mock User");
+    const nameInput = getByDisplayValue("mock-display-name");
     fireEvent.changeText(nameInput, "Jane Doe");
     expect(nameInput.props.value).toEqual("Jane Doe");
   });
 
   it("handles save button press", () => {
-    const { getByText } = render(<ProfileScreen />);
-    const saveButton = getByText("Save changes");
+    const { getByTestId } = render(<ProfileScreen />);
+    const saveButton = getByTestId("save-button");
     fireEvent.press(saveButton);
     expect(global.alert).toHaveBeenCalledWith("Changes Saved!");
   });
@@ -129,7 +194,6 @@ describe("ProfileScreen", () => {
     const { getByText } = render(<ProfileScreen />);
     const saveButton = getByText("Save changes");
     fireEvent.press(saveButton);
-    // Check for alert or mock function if needed
   });
 
   it("opens the date picker when date input is pressed", () => {

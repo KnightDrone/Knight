@@ -7,7 +7,7 @@ import {
   ImageSourcePropType,
   View,
 } from "react-native";
-import { buttonStyles } from "../styles/ButtonStyles";
+import { buttonStyles } from "../../styles/ButtonStyles";
 
 interface ButtonProps {
   title: string;
