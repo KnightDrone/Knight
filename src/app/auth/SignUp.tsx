@@ -16,9 +16,12 @@ import { OrSeparator } from "../../components/OrSeparator";
 import { MessageBox } from "../../ui/MessageBox";
 import { useTranslation } from "react-i18next";
 import { User } from "../../types/User";
+import FirestoreManager from "../../services/FirestoreManager";
+
+const firestoreManager = new FirestoreManager();
 
 export default function SignUp({ navigation }: any) {
-  const [user, setUser] = useState("");
+  const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
 
@@ -88,11 +91,17 @@ export default function SignUp({ navigation }: any) {
   };
 
   const signUpWithEmail = async () => {
-    if (email && password) {
+    if (userName && email && password) {
       createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
           if (auth.currentUser != null) {
-            const user = new User(auth.currentUser?.uid, email, false, "");
+            const user = new User(
+              auth.currentUser?.uid,
+              email,
+              false,
+              userName
+            );
+            firestoreManager.writeData("users", user);
             navigation.navigate("Map");
           } else {
           }
@@ -154,8 +163,8 @@ export default function SignUp({ navigation }: any) {
       <View className="flex flex-col gap-3">
         <TextField
           placeholder={t("signup.username")}
-          value={user}
-          onChangeText={setUser}
+          value={userName}
+          onChangeText={setUserName}
           type="text"
           testID="username-input"
         />
