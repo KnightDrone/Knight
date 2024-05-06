@@ -3,12 +3,20 @@ class User {
   private email: string;
   private displayName: string;
   private dob: Date; // date of birth
+  private password: string;
 
-  constructor(uid: string, email: string, dob: Date, displayName?: string) {
+  constructor(
+    uid: string,
+    email: string,
+    dob: Date,
+    password: string,
+    displayName: string
+  ) {
     this.displayName = displayName || "";
     this.email = email;
     this.uid = uid;
     this.dob = dob;
+    this.password = password;
   }
 
   getId() {
@@ -27,6 +35,10 @@ class User {
     return this.dob;
   }
 
+  getPassword() {
+    return this.password;
+  }
+
   setEmail(newEmail: string) {
     this.email = newEmail;
   }
@@ -38,6 +50,10 @@ class User {
   setBirthday(newDob: Date) {
     this.dob = newDob;
   }
+
+  setPassword(newPassword: string) {
+    this.password = newPassword;
+  }
 }
 
 const userConverter = {
@@ -47,13 +63,20 @@ const userConverter = {
       email: user.getEmail(),
       birthDate: user.getBirthday(),
       displayName: user.getDisplayName(),
+      password: user.getPassword(),
     };
   },
   fromFirestore: (snapshot: any) => {
     const data = snapshot.data();
     const uid = snapshot.id;
     const dob = new Date(data.birthDate.seconds * 1000);
-    const user = new User(uid, data.email, dob, data.displayName);
+    const user = new User(
+      uid,
+      data.email,
+      dob,
+      data.password,
+      data.displayName
+    );
 
     return user;
   },

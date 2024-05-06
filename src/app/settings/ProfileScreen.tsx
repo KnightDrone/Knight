@@ -12,6 +12,10 @@ import { TextInputMask } from "react-native-masked-text";
 import DatePicker from "react-native-date-picker";
 import { auth } from "../../services/Firebase";
 import { updateProfile, updateEmail, updatePassword } from "firebase/auth";
+import FirestoreManager from "../../services/FirestoreManager";
+import { User } from "../../types/User";
+
+const firestoreManager = new FirestoreManager();
 
 const ProfileScreen = () => {
   const [name, setName] = useState("");
@@ -26,12 +30,19 @@ const ProfileScreen = () => {
   };
 
   useEffect(() => {
-    if (auth.currentUser) {
-      const { displayName, email, photoURL } = auth.currentUser;
-      setName(displayName || "");
-      setEmail(email || "");
-      setPhotoURL(photoURL || "");
-    }
+    const fetchData = async () => {
+      const user = auth.currentUser;
+      if (user) {
+        const userData = await firestoreManager.readData("users", user.uid);
+        setName(userData.getDisplayName());
+        setEmail(userData.getEmail());
+        setDateOfBirth(userData.getBirthday().toLocaleDateString("en-GB"));
+        setPassword(userData.getPassword());
+      } else {
+        console.error("No user logged in");
+      }
+    };
+    fetchData();
   }, []);
 
   function isValidEmail(email: string) {
@@ -39,34 +50,27 @@ const ProfileScreen = () => {
     return regex.test(email);
   }
 
-  const handleSaveChanges = async () => {
-    console.log("Saving changes...");
+  function parseDate(dateString: string): Date {
+    const [day, month, year] = dateString.split("/");
+    return new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
+  }
+
+  const saveChanges = async () => {
     try {
-      console.log("TRY Saving changes...");
-      if (auth.currentUser) {
-        console.log("USER Saving changes...");
-
-        await updateProfile(auth.currentUser, {
-          displayName: name,
-        });
-
-        if (isValidEmail(email)) {
-          auth.currentUser.email !== email &&
-            updateEmail(auth.currentUser, email);
-        } else {
-          console.log("Invalid email address", email);
-          return alert("Invalid email address");
-        }
-
-        if (password) {
-          updatePassword(auth.currentUser, password);
-        }
-
+      const user = auth.currentUser;
+      if (user) {
+        const newUser = new User(
+          user.uid,
+          email,
+          parseDate(dateOfBirth),
+          password,
+          name
+        );
+        await firestoreManager.writeData("users", user);
         alert("Changes Saved!");
       }
-    } catch (error: any) {
-      console.log("Failed to save changes:", error.message);
-      alert(`Failed to save changes: ${error.message}`);
+    } catch (error) {
+      console.error("Error updating user data:", error);
     }
   };
 
@@ -143,7 +147,7 @@ const ProfileScreen = () => {
       </View>
       <TouchableOpacity
         style={styles.saveButton}
-        onPress={handleSaveChanges}
+        onPress={saveChanges}
         testID="save-button"
       >
         <Text style={styles.saveButtonText}>Save changes</Text>
