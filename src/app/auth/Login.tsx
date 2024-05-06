@@ -54,13 +54,30 @@ export default function Login({ navigation }: any) {
             navigation.navigate("Map");
           });
         } else {
-          firestoreManager.getUser(result.user.uid).then((user) => {
-            if (user && user.role === "user") {
-              navigation.navigate("Map");
-            } else {
-              navigation.navigate("OperatorMap");
-            }
-          });
+          firestoreManager
+            .getUser(result.user.uid)
+            .then((user) => {
+              if (user && user.role === "user") {
+                navigation.navigate("Map");
+              } else {
+                navigation.navigate("OperatorMap");
+              }
+            })
+            .catch(() => {
+              console.log("User not found in database");
+              // User might not exist in the database
+              firestoreManager
+                .createUser(result.user.uid, {
+                  name: result.user.displayName || "",
+                  email: result.user.email || "",
+                  photoURL: result.user.photoURL || "",
+                  role: "user",
+                  createdAt: new Date(),
+                })
+                .then(() => {
+                  navigation.navigate("Map");
+                });
+            });
         }
       });
     }
@@ -75,7 +92,24 @@ export default function Login({ navigation }: any) {
           password
         );
         if (response.user) {
-          const user = await firestoreManager.getUser(response.user.uid);
+          const user = await firestoreManager
+            .getUser(response.user.uid)
+            .catch(() => {
+              console.log("User not found in database");
+
+              // User might not exist in the database
+              firestoreManager
+                .createUser(response.user.uid, {
+                  name: response.user.displayName || "",
+                  email: response.user.email || "",
+                  photoURL: response.user.photoURL || "",
+                  role: "user",
+                  createdAt: new Date(),
+                })
+                .then(() => {
+                  navigation.navigate("Map");
+                });
+            });
           console.log("User: ", user);
           if (user && user.role === "user") {
             navigation.navigate("Map");

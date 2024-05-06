@@ -41,13 +41,48 @@ export default function SignUp({ navigation }: any) {
     if (response?.type === "success") {
       const { id_token } = response.params;
       const credential = GoogleAuthProvider.credential(id_token);
-      signInWithCredential(auth, credential)
-        .then(() => {
-          navigation.navigate("Map");
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+      signInWithCredential(auth, credential).then((result) => {
+        const newUser =
+          result.user.metadata.creationTime ===
+          result.user.metadata.lastSignInTime;
+        if (newUser) {
+          const userData: DBUser = {
+            name: result.user.displayName || "",
+            email: result.user.email || "",
+            photoURL: result.user.photoURL || "",
+            role: "user",
+            createdAt: new Date(),
+          };
+
+          firestoreManager.createUser(result.user.uid, userData).then(() => {
+            navigation.navigate("Map");
+          });
+        } else {
+          firestoreManager
+            .getUser(result.user.uid)
+            .then((user) => {
+              if (user && user.role === "user") {
+                navigation.navigate("Map");
+              } else {
+                navigation.navigate("OperatorMap");
+              }
+            })
+            .catch(() => {
+              // User might not exist in the database
+              firestoreManager
+                .createUser(result.user.uid, {
+                  name: result.user.displayName || "",
+                  email: result.user.email || "",
+                  photoURL: result.user.photoURL || "",
+                  role: "user",
+                  createdAt: new Date(),
+                })
+                .then(() => {
+                  navigation.navigate("Map");
+                });
+            });
+        }
+      });
     }
   }, [response]);
 

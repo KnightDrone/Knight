@@ -22,5 +22,6 @@ export type RootStackParamList = {
     historyOp: boolean;
     userId: string;
   };
-  PendingOrders: undefined; // Added for PendingOrders
+  PendingOrders: undefined;
+  OperatorMap: undefined;
 };

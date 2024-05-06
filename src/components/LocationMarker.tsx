@@ -8,9 +8,47 @@ interface LocationMarkerProps {
     latitude: number;
     longitude: number;
   };
+  color?: string;
 }
 
-const LocationMarker: React.FC<LocationMarkerProps> = ({ coordinate }) => {
+const LocationMarker: React.FC<LocationMarkerProps> = ({
+  coordinate,
+  color,
+}) => {
+  const styles = StyleSheet.create({
+    container: {
+      alignItems: "center",
+      justifyContent: "center",
+      width: 50,
+      height: 50,
+    },
+    directionalLight: {
+      position: "absolute",
+      width: 35,
+      height: 35,
+      backgroundColor: color || `rgba(0,122,255,0.3)`,
+      borderRadius: 20,
+    },
+    innerCircle: {
+      width: 15,
+      height: 15,
+      borderRadius: 10,
+      backgroundColor: color || "rgba(0,122,255,0.3)",
+    },
+    arrow: {
+      position: "absolute",
+      width: 0,
+      height: 0,
+      borderLeftWidth: 3,
+      borderRightWidth: 3,
+      borderBottomWidth: 8,
+      borderStyle: "solid",
+      backgroundColor: "transparent",
+      borderLeftColor: "transparent",
+      borderRightColor: "transparent",
+      borderBottomColor: color || "rgb(0, 122, 255)",
+    },
+  });
   const [heading, setHeading] = useState(0);
   const fadeAnim = useState(new Animated.Value(0))[0];
   const scaleAnim = useState(new Animated.Value(0))[0];
@@ -99,40 +137,5 @@ const LocationMarker: React.FC<LocationMarkerProps> = ({ coordinate }) => {
     </Marker>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    alignItems: "center",
-    justifyContent: "center",
-    width: 50,
-    height: 50,
-  },
-  directionalLight: {
-    position: "absolute",
-    width: 35,
-    height: 35,
-    backgroundColor: "rgba(0,122,255,0.3)",
-    borderRadius: 20,
-  },
-  innerCircle: {
-    width: 15,
-    height: 15,
-    borderRadius: 10,
-    backgroundColor: "rgb(0, 122, 255)",
-  },
-  arrow: {
-    position: "absolute",
-    width: 0,
-    height: 0,
-    borderLeftWidth: 3,
-    borderRightWidth: 3,
-    borderBottomWidth: 8,
-    borderStyle: "solid",
-    backgroundColor: "transparent",
-    borderLeftColor: "transparent",
-    borderRightColor: "transparent",
-    borderBottomColor: "rgb(0, 122, 255)",
-  },
-});
 
 export default LocationMarker;

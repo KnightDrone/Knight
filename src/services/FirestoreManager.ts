@@ -65,6 +65,7 @@ export class FirestoreManager {
    * @returns A promise that resolves to the user data or null if not found.
    */
   async getUser(userId: string): Promise<DBUser | null> {
+    console.log("Fetching user document...", userId);
     try {
       const userRef = doc(firestore, "users", userId);
       const docSnap = await getDoc(userRef);
@@ -73,7 +74,7 @@ export class FirestoreManager {
         return docSnap.data() as DBUser;
       } else {
         console.log("No such user document!");
-        return null;
+        throw new Error("User not found.");
       }
     } catch (error) {
       console.error("Error fetching user document: ", error);
