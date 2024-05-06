@@ -8,7 +8,7 @@ describe("User", () => {
       false,
       "Test User",
       new Date(),
-      "../assets/images/defaultProfile.png"
+      "../assets/images/profile.png"
     );
     expect(user.getId()).toBe("1");
     expect(user.getEmail()).toBe("test@example.com");
@@ -22,7 +22,7 @@ describe("User", () => {
       false,
       "Test User",
       new Date(),
-      "../assets/images/defaultProfile.png"
+      "../assets/images/profile.png"
     );
     user.setEmail("new@example.com");
     expect(user.getEmail()).toBe("new@example.com");
@@ -35,7 +35,7 @@ describe("User", () => {
       false,
       "Test User",
       new Date(),
-      "../assets/images/defaultProfile.png"
+      "../assets/images/profile.png"
     );
     user.setDisplayName("New User");
     expect(user.getDisplayName()).toBe("New User");
@@ -48,7 +48,7 @@ describe("User", () => {
       false,
       "Test User",
       new Date(),
-      "../assets/images/defaultProfile.png"
+      "../assets/images/profile.png"
     );
     expect(user.getId()).toBe("1");
   });
@@ -60,7 +60,7 @@ describe("User", () => {
       false,
       "Test User",
       new Date(),
-      "../assets/images/defaultProfile.png"
+      "../assets/images/profile.png"
     );
     const date = new Date();
     user.setBirthday(date);
@@ -74,7 +74,7 @@ describe("User", () => {
       false,
       "Test User",
       new Date(),
-      "../assets/images/defaultProfile.png"
+      "../assets/images/profile.png"
     );
     expect(user.getIsOperator()).toBe(false);
   });
@@ -86,9 +86,9 @@ describe("User", () => {
       false,
       "Test User",
       new Date(),
-      "../assets/images/defaultProfile.png"
+      "../assets/images/profile.png"
     );
-    expect(user.getPhotoURL()).toBe("../assets/images/defaultProfile.png");
+    expect(user.getPhotoURL()).toBe("../assets/images/profile.png");
   });
 
   it("should get created at date", () => {
@@ -99,7 +99,7 @@ describe("User", () => {
       false,
       "Test User",
       new Date(),
-      "../assets/images/defaultProfile.png",
+      "../assets/images/profile.png",
       date
     );
     expect(user.getCreatedAt()).toBe(date);

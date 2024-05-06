@@ -20,7 +20,7 @@ class User {
     this.email = email;
     this.uid = uid;
     this.isOperator = isOperator;
-    this.photoURL = photoURL || "../../../assets/images/defaultProfile.png";
+    this.photoURL = photoURL || "../../../assets/images/profile.png";
     this.dob = dob || new Date("2000-01-01");
     this.createdAt = createdAt || new Date();
   }

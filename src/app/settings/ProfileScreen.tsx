@@ -14,6 +14,7 @@ import { auth } from "../../services/Firebase";
 import { updateProfile, updateEmail, updatePassword } from "firebase/auth";
 import FirestoreManager from "../../services/FirestoreManager";
 import { User } from "../../types/User";
+import firebase from "firebase/app";
 
 const firestoreManager = new FirestoreManager();
 
@@ -68,7 +69,8 @@ const ProfileScreen = () => {
           name,
           parseDate(dateOfBirth)
         );
-        await firestoreManager.writeData("users", user);
+        await firestoreManager.writeData("users", newUser);
+        updatePassword(user, password);
         alert("Changes Saved!");
       }
     } catch (error) {
@@ -88,10 +90,7 @@ const ProfileScreen = () => {
         onPress={() => console.log("Open Image Picker")}
       >
         <Image
-          source={
-            (photoURL && { uri: photoURL }) ||
-            require("../../../assets/images/defaultProfile.png")
-          }
+          source={require("../../../assets/images/profile.png")}
           testID="profile-image"
           style={styles.profileImage}
         />
