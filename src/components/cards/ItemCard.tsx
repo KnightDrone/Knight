@@ -1,10 +1,11 @@
 import React from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
-import { useFonts } from "expo-font";
-import KaiseiRegular from "../../assets/fonts/KaiseiDecol-Regular.ttf";
-import { Item } from "../types/Item";
+import { Item } from "../../types/Item";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { BlurView } from "expo-blur";
+import { PayButton } from "../buttons/PayButton";
+import { useTranslation } from "react-i18next";
+import { TranslationKeys } from "../../types/translation-keys";
 
 interface ItemCardProps {
   isVisible: boolean;
@@ -19,9 +20,7 @@ function ItemCard({
   handleOrder,
   item,
 }: ItemCardProps) {
-  const [fontsLoaded] = useFonts({
-    "Kaisei-Regular": KaiseiRegular,
-  });
+  const { t } = useTranslation();
 
   if (!isVisible) {
     return null;
@@ -38,24 +37,22 @@ function ItemCard({
           >
             <Icon name="close" size={20} color="#000" testID="close-icon" />
           </TouchableOpacity>
-          <Text style={styles.title}>{item.getName()}</Text>
-          <Text style={styles.description}>{item.getDescription()}</Text>
+          <Text style={styles.title}>
+            {t(item.getName() as TranslationKeys)}
+          </Text>
+          <Text style={styles.description}>
+            {t(item.getDescription() as TranslationKeys)}
+          </Text>
           <Image
             style={styles.image}
             source={item.getImage()}
             testID="item-image"
           />
           <View style={styles.bottomRow}>
-            <Text style={styles.price} testID="price-text">
-              Price: {item.getPrice()} CHF
-            </Text>
-            <TouchableOpacity
-              style={styles.orderButton}
-              onPress={handleOrder}
-              testID="order-button"
-            >
-              <Text style={styles.orderButtonText}>Order</Text>
-            </TouchableOpacity>
+            <PayButton
+              amount={item.getPrice() * 100}
+              onSuccessfulPayment={handleOrder}
+            />
           </View>
         </View>
       </BlurView>
@@ -111,17 +108,16 @@ const styles = StyleSheet.create({
     alignSelf: "flex-start",
   },
   closeButtonText: {
-    fontFamily: "Kaisei-Regular",
     fontSize: 18,
   },
   title: {
-    fontFamily: "Kaisei-Regular",
     fontSize: 24,
     fontWeight: "bold",
     marginVertical: 8,
+    justifyContent: "center",
+    textAlign: "center",
   },
   description: {
-    fontFamily: "Kaisei-Regular",
     fontSize: 16,
     textAlign: "center",
     marginVertical: 8,
@@ -132,7 +128,6 @@ const styles = StyleSheet.create({
     marginVertical: 8,
   },
   price: {
-    fontFamily: "Kaisei-Regular",
     fontSize: 18,
     marginVertical: 8,
   },
@@ -144,7 +139,6 @@ const styles = StyleSheet.create({
     marginVertical: 8,
   },
   orderButtonText: {
-    fontFamily: "Kaisei-Regular",
     fontSize: 18,
     color: "#fff",
     textAlign: "center",

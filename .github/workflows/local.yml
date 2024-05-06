@@ -1,0 +1,72 @@
+name: Build App
+on:
+  push:
+    branches:
+      - main
+      - build-apk
+      - eas-build
+      - M2
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: 🏗 Setup repo
+      uses: actions/checkout@v3
+
+    - name: Create Google Services JSON File
+      env:
+        GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES }}
+      run: echo $GOOGLE_SERVICES_JSON | base64 -di > ./google-services.json
+
+    - name: Create eas.json File
+      env:
+        EAS_JSON: ${{ secrets.EAS }}
+      run: echo $EAS_JSON | base64 -di > ./eas.json
+
+    - name: Update app.json File
+      env:
+        APP_JSON: ${{ secrets.APP_JSON }}
+      run: |
+        rm app.json && echo $APP_JSON | base64 -di > ./app.json
+
+    - name: 🏗 Setup Node
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18.x'
+        cache: 'npm'
+
+    - name: 🏗 Setup Expo and EAS
+      uses: expo/expo-github-action@v8
+      with:
+        token: ${{ secrets.EXPO_TOKEN }}
+        expo-version: latest
+        eas-version: latest
+
+    - name: 🏗 Setup EAS local builds
+      run: npm install -g eas-cli-local-build-plugin
+
+    - name: 📦 Install dependencies
+      run: npm install
+
+    - name: Setup JDK (20)
+      uses: actions/setup-java@v3
+      with:
+        java-version: 20
+        distribution: 'temurin'
+        cache: 'gradle'
+
+    - name: 👷 Build app (Local)
+      run: |
+        eas build --local \
+          --non-interactive \
+          --platform=android \
+          --profile=preview \
+          --build-logger-level=error \
+          --json --non-interactive
+
+    - name: 📱 Upload binary
+      uses: actions/upload-artifact@v2
+      with:
+        name: app-android
+        path: /home/runner/work/Knight/Knight/build-*.apk

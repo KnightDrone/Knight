@@ -1,0 +1,73 @@
+{
+  "login": {
+    "app-name": "Wild Knight",
+    "username": "Enter your username or email",
+    "password": "Enter your password",
+    "login-button": "Log in",
+    "reset-password": "Reset password",
+    "create-account": "Create account",
+    "google-login": "Continue with Google"
+  },
+  "or-separator": "or",
+  "reset-password": {
+    "title": "Reset password",
+    "description": "Give us your email and we will send you a link to reset your password",
+    "email": "Enter your email",
+    "button": "Reset password"
+  },
+  "signup": {
+    "title": "Sign up",
+    "username": "Enter your username",
+    "email": "Enter your email",
+    "password": "Enter your password",
+    "password-strength": "Password Strength: ",
+    "signup-button": "Sign up",
+    "google-login": "Continue with Google"
+  },
+  "password-suggestions": {
+    "length": "Please include at least 8 characters",
+    "upper-lower": "Please include at least one uppercase and one lowercase letter",
+    "number": "Please include at least one number",
+    "special": "Please include at least one special character",
+    "too-weak": "Password is too weak",
+    "weak": "Password is weak",
+    "moderate": "Password is moderate",
+    "strong": "Password is strong",
+    "very-strong": "Password is very strong"
+  },
+  "map": {
+    "permission-denied": "Permission to access location denied",
+    "permission-not-granted": "Location permission not granted",
+    "marker-title": "Current location",
+    "order-button": "Order"
+  },
+  "items": {
+    "first-aid": "First aid kit",
+    "first-aid-description": "Constains bandages, plasters, rubbing alcohol, asthma pump.",
+    "flashlight": "Flashlight",
+    "flashlight-description": "1000 lumens. Powered by two AA batteries.",
+    "thermal-blanket": "Thermal blanket",
+    "thermal-blanket-description": "Made of reflective material to contain body heat.",
+    "powerbank": "Power bank",
+    "powerbank-description": "20000 mAh battery. USB-C, lightning and USB-A connections."
+  },
+  "order-placed": {
+    "arriving-at": "Arriving at",
+    "on-its-way": "Your order is on its way",
+    "order-summary": "Order summary",
+    "location": "Location: ",
+    "order-complete": "Your order should have been delivered",
+    "thanks": "Thanks for trusting us",
+    "view-order-history": "View order history"
+  },
+  "order-history": {
+    "title": "Order history"
+  },
+  "order-menu": {
+    "choose-item": "Choose an item"
+  },
+  "global": {
+    "loading": "Loading...",
+    "wait": "Please wait..."
+  }
+}

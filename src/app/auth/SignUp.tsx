@@ -2,19 +2,19 @@ import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, Platform } from "react-native";
 // ------------- FIREBASE IMPORTS ----------------
 import {
-  createUserWithEmailAndPassword,
+  auth,
   GoogleAuthProvider,
   signInWithCredential,
-} from "firebase/auth";
-
-import { auth } from "../services/Firebase";
+  createUserWithEmailAndPassword,
+} from "../../services/Firebase";
 // -----------------------------------------------
 import * as Google from "expo-auth-session/providers/google";
-import GoogleAuthConfig from "../types/GoogleAuthConfig";
-import { TextField } from "../ui/TextField";
-import { Button } from "../ui/Button";
-import { OrSeparator } from "../components/OrSeparator";
-import { MessageBox } from "../ui/MessageBox";
+import GoogleAuthConfig from "../../types/GoogleAuthConfig";
+import { TextField } from "../../ui/TextField";
+import { Button } from "../../ui/Button";
+import { OrSeparator } from "../../components/OrSeparator";
+import { MessageBox } from "../../ui/MessageBox";
+import { useTranslation } from "react-i18next";
 
 export default function SignUp({ navigation }: any) {
   const [user, setUser] = useState("");
@@ -28,9 +28,9 @@ export default function SignUp({ navigation }: any) {
   const [showPassword, setShowPassword] = useState(false);
 
   const config = Platform.select({
+    web: GoogleAuthConfig.web,
     ios: GoogleAuthConfig.ios,
     android: GoogleAuthConfig.android,
-    default: GoogleAuthConfig.web,
   });
 
   const [request, response, promptAsync] = Google.useAuthRequest(config);
@@ -56,33 +56,33 @@ export default function SignUp({ navigation }: any) {
   const validatePassword = (input: string) => {
     let newSuggestions = [];
     if (input.length < 8) {
-      newSuggestions.push("Password should be at least 8 characters long");
+      newSuggestions.push(t("password-suggestions.length"));
     }
     if (!/\d/.test(input)) {
-      newSuggestions.push("Add at least one number");
+      newSuggestions.push(t("password-suggestions.number"));
     }
 
     if (!/[A-Z]/.test(input) || !/[a-z]/.test(input)) {
-      newSuggestions.push("Include both upper and lower case letters");
+      newSuggestions.push(t("password-suggestions.upper-lower"));
     }
 
     if (!/[^A-Za-z0-9]/.test(input)) {
-      newSuggestions.push("Include at least one special character");
+      newSuggestions.push(t("password-suggestions.special"));
     }
 
     setSuggestions(newSuggestions);
 
     // Determine password strength based on suggestions
     if (newSuggestions.length === 0) {
-      setStrength("Very Strong");
+      setStrength(t("password-suggestions.very-strong"));
     } else if (newSuggestions.length <= 1) {
-      setStrength("Strong");
+      setStrength(t("password-suggestions.strong"));
     } else if (newSuggestions.length <= 2) {
-      setStrength("Moderate");
+      setStrength(t("password-suggestions.moderate"));
     } else if (newSuggestions.length <= 3) {
-      setStrength("Weak");
+      setStrength(t("password-suggestions.weak"));
     } else {
-      setStrength("Too Weak");
+      setStrength(t("password-suggestions.too-weak"));
     }
   };
 
@@ -98,7 +98,6 @@ export default function SignUp({ navigation }: any) {
     if (email && password) {
       createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
-          const user = userCredential.user;
           navigation.navigate("Map");
         })
         .catch((error) => {
@@ -111,15 +110,15 @@ export default function SignUp({ navigation }: any) {
 
   const getStrengthColor = () => {
     switch (strength) {
-      case "Too Weak":
+      case t("password-suggestions.too-weak"):
         return "red";
-      case "Weak":
+      case t("password-suggestions.weak"):
         return "orange";
-      case "Moderate":
+      case t("password-suggestions.moderate"):
         return "yellow";
-      case "Strong":
+      case t("password-suggestions.strong"):
         return "yellowgreen";
-      case "Very Strong":
+      case t("password-suggestions.very-strong"):
         return "green";
       default:
         return "#ccc";
@@ -128,85 +127,97 @@ export default function SignUp({ navigation }: any) {
 
   const getStrengthWidth = () => {
     switch (strength) {
-      case "Very Strong":
+      case t("password-suggestions.very-strong"):
         return "100%";
-      case "Strong":
+      case t("password-suggestions.strong"):
         return "75%";
-      case "Moderate":
+      case t("password-suggestions.moderate"):
         return "50%";
-      case "Weak":
+      case t("password-suggestions.weak"):
         return "25%";
       default:
         return "0%";
     }
   };
 
+  const { t } = useTranslation();
+
   return (
     <View
       className="flex-1 bg-white items-center justify-center px-8"
       testID="sign-up-screen"
     >
-      <Text className="text-4xl font-bold mb-16 text-center">Sign Up</Text>
+      <Text
+        className="text-4xl font-bold mb-16 text-center"
+        testID="signup-title"
+      >
+        {t("signup.title")}
+      </Text>
 
       <View className="flex flex-col gap-3">
         <TextField
-          placeholder="Enter your username"
+          placeholder={t("signup.username")}
           value={user}
           onChangeText={setUser}
           type="text"
+          testID="username-input"
         />
 
         <TextField
-          placeholder="Enter your email"
+          placeholder={t("signup.email")}
           value={email}
           onChangeText={setEmail}
           type="email"
+          testID="email-input"
         />
 
         <TextField
-          placeholder="Enter your password"
+          placeholder={t("signup.password")}
           value={password}
           onChangeText={setPassword}
           type="password"
+          testID="password-input"
         />
       </View>
 
       <View className="w-full my-8 flex flex-col items-center bg-gray-100 p-4 rounded-lg">
         <Text testID="pw-strength" className="text-lg text-center">
-          Password Strength: {strength}
+          {strength}
         </Text>
-        <View style={styles.strengthMeter}>
+        <View className="w-full h-4 bg-gray-300 rounded-lg m-2">
           <View
+            className="h-full rounded-lg"
             style={{
               width: getStrengthWidth(),
-              height: 20,
               backgroundColor: getStrengthColor(),
             }}
           />
         </View>
         <View>
           {suggestions.map((suggestion, index) => (
-            <Text key={index} style={styles.suggestionsText}>
+            <Text key={index} className="text-red-500 m-1">
               {suggestion}
             </Text>
           ))}
         </View>
       </View>
 
-      <Button text="Sign Up" onPress={signUpWithEmail} style="primary" />
+      <Button
+        text={t("signup.signup-button")}
+        onPress={signUpWithEmail}
+        style="primary"
+        testID="sign-up-button"
+      />
 
       <OrSeparator />
 
       <Button
-        text="Continue with Google"
-        imgSrc={require("../../assets/images/google-icon.png")}
+        text={t("signup.google-login")}
+        imgSrc={require("../../../assets/images/google-icon.png")}
         onPress={() => promptAsync()}
         style="secondary"
       />
 
-      {/* <Text style={styles.error} testID="signup-error-message">
-        {error}
-      </Text> */}
       {error && (
         <MessageBox
           message={error}
@@ -219,113 +230,3 @@ export default function SignUp({ navigation }: any) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  logo: {
-    width: 100,
-    height: 100,
-    marginBottom: 20,
-  },
-  title: {
-    fontSize: 24,
-    marginBottom: 20,
-    textAlign: "center",
-  },
-  button: {
-    marginTop: 10,
-    width: "80%",
-    borderColor: "black",
-    borderWidth: 1,
-    borderRadius: 5,
-    padding: 10,
-  },
-  input: {
-    width: "80%",
-    height: 40,
-    borderColor: "gray",
-    borderWidth: 1,
-    marginBottom: 10,
-    padding: 10,
-  },
-  passwordText: {
-    color: "black",
-    fontSize: 16,
-    textAlign: "left",
-    marginTop: 10,
-  },
-  error: {
-    color: "red",
-    marginTop: 10,
-  },
-  text: {
-    color: "black",
-    fontSize: 16,
-    textAlign: "center",
-    marginTop: 10,
-  },
-  lineContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    width: "80%",
-    marginVertical: 20,
-  },
-  line: {
-    flex: 1,
-    height: 1,
-    backgroundColor: "gray",
-  },
-  orText: {
-    width: 30,
-    textAlign: "center",
-  },
-  googleButtonText: {
-    color: "black",
-    fontSize: 16,
-    textAlign: "center",
-  },
-  linkText: {
-    color: "blue",
-    fontSize: 16,
-    textAlign: "center",
-    marginTop: 10,
-    textDecorationLine: "underline",
-  },
-  strengthText: {
-    fontWeight: "bold",
-    color: "black",
-    fontSize: 18,
-    marginBottom: 10,
-    marginTop: 10,
-  },
-  suggestionsText: {
-    color: "red",
-  },
-  strengthMeter: {
-    width: "80%",
-    height: 20,
-    backgroundColor: "#ccc",
-    marginTop: 10,
-    marginBottom: 10,
-    borderRadius: 10,
-    overflow: "hidden",
-  },
-  icon: {
-    position: "absolute",
-    marginRight: 10,
-  },
-  passwordContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    width: "80%",
-  },
-  eyeIcon: {
-    position: "absolute",
-    right: 10,
-  },
-});

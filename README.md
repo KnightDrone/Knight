@@ -1,5 +1,7 @@
 # Knight
 
+[![codecov](https://codecov.io/gh/KnightDrone/Knight/graph/badge.svg?token=BDIWQF7QIC)](https://codecov.io/gh/KnightDrone/Knight)
+
 ## Development Setup
 
 1. Install Expo Go on your phone (you can download from the App Store or Google Play)
@@ -36,16 +38,128 @@ For more information on how to test React components, consult the React Testing 
 
 ### Navigation
 
-For navigation we use the react-navigation library, which is setup in the App.tx file. To be able to access a different screen one must go to the RootStackParamList type and add the name of the Screen. If th e screen doesn't take any parameters then we write it as undefined. We then add it to the Stack Navigator. eg.
+For navigation we use the react-navigation library, which is setup in the navigation directory in the StackNavigation.tsx file. To be able to access a different screen one must go to the RootStackParamList type and add the name of the Screen and it's parameter.
+
+`src/types/RootStackParamList.tsx`
 
 ```javascript
-<Stack.Screen name="ForgotPassword" component={ForgotPassword} />
+Map: undefined;
+OrderPlaced: {
+  orderedItem: Item;
+  placedAt: number;
+  userLocation: string;
+}
 ```
 
-Note: Don't forget to import the component to the App.tsx
+If the screen doesn't take any parameters then we write it as undefined. We then add it to the Stack Navigator. eg.
+
+`src/navigation/StackNavigation.tsx`
+
+```javascript
+<Screen name="ForgotPassword" component={ForgotPassword} />
+```
+
+if the screen takes parameters then we write it as follows:
+
+`src/navigation/StackNavigation.tsx`
+
+```javascript
+  <Screen name="OrderPlaced">
+    {(props: any) => <OrderPlaced {...props} />}
+  </Screen>
+```
+
+if your screen requires a back button there is a simple template we have been using for all the components here is an example of how it would look on the ForgotPassword screen:
+
+```javascript
+  <Screen
+    name="ForgotPassword"
+    component={ForgotPassword}
+    options={({ navigation }: any) => ({
+      headerShown: true,
+      headerTransparent: true,
+      headerTitle: "",
+      headerLeft: () => (
+        <HeaderBackButton
+          onPress={() => navigation.navigate("Login")}
+          labelVisible={false}
+          testID="forgot-password-back-button"
+        />
+      ),
+    })}
+  />
+```
+
+Don't forget to add the proper testID!!
+
+Note 1: You want to add the screen to the correct group so that it is properly organised in the correct segment.
+
+Note 2: Don't forget to import the component to the `src/navigation/StackNavigation.tsx` file.
 
 For more information on how to use the react-navigation libray here are some links: -[React Navigation](https://reactnavigation.org/docs/getting-started) -[Using Typescript with React Navigation](https://react.dev/learn/typescript)
 
+### Firestore Manager
+
+The `FirestoreManager` class provides methods to interact with the Firestore database. Here's how you can use these methods:
+
+#### readOrder(id: string): Promise<any | null>
+
+This method reads data from the Firestore database by a given document id. It returns a Promise that resolves to the data of the document if it exists, or `null` if it doesn't.
+
+```typescript
+const firestoreManager = new FirestoreManager();
+const data = await firestoreManager.readOrder("documentId");
+```
+
+#### queryOrder(field: string, data: string): Promise<Order[] | null>
+
+This method queries data from the Firestore database based on a field and its value. It returns a Promise that resolves to an array of `Order` objects if any are found, or `null` if none are found.
+
+You can query for the following fields:
+
+- user
+- status
+- item name
+
+```typescript
+const firestoreManager = new FirestoreManager();
+const orders = await firestoreManager.queryOrder("user", "username");
+```
+
+#### writeOrder(order: Order): Promise<void>
+
+This method writes a specific `Order` object to the Firestore database. It returns a Promise that resolves when the write operation is complete.
+
+```typescript
+const firestoreManager = new FirestoreManager();
+await firestoreManager.writeOrder(order);
+```
+
+#### deleteOrder(orderId: string): Promise<void>
+
+This method deletes a document with a specific id from the Firestore database. It returns a Promise that resolves when the delete operation is complete.
+
+```typescript
+const firestoreManager = new FirestoreManager();
+await firestoreManager.deleteOrder("orderId");
+```
+
+#### updateOrder(orderId: string, field: string, data: string | Date | OrderLocation): Promise<void>
+
+This method updates a specific field of a document in the Firestore database. It returns a Promise that resolves when the update operation is complete.
+
+You can update the following fields:
+
+- operator
+- status
+- delivery date
+- location
+
+```typescript
+const firestoreManager = new FirestoreManager();
+await firestoreManager.updateOrder("orderId", "fieldName", "newData");
+```
+
 ### Architecture Diagram
 
-![](architecure_diag.jpg)
+![](arch_diag.png)

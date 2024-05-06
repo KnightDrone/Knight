@@ -8,24 +8,27 @@ export function TextField({
   onChangeText,
   value,
   type,
+  testID,
 }: {
   className?: string;
   placeholder: string;
   onChangeText: (text: string) => void;
   value: string;
   type: "email" | "password" | "text";
+  testID?: string;
 }) {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
     <View
+      testID={testID}
       className={twMerge(
         "flex-row items-center w-full h-12 px-4 border border-gray-400 rounded-full bg-gray-50",
         className
       )}
     >
       <TextInput
-        className="h-12 w-full"
+        className="h-12 w-full pr-6"
         placeholder={placeholder}
         value={value}
         secureTextEntry={type === "password" && !showPassword}

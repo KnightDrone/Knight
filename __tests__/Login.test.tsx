@@ -5,22 +5,24 @@ import {
   fireEvent,
   waitFor,
 } from "@testing-library/react-native";
-import Login from "../src/app/Login";
-import { GoogleAuthProvider } from "../src/services/Firebase";
+import Login from "../src/app/auth/Login";
+import {
+  GoogleAuthProvider,
+  signInWithCredential,
+  signInWithEmailAndPassword,
+} from "../src/services/Firebase";
 import * as Google from "expo-auth-session/providers/google";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import {
-  signInWithEmailAndPassword,
-  signInWithCredential,
-} from "firebase/auth";
 import { Text } from "react-native";
+import { initI18n } from "../src/lang/i18n";
 
 const Stack = createStackNavigator();
 
 // Avoid useless error messages
 beforeAll(() => {
   jest.spyOn(console, "error").mockImplementation(() => {});
+  initI18n();
 });
 
 // Setup mock implementations
@@ -98,12 +100,13 @@ describe("Login Component", () => {
     await waitFor(() => expect(queryByTestId("map-screen")).toBeTruthy());
   });
 
-  it("sets showPassword to true when the eye icon is pressed", async () => {
-    const rendered = render(<LoginTest />);
-
-    fireEvent.press(rendered.getByTestId("password-toggle"));
+  it("sets showPassword to true when the eye icon is pressed", () => {
+    const { getByPlaceholderText, getAllByTestId } = render(<LoginTest />);
+    const passwordToggles = getAllByTestId("password-toggle");
+    const passwordToggle = passwordToggles[1]; // Select the second password-toggle
+    fireEvent.press(passwordToggle);
     expect(
-      rendered.getByPlaceholderText("Enter your password").props.secureTextEntry
+      getByPlaceholderText("Enter your password").props.secureTextEntry
     ).toBe(false);
   });
 

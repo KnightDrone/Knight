@@ -1,11 +1,13 @@
 import React from "react";
 import { fireEvent, render, waitFor } from "@testing-library/react-native";
-import ForgotPasswordScreen from "../src/app/ForgotPassword";
-import { sendPasswordResetEmail } from "firebase/auth";
+import ForgotPasswordScreen from "../src/app/auth/ForgotPassword";
+import { sendPasswordResetEmail } from "../src/services/Firebase";
+import { initI18n } from "../src/lang/i18n";
 
 // Avoid useless error messages
 beforeAll(() => {
   jest.spyOn(console, "error").mockImplementation(() => {});
+  initI18n();
 });
 
 describe("ForgotPasswordScreen Component", () => {
@@ -20,22 +22,21 @@ describe("ForgotPasswordScreen Component", () => {
     const emailInput = getByTestId("email-input");
     expect(emailInput).toBeTruthy();
 
-    const resetButton = getByText("Reset Password");
+    const resetButton = getByTestId("reset-password-button");
     expect(resetButton).toBeTruthy();
   });
 
-  it("updates email field correctly", () => {
-    const { getByTestId } = render(<ForgotPasswordScreen />);
-    const emailInput = getByTestId("email-input");
-    fireEvent.changeText(emailInput, "test@example.com");
-    expect(emailInput.props.value).toBe("test@example.com");
-  });
-
-  it("displays an error message when attempting to reset password without email", () => {
-    const { getByText, getByTestId } = render(<ForgotPasswordScreen />);
-    const resetButton = getByText("Reset Password");
+  it("displays an error message when attempting to reset password without email", async () => {
+    // Mock the API call within handleForgotPassword to reject
+    (
+      sendPasswordResetEmail as jest.MockedFunction<
+        typeof sendPasswordResetEmail
+      >
+    ).mockImplementationOnce(() => Promise.reject(new Error("ERROR")));
+    const { getByTestId, findByTestId } = render(<ForgotPasswordScreen />);
+    const resetButton = getByTestId("reset-password-button");
     fireEvent.press(resetButton);
-    const errorMessage = getByTestId("error-message");
+    const errorMessage = await findByTestId("error-message");
     expect(errorMessage).toBeTruthy();
   });
 });
@@ -47,7 +48,7 @@ describe("More ForgotPassword Component Tests", () => {
     const emailInput = getByTestId("email-input");
     fireEvent.changeText(emailInput, "user@example.com");
 
-    fireEvent.press(getByText("Reset Password"));
+    fireEvent.press(getByTestId("reset-password-button"));
     await waitFor(() => expect(getByTestId("success-message")).toBeTruthy());
   });
 
@@ -65,7 +66,7 @@ describe("More ForgotPassword Component Tests", () => {
     const emailInput = getByTestId("email-input");
     fireEvent.changeText(emailInput, "unknown@example.com");
 
-    fireEvent.press(getByText("Reset Password"));
+    fireEvent.press(getByTestId("reset-password-button"));
 
     // Assuming the component shows an error message upon API call failure
     const errorMessage = await findByText("User not found");

@@ -6,10 +6,24 @@ interface ProductButton {
 }
 
 const names: string[] = [
-  "First aid kit",
-  "Flashlight",
-  "Thermal blanket",
-  "Power bank",
+  "items.first-aid",
+  "items.flashlight",
+  "items.thermal-blanket",
+  "items.powerbank",
+];
+
+const iconDirs: string[] = [
+  "../../assets/icons/first_aid_icon.png",
+  "../../assets/icons/flashlight_icon.png",
+  "../../assets/icons/blanket_icon.png",
+  "../../assets/icons/powerbank_icon.png",
+];
+
+const imageDirs: string[] = [
+  "../../assets/images/first_aid.png",
+  "../../assets/images/flashlight.png",
+  "../../assets/images/thermal_blanket.png",
+  "../../assets/images/powerbank.png",
 ];
 
 const iconDirs: string[] = [
@@ -45,17 +59,17 @@ const images: number[] = [
 const prices: number[] = [20, 15, 10, 30];
 
 const descriptions: string[] = [
-  "Constains bandages, plasters, rubbing alcohol, asthma pump.",
-  "1000 lumens. Powered by two AA batteries.",
-  "Made of reflective material to contain body heat.",
-  "20000 mAh battery. USB-C, lightning and USB-A connections.",
+  "items.first-aid-description",
+  "items.flashlight-description",
+  "items.thermal-blanket-description",
+  "items.powerbank-description",
 ];
 
 const items: Item[] = names.map((name, i) => {
   return new Item(i, name, descriptions[i], prices[i], icons[i], images[i]);
 });
 
-export const productButtons: ProductButton[] = [
+const productButtons: ProductButton[] = [
   {
     item: items[0],
     onPress: () => console.log("First aid kit"),
@@ -73,3 +87,5 @@ export const productButtons: ProductButton[] = [
     onPress: () => console.log("Power bank"),
   },
 ];
+
+export { ProductButton, productButtons, images };

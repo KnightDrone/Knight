@@ -3,15 +3,31 @@ jest.mock("@react-native-async-storage/async-storage", () =>
 );
 
 jest.mock("firebase/app", () => ({
-  initializeApp: jest.fn(),
+  initializeApp: jest.fn(() => {
+    {
+    }
+  }),
+  getApps: jest.fn(() => []),
+  getApp: jest.fn(),
 }));
 
-jest.mock("firebase/analytics", () => ({
-  getAnalytics: jest.fn(),
-}));
-
-jest.mock("firebase/database", () => ({
-  getDatabase: jest.fn(),
+jest.mock("firebase/firestore", () => ({
+  getFirestore: jest.fn(() => {}),
+  initializeFirestore: jest.fn(),
+  collection: jest.fn(),
+  deleteDoc: jest.fn(),
+  doc: jest.fn(),
+  getDoc: jest.fn().mockResolvedValue({
+    exists: jest.fn().mockReturnValue(true),
+    data: jest.fn().mockReturnValue({
+      withConverter: jest.fn(),
+      getUser: "admin",
+    }),
+  }),
+  getDocs: jest.fn(),
+  query: jest.fn(),
+  setDoc: jest.fn(),
+  where: jest.fn(),
 }));
 
 jest.mock("expo-auth-session/providers/google", () => ({
@@ -19,7 +35,9 @@ jest.mock("expo-auth-session/providers/google", () => ({
 }));
 
 jest.mock("firebase/auth", () => ({
-  getAuth: jest.fn(),
+  getAuth: jest.fn(() => {}),
+  initializeAuth: jest.fn(),
+  getReactNativePersistence: jest.fn(),
   GoogleAuthProvider: {
     credential: jest.fn(() => "mock-credential"), // Ensure this returns a mock credential as expected
   },
@@ -33,6 +51,10 @@ jest.mock("firebase/auth", () => ({
   signInWithRedirect: jest.fn(() => Promise.resolve({ user: true })), // Explicitly return a resolved promise
   sendPasswordResetEmail: jest.fn(() => Promise.resolve()),
   onAuthStateChanged: jest.fn(),
+  updateCurrentUser: jest.fn(),
+  updateEmail: jest.fn(),
+  updatePassword: jest.fn(),
+  updateProfile: jest.fn(),
 }));
 
 jest.mock("@react-navigation/native", () => ({
@@ -56,11 +78,16 @@ jest.mock("@react-native-async-storage/async-storage", () => ({
   setItem: jest.fn(),
 }));
 
-jest.mock("firebase/app", () => ({
-  initializeApp: jest.fn(),
-}));
-
 jest.mock("react-native-vector-icons/MaterialIcons", () => {
+  const { Text } = require("react-native");
+  return ({ name, size, color, testID }) => (
+    <Text testID={testID}>
+      {name} {size} {color}
+    </Text>
+  );
+});
+
+jest.mock("react-native-vector-icons/Fontisto", () => {
   const { Text } = require("react-native");
   return ({ name, size, color, testID }) => (
     <Text testID={testID}>
@@ -103,3 +130,22 @@ jest.mock("expo-location", () => ({
 jest.mock("@react-native-async-storage/async-storage", () =>
   require("@react-native-async-storage/async-storage/jest/async-storage-mock")
 );
+
+jest.mock("@stripe/stripe-react-native", () => ({
+  __esModule: true,
+  StripeProvider: ({ children }) => children,
+  PaymentSheetError: jest.fn(),
+  confirmPaymentSheetPayment: jest.fn(),
+  useStripe: jest.fn().mockReturnValue({
+    confirmPayment: jest.fn(),
+    createPaymentMethod: jest.fn(),
+    retrievePaymentIntent: jest.fn(),
+    initPaymentSheet: jest
+      .fn()
+      .mockResolvedValue(Promise.resolve({ error: null })),
+    presentPaymentSheet: jest
+      .fn()
+      .mockReturnValue(Promise.resolve({ error: null })),
+    confirmPaymentSheetPayment: jest.fn(),
+  }),
+}));

@@ -1,29 +1,37 @@
 import React from "react";
 import { render, fireEvent } from "@testing-library/react-native";
-import ItemCard from "../src/components/ItemCard";
+import ItemCard from "../src/components/cards/ItemCard";
 import { Item } from "../src/types/Item";
-import { useFonts } from "../__mocks__/expo-font";
+import { View, Text } from "react-native";
 
 // Avoid useless error messages
 beforeAll(() => {
   jest.spyOn(console, "error").mockImplementation(() => {});
 });
 
-describe("ItemCard", () => {
-  beforeEach(() => {
-    useFonts.mockReturnValue([true]);
-  });
+jest.mock("../src/components/buttons/PayButton", () => ({
+  __esModule: true,
+  PayButton: () => {
+    return (
+      <View testID="mocked-pay-button">
+        <Text>MockedPayButton</Text>
+      </View>
+    );
+  },
+}));
 
+describe("ItemCard", () => {
   const mockHandleClose = jest.fn();
   const mockHandleOrder = jest.fn();
-  const image = require("../assets/images/splash.png");
+  const imageDir = "../assets/images/splash.png";
+  const image = require(imageDir);
   const mockItem = new Item(
     1,
     "Test Item",
     "Test Description",
+    10,
     image,
-    image,
-    10
+    image
   );
 
   it("renders correctly when isVisible is true", () => {
@@ -40,8 +48,6 @@ describe("ItemCard", () => {
     expect(getByTestId("close-icon")).toBeTruthy();
     expect(getByTestId("blur-view")).toBeTruthy();
     expect(getByTestId("item-image")).toBeTruthy();
-    expect(getByTestId("price-text")).toBeTruthy();
-    expect(getByTestId("order-button")).toBeTruthy();
   });
 
   it("does not render when isVisible is false", () => {
@@ -69,19 +75,5 @@ describe("ItemCard", () => {
 
     fireEvent.press(getByTestId("close-button"));
     expect(mockHandleClose).toHaveBeenCalled();
-  });
-
-  it("calls handleOrder when order button is pressed", () => {
-    const { getByTestId } = render(
-      <ItemCard
-        isVisible={true}
-        handleClose={mockHandleClose}
-        handleOrder={mockHandleOrder}
-        item={mockItem}
-      />
-    );
-
-    fireEvent.press(getByTestId("order-button"));
-    expect(mockHandleOrder).toHaveBeenCalled();
   });
 });

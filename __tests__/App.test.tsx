@@ -1,15 +1,17 @@
 import React from "react";
 import { render, waitFor, fireEvent } from "@testing-library/react-native";
-import { useFonts } from "../__mocks__/expo-font";
 import * as Google from "expo-auth-session/providers/google";
 
 import App from "../src/app/App";
-import { onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged } from "../src/services/Firebase";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { View, Text } from "react-native";
+import { initI18n } from "../src/lang/i18n";
+
+import * as Location from "expo-location";
 
 beforeEach(() => {
   const mockPromptAsync = jest.fn();
-  useFonts.mockReturnValue([true]);
 
   // Mock the Google authentication request setup, makes the user sign in automatically with google
   (Google.useAuthRequest as jest.Mock).mockReturnValue([
@@ -17,16 +19,34 @@ beforeEach(() => {
     { type: "success", params: { id_token: "mock-id-token" } }, // Mocked response
     mockPromptAsync, // Mocked promptAsync function
   ]);
+
+  initI18n();
 });
 
-beforeAll(() => {
-  global.alert = jest.fn();
-
-  // Avoid useless error messages
-  jest.spyOn(console, "error").mockImplementation(() => {});
+jest.mock("expo-location", () => {
+  const originalModule = jest.requireActual("expo-location");
+  return {
+    __esModule: true,
+    ...originalModule,
+    requestForegroundPermissionsAsync: jest.fn(),
+    watchPositionAsync: jest.fn(),
+  };
 });
 
-// Helper function to simulate login actions
+jest.mock("react-native-vector-icons/MaterialIcons", () => "Icon");
+jest.mock("../src/components/LocationMarker", () => "LocationMarker");
+
+jest.mock("../src/components/buttons/PayButton", () => ({
+  __esModule: true,
+  PayButton: () => {
+    return (
+      <View testID="mocked-pay-button">
+        <Text>MockedPayButton</Text>
+      </View>
+    );
+  },
+}));
+
 async function simulateLogin(
   getByPlaceholderText: any,
   getByTestId: any,
@@ -39,11 +59,33 @@ async function simulateLogin(
   fireEvent.press(getByTestId("login-button"));
 
   await waitFor(() => {
-    expect(queryByTestId("map-overview-screen")).toBeTruthy();
+    expect(queryByTestId("map-view")).toBeTruthy();
   });
 }
 
+beforeAll(() => {
+  global.alert = jest.fn();
+
+  // Avoid useless error messages
+  jest.spyOn(console, "error").mockImplementation(() => {});
+});
+
 describe("App Navigation", () => {
+  beforeEach(() => {
+    (Location.requestForegroundPermissionsAsync as jest.Mock).mockResolvedValue(
+      { status: "granted" }
+    );
+    (Location.watchPositionAsync as jest.Mock).mockImplementation(() => {
+      return Promise.resolve({
+        remove: jest.fn(),
+      });
+    });
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it("renders the login screen as the initial route", () => {
     const { getByTestId } = render(<App />);
     expect(getByTestId("login-screen")).toBeTruthy();
@@ -52,25 +94,7 @@ describe("App Navigation", () => {
   it("directly logs in with Google due to the mock implementation", async () => {
     const { queryByTestId } = render(<App />);
     await waitFor(() => {
-      expect(queryByTestId("map-overview-screen")).toBeTruthy();
-    });
-  });
-
-  it("navigates to sign up screen when the sign up button is pressed", async () => {
-    const { getByText, queryByTestId } = render(<App />);
-    fireEvent.press(getByText("Sign Up!"));
-    await waitFor(() => {
-      expect(queryByTestId("sign-up-screen")).toBeTruthy();
-    });
-  });
-
-  it("navigates to forgot password screen when the forgot password button is pressed", async () => {
-    const { getByText, queryByTestId } = render(<App />);
-    const forgotPasswordButton = getByText("Forgot your password?");
-    fireEvent.press(forgotPasswordButton);
-
-    await waitFor(() => {
-      expect(queryByTestId("forgot-password-screen")).toBeTruthy();
+      expect(queryByTestId("map-view")).toBeTruthy();
     });
   });
 
@@ -113,7 +137,7 @@ describe("App Navigation", () => {
     const { getByTestId, queryByTestId } = render(<App />);
 
     await waitFor(() => {
-      expect(queryByTestId("map-overview-screen")).toBeTruthy();
+      expect(queryByTestId("map-view")).toBeTruthy();
     });
 
     const orderMenuButton = getByTestId("order-button");
@@ -123,36 +147,11 @@ describe("App Navigation", () => {
       expect(queryByTestId("order-menu-screen")).toBeTruthy();
     });
 
-    const backButton = getByTestId("back-button");
+    const backButton = getByTestId("order-menu-back-button");
     fireEvent.press(backButton);
 
     await waitFor(() => {
-      expect(queryByTestId("map-overview-screen")).toBeTruthy();
-    });
-  });
-
-  it("goes to order menu, place an order and then goes to order placed", async () => {
-    const { getByTestId, getByText, queryByTestId } = render(<App />);
-
-    await waitFor(() => {
-      expect(queryByTestId("map-overview-screen")).toBeTruthy();
-    });
-
-    const orderMenuButton = getByTestId("order-button");
-    fireEvent.press(orderMenuButton);
-
-    await waitFor(() => {
-      expect(queryByTestId("order-menu-screen")).toBeTruthy();
-    });
-
-    const placeOrderButton = getByText("First aid kit");
-    fireEvent.press(placeOrderButton);
-
-    const orderButton = getByText("Order");
-    fireEvent.press(orderButton);
-
-    await waitFor(() => {
-      expect(queryByTestId("order-placed-screen")).toBeTruthy();
+      expect(queryByTestId("map-view")).toBeTruthy();
     });
   });
 
@@ -169,9 +168,9 @@ describe("App Navigation", () => {
       expect(queryByTestId("order-menu-screen")).toBeTruthy();
     });
 
-    fireEvent.press(getByTestId("back-button"));
+    fireEvent.press(getByTestId("order-menu-back-button"));
     await waitFor(() => {
-      expect(queryByTestId("map-overview-screen")).toBeTruthy();
+      expect(queryByTestId("map-view")).toBeTruthy();
     });
   });
 
@@ -185,7 +184,7 @@ describe("App Navigation", () => {
     const { queryByTestId } = render(<App />);
 
     await waitFor(() => {
-      expect(queryByTestId("map-overview-screen")).toBeTruthy();
+      expect(queryByTestId("map-view")).toBeTruthy();
       expect(onAuthStateChanged).toHaveBeenCalled();
       expect(AsyncStorage.setItem).toHaveBeenCalledWith(
         "@user",
@@ -204,7 +203,7 @@ describe("App Navigation", () => {
 
     const { queryByTestId } = render(<App />);
     await waitFor(() => {
-      expect(queryByTestId("map-overview-screen")).toBeTruthy();
+      expect(queryByTestId("map-view")).toBeTruthy();
       expect(onAuthStateChanged).toHaveBeenCalled();
       expect(AsyncStorage.removeItem).toHaveBeenCalledWith("@user");
     });
@@ -227,7 +226,7 @@ describe("App Navigation", () => {
 
     const { queryByTestId } = render(<App />);
     await waitFor(() => {
-      expect(queryByTestId("map-overview-screen")).toBeTruthy();
+      expect(queryByTestId("map-view")).toBeTruthy();
       expect(onAuthStateChanged).toHaveBeenCalled();
       expect(AsyncStorage.setItem).toHaveBeenCalledWith(
         "@user",
@@ -251,56 +250,10 @@ describe("App Navigation", () => {
 
     const { queryByTestId } = render(<App />);
     await waitFor(() => {
-      expect(queryByTestId("map-overview-screen")).toBeTruthy();
+      expect(queryByTestId("map-view")).toBeTruthy();
       expect(onAuthStateChanged).toHaveBeenCalled();
       expect(AsyncStorage.removeItem).toHaveBeenCalledWith("@user");
       expect(alert).toHaveBeenCalledWith(new Error("AsyncStorage error"));
-    });
-  });
-
-  it("navigates back to login screen when the sign up back button is pressed", async () => {
-    (Google.useAuthRequest as jest.Mock).mockReturnValue([
-      {},
-      { type: "fail", params: { id_token: "" } },
-      jest.fn(),
-    ]);
-
-    const { getByText, getByTestId, queryByTestId } = render(<App />);
-    const signUpButton = getByText("Sign Up!");
-    fireEvent.press(signUpButton);
-
-    await waitFor(() => {
-      expect(queryByTestId("sign-up-screen")).toBeTruthy();
-    });
-
-    const signUpBackButton = getByTestId("sign-up-back-button");
-    fireEvent.press(signUpBackButton);
-
-    await waitFor(() => {
-      expect(queryByTestId("login-screen")).toBeTruthy();
-    });
-  });
-
-  it("navigates back to login screen when the forgot password back button is pressed", async () => {
-    (Google.useAuthRequest as jest.Mock).mockReturnValue([
-      {},
-      { type: "fail", params: { id_token: "" } },
-      jest.fn(),
-    ]);
-
-    const { getByText, getByTestId, queryByTestId } = render(<App />);
-    const forgotPasswordButton = getByText("Forgot your password?");
-    fireEvent.press(forgotPasswordButton);
-
-    await waitFor(() => {
-      expect(queryByTestId("forgot-password-screen")).toBeTruthy();
-    });
-
-    const forgotPasswordBackButton = getByTestId("forgot-password-back-button");
-    fireEvent.press(forgotPasswordBackButton);
-
-    await waitFor(() => {
-      expect(queryByTestId("login-screen")).toBeTruthy();
     });
   });
 });

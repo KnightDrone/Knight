@@ -6,21 +6,22 @@ import {
   waitFor,
 } from "@testing-library/react-native";
 import { Text } from "react-native";
-import SignUp from "../src/app/SignUp";
+import SignUp from "../src/app/auth/SignUp";
 import * as Google from "expo-auth-session/providers/google";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 const Stack = createStackNavigator();
-import { useFonts } from "../__mocks__/expo-font";
-import Login from "../src/app/Login";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import Login from "../src/app/auth/Login";
 import passwordsForTesting from "../src/utils/passwords";
-
-useFonts.mockReturnValue([true]);
+import { createUserWithEmailAndPassword } from "../src/services/Firebase";
+import { initI18n } from "../src/lang/i18n";
+import { t } from "i18next";
 
 // Avoid useless error messages
 beforeAll(() => {
   jest.spyOn(console, "error").mockImplementation(() => {});
+
+  initI18n();
 });
 
 const SignUpTest = () => {
@@ -58,10 +59,13 @@ describe("SignUp Component", () => {
   });
 
   it("renders correctly", () => {
-    const { getByText, getByPlaceholderText } = render(<SignUpTest />);
-    expect(getByText("Sign Up")).toBeTruthy();
-    expect(getByPlaceholderText("Enter your email")).toBeTruthy();
-    expect(getByPlaceholderText("Enter your password")).toBeTruthy();
+    const { getByText, getByPlaceholderText, getByTestId } = render(
+      <SignUpTest />
+    );
+    expect(getByTestId("signup-title")).toBeTruthy();
+    expect(getByTestId("username-input")).toBeTruthy();
+    expect(getByTestId("email-input")).toBeTruthy();
+    expect(getByTestId("password-input")).toBeTruthy();
   });
 
   it("updates email and password fields correctly", () => {
@@ -85,61 +89,58 @@ describe("SignUp Component", () => {
     const passwordMap = [
       {
         password: passwordsForTesting[0],
-        strength: "Too Weak",
+        strength: t("password-suggestions.too-weak"),
         suggestions: [
-          "Password should be at least 8 characters long",
-          "Add at least one number",
-          "Include both upper and lower case letters",
-          "Include at least one special character",
+          t("password-suggestions.length"),
+          t("password-suggestions.number"),
+          t("password-suggestions.upper-lower"),
+          t("password-suggestions.special"),
         ],
       },
       {
         password: passwordsForTesting[1],
-        strength: "Weak",
+        strength: t("password-suggestions.weak"),
         suggestions: [
-          "Add at least one number",
-          "Include both upper and lower case letters",
-          "Include at least one special character",
+          t("password-suggestions.number"),
+          t("password-suggestions.special"),
+          t("password-suggestions.upper-lower"),
         ],
       },
       {
         password: passwordsForTesting[2],
-        strength: "Moderate",
+        strength: t("password-suggestions.moderate"),
         suggestions: [
-          "Include both upper and lower case letters",
-          "Include at least one special character",
+          t("password-suggestions.special"),
+          t("password-suggestions.upper-lower"),
         ],
       },
       {
         password: passwordsForTesting[3],
-        strength: "Moderate",
-        suggestions: ["Include at least one special character"],
+        strength: t("password-suggestions.moderate"),
+        suggestions: [t("password-suggestions.special")],
       },
       {
         password: passwordsForTesting[4],
-        strength: "Very Strong",
+        strength: t("password-suggestions.very-strong"),
         suggestions: [],
       },
       {
         password: passwordsForTesting[5],
-        strength: "Very Strong",
+        strength: t("password-suggestions.very-strong"),
         suggestions: [],
       },
       {
         password: passwordsForTesting[6],
-        strength: "Strong",
-        suggestions: ["Password should be at least 8 characters long"],
+        strength: t("password-suggestions.strong"),
+        suggestions: [t("password-suggestions.length")],
       },
     ];
 
     passwordMap.forEach((entry) => {
       fireEvent.changeText(passwordInput, entry.password);
       const passwordStrength = getByTestId("pw-strength");
-      expect(
-        passwordStrength.props.children[
-          passwordStrength.props.children.length - 1
-        ]
-      ).toBe(entry.strength);
+      expect(passwordStrength).toBeTruthy();
+      expect(getByText(entry.strength)).toBeTruthy();
       entry.suggestions.forEach((suggestion) => {
         expect(getByText(suggestion)).toBeTruthy();
       });
@@ -153,27 +154,30 @@ describe("SignUp Component", () => {
   });
 
   it("toggles password visibility when the eye icon is pressed", () => {
-    const { getByTestId, getByPlaceholderText } = render(<SignUpTest />);
+    const { getByTestId, getByPlaceholderText, getAllByTestId } = render(
+      <SignUpTest />
+    );
     const passwordInput = getByPlaceholderText("Enter your password");
-    const eyeIcon = getByTestId("password-toggle");
+    const passwordToggles = getAllByTestId("password-toggle");
+    const passwordToggle = passwordToggles[2]; // Select the third password-toggle
 
     // first showPassword = false, secureTextEntry = !showPassword
     expect(passwordInput.props.secureTextEntry).toBe(true);
 
-    fireEvent.press(eyeIcon); // second showPassword = true
+    fireEvent.press(passwordToggle); // second showPassword = true
     expect(passwordInput.props.secureTextEntry).toBe(false);
 
-    fireEvent.press(eyeIcon); // third showPassword = false
+    fireEvent.press(passwordToggle); // third showPassword = false
     expect(passwordInput.props.secureTextEntry).toBe(true);
   });
 
   it("navigates to the map screen after successful sign-up", async () => {
-    const { getByText } = render(<SignUpTest />);
+    const { getByText, getByTestId } = render(<SignUpTest />);
 
     // Mock is true (successful sign-up) by default in jestSetupFile.js
 
     // Simulate successful sign-up
-    fireEvent.press(getByText("Sign Up"));
+    fireEvent.press(getByTestId("sign-up-button"));
     // Wait for any async actions to complete
     await waitFor(() => {
       expect(screen.getByTestId("map-screen")).toBeTruthy();
@@ -196,7 +200,7 @@ describe("SignUp Component", () => {
       jest.fn(), // Mocked promptAsync function
     ]);
 
-    const { getByText, getByTestId } = render(<SignUpTest />);
+    const { getByText, getByTestId, findByTestId } = render(<SignUpTest />);
 
     const emailInput = getByTestId("email-input");
     const passwordInput = getByTestId("password-input");
@@ -204,9 +208,9 @@ describe("SignUp Component", () => {
     fireEvent.changeText(emailInput, "test@gmail.com");
     fireEvent.changeText(passwordInput, "password123");
 
-    fireEvent.press(getByText("Sign Up"));
+    fireEvent.press(getByTestId("sign-up-button"));
 
-    const errorMessage = getByTestId("signup-error-message");
+    const errorMessage = await findByTestId("signup-error-message");
     expect(errorMessage).toBeTruthy();
 
     await waitFor(() =>

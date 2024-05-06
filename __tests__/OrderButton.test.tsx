@@ -1,14 +1,8 @@
 import React from "react";
 import { render, fireEvent } from "@testing-library/react-native";
-import OrderButton from "../src/components/OrderButton";
-import { useFonts } from "../__mocks__/expo-font";
+import OrderButton from "../src/components/buttons/OrderButton";
 
 describe("Order Button Component", () => {
-  //set globally useFont to true
-  beforeEach(() => {
-    useFonts.mockReturnValue([true]);
-  });
-
   it("renders correctly", () => {
     const onPressMock = jest.fn();
     const { getByText, getByTestId } = render(
