@@ -80,9 +80,10 @@ jest.mock("../src/services/FirestoreManager", () => {
         return new User(
           "2",
           "jane@example.com",
+          false,
+          "Jane Doe",
           new Date(),
-          "********",
-          "Jane Doe"
+          "../assets/images/defaultProfile.png"
         );
       }),
       updateData: jest.fn(),

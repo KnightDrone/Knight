@@ -21,6 +21,7 @@ const ProfileScreen = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isOperator, setIsOperator] = useState(false); // TODO: Implement operator functionality
   const [dateOfBirth, setDateOfBirth] = useState("");
   const [isPickerShow, setIsPickerShow] = useState(false);
   const [photoURL, setPhotoURL] = useState("");
@@ -34,6 +35,12 @@ const ProfileScreen = () => {
       const user = auth.currentUser;
       if (user) {
         const userData = await firestoreManager.readData("users", user.uid);
+
+        if (!userData) {
+          console.error("User data not found");
+          return;
+        }
+        setIsOperator(userData.getIsOperator());
         setName(userData.getDisplayName());
         setEmail(userData.getEmail());
         setDateOfBirth(userData.getBirthday().toLocaleDateString("en-GB"));
@@ -57,9 +64,9 @@ const ProfileScreen = () => {
         const newUser = new User(
           user.uid,
           email,
-          parseDate(dateOfBirth),
-          password,
-          name
+          isOperator,
+          name,
+          parseDate(dateOfBirth)
         );
         await firestoreManager.writeData("users", user);
         alert("Changes Saved!");

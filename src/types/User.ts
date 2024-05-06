@@ -3,23 +3,23 @@ class User {
   private email: string;
   private displayName: string;
   private dob: Date; // date of birth
-  private password: string;
   private photoURL: string;
+  private isOperator: boolean;
 
   constructor(
     uid: string,
     email: string,
-    dob: Date,
-    password: string,
+    isOperator: boolean,
     displayName: string,
+    dob?: Date,
     photoURL?: string
   ) {
     this.displayName = displayName;
     this.email = email;
     this.uid = uid;
-    this.dob = dob;
-    this.password = password;
+    this.isOperator = isOperator;
     this.photoURL = photoURL || "../../../assets/images/defaultProfile.png";
+    this.dob = dob || new Date("2000-01-01");
   }
 
   getId() {
@@ -38,8 +38,12 @@ class User {
     return this.dob;
   }
 
-  getPassword() {
-    return this.password;
+  getIsOperator() {
+    return this.isOperator;
+  }
+
+  getPhotoURL() {
+    return this.photoURL;
   }
 
   setEmail(newEmail: string) {
@@ -54,8 +58,8 @@ class User {
     this.dob = newDob;
   }
 
-  setPassword(newPassword: string) {
-    this.password = newPassword;
+  setPhotoURL(newPhotoURL: string) {
+    this.photoURL = newPhotoURL;
   }
 }
 
@@ -66,7 +70,8 @@ const userConverter = {
       email: user.getEmail(),
       birthDate: user.getBirthday(),
       displayName: user.getDisplayName(),
-      password: user.getPassword(),
+      isOperator: user.getIsOperator(),
+      photoURL: user.getPhotoURL(),
     };
   },
   fromFirestore: (snapshot: any) => {
@@ -76,9 +81,10 @@ const userConverter = {
     const user = new User(
       uid,
       data.email,
+      data.isOperator,
+      data.displayName,
       dob,
-      data.password,
-      data.displayName
+      data.photoURL
     );
 
     return user;
