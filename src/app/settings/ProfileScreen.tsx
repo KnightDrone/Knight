@@ -26,7 +26,6 @@ const ProfileScreen = () => {
   const [isOperator, setIsOperator] = useState(false); // TODO: Implement operator functionality
   const [dateOfBirth, setDateOfBirth] = useState("");
   const [isPickerShow, setIsPickerShow] = useState(false);
-  const [photoURL, setPhotoURL] = useState("");
 
   const showPicker = () => {
     setIsPickerShow(true);
@@ -46,7 +45,6 @@ const ProfileScreen = () => {
         setName(userData.getDisplayName());
         setEmail(userData.getEmail());
         setDateOfBirth(userData.getBirthday().toLocaleDateString("en-GB"));
-        setPhotoURL(userData.getPhotoURL());
       } else {
         console.error("No user logged in");
       }
