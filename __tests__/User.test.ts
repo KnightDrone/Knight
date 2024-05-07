@@ -7,8 +7,7 @@ describe("User", () => {
       "test@example.com",
       false,
       "Test User",
-      new Date(),
-      "../assets/images/profile.png"
+      new Date()
     );
     expect(user.getId()).toBe("1");
     expect(user.getEmail()).toBe("test@example.com");
@@ -21,8 +20,7 @@ describe("User", () => {
       "test@example.com",
       false,
       "Test User",
-      new Date(),
-      "../assets/images/profile.png"
+      new Date()
     );
     user.setEmail("new@example.com");
     expect(user.getEmail()).toBe("new@example.com");
@@ -34,8 +32,7 @@ describe("User", () => {
       "test@example.com",
       false,
       "Test User",
-      new Date(),
-      "../assets/images/profile.png"
+      new Date()
     );
     user.setDisplayName("New User");
     expect(user.getDisplayName()).toBe("New User");
@@ -47,8 +44,7 @@ describe("User", () => {
       "test@example.com",
       false,
       "Test User",
-      new Date(),
-      "../assets/images/profile.png"
+      new Date()
     );
     expect(user.getId()).toBe("1");
   });
@@ -59,8 +55,7 @@ describe("User", () => {
       "test@example.com",
       false,
       "Test User",
-      new Date(),
-      "../assets/images/profile.png"
+      new Date()
     );
     const date = new Date();
     user.setBirthday(date);
@@ -73,22 +68,9 @@ describe("User", () => {
       "test@example.com",
       false,
       "Test User",
-      new Date(),
-      "../assets/images/profile.png"
+      new Date()
     );
     expect(user.getIsOperator()).toBe(false);
-  });
-
-  it("should get profile photo URL", () => {
-    const user = new User(
-      "1",
-      "test@example.com",
-      false,
-      "Test User",
-      new Date(),
-      "../assets/images/profile.png"
-    );
-    expect(user.getPhotoURL()).toBe("../assets/images/profile.png");
   });
 
   it("should get created at date", () => {
@@ -99,7 +81,6 @@ describe("User", () => {
       false,
       "Test User",
       new Date(),
-      "../assets/images/profile.png",
       date
     );
     expect(user.getCreatedAt()).toBe(date);

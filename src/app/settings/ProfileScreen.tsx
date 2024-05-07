@@ -14,7 +14,8 @@ import { auth } from "../../services/Firebase";
 import { updateProfile, updateEmail, updatePassword } from "firebase/auth";
 import FirestoreManager from "../../services/FirestoreManager";
 import { User } from "../../types/User";
-import firebase from "firebase/app";
+import * as ImagePicker from "expo-image-picker";
+import * as FileSystem from "expo-file-system";
 
 const firestoreManager = new FirestoreManager();
 
@@ -83,11 +84,22 @@ const ProfileScreen = () => {
     setDateOfBirth(date.toLocaleDateString("en-GB")); // formats date as DD/MM/YYYY
   };
 
+  const changeImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 4],
+      quality: 1,
+    });
+
+    console.log(result);
+  };
+
   return (
     <ScrollView style={styles.container}>
       <TouchableOpacity
         style={styles.profileImageContainer}
-        onPress={() => console.log("Open Image Picker")}
+        onPress={() => changeImage()}
       >
         <Image
           source={require("../../../assets/images/profile.png")}

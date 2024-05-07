@@ -3,7 +3,6 @@ class User {
   private email: string;
   private displayName: string;
   private dob: Date; // date of birth
-  private photoURL: string;
   private isOperator: boolean;
   private createdAt: Date;
 
@@ -13,14 +12,12 @@ class User {
     isOperator: boolean,
     displayName: string,
     dob?: Date,
-    photoURL?: string,
     createdAt?: Date
   ) {
     this.displayName = displayName;
     this.email = email;
     this.uid = uid;
     this.isOperator = isOperator;
-    this.photoURL = photoURL || "../../../assets/images/profile.png";
     this.dob = dob || new Date("2000-01-01");
     this.createdAt = createdAt || new Date();
   }
@@ -45,10 +42,6 @@ class User {
     return this.isOperator;
   }
 
-  getPhotoURL() {
-    return this.photoURL;
-  }
-
   getCreatedAt() {
     return this.createdAt;
   }
@@ -64,10 +57,6 @@ class User {
   setBirthday(newDob: Date) {
     this.dob = newDob;
   }
-
-  setPhotoURL(newPhotoURL: string) {
-    this.photoURL = newPhotoURL;
-  }
 }
 
 const userConverter = {
@@ -78,7 +67,6 @@ const userConverter = {
       birthDate: user.getBirthday(),
       displayName: user.getDisplayName(),
       isOperator: user.getIsOperator(),
-      photoURL: user.getPhotoURL(),
       createdAt: user.getCreatedAt(),
     };
   },
@@ -93,7 +81,6 @@ const userConverter = {
       data.isOperator,
       data.displayName,
       dob,
-      data.photoURL,
       createdAt
     );
 
