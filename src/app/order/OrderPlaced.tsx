@@ -194,7 +194,7 @@ const OrderPlaced = ({
           testID="view-order-history"
           onPress={() =>
             navigation.navigate("OrderHistory", {
-              opOrders: true,
+              historyOp: false,
               userId: auth.currentUser ? auth.currentUser.uid : "",
             })
           }

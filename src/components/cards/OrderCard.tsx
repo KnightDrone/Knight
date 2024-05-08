@@ -57,6 +57,7 @@ const OrderCard = ({
     locName = order.getUsrLocName();
   }
 
+  console.log("OrderCard.tsx: content, rendered");
   const content = (
     <View className="flex-1" testID={testId}>
       <Text className="text-left font-bold">{name}</Text>
@@ -74,7 +75,7 @@ const OrderCard = ({
   return onClick ? (
     <TouchableOpacity
       testID={onClickTestId}
-      className="bg-white flex-1 rounded-lg shadow-md m-2 flex-row p-2 border-2 border-gray-300"
+      className="bg-white flex-1 rounded-lg shadow-md m-2 flex-row p-2 border-2 border-gray-300 h-30"
       onPress={onClick}
     >
       {content}
@@ -83,7 +84,7 @@ const OrderCard = ({
       </View>
     </TouchableOpacity>
   ) : (
-    <View className="bg-white flex-1 rounded-lg shadow-md m-2 flex-row p-2 border-2 border-gray-300">
+    <View className="bg-white flex-1 rounded-lg shadow-md m-2 flex-row p-2 border-2 border-gray-300 h-30">
       {content}
       <View className="justify-center ">
         <Text className="text-right">{price} CHF</Text>

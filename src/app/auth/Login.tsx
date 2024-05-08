@@ -54,7 +54,10 @@ export default function Login({ navigation }: any) {
           password
         );
         if (response.user) {
-          navigation.navigate("Map");
+          navigation.navigate("OrderHistory", {
+            historyOp: false,
+            userId: auth.currentUser ? auth.currentUser.uid : "",
+          });
         } else {
           setError("Invalid credentials");
         }

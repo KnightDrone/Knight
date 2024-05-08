@@ -57,3 +57,8 @@ coverage/
 
 # Vercel
 .vercel
+
+eas.json
+google-services.json
+GoogleService-Info.plist
+app.json
