@@ -76,7 +76,7 @@ const ProfileScreen = () => {
   };
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={styles.container} testID="profile-screen">
       <TouchableOpacity
         style={styles.profileImageContainer}
         onPress={() => console.log("Open Image Picker")}

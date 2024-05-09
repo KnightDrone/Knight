@@ -91,7 +91,7 @@ const Settings: React.FC<SettingsProps> = ({
   ];
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container} testID="settings-screen">
       <ScrollView>
         {settingsSections.map((section, index) => (
           <View key={index} style={styles.section}>

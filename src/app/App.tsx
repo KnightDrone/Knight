@@ -19,7 +19,7 @@ initI18n();
 function App() {
   const [userInfo, setUserInfo] = useState<User | null>(null);
   const [loading, setLoading] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState<"Login" | "Map">("Login");
+  const [isLoggedIn, setIsLoggedIn] = useState<"Login" | "UserDrawer">("Login");
   const checkLocalUser = async () => {
     try {
       // NOTE: Doesn't work with testing library
@@ -41,7 +41,7 @@ function App() {
     const unsub = onAuthStateChanged(auth, async (user) => {
       if (user) {
         setUserInfo(user);
-        setIsLoggedIn("Map");
+        setIsLoggedIn("UserDrawer");
         try {
           await AsyncStorage.setItem("@user", JSON.stringify(user));
         } catch (e) {
