@@ -74,7 +74,7 @@ const OrderCard = ({
   return onClick ? (
     <TouchableOpacity
       testID={onClickTestId}
-      className="bg-white flex-1 rounded-lg shadow-md m-2 flex-row p-2 border-2 border-gray-300 h-30"
+      style={styles.touchableOpacity}
       onPress={onClick}
     >
       {content}
@@ -91,5 +91,25 @@ const OrderCard = ({
     </View>
   );
 };
-
+const styles = StyleSheet.create({
+  touchableOpacity: {
+    backgroundColor: "white",
+    flex: 1,
+    borderRadius: 8, // Rounded-lg equivalent
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+    elevation: 3,
+    margin: 8, // m-2 equivalent
+    flexDirection: "row", // flex-row equivalent
+    padding: 8, // p-2 equivalent
+    borderWidth: 2, // border-2 equivalent
+    borderColor: "#CBD5E0", // border-gray-300 equivalent
+    minHeight: 30, // h-30 equivalent, ensure minHeight to match dynamic content
+  },
+});
 export default OrderCard;
