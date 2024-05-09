@@ -72,8 +72,7 @@ export class FirestoreManager {
         throw new Error("User not found.");
       }
     } catch (error) {
-      console.error("Error fetching user document: ", error);
-      return null;
+      throw error;
     }
   }
 

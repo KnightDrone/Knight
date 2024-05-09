@@ -106,7 +106,7 @@ const OrderHistory = ({
     }
   };
   return (
-    <View className="mt-16" testID="order-history-screen">
+    <View testID="order-history-screen">
       {/* <View className="flex-row items-center justify-center">
         <TouchableOpacity className="absolute left-4" testID="menu-button">
           <Image

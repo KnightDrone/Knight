@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { useEffect, useState } from "react";
 import { FirestoreManager } from "../services/FirestoreManager";
@@ -9,16 +9,16 @@ import Settings from "../app/settings/Settings";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import MapOverview from "../app/Map";
 import ProfileScreen from "../app/settings/ProfileScreen";
+import { Text } from "react-native";
 
 export const Drawer = createDrawerNavigator();
-export const DrawerNavigator = () => {
+export const DrawerNavigator = (props: any) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [photoURL, setPhotoURL] = useState("");
   const [isOperator, setIsOperator] = useState(false);
   const [userId, setUserId] = useState("");
   const firestoreManager = new FirestoreManager();
-  // const navigation = useNavigation();
 
   useEffect(() => {
     const user = auth.currentUser;
@@ -39,14 +39,6 @@ export const DrawerNavigator = () => {
     }
   }, []);
 
-  // useEffect(() => {
-  //   const unsubscribe = navigation.addListener("focus", () => {
-  //     navigation.setParams({ historyOp: isOperator, userId: userId } as any);
-  //   });
-
-  //   return unsubscribe;
-  // }, [navigation, isOperator, userId]);
-
   return (
     <Drawer.Navigator
       drawerContent={(props) => (
@@ -57,6 +49,17 @@ export const DrawerNavigator = () => {
           photoURL={photoURL}
         />
       )}
+      screenListeners={({ navigation }) => ({
+        drawerItemPress: (e) => {
+          console.log("drawerItemPress", e);
+          if (e.target?.includes("Order History")) {
+            navigation.setParams({
+              historyOp: isOperator,
+              userId: userId,
+            });
+          }
+        },
+      })}
       initialRouteName="Main Map"
       screenOptions={{
         drawerActiveTintColor: "black",
@@ -97,8 +100,8 @@ export const DrawerNavigator = () => {
           ),
         }}
         initialParams={{
-          historyOp: isOperator,
           userId: userId,
+          historyOp: isOperator,
         }}
       >
         {(props: any) => <OrderHistory {...props} />}

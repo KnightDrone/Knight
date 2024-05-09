@@ -78,11 +78,9 @@ export const AppStack: React.FC<AppStackProps> = ({ isLoggedIn, user }) => {
           />
         </Group>
         <Group>
-          <Screen
-            name="Map"
-            options={{ title: "Map for User" }}
-            component={DrawerNavigator}
-          />
+          <Screen name="Map" options={{ title: "Map for User" }}>
+            {(props: any) => <DrawerNavigator {...props} />}
+          </Screen>
           <Screen
             name="OrderMenu"
             options={({ navigation }: any) => ({
