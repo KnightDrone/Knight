@@ -222,7 +222,6 @@ export default function SignUp({ navigation }: any) {
         onPress={() => navigation.navigate("OperatorMap")}
         style="primary"
         className="mt-4"
-        testID="sign-up-button"
       />
 
       {error && (
