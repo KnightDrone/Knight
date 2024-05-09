@@ -57,7 +57,6 @@ const OrderCard = ({
     locName = order.getUsrLocName();
   }
 
-  console.log("OrderCard.tsx: content, rendered");
   const content = (
     <View className="flex-1" testID={testId}>
       <Text className="text-left font-bold">{name}</Text>
