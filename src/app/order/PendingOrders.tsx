@@ -14,7 +14,9 @@ import { Item } from "../../types/Item";
 import TriangleBackground from "../../components/TriangleBackground";
 import FirestoreManager from "../../services/FirestoreManager";
 import { MessageBox } from "../../ui/MessageBox";
-
+import { formatDate } from "../../components/cards/OrderCard";
+import { Picker } from "@react-native-picker/picker";
+import { TextField } from "../../ui/TextField";
 /* 
 NOTE: This is a temporary solution to simulate fetching pending orders from a server. Should be replaced with actual database calls
 */
@@ -58,6 +60,8 @@ const PendingOrders = ({ navigation }: any) => {
   const [orders, setOrders] = useState<Order[]>([]);
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState<Error | null>(null);
+  const [searchText, setSearchText] = useState("");
+  const [sortingOption, setSortingOption] = useState("ascendingDate");
   useEffect(() => {
     fetchOrders();
   }, []);
@@ -75,6 +79,46 @@ const PendingOrders = ({ navigation }: any) => {
     setSelectedOrder(null);
   };
   // ---------------------------------------------------------
+  const sortOrders = (option: string, orders: Order[]) => {
+    switch (option) {
+      case "ascendingDate":
+        return [...orders].sort(
+          (a, b) => a.getOrderDate().getTime() - b.getOrderDate().getTime()
+        );
+      case "descendingDate":
+        return [...orders].sort(
+          (a, b) => b.getOrderDate().getTime() - a.getOrderDate().getTime()
+        );
+      case "ascendingPrice":
+        return [...orders].sort(
+          (a, b) => b.getItem().getPrice() - a.getItem().getPrice()
+        );
+      case "descendingPrice":
+        return [...orders].sort(
+          (a, b) => a.getItem().getPrice() - b.getItem().getPrice()
+        );
+      default:
+        return orders;
+    }
+  };
+  const orderListFiltered = sortOrders(
+    sortingOption,
+    orders.filter(
+      (order) =>
+        order
+          .getItem()
+          .getName()
+          .toLowerCase()
+          .includes(searchText.toLowerCase()) ||
+        order.getOpName().toLowerCase().includes(searchText.toLowerCase()) ||
+        order
+          .getUsrLocName()
+          .toLowerCase()
+          .includes(searchText.toLowerCase()) ||
+        order.getItem().getPrice().toString().includes(searchText) ||
+        formatDate(order.getOrderDate()).includes(searchText)
+    )
+  );
   const fetchOrders = async () => {
     setRefreshing(true);
     try {
@@ -90,10 +134,10 @@ const PendingOrders = ({ navigation }: any) => {
         );
       } else {
         // Sort the orders by date so that the oldest orders are shown first
-        const sortedOrders = newOrders.sort(
+        /*const sortedOrders = newOrders.sort(
           (a, b) => a.getOrderDate().getTime() - b.getOrderDate().getTime()
-        );
-        setOrders(sortedOrders);
+        );*/
+        setOrders(newOrders);
         setError(null); // Clear the error if the fetch is successful
       }
     } catch (err) {
@@ -131,6 +175,28 @@ const PendingOrders = ({ navigation }: any) => {
           />
         </TouchableOpacity>
       </View>
+      <View className="flex-row">
+        <TextField
+          className="p-4 w-6/12 mx-auto mt-4 bg-white ml-4"
+          placeholder="Type here to search"
+          onChangeText={setSearchText}
+          value={searchText}
+          type="text"
+        />
+        <View className="w-40 mx-auto mt-4 bg-gray-50 ml-4 relative h-12 rounded-full border border-gray-400 pb-8">
+          <Picker
+            selectedValue={sortingOption}
+            onValueChange={(itemValue, itemIndex) =>
+              setSortingOption(itemValue)
+            }
+          >
+            <Picker.Item label="Date ↓" value="descendingDate" />
+            <Picker.Item label="Date ↑" value="ascendingDate" />
+            <Picker.Item label="Price ↓" value="descendingPrice" />
+            <Picker.Item label="Price ↑" value="ascendingPrice" />
+          </Picker>
+        </View>
+      </View>
 
       {
         error && (
@@ -147,7 +213,8 @@ const PendingOrders = ({ navigation }: any) => {
         />
       )}
       <FlatList
-        data={orders}
+        className="mt-4 min-h-full"
+        data={orderListFiltered}
         renderItem={({ item }) => (
           <OrderCard
             order={item}

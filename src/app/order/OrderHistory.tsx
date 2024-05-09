@@ -93,10 +93,10 @@ const OrderHistory = ({
           new Error("No orders have been made yet. Go place some orders :)")
         );
       } else {
-        const sortedOrders = newOrders.sort(
+        /*const sortedOrders = newOrders.sort(
           (a, b) => b.getOrderDate().getTime() - a.getOrderDate().getTime()
-        );
-        setOrders(sortedOrders);
+        );*/
+        setOrders(newOrders);
         setError(null); // Clear the error if the fetch is successful
       }
     } catch (err) {
@@ -143,7 +143,7 @@ const OrderHistory = ({
           .toLowerCase()
           .includes(searchText.toLowerCase()) ||
         order.getItem().getPrice().toString().includes(searchText) ||
-        order.getOrderDate().toString().includes(searchText)
+        formatDate(order.getOrderDate()).includes(searchText)
     )
   );
 

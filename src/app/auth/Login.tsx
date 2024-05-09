@@ -54,10 +54,7 @@ export default function Login({ navigation }: any) {
           password
         );
         if (response.user) {
-          navigation.navigate("OrderHistory", {
-            historyOp: false,
-            userId: auth.currentUser ? auth.currentUser.uid : "",
-          });
+          navigation.navigate("PendingOrders");
         } else {
           setError("Invalid credentials");
         }
