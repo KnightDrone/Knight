@@ -14,6 +14,7 @@ import { User } from "../services/Firebase";
 import OrderHistory from "./order/OrderHistory";
 import Settings from "./settings/Setting";
 import ProfileScreen from "./settings/ProfileScreen";
+import OperatorMap from "./OperatorMap";
 
 const { Navigator, Screen, Group } = createStackNavigator<RootStackParamList>();
 
@@ -78,6 +79,9 @@ export const AppStack: React.FC<AppStackProps> = ({ isLoggedIn, user }) => {
         <Group>
           <Screen name="Map" options={{ title: "Map for User" }}>
             {(props: any) => <MapOverview {...props} />}
+          </Screen>
+          <Screen name="OperatorMap" options={{ title: "Map for Operator" }}>
+            {(props: any) => <OperatorMap {...props} />}
           </Screen>
           <Screen
             name="OrderMenu"

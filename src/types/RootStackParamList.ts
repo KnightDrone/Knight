@@ -23,4 +23,5 @@ export type RootStackParamList = {
     userId: string;
   };
   PendingOrders: undefined; // Added for PendingOrders
+  OperatorMap: undefined;
 };
