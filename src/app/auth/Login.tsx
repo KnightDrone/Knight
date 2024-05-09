@@ -54,7 +54,7 @@ export default function Login({ navigation }: any) {
           password
         );
         if (response.user) {
-          navigation.navigate("PendingOrders");
+          navigation.navigate("Map");
         } else {
           setError("Invalid credentials");
         }
