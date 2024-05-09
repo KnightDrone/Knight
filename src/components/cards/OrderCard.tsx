@@ -74,7 +74,7 @@ const OrderCard = ({
   return onClick ? (
     <TouchableOpacity
       testID={onClickTestId}
-      style={styles.touchableOpacity}
+      style={styles.fix}
       onPress={onClick}
     >
       {content}
@@ -83,7 +83,7 @@ const OrderCard = ({
       </View>
     </TouchableOpacity>
   ) : (
-    <View className="bg-white flex-1 rounded-lg shadow-md m-2 flex-row p-2 border-2 border-gray-300 h-30">
+    <View style={styles.fix}>
       {content}
       <View className="justify-center ">
         <Text className="text-right">{price} CHF</Text>
@@ -92,7 +92,7 @@ const OrderCard = ({
   );
 };
 const styles = StyleSheet.create({
-  touchableOpacity: {
+  fix: {
     backgroundColor: "white",
     flex: 1,
     borderRadius: 8, // Rounded-lg equivalent

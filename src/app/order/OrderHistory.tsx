@@ -138,7 +138,12 @@ const OrderHistory = ({
           .toLowerCase()
           .includes(searchText.toLowerCase()) ||
         order.getOpName().toLowerCase().includes(searchText.toLowerCase()) ||
-        order.getUsrLocName().toLowerCase().includes(searchText.toLowerCase())
+        order
+          .getUsrLocName()
+          .toLowerCase()
+          .includes(searchText.toLowerCase()) ||
+        order.getItem().getPrice().toString().includes(searchText) ||
+        order.getOrderDate().toString().includes(searchText)
     )
   );
 
@@ -190,10 +195,10 @@ const OrderHistory = ({
       </View>
       {
         error && (
-          <TriangleBackground color="#A0D1E4" bottom={-45} />
+          <TriangleBackground color="#A0D1E4" bottom={-125} />
         ) /* These are some magic numbers that I figured out by trial and error*/
       }
-      {!error && <TriangleBackground color="#A0D1E4" bottom={-120} />}
+      {!error && <TriangleBackground color="#A0D1E4" bottom={-200} />}
       {error && (
         <MessageBox
           message={error.message}

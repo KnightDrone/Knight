@@ -108,7 +108,7 @@ const PendingOrders = ({ navigation }: any) => {
       <View className="flex-row items-center justify-center">
         <TouchableOpacity className="absolute left-4" testID="menu-button">
           <Image
-            source={require("../../assets/icons/menu_icon.png")}
+            source={require("../../../assets/icons/menu_icon.png")}
             className="w-9 h-9"
             testID="menu-icon"
           />
@@ -125,7 +125,7 @@ const PendingOrders = ({ navigation }: any) => {
           onPress={() => navigation.goBack()}
         >
           <Image
-            source={require("../../assets/icons/x_icon.png")}
+            source={require("../../../assets/icons/x_icon.png")}
             className="w-5 h-5"
             testID="close-icon"
           />
@@ -175,7 +175,7 @@ const PendingOrders = ({ navigation }: any) => {
                 className="absolute right-5 top-5 "
               >
                 <Image
-                  source={require("../../assets/icons/x_icon.png")}
+                  source={require("../../../assets/icons/x_icon.png")}
                   className="w-5 h-5"
                 />
               </TouchableOpacity>
