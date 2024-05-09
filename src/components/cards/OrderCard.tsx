@@ -4,7 +4,7 @@ import { Order } from "../../types/Order";
 import { TouchableOpacity } from "react-native";
 import { useTranslation } from "react-i18next";
 
-const formatDate = (date: Date) => {
+export const formatDate = (date: Date) => {
   const monthNames = [
     "January",
     "February",

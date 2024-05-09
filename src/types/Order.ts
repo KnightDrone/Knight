@@ -58,13 +58,20 @@ class Order {
   async locSearch() {
     const location = this.getUsrLocation();
     try {
-      const response = await fetch(
-        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${location.latitude}&lon=${location.longitude}`
-      );
+      const response = (await Promise.race([
+        fetch(
+          `https://nominatim.openstreetmap.org/reverse?format=json&lat=${location.latitude}&lon=${location.longitude}`
+        ),
+        new Promise((_, reject) =>
+          setTimeout(() => reject(new Error("Timeout")), 5000)
+        ), // in case of timeout error is thrown, and we go to catch block
+      ])) as Response;
       const data = await response.json();
       this.usrLocName = data.name;
     } catch {
-      console.error("Failed to fetch location name with Nominatim API");
+      console.error(
+        "Failed to fetch location name with Nominatim API or request timed out"
+      );
       this.usrLocName = `Lat: ${location.latitude}, Long: ${location.longitude}`; //default boring name
     }
   }

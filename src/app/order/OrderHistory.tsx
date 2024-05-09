@@ -17,7 +17,8 @@ import { MessageBox } from "../../ui/MessageBox";
 import { TextField } from "../../ui/TextField";
 import FirestoreManager from "../../services/FirestoreManager";
 import { useTranslation } from "react-i18next";
-
+import { formatDate } from "../../components/cards/OrderCard";
+import { Picker } from "@react-native-picker/picker";
 /* 
 NOTE: This is a temporary solution to simulate fetching orders from a server. Should be replaced with actual database calls
 */
@@ -74,6 +75,7 @@ const OrderHistory = ({
   const [orders, setOrders] = useState<Order[]>([]);
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState<Error | null>(null);
+  const [sortingOption, setSortingOption] = useState("ascendingDate");
 
   useEffect(() => {
     fetchOrders();
@@ -84,7 +86,6 @@ const OrderHistory = ({
     try {
       const field = historyOp ? "operatorId" : "userId";
       let newOrders = await firestoreManager.queryOrder(field, userId);
-      //let newOrders: Order[] = [];
       if (newOrders === null) {
         setError(new Error("Failed to fetch from database."));
       } else if (newOrders.length === 0) {
@@ -105,15 +106,40 @@ const OrderHistory = ({
     }
   };
 
-  const orderListFiltered = orders.filter(
-    (order) =>
-      order
-        .getItem()
-        .getName()
-        .toLowerCase()
-        .includes(searchText.toLowerCase()) ||
-      order.getOpName().toLowerCase().includes(searchText.toLowerCase()) ||
-      order.getUsrLocName().toLowerCase().includes(searchText.toLowerCase())
+  const sortOrders = (option: string, orders: Order[]) => {
+    switch (option) {
+      case "ascendingDate":
+        return [...orders].sort(
+          (a, b) => a.getOrderDate().getTime() - b.getOrderDate().getTime()
+        );
+      case "descendingDate":
+        return [...orders].sort(
+          (a, b) => b.getOrderDate().getTime() - a.getOrderDate().getTime()
+        );
+      case "ascendingPrice":
+        return [...orders].sort(
+          (a, b) => b.getItem().getPrice() - a.getItem().getPrice()
+        );
+      case "descendingPrice":
+        return [...orders].sort(
+          (a, b) => a.getItem().getPrice() - b.getItem().getPrice()
+        );
+      default:
+        return orders;
+    }
+  };
+  const orderListFiltered = sortOrders(
+    sortingOption,
+    orders.filter(
+      (order) =>
+        order
+          .getItem()
+          .getName()
+          .toLowerCase()
+          .includes(searchText.toLowerCase()) ||
+        order.getOpName().toLowerCase().includes(searchText.toLowerCase()) ||
+        order.getUsrLocName().toLowerCase().includes(searchText.toLowerCase())
+    )
   );
 
   return (
@@ -140,19 +166,34 @@ const OrderHistory = ({
           />
         </TouchableOpacity>
       </View>
-      <TextField
-        className="p-4 w-11/12 mx-auto mt-4 bg-white"
-        placeholder="Type here to search"
-        onChangeText={setSearchText}
-        value={searchText}
-        type="text"
-      />
+      <View className="flex-row">
+        <TextField
+          className="p-4 w-6/12 mx-auto mt-4 bg-white ml-4"
+          placeholder="Type here to search"
+          onChangeText={setSearchText}
+          value={searchText}
+          type="text"
+        />
+        <View className="w-40 mx-auto mt-4 bg-gray-50 ml-4 relative h-12 rounded-full border border-gray-400 pb-8">
+          <Picker
+            selectedValue={sortingOption}
+            onValueChange={(itemValue, itemIndex) =>
+              setSortingOption(itemValue)
+            }
+          >
+            <Picker.Item label="Date ↓" value="descendingDate" />
+            <Picker.Item label="Date ↑" value="ascendingDate" />
+            <Picker.Item label="Price ↓" value="descendingPrice" />
+            <Picker.Item label="Price ↑" value="ascendingPrice" />
+          </Picker>
+        </View>
+      </View>
       {
         error && (
-          <TriangleBackground color="#A0D1E4" bottom={-125} />
+          <TriangleBackground color="#A0D1E4" bottom={-45} />
         ) /* These are some magic numbers that I figured out by trial and error*/
       }
-      {!error && <TriangleBackground color="#A0D1E4" bottom={-200} />}
+      {!error && <TriangleBackground color="#A0D1E4" bottom={-120} />}
       {error && (
         <MessageBox
           message={error.message}
@@ -168,11 +209,7 @@ const OrderHistory = ({
         // if I am an operator, I want to see the user's location name
         // if I am user, I want to see where I ordered from
         renderItem={({ item }) => (
-          <OrderCard
-            order={item}
-            opBool={!historyOp}
-            onClick={() => console.log(item.getItem().getName())}
-          />
+          <OrderCard order={item} opBool={!historyOp} />
         )}
         keyExtractor={(item) => item.getId()}
         onEndReached={fetchOrders}
