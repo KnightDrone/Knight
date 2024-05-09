@@ -75,11 +75,6 @@ export default function OrderMenu({
           />
         );
       })}
-      <Button
-        title="Go to Settings"
-        onPress={() => navigation.navigate("Settings")}
-        color="#007AFF"
-      />
     </View>
   );
 }

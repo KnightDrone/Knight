@@ -38,7 +38,6 @@ export class FirestoreManager {
     try {
       const userRef = doc(firestore, "users", userId);
       await setDoc(userRef, userData, { merge: true });
-      console.log("User document created or updated successfully.");
     } catch (error) {
       console.error("Error writing user document: ", error);
     }
@@ -53,7 +52,6 @@ export class FirestoreManager {
     try {
       const userRef = doc(firestore, "users", userId);
       await setDoc(userRef, updates, { merge: true });
-      console.log(`User document for ${userId} updated successfully.`);
     } catch (error) {
       console.error("Error updating user document: ", error);
     }
@@ -65,15 +63,12 @@ export class FirestoreManager {
    * @returns A promise that resolves to the user data or null if not found.
    */
   async getUser(userId: string): Promise<DBUser | null> {
-    console.log("Fetching user document...", userId);
     try {
       const userRef = doc(firestore, "users", userId);
       const docSnap = await getDoc(userRef);
       if (docSnap.exists()) {
-        console.log("User document fetched successfully.");
         return docSnap.data() as DBUser;
       } else {
-        console.log("No such user document!");
         throw new Error("User not found.");
       }
     } catch (error) {

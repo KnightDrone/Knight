@@ -64,7 +64,6 @@ async function simulateLogin(
   fireEvent.press(getByTestId("login-button"));
 
   await waitFor(() => {
-    screen.debug();
     expect(queryByTestId("map-view")).toBeTruthy();
   });
 }
@@ -104,7 +103,7 @@ describe("App Navigation", () => {
     });
   });
 
-  it.only("logs in when the login button is pressed", async () => {
+  it("logs in when the login button is pressed", async () => {
     (Google.useAuthRequest as jest.Mock).mockReturnValue([
       {},
       { type: "fail", params: { id_token: "" } },

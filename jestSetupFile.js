@@ -11,6 +11,13 @@ jest.mock("firebase/app", () => ({
   getApp: jest.fn(),
 }));
 
+jest.mock("firebase/storage", () => ({
+  getStorage: jest.fn(() => {}),
+  ref: jest.fn(),
+  uploadString: jest.fn(),
+  getDownloadURL: jest.fn(),
+}));
+
 jest.mock("firebase/firestore", () => ({
   getFirestore: jest.fn(() => {}),
   initializeFirestore: jest.fn(),
@@ -36,7 +43,25 @@ jest.mock("expo-auth-session/providers/google", () => ({
 
 jest.mock("firebase/auth", () => ({
   getAuth: jest.fn(() => {}),
-  initializeAuth: jest.fn(),
+  initializeAuth: jest.fn().mockReturnValue({
+    onAuthStateChanged: jest.fn(),
+    createUserWithEmailAndPassword: jest.fn(),
+    signInWithEmailAndPassword: jest.fn(),
+    signOut: jest.fn(),
+    sendPasswordResetEmail: jest.fn(),
+    signInWithPopup: jest.fn(),
+    signInWithRedirect: jest.fn(),
+    signInWithCredential: jest.fn(),
+    GoogleAuthProvider: {
+      credential: jest.fn(() => "mock-credential"),
+    },
+    currentUser: {
+      metadata: {
+        creationTime: 0,
+        lastSignInTime: 0,
+      },
+    },
+  }),
   getReactNativePersistence: jest.fn(),
   GoogleAuthProvider: {
     credential: jest.fn(() => "mock-credential"), // Ensure this returns a mock credential as expected
@@ -108,6 +133,14 @@ jest.mock("@react-navigation/native", () => ({
 }));
 
 jest.mock("react-native-vector-icons/FontAwesome", () => {
+  const { View } = require("react-native");
+  return {
+    __esModule: true,
+    default: jest.fn().mockImplementation((props) => <View {...props} />),
+  };
+});
+
+jest.mock("react-native-vector-icons/MaterialCommunityIcons", () => {
   const { View } = require("react-native");
   return {
     __esModule: true,

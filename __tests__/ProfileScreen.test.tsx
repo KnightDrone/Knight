@@ -2,6 +2,13 @@ import React from "react";
 import ProfileScreen from "../src/app/settings/ProfileScreen";
 import { render, fireEvent, waitFor } from "@testing-library/react-native";
 
+import * as ImagePicker from "expo-image-picker";
+
+// Mock the entire ImagePicker module
+jest.mock("expo-image-picker", () => ({
+  requestMediaLibraryPermissionsAsync: jest.fn(),
+}));
+
 jest.mock("firebase/auth", () => ({
   initializeAuth: jest.fn().mockReturnValue({
     onAuthStateChanged: jest.fn(),
@@ -20,6 +27,12 @@ jest.mock("firebase/auth", () => ({
 
 beforeAll(() => {
   global.alert = jest.fn();
+  // Setup the mock to return a resolved promise with an object containing a status
+  (
+    ImagePicker.requestMediaLibraryPermissionsAsync as jest.Mock
+  ).mockResolvedValue({
+    status: "granted",
+  });
 });
 
 jest.mock("firebase/auth", () => ({
@@ -49,6 +62,7 @@ jest.mock("firebase/auth", () => ({
       email: "email@example.com",
       photoURL: "mock-photo-url",
       displayName: "mock-display-name",
+      reload: jest.fn(),
     },
   }),
   getReactNativePersistence: jest.fn(),

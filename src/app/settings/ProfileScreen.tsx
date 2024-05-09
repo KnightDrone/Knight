@@ -7,11 +7,15 @@ import {
   Image,
   TouchableOpacity,
   TextInput,
+  Platform,
 } from "react-native";
 import { TextInputMask } from "react-native-masked-text";
 import DatePicker from "react-native-date-picker";
-import { auth } from "../../services/Firebase";
+import { auth, storage } from "../../services/Firebase";
 import { updateProfile, updateEmail, updatePassword } from "firebase/auth";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import * as ImagePicker from "expo-image-picker";
+import { FirestoreManager, DBUser } from "../../services/FirestoreManager";
 
 const ProfileScreen = () => {
   const [name, setName] = useState("");
@@ -20,6 +24,8 @@ const ProfileScreen = () => {
   const [dateOfBirth, setDateOfBirth] = useState("");
   const [isPickerShow, setIsPickerShow] = useState(false);
   const [photoURL, setPhotoURL] = useState("");
+  const [photoBase64, setPhotoBase64] = useState("");
+  const firestoreManager = new FirestoreManager();
 
   const showPicker = () => {
     setIsPickerShow(true);
@@ -27,6 +33,7 @@ const ProfileScreen = () => {
 
   useEffect(() => {
     if (auth.currentUser) {
+      console.log(auth.currentUser.photoURL, "photoURL");
       const { displayName, email, photoURL } = auth.currentUser;
       setName(displayName || "");
       setEmail(email || "");
@@ -34,27 +41,68 @@ const ProfileScreen = () => {
     }
   }, []);
 
+  useEffect(() => {
+    (async () => {
+      if (Platform.OS !== "web") {
+        const { status } =
+          await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (status !== "granted") {
+          alert("Sorry, we need camera roll permissions to make this work!");
+        }
+      }
+    })();
+  }, []);
+
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+      base64: true,
+    });
+
+    if (!result.canceled) {
+      const item = result.assets[0] as any;
+      setPhotoBase64(item.base64);
+      if (auth.currentUser) {
+        const uid = auth.currentUser.uid;
+        const url = `profile_pictures/${uid}.jpg`;
+        const photoRef = ref(storage, url);
+
+        try {
+          const response = await fetch(item.uri);
+          const blob = await response.blob();
+
+          await uploadBytes(photoRef, blob).then(async () => {
+            const url = await getDownloadURL(photoRef);
+            setPhotoURL(url);
+            console.log("File uploaded successfully: ", url);
+          });
+        } catch (error) {
+          console.error("Error during image upload: ", error);
+        }
+      }
+    }
+  };
+
   function isValidEmail(email: string) {
     var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
     return regex.test(email);
   }
 
   const handleSaveChanges = async () => {
-    console.log("Saving changes...");
     try {
-      console.log("TRY Saving changes...");
       if (auth.currentUser) {
-        console.log("USER Saving changes...");
-
         await updateProfile(auth.currentUser, {
           displayName: name,
+          photoURL: photoURL,
         });
 
         if (isValidEmail(email)) {
           auth.currentUser.email !== email &&
             updateEmail(auth.currentUser, email);
         } else {
-          console.log("Invalid email address", email);
           return alert("Invalid email address");
         }
 
@@ -62,10 +110,23 @@ const ProfileScreen = () => {
           updatePassword(auth.currentUser, password);
         }
 
+        if (photoURL) {
+          const user = auth.currentUser;
+          if (user) {
+            const updatedUser: Partial<DBUser> = {
+              photoURL: photoURL,
+            };
+            await firestoreManager.updateUser(user.uid, updatedUser);
+            await updateProfile(user, {
+              photoURL: photoURL,
+            });
+            await user.reload();
+          }
+        }
+
         alert("Changes Saved!");
       }
     } catch (error: any) {
-      console.log("Failed to save changes:", error.message);
       alert(`Failed to save changes: ${error.message}`);
     }
   };
@@ -79,12 +140,15 @@ const ProfileScreen = () => {
     <ScrollView style={styles.container}>
       <TouchableOpacity
         style={styles.profileImageContainer}
-        onPress={() => console.log("Open Image Picker")}
+        onPress={async () => await pickImage()}
       >
         <Image
           source={
-            (photoURL && { uri: photoURL }) ||
-            require("../../../assets/images/defaultProfile.png")
+            photoBase64
+              ? { uri: `data:image/jpeg;base64,${photoBase64}` }
+              : photoURL
+                ? { uri: photoURL }
+                : require("../../../assets/images/defaultProfile.png")
           }
           testID="profile-image"
           style={styles.profileImage}

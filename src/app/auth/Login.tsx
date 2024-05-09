@@ -64,7 +64,6 @@ export default function Login({ navigation }: any) {
               }
             })
             .catch(() => {
-              console.log("User not found in database");
               // User might not exist in the database
               firestoreManager
                 .createUser(result.user.uid, {
@@ -95,8 +94,6 @@ export default function Login({ navigation }: any) {
           const user = await firestoreManager
             .getUser(response.user.uid)
             .catch(() => {
-              console.log("User not found in database");
-
               // User might not exist in the database
               firestoreManager
                 .createUser(response.user.uid, {
@@ -110,7 +107,6 @@ export default function Login({ navigation }: any) {
                   navigation.navigate("Map");
                 });
             });
-          console.log("User: ", user);
           if (user && user.role === "user") {
             navigation.navigate("Map");
           } else {

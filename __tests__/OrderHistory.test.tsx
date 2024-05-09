@@ -86,10 +86,6 @@ describe("OrderHistory", () => {
 
     await waitFor(
       () => {
-        expect(getByTestId("menu-button")).toBeTruthy();
-        expect(getByTestId("x-button")).toBeTruthy();
-        expect(getByTestId("x-icon")).toBeTruthy();
-        expect(getByText("Order history")).toBeTruthy();
         expect(getByText("mock item1")).toBeTruthy();
         expect(getByText("10 CHF")).toBeTruthy();
 
@@ -98,39 +94,6 @@ describe("OrderHistory", () => {
       },
       { timeout: 2000 }
     );
-  });
-
-  it("navigates back", async () => {
-    const mockNavigation = {
-      goBack: jest.fn(),
-    };
-
-    const mockRoute: RouteProp<RootStackParamList, "OrderHistory"> = {
-      key: "OrderHistory",
-      name: "OrderHistory",
-      params: {
-        historyOp: false,
-        userId: "user1",
-      },
-    };
-
-    const { getByTestId } = render(
-      <OrderHistory
-        navigation={
-          mockNavigation as unknown as StackNavigationProp<OrderHistoryStack>
-        }
-        route={mockRoute}
-      />
-    );
-
-    await waitFor(() => {
-      expect(getByTestId("x-button")).toBeTruthy();
-    });
-
-    const xButton = getByTestId("x-button");
-    fireEvent.press(xButton);
-
-    expect(mockNavigation.goBack).toHaveBeenCalledTimes(1);
   });
 
   it("fails to fetch orders", async () => {

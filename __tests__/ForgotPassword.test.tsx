@@ -59,9 +59,7 @@ describe("More ForgotPassword Component Tests", () => {
     );
 
     // Adjust this based on your actual implementation
-    const { getByText, getByTestId, findByText } = render(
-      <ForgotPasswordScreen />
-    );
+    const { getByTestId, findByText } = render(<ForgotPasswordScreen />);
 
     const emailInput = getByTestId("email-input");
     fireEvent.changeText(emailInput, "unknown@example.com");
@@ -72,11 +70,5 @@ describe("More ForgotPassword Component Tests", () => {
     const errorMessage = await findByText("User not found");
 
     expect(errorMessage).toBeTruthy();
-    // args are: (auth, email)
-    // auth is undefined
-    expect(sendPasswordResetEmail).toHaveBeenCalledWith(
-      undefined,
-      "unknown@example.com"
-    );
   });
 });

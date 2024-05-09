@@ -68,6 +68,8 @@ const OrderHistory = ({
 }) => {
   const firestoreManager = new FirestoreManager();
   const { historyOp, userId } = route.params;
+  console.log("historyOp: ", historyOp);
+  console.log("userId: ", userId);
 
   const { t } = useTranslation();
   const [orders, setOrders] = useState<Order[]>([]);
@@ -105,7 +107,7 @@ const OrderHistory = ({
   };
   return (
     <View className="mt-16" testID="order-history-screen">
-      <View className="flex-row items-center justify-center">
+      {/* <View className="flex-row items-center justify-center">
         <TouchableOpacity className="absolute left-4" testID="menu-button">
           <Image
             source={require("../../../assets/icons/menu_icon.png")}
@@ -126,12 +128,8 @@ const OrderHistory = ({
             testID="x-icon"
           />
         </TouchableOpacity>
-      </View>
-      {
-        error && (
-          <TriangleBackground color="#A0D1E4" bottom={-125} />
-        ) /* These are some magic numbers that I figured out by trial and error*/
-      }
+      </View> */}
+      {error && <TriangleBackground color="#A0D1E4" bottom={-125} />}
       {!error && <TriangleBackground color="#A0D1E4" bottom={-200} />}
       {error && (
         <MessageBox

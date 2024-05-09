@@ -5,23 +5,24 @@ import SignUp from "./auth/SignUp";
 import ForgotPassword from "./auth/ForgotPassword";
 import OrderPlaced from "./order/OrderPlaced";
 import OrderMenu from "./order/OrderMenu";
-import MapOverview from "./Map";
 import { HeaderBackButton } from "@react-navigation/elements";
 import { NavigationContainer } from "@react-navigation/native";
 import { RootStackParamList } from "../types/RootStackParamList";
 
 import { User } from "../services/Firebase";
 import OrderHistory from "./order/OrderHistory";
-import Settings from "./settings/Setting";
+import Settings from "./settings/Settings";
 import ProfileScreen from "./settings/ProfileScreen";
 import OperatorMap from "../operator/OperatorMap";
+import { DrawerNavigator } from "../components/DrawerNavigator";
 
 const { Navigator, Screen, Group } = createStackNavigator<RootStackParamList>();
 
 interface AppStackProps {
   isLoggedIn: "Login" | "Map";
-  user?: User | null; // Define a more specific type if possible
+  user?: User | null;
 }
+
 export const AppStack: React.FC<AppStackProps> = ({ isLoggedIn, user }) => {
   return (
     <NavigationContainer>
@@ -77,9 +78,11 @@ export const AppStack: React.FC<AppStackProps> = ({ isLoggedIn, user }) => {
           />
         </Group>
         <Group>
-          <Screen name="Map" options={{ title: "Map for User" }}>
-            {(props: any) => <MapOverview {...props} />}
-          </Screen>
+          <Screen
+            name="Map"
+            options={{ title: "Map for User" }}
+            component={DrawerNavigator}
+          />
           <Screen
             name="OrderMenu"
             options={({ navigation }: any) => ({
@@ -100,7 +103,21 @@ export const AppStack: React.FC<AppStackProps> = ({ isLoggedIn, user }) => {
           <Screen name="OrderPlaced">
             {(props: any) => <OrderPlaced {...props} />}
           </Screen>
-          <Screen name="OrderHistory">
+          <Screen
+            name="OrderHistory"
+            options={({ navigation }: any) => ({
+              headerShown: true,
+              headerTitle: "Order History",
+              headerLeft: () => (
+                <HeaderBackButton
+                  onPress={() => navigation.goBack()}
+                  labelVisible={false}
+                  labelStyle={{ color: "black" }}
+                  testID="order-history-back-button"
+                />
+              ),
+            })}
+          >
             {(props: any) => <OrderHistory {...props} />}
           </Screen>
           <Screen

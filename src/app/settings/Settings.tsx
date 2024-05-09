@@ -24,6 +24,7 @@ interface SettingsSection {
 
 interface SettingsItem {
   name: string;
+  id?: string;
   icon: string;
   action?: () => void;
 }
@@ -170,10 +171,16 @@ const Settings: React.FC<SettingsProps> = ({
         { name: "Add account", icon: "person-add" },
         {
           name: `Become ${role === "operator" ? "a user" : "an operator"}`,
+          id: "role-button",
           action: role === "operator" ? handleBecomeUser : handleBecomeOperator,
           icon: "work",
         },
-        { name: "Log out", action: handleLogout, icon: "logout" },
+        {
+          name: "Log out",
+          id: "logout-button",
+          action: handleLogout,
+          icon: "logout",
+        },
       ],
     },
   ];
@@ -196,7 +203,7 @@ const Settings: React.FC<SettingsProps> = ({
                           ? onItemPress(item.name)
                           : console.log(`${item.name} pressed`)
                 }
-                testID={`${item.name}-button`}
+                testID={item.id || `${item.name}-button`}
               >
                 <Icon
                   name={item.icon}

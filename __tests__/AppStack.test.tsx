@@ -11,6 +11,7 @@ import * as Google from "expo-auth-session/providers/google";
 import * as Location from "expo-location";
 
 import { signInWithEmailAndPassword } from "../src/services/Firebase";
+import { initI18n } from "../src/lang/i18n";
 
 jest.mock("expo-location", () => {
   const originalModule = jest.requireActual("expo-location");
@@ -23,6 +24,7 @@ jest.mock("expo-location", () => {
 });
 
 jest.mock("react-native-vector-icons/MaterialIcons", () => "Icon");
+jest.mock("react-native-vector-icons/MaterialCommunityIcons", () => "Icon");
 jest.mock("../src/components/LocationMarker", () => "LocationMarker");
 
 beforeEach(() => {
@@ -41,6 +43,7 @@ beforeAll(() => {
 
   // Avoid useless error messages
   jest.spyOn(console, "error").mockImplementation(() => {});
+  initI18n();
 });
 
 jest.mock("../src/services/Firebase", () => ({
