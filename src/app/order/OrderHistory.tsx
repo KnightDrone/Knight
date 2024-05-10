@@ -137,8 +137,13 @@ const OrderHistory = ({
 
     return (
       <Picker
-        //style={{ color: "red" }}
-        className="text-red-500"
+        style={{
+          transform: [{ translateY: -6.5 }],
+          color: "black",
+          width: 140,
+        }}
+        // <Picker> is a component from @react-native-picker/picker, and as a result it is NOT comptabile with Nativewind
+        //className="text-red-500"
         selectedValue={sortingOption}
         onValueChange={(itemValue, itemIndex) => setSortingOption(itemValue)}
       >
@@ -180,7 +185,7 @@ const OrderHistory = ({
           value={searchText}
           type="text"
         />
-        <View className="w-40 mx-auto mt-4 bg-gray-50 ml-4 relative h-12 rounded-full border border-gray-400 pb-8 pr-3">
+        <View className="w-40 mx-auto mt-4 bg-gray-50 ml-1 relative h-12 rounded-full border border-gray-400 pb-8">
           <SortingPicker
             sortingOption={sortingOption}
             setSortingOption={setSortingOption}

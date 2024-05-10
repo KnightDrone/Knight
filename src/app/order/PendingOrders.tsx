@@ -141,6 +141,12 @@ const PendingOrders = ({ navigation }: any) => {
 
     return (
       <Picker
+        style={{
+          transform: [{ translateY: -6.5 }],
+          color: "black",
+          width: 140,
+        }}
+        // <Picker> is a component from @react-native-picker/picker, and as a result it is NOT comptabile with Nativewind
         selectedValue={sortingOption}
         onValueChange={(itemValue, itemIndex) => setSortingOption(itemValue)}
       >
