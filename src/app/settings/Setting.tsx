@@ -67,9 +67,27 @@ const Settings: React.FC<SettingsProps> = ({
           icon: "edit",
           action: () => navigation.navigate("ProfileScreen"),
         } as { name: string; icon: string; action: () => void },
-        { name: "Security", icon: "security" },
-        { name: "Notifications", icon: "notifications" },
-        { name: "Privacy", icon: "privacy-tip" },
+        {
+          name: "Security",
+          icon: "security",
+          action: () => {
+            navigation.navigate("SecurityScreen");
+          },
+        },
+        {
+          name: "Notifications",
+          icon: "notifications",
+          action: () => {
+            navigation.navigate("NotificationsScreen");
+          },
+        },
+        {
+          name: "Privacy",
+          icon: "privacy-tip",
+          action: () => {
+            navigation.navigate("PrivacyScreen");
+          },
+        },
       ],
     },
     {
