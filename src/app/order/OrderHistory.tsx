@@ -179,7 +179,7 @@ const OrderHistory = ({
       </View>
       <View className="flex-row">
         <TextField
-          className="p-4 w-6/12 mx-auto mt-4 bg-white ml-4"
+          className="w-6/12 mx-auto mt-4 bg-white ml-4"
           placeholder="Type here to search"
           onChangeText={setSearchText}
           value={searchText}
