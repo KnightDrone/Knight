@@ -51,7 +51,7 @@ class Order {
       usrLocName ||
       `Lat: ${usrLocation.latitude}, Long: ${usrLocation.longitude}`; //default boring name
     this.operatorId = operatorId || "";
-    this.operatorName = operatorName || "";
+    this.operatorName = operatorName || "Unaccepted";
     this.opLocation = opLocation || { latitude: -999, longitude: -999 };
   }
   // This is done outside constructor as it is bad practice to have async calls in constructor, this method sh
@@ -70,7 +70,7 @@ class Order {
       this.usrLocName = data.name;
     } catch {
       console.error(
-        "Failed to fetch location name with Nominatim API or request timed out"
+        "Failed to fetch location name with Nominatim API. Request timed out"
       );
       this.usrLocName = `Lat: ${location.latitude}, Long: ${location.longitude}`; //default boring name
     }
@@ -191,5 +191,26 @@ const orderConverter = {
     return order;
   },
 };
-
-export { OrderStatus, OrderLocation, Order, orderConverter };
+const sortOrders = (option: string, orders: Order[]) => {
+  switch (option) {
+    case "ascendingDate":
+      return [...orders].sort(
+        (a, b) => a.getOrderDate().getTime() - b.getOrderDate().getTime()
+      );
+    case "descendingDate":
+      return [...orders].sort(
+        (a, b) => b.getOrderDate().getTime() - a.getOrderDate().getTime()
+      );
+    case "ascendingPrice":
+      return [...orders].sort(
+        (a, b) => b.getItem().getPrice() - a.getItem().getPrice()
+      );
+    case "descendingPrice":
+      return [...orders].sort(
+        (a, b) => a.getItem().getPrice() - b.getItem().getPrice()
+      );
+    default:
+      return orders;
+  }
+};
+export { OrderStatus, OrderLocation, Order, orderConverter, sortOrders };

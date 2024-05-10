@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import OrderCard from "../../components/cards/OrderCard";
-import { Order, OrderStatus } from "../../types/Order";
+import { Order, OrderStatus, sortOrders } from "../../types/Order";
 import { Item } from "../../types/Item";
 import TriangleBackground from "../../components/TriangleBackground";
 import { RootStackParamList } from "../../types/RootStackParamList";
@@ -106,28 +106,6 @@ const OrderHistory = ({
     }
   };
 
-  const sortOrders = (option: string, orders: Order[]) => {
-    switch (option) {
-      case "ascendingDate":
-        return [...orders].sort(
-          (a, b) => a.getOrderDate().getTime() - b.getOrderDate().getTime()
-        );
-      case "descendingDate":
-        return [...orders].sort(
-          (a, b) => b.getOrderDate().getTime() - a.getOrderDate().getTime()
-        );
-      case "ascendingPrice":
-        return [...orders].sort(
-          (a, b) => b.getItem().getPrice() - a.getItem().getPrice()
-        );
-      case "descendingPrice":
-        return [...orders].sort(
-          (a, b) => a.getItem().getPrice() - b.getItem().getPrice()
-        );
-      default:
-        return orders;
-    }
-  };
   const orderListFiltered = sortOrders(
     sortingOption,
     orders.filter(
@@ -138,11 +116,38 @@ const OrderHistory = ({
           .toLowerCase()
           .includes(searchText.toLowerCase()) ||
         order.getOpName().toLowerCase().includes(searchText.toLowerCase()) ||
-        order.getItem().getPrice().toString().includes(searchText) ||
         formatDate(order.getOrderDate()).includes(searchText)
     )
   );
+  interface SortingPickerProps {
+    sortingOption: string;
+    setSortingOption: React.Dispatch<React.SetStateAction<string>>;
+  }
 
+  const SortingPicker: React.FC<SortingPickerProps> = ({
+    sortingOption,
+    setSortingOption,
+  }) => {
+    const sortingOptions = [
+      { label: "Date ↓", value: "descendingDate" },
+      { label: "Date ↑", value: "ascendingDate" },
+      { label: "Price ↓", value: "descendingPrice" },
+      { label: "Price ↑", value: "ascendingPrice" },
+    ];
+
+    return (
+      <Picker
+        //style={{ color: "red" }}
+        className="text-red-500"
+        selectedValue={sortingOption}
+        onValueChange={(itemValue, itemIndex) => setSortingOption(itemValue)}
+      >
+        {sortingOptions.map((option) => (
+          <Picker.Item label={option.label} value={option.value} />
+        ))}
+      </Picker>
+    );
+  };
   return (
     <View className="mt-16" testID="order-history-screen">
       <View className="flex-row items-center justify-center">
@@ -175,18 +180,11 @@ const OrderHistory = ({
           value={searchText}
           type="text"
         />
-        <View className="w-40 mx-auto mt-4 bg-gray-50 ml-4 relative h-12 rounded-full border border-gray-400 pb-8">
-          <Picker
-            selectedValue={sortingOption}
-            onValueChange={(itemValue, itemIndex) =>
-              setSortingOption(itemValue)
-            }
-          >
-            <Picker.Item label="Date ↓" value="descendingDate" />
-            <Picker.Item label="Date ↑" value="ascendingDate" />
-            <Picker.Item label="Price ↓" value="descendingPrice" />
-            <Picker.Item label="Price ↑" value="ascendingPrice" />
-          </Picker>
+        <View className="w-40 mx-auto mt-4 bg-gray-50 ml-4 relative h-12 rounded-full border border-gray-400 pb-8 pr-3">
+          <SortingPicker
+            sortingOption={sortingOption}
+            setSortingOption={setSortingOption}
+          />
         </View>
       </View>
       {
