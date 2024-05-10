@@ -110,7 +110,6 @@ const PendingOrders = ({ navigation }: any) => {
           .getName()
           .toLowerCase()
           .includes(searchText.toLowerCase()) ||
-        order.getOpName().toLowerCase().includes(searchText.toLowerCase()) ||
         order
           .getUsrLocName()
           .toLowerCase()

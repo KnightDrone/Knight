@@ -138,10 +138,6 @@ const OrderHistory = ({
           .toLowerCase()
           .includes(searchText.toLowerCase()) ||
         order.getOpName().toLowerCase().includes(searchText.toLowerCase()) ||
-        order
-          .getUsrLocName()
-          .toLowerCase()
-          .includes(searchText.toLowerCase()) ||
         order.getItem().getPrice().toString().includes(searchText) ||
         formatDate(order.getOrderDate()).includes(searchText)
     )
