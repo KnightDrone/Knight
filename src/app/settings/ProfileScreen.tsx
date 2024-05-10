@@ -12,61 +12,68 @@ import { TextInputMask } from "react-native-masked-text";
 import DatePicker from "react-native-date-picker";
 import { auth } from "../../services/Firebase";
 import { updateProfile, updateEmail, updatePassword } from "firebase/auth";
+import FirestoreManager from "../../services/FirestoreManager";
+import { User } from "../../types/User";
+import * as ImagePicker from "expo-image-picker";
+import * as FileSystem from "expo-file-system";
+
+const firestoreManager = new FirestoreManager();
 
 const ProfileScreen = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isOperator, setIsOperator] = useState(false); // TODO: Implement operator functionality
   const [dateOfBirth, setDateOfBirth] = useState("");
   const [isPickerShow, setIsPickerShow] = useState(false);
-  const [photoURL, setPhotoURL] = useState("");
 
   const showPicker = () => {
     setIsPickerShow(true);
   };
 
   useEffect(() => {
-    if (auth.currentUser) {
-      const { displayName, email, photoURL } = auth.currentUser;
-      setName(displayName || "");
-      setEmail(email || "");
-      setPhotoURL(photoURL || "");
-    }
+    const fetchData = async () => {
+      const user = auth.currentUser;
+      if (user) {
+        const userData = await firestoreManager.readData("users", user.uid);
+
+        if (!userData) {
+          console.error("User data not found");
+          return;
+        }
+        setIsOperator(userData.getIsOperator());
+        setName(userData.getDisplayName());
+        setEmail(userData.getEmail());
+        setDateOfBirth(userData.getBirthday().toLocaleDateString("en-GB"));
+      } else {
+        console.error("No user logged in");
+      }
+    };
+    fetchData();
   }, []);
 
-  function isValidEmail(email: string) {
-    var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-    return regex.test(email);
+  function parseDate(dateString: string): Date {
+    const [day, month, year] = dateString.split("/");
+    return new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
   }
 
-  const handleSaveChanges = async () => {
-    console.log("Saving changes...");
+  const saveChanges = async () => {
     try {
-      console.log("TRY Saving changes...");
-      if (auth.currentUser) {
-        console.log("USER Saving changes...");
-
-        await updateProfile(auth.currentUser, {
-          displayName: name,
-        });
-
-        if (isValidEmail(email)) {
-          auth.currentUser.email !== email &&
-            updateEmail(auth.currentUser, email);
-        } else {
-          console.log("Invalid email address", email);
-          return alert("Invalid email address");
-        }
-
-        if (password) {
-          updatePassword(auth.currentUser, password);
-        }
-
+      const user = auth.currentUser;
+      if (user) {
+        const newUser = new User(
+          user.uid,
+          email,
+          isOperator,
+          name,
+          parseDate(dateOfBirth)
+        );
+        await firestoreManager.writeData("users", newUser);
+        updatePassword(user, password);
         alert("Changes Saved!");
       }
-    } catch (error: any) {
-      console.log("Failed to save changes:", error.message);
-      alert(`Failed to save changes: ${error.message}`);
+    } catch (error) {
+      console.error("Error updating user data:", error);
     }
   };
 
@@ -75,17 +82,25 @@ const ProfileScreen = () => {
     setDateOfBirth(date.toLocaleDateString("en-GB")); // formats date as DD/MM/YYYY
   };
 
+  const changeImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 4],
+      quality: 1,
+    });
+
+    console.log(result);
+  };
+
   return (
     <ScrollView style={styles.container}>
       <TouchableOpacity
         style={styles.profileImageContainer}
-        onPress={() => console.log("Open Image Picker")}
+        onPress={() => changeImage()}
       >
         <Image
-          source={
-            (photoURL && { uri: photoURL }) ||
-            require("../../../assets/images/defaultProfile.png")
-          }
+          source={require("../../../assets/images/profile.png")}
           testID="profile-image"
           style={styles.profileImage}
         />
@@ -143,7 +158,7 @@ const ProfileScreen = () => {
       </View>
       <TouchableOpacity
         style={styles.saveButton}
-        onPress={handleSaveChanges}
+        onPress={saveChanges}
         testID="save-button"
       >
         <Text style={styles.saveButtonText}>Save changes</Text>

@@ -23,12 +23,12 @@ export function TextField({
     <View
       testID={testID}
       className={twMerge(
-        "flex-row items-center w-full h-12 px-4 border border-gray-400 rounded-full bg-gray-50",
+        "flex-row items-center w-full h-12 border border-gray-400 rounded-full bg-gray-50 overflow-hidden",
         className
       )}
     >
       <TextInput
-        className="h-12 w-full pr-6"
+        className="h-12 w-full pr-10 pl-4"
         placeholder={placeholder}
         value={value}
         secureTextEntry={type === "password" && !showPassword}

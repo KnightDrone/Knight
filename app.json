@@ -5,10 +5,10 @@
     "version": "1.0.0",
     "scheme": "knight",
     "orientation": "portrait",
-    "icon": "./assets/images/usedLogo.png",
+    "icon": "./assets/images/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/images/usedLogo.png",
+      "image": "./assets/images/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -21,19 +21,14 @@
     "android": {
       "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/usedLogo.png",
+        "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
       "permissions": ["android.permission.DETECT_SCREEN_CAPTURE"],
-      "package": "com.swent.knight",
-      "config": {
-        "googleMaps": {
-          "apiKey": "AIzaSyDfoR2OfM96jJOaL9lUic-Btw1rRwW04DI"
-        }
-      }
+      "package": "com.swent.knight"
     },
     "web": {
-      "favicon": "./assets/images/usedLogo.png",
+      "favicon": "./assets/images/favicon.png",
       "bundler": "metro"
     },
     "plugins": [
@@ -45,6 +40,7 @@
           }
         }
       ],
+      //"expo-image-picker",
       "expo-localization"
     ],
     "extra": {

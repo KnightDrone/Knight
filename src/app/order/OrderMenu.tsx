@@ -43,7 +43,7 @@ export default function OrderMenu({
     if (user != null) {
       const order = new Order(user.uid, item, userLocation);
       await order.locSearch(); // This is to call the Nominatim API to define the user location name
-      firestoreManager.writeOrder(order);
+      firestoreManager.writeData("orders", order);
       navigation.navigate("OrderPlaced", { orderId: order.getId() });
     } else {
       console.error("Could not find user.");

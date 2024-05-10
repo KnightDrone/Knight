@@ -45,7 +45,7 @@ describe("Order", () => {
   });
 
   it("should have the correct properties", () => {
-    expect(order.getUser()).toBe(userId);
+    expect(order.getUserId()).toBe(userId);
     expect(order.getItem()).toBe(item);
     expect(order.getOrderDate().getTime()).toBeCloseTo(orderDate.getTime(), -2);
     expect(order.getStatus()).toBe(OrderStatus.Pending);
