@@ -12,8 +12,6 @@ import { StripeProvider } from "@stripe/stripe-react-native";
 
 WebBrowser.maybeCompleteAuthSession();
 
-// const Stack = createStackNavigator<RootStackParamList>();
-
 initI18n();
 
 function App() {
