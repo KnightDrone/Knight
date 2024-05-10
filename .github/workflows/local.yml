@@ -6,6 +6,7 @@ on:
       - build-apk
       - eas-build
       - M2
+      - filter/search-orders
 
 jobs:
   build:
