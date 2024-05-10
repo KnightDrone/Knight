@@ -150,8 +150,8 @@ const PendingOrders = ({ navigation }: any) => {
         selectedValue={sortingOption}
         onValueChange={(itemValue, itemIndex) => setSortingOption(itemValue)}
       >
-        {sortingOptions.map((option) => (
-          <Picker.Item label={option.label} value={option.value} />
+        {sortingOptions.map((option, index) => (
+          <Picker.Item label={option.label} value={option.value} key={index} />
         ))}
       </Picker>
     );

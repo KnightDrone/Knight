@@ -75,7 +75,7 @@ const OrderHistory = ({
   const [orders, setOrders] = useState<Order[]>([]);
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState<Error | null>(null);
-  const [sortingOption, setSortingOption] = useState("ascendingDate");
+  const [sortingOption, setSortingOption] = useState("descendingDate");
 
   useEffect(() => {
     fetchOrders();
@@ -147,8 +147,8 @@ const OrderHistory = ({
         selectedValue={sortingOption}
         onValueChange={(itemValue, itemIndex) => setSortingOption(itemValue)}
       >
-        {sortingOptions.map((option) => (
-          <Picker.Item label={option.label} value={option.value} />
+        {sortingOptions.map((option, index) => (
+          <Picker.Item label={option.label} value={option.value} key={index} />
         ))}
       </Picker>
     );
