@@ -138,7 +138,7 @@ const MapOverview = ({ navigation }: any) => {
           });
         }}
       >
-        <Text style={styles.buttonText}>Drawer</Text>
+        <Icon name="menu" size={24} color="#000" />
       </TouchableOpacity>
 
       <TouchableOpacity
