@@ -74,7 +74,7 @@ const OrderCard = ({
   return onClick ? (
     <TouchableOpacity
       testID={onClickTestId}
-      style={styles.fix}
+      style={styles.fix} // Nativewind was causing rendering issues, do NOT use Nativewind here, it will break screens
       onPress={onClick}
     >
       {content}
@@ -83,6 +83,7 @@ const OrderCard = ({
       </View>
     </TouchableOpacity>
   ) : (
+    // Nativewind was causing rendering issues, do NOT use Nativewind here, it will break screens
     <View style={styles.fix}>
       {content}
       <View className="justify-center ">
