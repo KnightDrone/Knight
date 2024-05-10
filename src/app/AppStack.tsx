@@ -14,6 +14,7 @@ import SignUp from "./auth/SignUp";
 import ForgotPassword from "./auth/ForgotPassword";
 import OrderPlaced from "./order/OrderPlaced";
 import OrderMenu from "./order/OrderMenu";
+import PendingOrders from "./order/PendingOrders";
 import MapOverview from "./Map";
 
 // Drawer Navigation Screens
@@ -177,6 +178,9 @@ export const AppStack: React.FC<AppStackProps> = ({ isLoggedIn, user }) => {
           </Screen>
           <Screen name="OrderHistory">
             {(props: any) => <OrderHistory {...props} />}
+          </Screen>
+          <Screen name="PendingOrders">
+            {(props: any) => <PendingOrders {...props} />}
           </Screen>
         </Group>
       </Navigator>
