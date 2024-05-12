@@ -20,17 +20,26 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState<"Login" | "Map">("Login");
   const checkLocalUser = async () => {
     try {
-      const user = await AsyncStorage.getItem("@user");
-      if (user) {
-        setUserInfo(JSON.parse(user));
+      setLoading(true);
+      const userJSON = await AsyncStorage.getItem("@user");
+      const userData = userJSON != null ? JSON.parse(userJSON) : null;
+      if (userData) {
+        setUserInfo(userData);
         setIsLoggedIn("Map");
       } else {
-        setIsLoggedIn("Login");
+        // Check if the user is logged in with Firebase
+        const currentUser = auth.currentUser;
+        if (currentUser) {
+          setUserInfo(currentUser);
+          setIsLoggedIn("Map");
+        } else {
+          setIsLoggedIn("Login");
+        }
       }
     } catch (e) {
       alert(e);
     } finally {
-      //setLoading(false);
+      setLoading(false);
     }
   };
 
