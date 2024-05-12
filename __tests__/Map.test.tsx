@@ -68,7 +68,6 @@ describe("Map", () => {
     const button = getByTestId("my-location-button");
     fireEvent.press(button);
     //expect(animateToRegionMock).toHaveBeenCalled();
-    // Assertions would ideally check if animateToRegion is called with the correct region
   });
 
   it("passes location as a prop when navigating to OrderMenu", () => {
@@ -80,6 +79,6 @@ describe("Map", () => {
     expect(navigate).toHaveBeenCalledWith("OrderMenu", {
       latitude: undefined,
       longitude: undefined,
-    }); // we no longer initialize with a default location
+    });
   });
 });
