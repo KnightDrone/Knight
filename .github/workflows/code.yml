@@ -1,13 +1,5 @@
 name: Code Quality Checks
-
-on:
-    push:
-        branches:
-            - '*' # Runs format on all branches
-            - '*/*' 
-    pull_request:
-        branches:
-            - main # Runs on pull requests to the main branch
+on: pull_request
 
 concurrency:
     group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
