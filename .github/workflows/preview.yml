@@ -1,5 +1,9 @@
 name: preview
-on: pull_request
+on: 
+  workflow_dispatch: 
+  pull_request: 
+    branches: 
+      - main
 
 jobs:
   update:
@@ -18,12 +22,12 @@ jobs:
 
       - name: Create Google Services JSON File
         env:
-            GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES }}
+            GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
         run: echo $GOOGLE_SERVICES_JSON | base64 -di > ./google-services.json
 
       - name: Create eas.json File
         env:
-            EAS_JSON: ${{ secrets.EAS }}
+            EAS_JSON: ${{ secrets.EAS_JSON }}
         run: echo $EAS_JSON | base64 -di > ./eas.json
 
       - name: Create app.json File
