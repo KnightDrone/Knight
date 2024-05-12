@@ -18,54 +18,46 @@ function App() {
   const [userInfo, setUserInfo] = useState<User | null>(null);
   const [loading, setLoading] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState<"Login" | "Map">("Login");
-  const checkLocalUser = async () => {
-    try {
-      setLoading(true);
-      const userJSON = await AsyncStorage.getItem("@user");
-      const userData = userJSON != null ? JSON.parse(userJSON) : null;
-      if (userData) {
-        setUserInfo(userData);
-        setIsLoggedIn("Map");
-      } else {
-        // Check if the user is logged in with Firebase
-        const currentUser = auth.currentUser;
-        if (currentUser) {
-          setUserInfo(currentUser);
-          setIsLoggedIn("Map");
-        } else {
-          setIsLoggedIn("Login");
-        }
-      }
-    } catch (e) {
-      alert(e);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   useEffect(() => {
-    checkLocalUser();
-    const unsub = onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        setUserInfo(user);
-        setIsLoggedIn("Map");
-        try {
-          await AsyncStorage.setItem("@user", JSON.stringify(user));
-        } catch (e) {
-          alert(e);
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const userJSON = await AsyncStorage.getItem("@user");
+        const userData = userJSON != null ? JSON.parse(userJSON) : null;
+        if (userData) {
+          setUserInfo(userData);
+          setIsLoggedIn("Map");
+        } else {
+          const unsubscribe = onAuthStateChanged(auth, async (user) => {
+            if (user) {
+              setUserInfo(user);
+              setIsLoggedIn("Map");
+              try {
+                await AsyncStorage.setItem("@user", JSON.stringify(user));
+              } catch (e) {
+                alert(e);
+              }
+            } else {
+              setUserInfo(null);
+              setIsLoggedIn("Login");
+              try {
+                await AsyncStorage.removeItem("@user");
+              } catch (e) {
+                alert(e);
+              }
+            }
+          });
+          return unsubscribe;
         }
-      } else {
-        setUserInfo(null);
-        setIsLoggedIn("Login");
-        try {
-          await AsyncStorage.removeItem("@user");
-        } catch (e) {
-          alert(e);
-        }
+      } catch (error) {
+        console.error("Error fetching local user data:", error);
+      } finally {
+        setLoading(false);
       }
-    });
+    };
 
-    return unsub;
+    fetchData();
   }, []);
 
   const stripePublishableKey = process.env.STRIPE_PUBLISHABLE_KEY || "";
