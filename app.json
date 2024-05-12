@@ -40,7 +40,6 @@
           }
         }
       ],
-      //"expo-image-picker",
       "expo-localization"
     ],
     "extra": {
