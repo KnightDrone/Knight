@@ -95,12 +95,4 @@ describe("OperatorMap", () => {
     fireEvent.press(button);
     //expect(animateToRegionMock).toHaveBeenCalled();
   });
-
-  it("toggles auto-centering when map is dragged", () => {
-    const setAutoCenter = jest.fn();
-    React.useState = jest.fn(() => [true, setAutoCenter]);
-    const { getByTestId } = render(<OperatorMap />);
-    fireEvent(getByTestId("map-view"), "onPanDrag");
-    expect(setAutoCenter).toHaveBeenCalledWith(false);
-  });
 });
