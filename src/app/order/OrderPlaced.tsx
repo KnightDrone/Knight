@@ -41,7 +41,7 @@ const OrderPlaced = ({
 
   useEffect(() => {
     const fetchOrder = async () => {
-      const order = await firestoreManager.readOrder(orderId);
+      const order = await firestoreManager.readData("orders", orderId);
       setOrderedItem(order.getItem());
       setPlacedAt(order.getOrderDate());
       setUserLocation(order.getUsrLocation());
@@ -56,7 +56,8 @@ const OrderPlaced = ({
     const additionalMinutes: number = 10 + secureRandom() * 15;
     const arrivalTime = placedAt.getTime() + additionalMinutes * 60 * 1000;
     setArrivalTime(arrivalTime);
-    firestoreManager.updateOrder(
+    firestoreManager.updateData(
+      "orders",
       orderId,
       "deliveryDate",
       new Date(arrivalTime)
@@ -194,7 +195,7 @@ const OrderPlaced = ({
           testID="view-order-history"
           onPress={() =>
             navigation.navigate("OrderHistory", {
-              opOrders: true,
+              historyOp: false,
               userId: auth.currentUser ? auth.currentUser.uid : "",
             })
           }

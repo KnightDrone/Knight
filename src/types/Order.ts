@@ -51,20 +51,27 @@ class Order {
       usrLocName ||
       `Lat: ${usrLocation.latitude}, Long: ${usrLocation.longitude}`; //default boring name
     this.operatorId = operatorId || "";
-    this.operatorName = operatorName || "";
+    this.operatorName = operatorName || "Unaccepted";
     this.opLocation = opLocation || { latitude: -999, longitude: -999 };
   }
   // This is done outside constructor as it is bad practice to have async calls in constructor, this method sh
   async locSearch() {
     const location = this.getUsrLocation();
     try {
-      const response = await fetch(
-        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${location.latitude}&lon=${location.longitude}`
-      );
+      const response = (await Promise.race([
+        fetch(
+          `https://nominatim.openstreetmap.org/reverse?format=json&lat=${location.latitude}&lon=${location.longitude}`
+        ),
+        new Promise((_, reject) =>
+          setTimeout(() => reject(new Error("Timeout")), 5000)
+        ), // in case of timeout error is thrown, and we go to catch block
+      ])) as Response;
       const data = await response.json();
       this.usrLocName = data.name;
     } catch {
-      console.error("Failed to fetch location name with Nominatim API");
+      console.error(
+        "Failed to fetch location name with Nominatim API. Request timed out"
+      );
       this.usrLocName = `Lat: ${location.latitude}, Long: ${location.longitude}`; //default boring name
     }
   }
@@ -73,7 +80,7 @@ class Order {
     return this.id;
   }
 
-  getUser(): string {
+  getUserId(): string {
     return this.userId;
   }
 
@@ -133,7 +140,7 @@ class Order {
 const orderConverter = {
   toFirestore: (order: Order) => {
     return {
-      userId: order.getUser(),
+      userId: order.getUserId(),
       operatorId: order.getOperator(),
       item: order.getItem().toDict(),
       orderDate: order.getOrderDate(),
@@ -184,5 +191,26 @@ const orderConverter = {
     return order;
   },
 };
-
-export { OrderStatus, OrderLocation, Order, orderConverter };
+const sortOrders = (option: string, orders: Order[]) => {
+  switch (option) {
+    case "ascendingDate":
+      return [...orders].sort(
+        (a, b) => a.getOrderDate().getTime() - b.getOrderDate().getTime()
+      );
+    case "descendingDate":
+      return [...orders].sort(
+        (a, b) => b.getOrderDate().getTime() - a.getOrderDate().getTime()
+      );
+    case "ascendingPrice":
+      return [...orders].sort(
+        (a, b) => b.getItem().getPrice() - a.getItem().getPrice()
+      );
+    case "descendingPrice":
+      return [...orders].sort(
+        (a, b) => a.getItem().getPrice() - b.getItem().getPrice()
+      );
+    default:
+      return orders;
+  }
+};
+export { OrderStatus, OrderLocation, Order, orderConverter, sortOrders };

@@ -54,7 +54,7 @@ export default function Login({ navigation }: any) {
           password
         );
         if (response.user) {
-          navigation.navigate("Map");
+          navigation.navigate("Map"); // Navigate after successful login
         } else {
           setError("Invalid credentials");
         }
