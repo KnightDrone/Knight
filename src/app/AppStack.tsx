@@ -182,6 +182,40 @@ export const AppStack: React.FC<AppStackProps> = ({ isLoggedIn, user }) => {
           <Screen name="PendingOrders">
             {(props: any) => <PendingOrders {...props} />}
           </Screen>
+          <Screen
+            name="Settings"
+            options={({ navigation }: any) => ({
+              headerShown: true,
+              headerTitle: "Settings",
+              headerLeft: () => (
+                <HeaderBackButton
+                  onPress={() => navigation.goBack()}
+                  labelVisible={false}
+                  labelStyle={{ color: "black" }}
+                  testID="settings-back-button"
+                />
+              ),
+            })}
+          >
+            {(props: any) => <Settings {...props} />}
+          </Screen>
+          <Screen
+            name="ProfileScreen"
+            options={({ navigation }: any) => ({
+              headerShown: true,
+              headerTitle: "Edit Profile",
+              headerLeft: () => (
+                <HeaderBackButton
+                  onPress={() => navigation.goBack()}
+                  labelVisible={false}
+                  labelStyle={{ color: "black" }}
+                  testID="Profile-back-button"
+                />
+              ),
+            })}
+          >
+            {(props: any) => <ProfileScreen {...props} />}
+          </Screen>
         </Group>
       </Navigator>
     </NavigationContainer>

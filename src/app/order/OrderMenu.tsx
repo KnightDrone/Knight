@@ -19,7 +19,7 @@ export default function OrderMenu({
   route: RouteProp<RootStackParamList, "OrderMenu">;
   navigation: any;
 }) {
-  const orderLocation: OrderLocation = route.params;
+  const userLocation: OrderLocation = route.params;
 
   const firestoreManager = new FirestoreManager();
 
@@ -36,12 +36,13 @@ export default function OrderMenu({
   };
 
   // sends order to firestore and then navigates to OrderPlaced
-  const handleOrderCard = (button: ProductButton) => {
+  const handleOrderCard = async (button: ProductButton) => {
     const item = button.item;
     const user = auth.currentUser;
 
     if (user != null) {
-      const order = new Order(user.uid, item, orderLocation);
+      const order = new Order(user.uid, item, userLocation);
+      await order.locSearch(); // This is to call the Nominatim API to define the user location name
       firestoreManager.writeData("orders", order);
       navigation.navigate("OrderPlaced", { orderId: order.getId() });
     } else {
