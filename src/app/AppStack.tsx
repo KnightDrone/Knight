@@ -176,9 +176,6 @@ export const AppStack: React.FC<AppStackProps> = ({ isLoggedIn, user }) => {
           <Screen name="OrderPlaced">
             {(props: any) => <OrderPlaced {...props} />}
           </Screen>
-          <Screen name="OrderHistory">
-            {(props: any) => <OrderHistory {...props} />}
-          </Screen>
           <Screen name="PendingOrders">
             {(props: any) => <PendingOrders {...props} />}
           </Screen>
