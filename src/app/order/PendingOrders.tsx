@@ -17,6 +17,8 @@ import { MessageBox } from "../../ui/MessageBox";
 import { formatDate } from "../../components/cards/OrderCard";
 import { Picker } from "@react-native-picker/picker";
 import { TextField } from "../../ui/TextField";
+import { useTranslation } from "react-i18next";
+
 /* 
 NOTE: This is a temporary solution to simulate fetching pending orders from a server. Should be replaced with actual database calls
 */
@@ -53,9 +55,8 @@ NOTE: This is a temporary solution to simulate fetching pending orders from a se
   });
 };*/
 
-// TODO: Maybe add some search bar to filter?
-
 const PendingOrders = ({ navigation }: any) => {
+  const { t } = useTranslation();
   const firestoreManager = new FirestoreManager();
   const [orders, setOrders] = useState<Order[]>([]);
   const [refreshing, setRefreshing] = useState(false);
@@ -67,15 +68,25 @@ const PendingOrders = ({ navigation }: any) => {
   }, []);
   // ------------ Handle card opening and closing ------------
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
+  const [isCardVisible, setIsCardVisible] = useState(false);
+
   const handleOpenCard = (order: Order) => {
     setSelectedOrder(order);
+    setIsCardVisible(true);
   };
 
   const handleCloseCard = () => {
     setSelectedOrder(null);
+    setIsCardVisible(false);
   };
   const handleAcceptOrder = () => {
-    // Call necessary function from Firestore class to update the order status
+    firestoreManager.updateData(
+      "orders",
+      selectedOrder!.getId(),
+      "status",
+      OrderStatus.Accepted
+    );
+
     setSelectedOrder(null);
   };
   // ---------------------------------------------------------
@@ -236,7 +247,7 @@ const PendingOrders = ({ navigation }: any) => {
       />
 
       {selectedOrder && (
-        <Modal animationType="none" transparent={true} visible={true}>
+        <Modal animationType="none" transparent={true} visible={isCardVisible}>
           <View className="flex-1 justify-center items-center bg-opacity-100">
             <View className="bg-white border-2 border-gray-500 p-5 items-start justify-start shadow-lg w-[300] h-[180] rounded-lg relative">
               <TouchableOpacity
@@ -250,7 +261,7 @@ const PendingOrders = ({ navigation }: any) => {
                 />
               </TouchableOpacity>
               <Text className="text-center font-bold text-xl pt-5 pb-6">
-                {`Would you like to accept the order for ${selectedOrder.getItem().getName()} from ${selectedOrder.getUserId()}?`}
+                {`Would you like to accept the order for ${t(selectedOrder.getItem().getName() as any)}?`}
               </Text>
 
               <Button
