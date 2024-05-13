@@ -23,7 +23,7 @@ function App() {
       const user = await AsyncStorage.getItem("@user");
       if (user) {
         setUserInfo(JSON.parse(user));
-        setIsLoggedIn("Map");
+        setIsLoggedIn("UserDrawer");
       } else {
         setIsLoggedIn("Login");
       }
