@@ -16,56 +16,39 @@ initI18n();
 
 function App() {
   const [userInfo, setUserInfo] = useState<User | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState<"Login" | "Map">("Login");
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        const userJSON = await AsyncStorage.getItem("@user");
-        const userData = userJSON != null ? JSON.parse(userJSON) : null;
-        if (userData) {
-          setUserInfo(userData);
-          setIsLoggedIn("Map");
-        } else {
-          const unsubscribe = onAuthStateChanged(auth, async (user) => {
-            if (user) {
-              setUserInfo(user);
-              setIsLoggedIn("Map");
-              try {
-                await AsyncStorage.setItem("@user", JSON.stringify(user));
-              } catch (e) {
-                alert(e);
-              }
-            } else {
-              setUserInfo(null);
-              setIsLoggedIn("Login");
-              try {
-                await AsyncStorage.removeItem("@user");
-              } catch (e) {
-                alert(e);
-              }
-            }
-          });
-          return unsubscribe;
-        }
-      } catch (error) {
-        console.error("Error fetching local user data:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
-
   const stripePublishableKey = process.env.STRIPE_PUBLISHABLE_KEY || "";
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        setUserInfo(user);
+        setIsLoggedIn("Map"); // Set to "Map" if user is logged in
+      } else {
+        setUserInfo(null);
+        setIsLoggedIn("Login");
+      }
+      setLoading(false); // Set loading to false after authentication state is determined
+    });
+
+    // Clean up subscription on unmount
+    return () => unsubscribe();
+  }, []);
 
   return (
     <StripeProvider publishableKey={stripePublishableKey}>
       <AppStack isLoggedIn={isLoggedIn} user={userInfo} />
     </StripeProvider>
+  );
+}
+
+function LoadingIndicator() {
+  return (
+    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <ActivityIndicator size="large" />
+    </View>
   );
 }
 
