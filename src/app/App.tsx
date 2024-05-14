@@ -23,6 +23,9 @@ function App() {
   const stripePublishableKey = process.env.STRIPE_PUBLISHABLE_KEY || "";
 
   useEffect(() => {
+    if (userInfo) {
+      setIsLoggedIn("Map");
+    }
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
         setUserInfo(user);
