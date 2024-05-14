@@ -30,7 +30,7 @@ const PendingOrders = ({ navigation }: any) => {
   const { t } = useTranslation();
   const firestoreManager = new FirestoreManager();
   const [orders, setOrders] = useState<Order[]>([]);
-  const [refreshing, setRefreshing] = useState(false);
+  const [refreshing, setRefreshing] = useState<boolean>(false);
   const [error, setError] = useState<Error | null>(null);
   const [searchText, setSearchText] = useState("");
   const [sortingOption, setSortingOption] = useState("ascendingDate");
@@ -79,22 +79,23 @@ const PendingOrders = ({ navigation }: any) => {
     )
   );
 
+  useEffect(() => {
+    const unsub = onSnapshot(
+      collection(firestore, "orders"),
+      async (snapshot) => {
+        fetchOrders();
+      }
+    );
+
+    return () => unsub();
+  }, []);
+
   const fetchOrders = async () => {
-    setRefreshing(true);
     try {
-      var newOrders: Order[] | null = [];
-      const q = query(
-        collection(firestore, "orders"),
-        where("status", "==", OrderStatus.Pending)
-      ).withConverter(orderConverter);
-      const unsub = onSnapshot(q, async (snapshot) => {
-        snapshot.docChanges().forEach(async (change) => {
-          newOrders = await firestoreManager.queryOrder(
-            "status",
-            OrderStatus.Pending
-          );
-        });
-      });
+      const newOrders = await firestoreManager.queryOrder(
+        "status",
+        OrderStatus.Pending
+      );
 
       if (newOrders === null) {
         setError(new Error("Failed to fetch from database."));
