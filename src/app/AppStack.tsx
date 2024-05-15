@@ -14,6 +14,7 @@ import { User } from "../services/Firebase";
 import OrderHistory from "./order/OrderHistory";
 import Settings from "./settings/Setting";
 import ProfileScreen from "./settings/ProfileScreen";
+import PendingOrders from "./order/PendingOrders";
 import OperatorMap from "./OperatorMap";
 
 const { Navigator, Screen, Group } = createStackNavigator<RootStackParamList>();
@@ -105,6 +106,9 @@ export const AppStack: React.FC<AppStackProps> = ({ isLoggedIn, user }) => {
           </Screen>
           <Screen name="OrderHistory">
             {(props: any) => <OrderHistory {...props} />}
+          </Screen>
+          <Screen name="PendingOrders">
+            {(props: any) => <PendingOrders {...props} />}
           </Screen>
           <Screen
             name="Settings"

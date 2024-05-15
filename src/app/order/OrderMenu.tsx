@@ -11,6 +11,7 @@ import { Order, OrderLocation } from "../../types/Order";
 import { auth } from "../../services/Firebase";
 import { RouteProp } from "@react-navigation/native";
 import { RootStackParamList } from "../../types/RootStackParamList";
+import { signOut } from "firebase/auth";
 
 export default function OrderMenu({
   route,
@@ -19,14 +20,24 @@ export default function OrderMenu({
   route: RouteProp<RootStackParamList, "OrderMenu">;
   navigation: any;
 }) {
-  const orderLocation: OrderLocation = route.params;
+  const userLocation: OrderLocation = route.params;
 
   const firestoreManager = new FirestoreManager();
 
   const { t } = useTranslation();
 
   const [visibleItemId, setVisibleItemId] = useState<number | null>(null);
-
+  const handleSignOut = async () => {
+    try {
+      await signOut(auth);
+      // Navigate to login screen or perform other actions after sign out
+      navigation.navigate("Login");
+    } catch (error) {
+      console.error("Error signing out: ", error);
+    } finally {
+      console.log("Signout handled");
+    }
+  };
   const handleOpenCard = (itemId: number) => {
     setVisibleItemId(itemId);
   };
@@ -36,12 +47,13 @@ export default function OrderMenu({
   };
 
   // sends order to firestore and then navigates to OrderPlaced
-  const handleOrderCard = (button: ProductButton) => {
+  const handleOrderCard = async (button: ProductButton) => {
     const item = button.item;
     const user = auth.currentUser;
 
     if (user != null) {
-      const order = new Order(user.uid, item, orderLocation);
+      const order = new Order(user.uid, item, userLocation);
+      await order.locSearch(); // This is to call the Nominatim API to define the user location name
       firestoreManager.writeData("orders", order);
       navigation.navigate("OrderPlaced", { orderId: order.getId() });
     } else {
@@ -78,6 +90,11 @@ export default function OrderMenu({
       <Button
         title="Go to Settings"
         onPress={() => navigation.navigate("Settings")}
+        color="#007AFF"
+      />
+      <Button
+        title="Sign out"
+        onPress={() => handleSignOut()}
         color="#007AFF"
       />
     </View>
