@@ -88,6 +88,23 @@ function UserDrawer<UserDrawerProps>() {
       >
         {(props: any) => <OrderHistory {...props} />}
       </Drawer.Screen>
+      <Drawer.Screen
+        name="OrderMenu"
+        options={({ navigation }: any) => ({
+          headerShown: true,
+          headerTransparent: true,
+          headerTitle: "",
+          headerLeft: () => (
+            <HeaderBackButton
+              onPress={() => navigation.goBack()}
+              labelVisible={false}
+              testID="order-menu-back-button"
+            />
+          ),
+        })}
+      >
+        {(props: any) => <OrderMenu {...props} />}
+      </Drawer.Screen>
     </Drawer.Navigator>
   );
 }
@@ -156,62 +173,12 @@ export const AppStack: React.FC<AppStackProps> = ({ isLoggedIn, user }) => {
             component={UserDrawer}
             options={{ headerShown: false }}
           />
-          <Screen
-            name="OrderMenu"
-            options={({ navigation }: any) => ({
-              headerShown: true,
-              headerTransparent: true,
-              headerTitle: "",
-              headerLeft: () => (
-                <HeaderBackButton
-                  onPress={() => navigation.goBack()}
-                  labelVisible={false}
-                  testID="order-menu-back-button"
-                />
-              ),
-            })}
-          >
-            {(props: any) => <OrderMenu {...props} />}
-          </Screen>
+
           <Screen name="OrderPlaced">
             {(props: any) => <OrderPlaced {...props} />}
           </Screen>
           <Screen name="PendingOrders">
             {(props: any) => <PendingOrders {...props} />}
-          </Screen>
-          <Screen
-            name="Settings"
-            options={({ navigation }: any) => ({
-              headerShown: true,
-              headerTitle: "Settings",
-              headerLeft: () => (
-                <HeaderBackButton
-                  onPress={() => navigation.goBack()}
-                  labelVisible={false}
-                  labelStyle={{ color: "black" }}
-                  testID="settings-back-button"
-                />
-              ),
-            })}
-          >
-            {(props: any) => <Settings {...props} />}
-          </Screen>
-          <Screen
-            name="ProfileScreen"
-            options={({ navigation }: any) => ({
-              headerShown: true,
-              headerTitle: "Edit Profile",
-              headerLeft: () => (
-                <HeaderBackButton
-                  onPress={() => navigation.goBack()}
-                  labelVisible={false}
-                  labelStyle={{ color: "black" }}
-                  testID="Profile-back-button"
-                />
-              ),
-            })}
-          >
-            {(props: any) => <ProfileScreen {...props} />}
           </Screen>
         </Group>
       </Navigator>

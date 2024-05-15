@@ -10,4 +10,8 @@ export type DrawerParamList = {
     historyOp: boolean;
     userId: string;
   };
+  OrderMenu: {
+    latitude: number;
+    longitude: number;
+  };
 };
