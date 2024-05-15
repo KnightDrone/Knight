@@ -19,6 +19,7 @@ import MapOverview from "./Map";
 // Drawer Navigation Screens
 import Profile from "./settings/ProfileScreen";
 import Setting from "./settings/Setting";
+import OrderHistory from "./order/OrderHistory";
 
 const { Navigator, Screen, Group } = createStackNavigator<RootStackParamList>();
 
@@ -28,7 +29,7 @@ interface UserDrawerProps {
   user?: User | null;
 }
 
-function UserDrawer<UserDrawerProps>() {
+function UserDrawer<UserDrawerProps>(user: UserDrawerProps) {
   return (
     <Drawer.Navigator initialRouteName="Map">
       <Drawer.Screen name="Map" options={{ headerShown: false }}>
@@ -80,12 +81,35 @@ function UserDrawer<UserDrawerProps>() {
             <HeaderBackButton
               onPress={() => navigation.toggleDrawer()}
               labelVisible={false}
-              testID="order-menu-back-button"
+              testID="order-menu-drawer-back-button"
             />
           ),
         })}
       >
         {(props: any) => <OrderMenu {...props} />}
+      </Drawer.Screen>
+
+      <Drawer.Screen
+        name="OrderHistory"
+        options={({ navigation }: any) => ({
+          headerShown: true,
+          headerTransparent: true,
+          headerTitle: "",
+          headerLeft: () => (
+            <HeaderBackButton
+              onPress={() => navigation.toggleDrawer()}
+              labelVisible={false}
+              testID="order-history-back-button"
+            />
+          ),
+        })}
+      >
+        {(props: any) => (
+          <OrderHistory
+            {...props}
+            route={{ params: { historyOp: false, user } }}
+          />
+        )}
       </Drawer.Screen>
     </Drawer.Navigator>
   );
@@ -150,11 +174,9 @@ export const AppStack: React.FC<AppStackProps> = ({ isLoggedIn, user }) => {
           />
         </Group>
         <Group>
-          <Screen
-            name="UserDrawer"
-            component={UserDrawer}
-            options={{ headerShown: false }}
-          />
+          <Screen name="UserDrawer">
+            {(props: any) => <UserDrawer {...props} user={{ user }} />}
+          </Screen>
 
           <Screen name="OrderPlaced">
             {(props: any) => <OrderPlaced {...props} />}
