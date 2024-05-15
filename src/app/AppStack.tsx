@@ -86,7 +86,7 @@ function UserDrawer<UserDrawerProps>() {
           ),
         })}
       >
-        {(props: any) => <OrderHistory {...props} />}
+        {(props) => <OrderHistory {...props} />}
       </Drawer.Screen>
       <Drawer.Screen
         name="OrderMenu"
@@ -96,7 +96,7 @@ function UserDrawer<UserDrawerProps>() {
           headerTitle: "",
           headerLeft: () => (
             <HeaderBackButton
-              onPress={() => navigation.goBack()}
+              onPress={() => navigation.toggleDrawer()}
               labelVisible={false}
               testID="order-menu-back-button"
             />
