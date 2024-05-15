@@ -51,12 +51,12 @@ export default function Login({ navigation }: any) {
           };
 
           firestoreManager.createUser(result.user.uid, userData).then(() => {
-            navigation.navigate("Map");
+            navigation.navigate("OperatorMap");
           });
         } else {
           firestoreManager.getUser(result.user.uid).then((user) => {
             if (user && user.role === "user") {
-              navigation.navigate("Map");
+              navigation.navigate("OperatorMap");
             } else {
               navigation.navigate("OperatorMap");
             }
@@ -78,7 +78,7 @@ export default function Login({ navigation }: any) {
           const user = await firestoreManager.getUser(response.user.uid);
           console.log("User: ", user);
           if (user && user.role === "user") {
-            navigation.navigate("Map");
+            navigation.navigate("OperatorMap");
           } else {
             navigation.navigate("OperatorMap");
           }

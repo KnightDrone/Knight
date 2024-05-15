@@ -12,22 +12,20 @@ type Props = {
 };
 const OperatorOrderAccepted: React.FC<Props> = ({ route, navigation }) => {
   const { order } = route.params;
-  // Set the order status to 'Accepted'
-  order.setStatus("Accepted");
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
       <Text style={{ fontSize: 20, marginBottom: 20 }}>
         You have accepted the order!
       </Text>
       <Text style={{ fontSize: 16, marginBottom: 20 }}>
-        Item: {order.getItem().name}
+        Item: {order.getItem().getName()}
       </Text>
       <Text style={{ fontSize: 16, marginBottom: 20 }}>
         Status: {order.getStatus()}
       </Text>
       <Button
         title="Go to Dashboard"
-        onPress={() => navigation.navigate("OperatorDashboard")} // Assuming 'OperatorDashboard' is a valid screen
+        onPress={() => navigation.navigate("OperatorMap")} // Assuming 'OperatorDashboard' is a valid screen
       />
     </View>
   );

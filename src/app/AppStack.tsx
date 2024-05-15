@@ -14,11 +14,13 @@ import { User } from "../services/Firebase";
 import OrderHistory from "./order/OrderHistory";
 import Settings from "./settings/Setting";
 import ProfileScreen from "./settings/ProfileScreen";
+import OperatorMap from "../operator/OperatorMap";
+import OperatorOrderPlaced from "../operator/OperatorOrderPlaced";
 
 const { Navigator, Screen, Group } = createStackNavigator<RootStackParamList>();
 
 interface AppStackProps {
-  isLoggedIn: "Login" | "Map";
+  isLoggedIn: "Login" | "OperatorMap";
   user?: User | null; // Define a more specific type if possible
 }
 export const AppStack: React.FC<AppStackProps> = ({ isLoggedIn, user }) => {
@@ -135,6 +137,14 @@ export const AppStack: React.FC<AppStackProps> = ({ isLoggedIn, user }) => {
             })}
           >
             {(props: any) => <ProfileScreen {...props} />}
+          </Screen>
+        </Group>
+        <Group>
+          <Screen name="OperatorMap">
+            {(props: any) => <OperatorMap {...props} />}
+          </Screen>
+          <Screen name="OperatorOrderPlaced">
+            {(props: any) => <OperatorOrderPlaced {...props} />}
           </Screen>
         </Group>
       </Navigator>

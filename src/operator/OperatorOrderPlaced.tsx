@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { Order } from "../types/Order"; // Adjust the import path as necessary
+import { Order, OrderStatus } from "../types/Order"; // Adjust the import path as necessary
 type Props = {
   order: Order;
   navigation: StackNavigationProp<any>;
 };
 const OrderOrderPlaced: React.FC<Props> = ({ order, navigation }) => {
   const [countdown, setCountdown] = useState<number>(5); // 10 seconds countdown
+
+  const [orderStatus, setOrderStatus] = useState<OrderStatus>(
+    order.getStatus()
+  );
   useEffect(() => {
     let interval: NodeJS.Timeout | null = null;
     if (countdown > 0) {
@@ -21,13 +25,18 @@ const OrderOrderPlaced: React.FC<Props> = ({ order, navigation }) => {
       if (interval) clearInterval(interval);
     };
   }, [countdown]);
+
   const handleAccept = () => {
     if (countdown === 0) {
+      order.setStatus(OrderStatus.Accepted);
+      setOrderStatus(OrderStatus.Accepted);
       navigation.navigate("OperatorOrderAccepted");
     }
   };
   const handleReject = () => {
-    navigation.navigate("OperatorMap");
+    order.setStatus(OrderStatus.Cancelled);
+    setOrderStatus(OrderStatus.Cancelled);
+    navigation.goBack();
   };
   const formatDate = (date: Date) => date.toLocaleDateString("en-US");
   return (
@@ -45,7 +54,7 @@ const OrderOrderPlaced: React.FC<Props> = ({ order, navigation }) => {
         Order Date: {formatDate(order.getOrderDate())}
       </Text>
       <Text className="text-md text-center mb-4">
-        Order Location: {order.getOrderLocation(order.location)}
+        Order Location: {order.getUsrLocName()}
       </Text>
       <View className="flex-row justify-around">
         <TouchableOpacity
