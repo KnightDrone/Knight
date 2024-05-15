@@ -182,7 +182,7 @@ const styles = StyleSheet.create({
   },
 
   buttonTopLeft: {
-    top: 40,
+    top: topButtonPadding,
     left: sideButtonPadding,
   },
   buttonText: {
