@@ -208,7 +208,7 @@ const OrderHistory = ({
       )}
 
       <FlatList
-        className="mt-4 min-h-full"
+        className="mt-4 min-h-full mb-6"
         data={orderListFiltered}
         // if I am an operator, I want to see the user's location name
         // if I am user, I want to see where I ordered from
