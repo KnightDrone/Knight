@@ -8,7 +8,6 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 
 // Stack Navigation Screens
 import { User } from "../services/Firebase";
-import OrderHistory from "./order/OrderHistory";
 import Login from "./auth/Login";
 import SignUp from "./auth/SignUp";
 import ForgotPassword from "./auth/ForgotPassword";
@@ -70,23 +69,6 @@ function UserDrawer<UserDrawerProps>() {
         })}
       >
         {(props: any) => <Setting {...props} />}
-      </Drawer.Screen>
-      <Drawer.Screen
-        name="OrderHistory"
-        options={({ navigation }: any) => ({
-          headerShown: true,
-          headerTransparent: true,
-          headerTitle: "",
-          headerLeft: () => (
-            <HeaderBackButton
-              onPress={() => navigation.toggleDrawer()}
-              labelVisible={false}
-              testID="order-history-back-button"
-            />
-          ),
-        })}
-      >
-        {(props) => <OrderHistory {...props} />}
       </Drawer.Screen>
       <Drawer.Screen
         name="OrderMenu"
