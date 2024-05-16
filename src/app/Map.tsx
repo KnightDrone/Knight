@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { StyleSheet, View, TouchableOpacity, Text, Alert } from "react-native";
-import MapView, { MapViewProps, Region } from "react-native-maps";
+import MapView from "react-native-maps";
 import * as Location from "expo-location";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { useTranslation } from "react-i18next";
@@ -10,10 +10,6 @@ const topButtonPadding = 60;
 const sideButtonPadding = 30;
 
 const MapOverview = ({ navigation }: any) => {
-  type MapViewRef = {
-    animateToRegion: (marker: LocationType, duration?: number) => void;
-  };
-
   const mapRef = useRef<MapView | null>(null);
   const [currentRegion, setCurrentRegion] = useState({
     latitude: 37.789,

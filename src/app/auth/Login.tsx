@@ -29,7 +29,7 @@ export default function Login({ navigation }: any) {
     android: GoogleAuthConfig.android,
   });
 
-  const [request, response, promptAsync] = Google.useAuthRequest(config);
+  const [_request, response, promptAsync] = Google.useAuthRequest(config);
 
   useEffect(() => {
     if (response?.type === "success") {
@@ -63,8 +63,6 @@ export default function Login({ navigation }: any) {
       }
     }
   };
-
-  const [showPassword, setShowPassword] = useState(false);
 
   const { t } = useTranslation();
 
@@ -148,8 +146,6 @@ export default function Login({ navigation }: any) {
       />
 
       <View className="flex flex-row items-center justify-center gap-4 mt-12">
-        {/* <Text>Choose your language</Text> */}
-
         {locales.map((lang) => (
           <TouchableWithoutFeedback key={lang} onPress={() => setLocale(lang)}>
             <Image

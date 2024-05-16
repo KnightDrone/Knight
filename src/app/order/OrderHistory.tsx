@@ -1,15 +1,6 @@
 import React, { useEffect, useState } from "react";
-import {
-  View,
-  Text,
-  FlatList,
-  Image,
-  Button,
-  TouchableOpacity,
-} from "react-native";
-import OrderCard from "../../components/cards/OrderCard";
-import { Order, OrderStatus, sortOrders } from "../../types/Order";
-import { Item } from "../../types/Item";
+import { View, Text, FlatList, Image, TouchableOpacity } from "react-native";
+import { Order, sortOrders } from "../../types/Order";
 import TriangleBackground from "../../components/TriangleBackground";
 import { RootStackParamList } from "../../types/RootStackParamList";
 import { RouteProp } from "@react-navigation/native";
@@ -17,49 +8,44 @@ import { MessageBox } from "../../ui/MessageBox";
 import { TextField } from "../../ui/TextField";
 import FirestoreManager from "../../services/FirestoreManager";
 import { useTranslation } from "react-i18next";
-import { formatDate } from "../../components/cards/OrderCard";
+import { formatDate, OrderCard } from "../../components/cards/OrderCard";
 import { Picker } from "@react-native-picker/picker";
-/* 
-NOTE: This is a temporary solution to simulate fetching orders from a server. Should be replaced with actual database calls
-*/
-// depending on the value of OP orders we should fetch orders from the history of orders, where the user was operator, or where the user was the buyer
-// Still waiting for Firestore class to be implemented
-/*const fetchOrdersForUserMock = async (
-  userId: String,
-  opOrders: Boolean
-): Promise<Order[]> => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      const orders: Order[] = [
-        new Order(
-          "user1",
-          new Item(1, "mock item1", "description1", 10, 1, 1),
-          { latitude: 46.8182, longitude: 8.2275 }, // Correct way to create an OrderLocation object
-          new Date(),
-          OrderStatus.Delivered,
-          new Date(),
-          "Mattenhorn peak #3",
-          "St. Gallen Hospital",
-          { latitude: 55, longitude: 33 } // Correct way to create an OrderLocation object
-        ),
-        new Order(
-          "user2",
-          new Item(2, "mock item2", "description2", 22, 2, 2),
-          { latitude: 40.8182, longitude: 8.2275 }, // Correct way to create an OrderLocation object
-          new Date(),
-          OrderStatus.Delivered,
-          new Date(),
-          "Zermatt waterfalls",
-          "Drone Station 1", // "Drone Station 1", "St. Gallen Hospital", "Jeffrey's Clinic"
-          { latitude: 59, longitude: 38 } // Correct way to create an OrderLocation object
-        ),
-      ];
-      resolve(orders);
-    }, 1000); // 1 second delay
-  });
-};*/
 
-// TODO: Maybe add some search bar to filter?
+interface SortingPickerProps {
+  sortingOption: string;
+  setSortingOption: React.Dispatch<React.SetStateAction<string>>;
+}
+const SortingPicker: React.FC<SortingPickerProps> = ({
+  sortingOption,
+  setSortingOption,
+}) => {
+  const sortingOptions = [
+    { label: "Date ↓", value: "descendingDate" },
+    { label: "Date ↑", value: "ascendingDate" },
+    { label: "Price ↓", value: "descendingPrice" },
+    { label: "Price ↑", value: "ascendingPrice" },
+  ];
+
+  return (
+    <Picker
+      style={{
+        transform: [{ translateY: -6.5 }],
+        color: "black",
+        width: 140,
+      }}
+      selectedValue={sortingOption}
+      onValueChange={(itemValue, itemIndex) => setSortingOption(itemValue)}
+    >
+      {sortingOptions.map((option, index) => (
+        <Picker.Item
+          label={option.label}
+          value={option.value}
+          key={option.label}
+        />
+      ))}
+    </Picker>
+  );
+};
 
 const OrderHistory = ({
   route,
@@ -93,9 +79,6 @@ const OrderHistory = ({
           new Error("No orders have been made yet. Go place some orders :)")
         );
       } else {
-        /*const sortedOrders = newOrders.sort(
-          (a, b) => b.getOrderDate().getTime() - a.getOrderDate().getTime()
-        );*/
         setOrders(newOrders);
         setError(null); // Clear the error if the fetch is successful
       }
@@ -119,40 +102,7 @@ const OrderHistory = ({
         formatDate(order.getOrderDate()).includes(searchText)
     )
   );
-  interface SortingPickerProps {
-    sortingOption: string;
-    setSortingOption: React.Dispatch<React.SetStateAction<string>>;
-  }
 
-  const SortingPicker: React.FC<SortingPickerProps> = ({
-    sortingOption,
-    setSortingOption,
-  }) => {
-    const sortingOptions = [
-      { label: "Date ↓", value: "descendingDate" },
-      { label: "Date ↑", value: "ascendingDate" },
-      { label: "Price ↓", value: "descendingPrice" },
-      { label: "Price ↑", value: "ascendingPrice" },
-    ];
-
-    return (
-      <Picker
-        style={{
-          transform: [{ translateY: -6.5 }],
-          color: "black",
-          width: 140,
-        }}
-        // <Picker> is a component from @react-native-picker/picker, and as a result it is NOT comptabile with Nativewind
-        //className="text-red-500"
-        selectedValue={sortingOption}
-        onValueChange={(itemValue, itemIndex) => setSortingOption(itemValue)}
-      >
-        {sortingOptions.map((option, index) => (
-          <Picker.Item label={option.label} value={option.value} key={index} />
-        ))}
-      </Picker>
-    );
-  };
   return (
     <View className="mt-16" testID="order-history-screen">
       <View className="flex-row items-center justify-center">

@@ -38,7 +38,7 @@ interface OrderCardProps {
 }
 // opBool is used to determine if the location name should be the operator's name or the user's location name
 // This component is used for both PendingOrders and OrderHistory, and thus the location information chosen to be displayed should be chosen appropiately
-const OrderCard = ({
+export const OrderCard = ({
   order,
   onClick,
   opBool,
@@ -113,4 +113,3 @@ const styles = StyleSheet.create({
     minHeight: 30, // h-30 equivalent, ensure minHeight to match dynamic content
   },
 });
-export default OrderCard;

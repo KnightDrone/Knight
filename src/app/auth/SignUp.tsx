@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, Platform } from "react-native";
+import { Text, View, Platform } from "react-native";
 // ------------- FIREBASE IMPORTS ----------------
 import {
   auth,
@@ -29,15 +29,13 @@ export default function SignUp({ navigation }: any) {
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [strength, setStrength] = useState("");
 
-  const [showPassword, setShowPassword] = useState(false);
-
   const config = Platform.select({
     web: GoogleAuthConfig.web,
     ios: GoogleAuthConfig.ios,
     android: GoogleAuthConfig.android,
   });
 
-  const [request, response, promptAsync] = Google.useAuthRequest(config);
+  const [_request, response, promptAsync] = Google.useAuthRequest(config);
 
   useEffect(() => {
     if (response?.type === "success") {
@@ -93,7 +91,7 @@ export default function SignUp({ navigation }: any) {
   const signUpWithEmail = async () => {
     if (userName && email && password) {
       createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
+        .then((_userCredential) => {
           if (auth.currentUser != null) {
             const user = new User(
               auth.currentUser?.uid,
@@ -103,10 +101,9 @@ export default function SignUp({ navigation }: any) {
             );
             firestoreManager.writeData("users", user);
             navigation.navigate("Map");
-          } else {
           }
         })
-        .catch((error) => {
+        .catch((_error) => {
           setError("Sign Up failed. Please check your credentials.");
         });
     } else {
@@ -201,7 +198,7 @@ export default function SignUp({ navigation }: any) {
         </View>
         <View>
           {suggestions.map((suggestion, index) => (
-            <Text key={index} className="text-red-500 m-1">
+            <Text key={suggestion} className="text-red-500 m-1">
               {suggestion}
             </Text>
           ))}
