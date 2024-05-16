@@ -7,15 +7,16 @@ import { useTranslation } from "react-i18next";
 import LocationMarker from "../components/LocationMarker";
 import { Order, OrderStatus } from "../types/Order";
 import FirestoreManager from "../services/FirestoreManager";
+import { Button } from "../ui/Button";
 
-const topButtonPadding = 60;
-const sideButtonPadding = 30;
+type LocationType = {
+  latitude: number;
+  longitude: number;
+  latitudeDelta: number;
+  longitudeDelta: number;
+};
 
 const OperatorMap = ({ navigation }: any) => {
-  type MapViewRef = {
-    animateToRegion: (marker: LocationType, duration?: number) => void;
-  };
-
   const mapRef = useRef<MapView | null>(null);
   const [currentRegion, setCurrentRegion] = useState({
     latitude: 37.789,
@@ -26,20 +27,9 @@ const OperatorMap = ({ navigation }: any) => {
 
   const { t } = useTranslation();
 
-  type LocationType = {
-    latitude: number;
-    longitude: number;
-    latitudeDelta: number;
-    longitudeDelta: number;
-  };
-
   const [marker, setMarker] = useState<LocationType | null>(null);
   const [loading, setLoading] = useState(true);
   const [autoCenter, setAutoCenter] = useState(true);
-
-  function animateToRegion(marker: LocationType, duration: number) {
-    mapRef.current?.animateToRegion(marker, 500);
-  }
 
   useEffect(() => {
     const initMap = async () => {
@@ -57,7 +47,7 @@ const OperatorMap = ({ navigation }: any) => {
 
   useEffect(() => {
     if (autoCenter && marker) {
-      animateToRegion(marker, 500);
+      mapRef.current?.animateToRegion(marker, 500);
     }
   }, [autoCenter, marker]);
 
@@ -93,8 +83,8 @@ const OperatorMap = ({ navigation }: any) => {
   };
 
   const toggleAutoCenter = () => {
-    if (marker && mapRef.current) {
-      animateToRegion(marker, 1500);
+    if (marker) {
+      mapRef.current?.animateToRegion(marker, 1500);
     }
     setTimeout(() => {
       setAutoCenter(true);
@@ -123,14 +113,14 @@ const OperatorMap = ({ navigation }: any) => {
   }, []);
 
   return (
-    <View style={styles.container}>
+    <View style={StyleSheet.absoluteFillObject}>
       <MapView
         onPanDrag={() => {
           setAutoCenter(false);
         }}
         testID="map-view"
         ref={mapRef}
-        style={styles.map}
+        style={StyleSheet.absoluteFillObject}
         initialRegion={currentRegion}
         onRegionChangeComplete={setCurrentRegion}
       >
@@ -152,68 +142,34 @@ const OperatorMap = ({ navigation }: any) => {
       </MapView>
 
       {loading && (
-        <View style={styles.loadingContainer}>
+        <View className="flex items-center justify-center bg-white/50 w-full h-full">
           <Text>Loading your location...</Text>
         </View>
       )}
 
-      <TouchableOpacity
+      <Button
         testID="my-location-button"
-        style={[styles.button, styles.buttonTopRight]}
         onPress={toggleAutoCenter}
+        style="primary"
+        className="absolute top-12 right-12 w-16 h-16"
       >
-        <Icon name="my-location" size={24} color="#000" />
-      </TouchableOpacity>
+        <Icon name="my-location" size={24} color="#fff" />
+      </Button>
 
-      <TouchableOpacity
+      <Button
         testID="order-button"
-        style={[styles.button, styles.buttonBottomRight]}
         onPress={() => {
           navigation.navigate("OrderMenu", {
             latitude: currentRegion.latitude,
             longitude: currentRegion.longitude,
           });
         }}
-      >
-        <Text style={styles.buttonText}>{t("map.pending-orders-button")}</Text>
-      </TouchableOpacity>
+        style="primary"
+        text={t("map.pending-orders-button")}
+        className="absolute bottom-12 right-12 w-48 h-16"
+      />
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    ...StyleSheet.absoluteFillObject,
-  },
-  map: {
-    ...StyleSheet.absoluteFillObject,
-  },
-  button: {
-    position: "absolute",
-    backgroundColor: "rgba(255,255,255, 1)",
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: 20,
-    padding: 15,
-  },
-  buttonTopRight: {
-    top: topButtonPadding,
-    right: sideButtonPadding,
-  },
-  buttonBottomRight: {
-    bottom: 40,
-    right: sideButtonPadding,
-  },
-  buttonText: {
-    fontSize: 20,
-    color: "#000",
-  },
-  loadingContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(255,255,255, 0.7)",
-  },
-});
 
 export default OperatorMap;
