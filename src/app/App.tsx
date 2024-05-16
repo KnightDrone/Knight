@@ -17,8 +17,48 @@ initI18n();
 
 function App() {
   const [userInfo, setUserInfo] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [isLoggedIn, setIsLoggedIn] = useState<"Login" | "Map">("Login");
+  const [loading, setLoading] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState<"Login" | "UserDrawer">("Login");
+  const checkLocalUser = async () => {
+    try {
+      const user = await AsyncStorage.getItem("@user");
+      if (user) {
+        setUserInfo(JSON.parse(user));
+        setIsLoggedIn("UserDrawer");
+      } else {
+        setIsLoggedIn("Login");
+      }
+    } catch (e) {
+      alert(e);
+    } finally {
+      //setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    checkLocalUser();
+    const unsub = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        setUserInfo(user);
+        setIsLoggedIn("UserDrawer");
+        try {
+          await AsyncStorage.setItem("@user", JSON.stringify(user));
+        } catch (e) {
+          alert(e);
+        }
+      } else {
+        setUserInfo(null);
+        setIsLoggedIn("Login");
+        try {
+          await AsyncStorage.removeItem("@user");
+        } catch (e) {
+          alert(e);
+        }
+      }
+    });
+
+    return unsub;
+  }, []);
 
   const stripePublishableKey = process.env.STRIPE_PUBLISHABLE_KEY || "";
 
@@ -26,7 +66,7 @@ function App() {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
         setUserInfo(user);
-        setIsLoggedIn("Map"); // Set to "Map" if user is logged in
+        setIsLoggedIn("UserDrawer"); // Set to "Map" if user is logged in
       } else {
         setUserInfo(null);
         setIsLoggedIn("Login");

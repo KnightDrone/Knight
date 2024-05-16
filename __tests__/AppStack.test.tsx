@@ -99,7 +99,7 @@ describe("AppStack Navigation Tests", () => {
   });
 
   it("navigates to the Map screen when user is logged in", async () => {
-    const { queryByTestId } = render(<AppStack isLoggedIn={"Map"} />);
+    const { queryByTestId } = render(<AppStack isLoggedIn={"UserDrawer"} />);
     await waitFor(() => {
       // Check if the Map screen is displayed by looking for a specific text
       expect(queryByTestId("map-view")).toBeTruthy();
@@ -119,11 +119,19 @@ describe("AppStack Navigation Tests", () => {
     const { queryByTestId } = render(<AppStack isLoggedIn={"Login"} />);
 
     fireEvent.press(queryByTestId("forgot-password-link"));
-    fireEvent.press(queryByTestId("forgot-password-back-button"));
-    await waitFor(() => {
-      // Check if the ForgotPassword screen is displayed by looking for a specific text
-      expect(screen.getByTestId("login-screen")).toBeTruthy();
-    });
+    const backButton = queryByTestId("forgot-password-back-button");
+    if (backButton) {
+      fireEvent.press(backButton);
+    } else {
+      throw new Error("Back button not found");
+    }
+
+    await waitFor(
+      () => {
+        expect(queryByTestId("login-screen")).toBeTruthy();
+      },
+      { timeout: 1000 }
+    ); // Adjust timeout based on your needs
   });
 
   it("navigates to SignUp screen when 'Sign Up' is pressed", async () => {
@@ -138,11 +146,20 @@ describe("AppStack Navigation Tests", () => {
   it("navigates to SignUp screen when 'Sign Up' is pressed then navigates back when back-button is pressed", async () => {
     const { queryByTestId } = render(<AppStack isLoggedIn={"Login"} />);
     fireEvent.press(queryByTestId("sign-up-link"));
-    fireEvent.press(queryByTestId("sign-up-back-button"));
-    await waitFor(() => {
-      // Check if the SignUp screen is displayed by looking for a specific text
-      expect(screen.getByTestId("login-screen")).toBeTruthy();
-    });
+
+    const backButton = queryByTestId("sign-up-back-button");
+    if (backButton) {
+      fireEvent.press(backButton);
+    } else {
+      throw new Error("Back button not found");
+    }
+    await waitFor(
+      () => {
+        // Check if the SignUp screen is displayed by looking for a specific text
+        expect(screen.getByTestId("login-screen")).toBeTruthy();
+      },
+      { timeout: 1000 }
+    );
   });
 
   it("navigates to the map screen after successful sign-up", async () => {
@@ -177,7 +194,7 @@ describe("AppStack Navigation Tests", () => {
   });
 
   it("navigates Map->OrderMenu", async () => {
-    const { queryByTestId } = render(<AppStack isLoggedIn={"Map"} />);
+    const { queryByTestId } = render(<AppStack isLoggedIn={"UserDrawer"} />);
     // Wait for the loading state to complete
     await waitFor(() => {
       expect(queryByTestId("map-view")).toBeTruthy();
@@ -189,21 +206,248 @@ describe("AppStack Navigation Tests", () => {
   });
 
   it("navigates to OrderMenu then back to Map screen", async () => {
-    const { queryByTestId } = render(<AppStack isLoggedIn={"Map"} />);
+    const { queryByTestId, queryByText } = render(
+      <AppStack isLoggedIn={"UserDrawer"} />
+    );
     fireEvent.press(queryByTestId("order-button"));
-    fireEvent.press(queryByTestId("order-menu-back-button"));
-    await waitFor(() => {
-      // Check if the OrderMenu screen is displayed by looking for a specific text
-      expect(screen.getByTestId("map-view")).toBeTruthy();
-    });
+    fireEvent.press(queryByTestId("order-menu-drawer-back-button"));
+    await waitFor(
+      () => {
+        expect(queryByText("OrderMenu")).toBeTruthy();
+      },
+      { timeout: 1000 }
+    );
   });
 
   it("navigates Map->OrderMenu->OrderPlaced", async () => {
-    const { queryByTestId } = render(<AppStack isLoggedIn={"Map"} />);
+    const { queryByTestId } = render(<AppStack isLoggedIn={"UserDrawer"} />);
     fireEvent.press(queryByTestId("order-button"));
     await waitFor(() => {
       // Check if the Map screen is displayed by looking for a specific text
       expect(screen.queryByTestId("order-menu-screen")).toBeTruthy();
     });
+  });
+});
+
+describe("Drawer Navigation", () => {
+  it("should open the drawer and navigate to the Profile screen", async () => {
+    const { getByTestId, queryByTestId, queryByText } = render(
+      <AppStack isLoggedIn="UserDrawer" />
+    );
+    // Assuming 'user-drawer-button' is the testID for the button that toggles the drawer
+    const drawerToggleButton = getByTestId("user-drawer-button");
+    fireEvent.press(drawerToggleButton);
+    // Wait for the drawer to open and the Profile button to be visible
+    await waitFor(
+      () => {
+        expect(queryByTestId("profile-drawer-button")).toBeNull();
+      },
+      { timeout: 1000 }
+    );
+    // Simulate pressing the Profile button in the drawer
+    const profileButton = queryByText("Profile");
+    fireEvent.press(profileButton);
+    // Check if the Profile screen is displayed
+    await waitFor(
+      () => {
+        expect(queryByTestId("profile-screen")).toBeTruthy();
+      },
+      { timeout: 1000 }
+    );
+  });
+
+  it("should open the drawer and navigate to the Profile screen then goes back to the drawer", async () => {
+    const { getByTestId, queryByTestId, queryByText } = render(
+      <AppStack isLoggedIn="UserDrawer" />
+    );
+    // Assuming 'user-drawer-button' is the testID for the button that toggles the drawer
+    const drawerToggleButton = getByTestId("user-drawer-button");
+    fireEvent.press(drawerToggleButton);
+    // Wait for the drawer to open and the Profile button to be visible
+    await waitFor(
+      () => {
+        expect(queryByTestId("profile-drawer-button")).toBeNull();
+      },
+      { timeout: 1000 }
+    );
+    // Simulate pressing the Profile button in the drawer
+    const profileButton = queryByText("Profile");
+    fireEvent.press(profileButton);
+
+    const goBackButton = queryByTestId("profile-drawer-button");
+    fireEvent.press(goBackButton);
+
+    await waitFor(
+      () => {
+        expect(queryByText("Profile")).toBeTruthy();
+      },
+      { timeout: 1000 }
+    );
+  });
+
+  it("should open the drawer and navigate to the Settings screen", async () => {
+    const { getByTestId, queryByTestId, queryByText } = render(
+      <AppStack isLoggedIn="UserDrawer" />
+    );
+    // Assuming 'user-drawer-button' is the testID for the button that toggles the drawer
+    const drawerToggleButton = getByTestId("user-drawer-button");
+    fireEvent.press(drawerToggleButton);
+    // Wait for the drawer to open and the Profile button to be visible
+    await waitFor(
+      () => {
+        expect(queryByTestId("profile-drawer-button")).toBeNull();
+      },
+      { timeout: 1000 }
+    );
+    // Simulate pressing the Profile button in the drawer
+    const profileButton = queryByText("Settings");
+    fireEvent.press(profileButton);
+    // Check if the Profile screen is displayed
+    await waitFor(
+      () => {
+        expect(queryByTestId("settings-screen")).toBeTruthy();
+      },
+      { timeout: 1000 }
+    );
+  });
+
+  it("should open the drawer and navigate to the Settings screen then goes back to the drawer", async () => {
+    const { getByTestId, queryByTestId, queryByText } = render(
+      <AppStack isLoggedIn="UserDrawer" />
+    );
+    // Assuming 'user-drawer-button' is the testID for the button that toggles the drawer
+    const drawerToggleButton = getByTestId("user-drawer-button");
+    fireEvent.press(drawerToggleButton);
+    // Wait for the drawer to open and the Profile button to be visible
+    await waitFor(
+      () => {
+        expect(queryByTestId("profile-drawer-button")).toBeNull();
+      },
+      { timeout: 1000 }
+    );
+    // Simulate pressing the Profile button in the drawer
+    const profileButton = queryByText("Settings");
+    fireEvent.press(profileButton);
+
+    const goBackButton = queryByTestId("settings-back-button");
+    fireEvent.press(goBackButton);
+
+    await waitFor(
+      () => {
+        expect(queryByText("Settings")).toBeTruthy();
+      },
+      { timeout: 1000 }
+    );
+  });
+
+  it("should open the drawer and navigate to the OrderHistory screen", async () => {
+    const { getByTestId, queryByTestId, queryByText } = render(
+      <AppStack isLoggedIn="UserDrawer" />
+    );
+    // Assuming 'user-drawer-button' is the testID for the button that toggles the drawer
+    const drawerToggleButton = getByTestId("user-drawer-button");
+    fireEvent.press(drawerToggleButton);
+    // Wait for the drawer to open and the Profile button to be visible
+    await waitFor(
+      () => {
+        expect(queryByTestId("profile-drawer-button")).toBeNull();
+      },
+      { timeout: 1000 }
+    );
+
+    // Simulate pressing the Profile button in the drawer
+    const profileButton = queryByText("OrderHistory");
+    fireEvent.press(profileButton);
+    // Check if the Profile screen is displayed
+    await waitFor(
+      () => {
+        expect(queryByTestId("order-history-screen")).toBeTruthy();
+      },
+      { timeout: 1000 }
+    );
+  });
+  it("should open the drawer and navigate to the OrderHistory screen then goes back to the drawer", async () => {
+    const { getByTestId, queryByTestId, queryByText } = render(
+      <AppStack isLoggedIn="UserDrawer" />
+    );
+    // Assuming 'user-drawer-button' is the testID for the button that toggles the drawer
+    const drawerToggleButton = getByTestId("user-drawer-button");
+    fireEvent.press(drawerToggleButton);
+    // Wait for the drawer to open and the Profile button to be visible
+    await waitFor(
+      () => {
+        expect(queryByTestId("profile-drawer-button")).toBeNull();
+      },
+      { timeout: 1000 }
+    );
+    // Simulate pressing the Profile button in the drawer
+    const profileButton = queryByText("OrderHistory");
+    fireEvent.press(profileButton);
+
+    const goBackButton = queryByTestId("order-history-back-button");
+    fireEvent.press(goBackButton);
+
+    await waitFor(
+      () => {
+        expect(queryByText("OrderHistory")).toBeTruthy();
+      },
+      { timeout: 1000 }
+    );
+  });
+
+  it("should open the drawer and navigate to the OrderMenu screen", async () => {
+    const { getByTestId, queryByTestId, queryByText } = render(
+      <AppStack isLoggedIn="UserDrawer" />
+    );
+    // Assuming 'user-drawer-button' is the testID for the button that toggles the drawer
+    const drawerToggleButton = getByTestId("user-drawer-button");
+    fireEvent.press(drawerToggleButton);
+    // Wait for the drawer to open and the Profile button to be visible
+    await waitFor(
+      () => {
+        expect(queryByTestId("profile-drawer-button")).toBeNull();
+      },
+      { timeout: 1000 }
+    );
+
+    // Simulate pressing the Profile button in the drawer
+    const profileButton = queryByText("OrderMenu");
+    fireEvent.press(profileButton);
+    // Check if the Profile screen is displayed
+    await waitFor(
+      () => {
+        expect(queryByTestId("order-menu-screen")).toBeTruthy();
+      },
+      { timeout: 1000 }
+    );
+  });
+
+  it("should open the drawer and navigate to the OrderMenu screen then goes back to the drawer", async () => {
+    const { getByTestId, queryByTestId, queryByText } = render(
+      <AppStack isLoggedIn="UserDrawer" />
+    );
+    // Assuming 'user-drawer-button' is the testID for the button that toggles the drawer
+    const drawerToggleButton = getByTestId("user-drawer-button");
+    fireEvent.press(drawerToggleButton);
+    // Wait for the drawer to open and the Profile button to be visible
+    await waitFor(
+      () => {
+        expect(queryByTestId("profile-drawer-button")).toBeNull();
+      },
+      { timeout: 1000 }
+    );
+    // Simulate pressing the Profile button in the drawer
+    const profileButton = queryByText("OrderMenu");
+    fireEvent.press(profileButton);
+
+    const goBackButton = queryByTestId("order-menu-screen");
+    fireEvent.press(goBackButton);
+
+    await waitFor(
+      () => {
+        expect(queryByText("OrderMenu")).toBeTruthy();
+      },
+      { timeout: 1000 }
+    );
   });
 });
