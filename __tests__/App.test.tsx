@@ -4,7 +4,6 @@ import * as Google from "expo-auth-session/providers/google";
 
 import App from "../src/app/App";
 import { onAuthStateChanged } from "../src/services/Firebase";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { View, Text } from "react-native";
 import { initI18n } from "../src/lang/i18n";
 

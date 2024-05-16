@@ -45,34 +45,18 @@ const LoginTest = () => {
           {(props) => <Login {...props} />}
         </Stack.Screen>
         <Stack.Screen name="Map">
-          {() => (
-            <>
-              <Text testID="map-screen">Map screen</Text>
-            </>
-          )}
+          {() => <Text testID="map-screen">Map screen</Text>}
         </Stack.Screen>
         <Stack.Screen name="ForgotPassword">
           {() => (
-            <>
-              <Text testID="forgot-password-screen">
-                Forgot Password Screen
-              </Text>
-            </>
+            <Text testID="forgot-password-screen">Forgot Password Screen</Text>
           )}
         </Stack.Screen>
         <Stack.Screen name="SignUp">
-          {() => (
-            <>
-              <Text testID="sign-up-screen">Sign Up Screen</Text>
-            </>
-          )}
+          {() => <Text testID="sign-up-screen">Sign Up Screen</Text>}
         </Stack.Screen>
         <Stack.Screen name="OrderMenu">
-          {() => (
-            <>
-              <Text testID="order-menu">Order Menu</Text>
-            </>
-          )}
+          {() => <Text testID="order-menu">Order Menu</Text>}
         </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
@@ -135,12 +119,7 @@ describe("Login Component", () => {
     );
   });
 
-  // it("catches signInWithEmailAndPassword error", async () => { });
-
-  // it("sets error for invalid credentials (signInWithEmailAndPassword has no user object)", async () => { });
-
   it("handles Google login correctly", async () => {
-    const mockNavigate = jest.fn();
     const { getByText } = render(<LoginTest />);
 
     fireEvent.press(getByText("Continue with Google"));
