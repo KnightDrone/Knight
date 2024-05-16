@@ -45,7 +45,7 @@ export default function SignUp({ navigation }: any) {
       const credential = GoogleAuthProvider.credential(id_token);
       signInWithCredential(auth, credential)
         .then(() => {
-          navigation.navigate("Map");
+          navigation.navigate("UserDrawer");
         })
         .catch((error) => {
           console.error(error);
@@ -102,7 +102,7 @@ export default function SignUp({ navigation }: any) {
               userName
             );
             firestoreManager.writeData("users", user);
-            navigation.navigate("Map");
+            navigation.navigate("UserDrawer");
           } else {
           }
         })

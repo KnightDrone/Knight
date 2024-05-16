@@ -129,6 +129,19 @@ const MapOverview = ({ navigation }: any) => {
       </TouchableOpacity>
 
       <TouchableOpacity
+        testID="user-drawer-button"
+        style={[styles.button, styles.buttonTopLeft]}
+        onPress={() => {
+          navigation.toggleDrawer({
+            latitude: currentRegion.latitude,
+            longitude: currentRegion.longitude,
+          });
+        }}
+      >
+        <Icon name="menu" size={24} color="#000" />
+      </TouchableOpacity>
+
+      <TouchableOpacity
         testID="order-button"
         style={[styles.button, styles.buttonBottomRight]}
         onPress={() => {
@@ -166,6 +179,11 @@ const styles = StyleSheet.create({
   buttonBottomRight: {
     bottom: 40,
     right: sideButtonPadding,
+  },
+
+  buttonTopLeft: {
+    top: topButtonPadding,
+    left: sideButtonPadding,
   },
   buttonText: {
     fontSize: 20,
