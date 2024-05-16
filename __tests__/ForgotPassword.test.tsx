@@ -43,7 +43,7 @@ describe("ForgotPasswordScreen Component", () => {
 
 describe("More ForgotPassword Component Tests", () => {
   it("informs the user after a successful email submission", async () => {
-    const { getByText, getByTestId } = render(<ForgotPasswordScreen />);
+    const { getByTestId } = render(<ForgotPasswordScreen />);
 
     const emailInput = getByTestId("email-input");
     fireEvent.changeText(emailInput, "user@example.com");
@@ -59,9 +59,7 @@ describe("More ForgotPassword Component Tests", () => {
     );
 
     // Adjust this based on your actual implementation
-    const { getByText, getByTestId, findByText } = render(
-      <ForgotPasswordScreen />
-    );
+    const { getByTestId, findByText } = render(<ForgotPasswordScreen />);
 
     const emailInput = getByTestId("email-input");
     fireEvent.changeText(emailInput, "unknown@example.com");

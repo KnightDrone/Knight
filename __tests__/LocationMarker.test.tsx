@@ -1,5 +1,5 @@
 import React from "react";
-import { render, act } from "@testing-library/react-native";
+import { render } from "@testing-library/react-native";
 import LocationMarker from "../src/components/LocationMarker";
 import { Animated } from "react-native";
 
@@ -8,8 +8,6 @@ jest.mock("expo-location", () => ({
 }));
 
 describe("LocationMarker", () => {
-  const { watchHeadingAsync } = require("expo-location");
-
   beforeEach(() => {
     jest.clearAllMocks();
   });
