@@ -155,7 +155,7 @@ describe("App Navigation", () => {
   });
 
   it("goes to order menu, then goes back", async () => {
-    const { getByTestId, queryByTestId } = render(<App />);
+    const { getByTestId, queryByTestId, queryByText } = render(<App />);
 
     await waitFor(() => {
       expect(queryByTestId("map-view")).toBeTruthy();
@@ -168,18 +168,20 @@ describe("App Navigation", () => {
       expect(queryByTestId("order-menu-screen")).toBeTruthy();
     });
 
-    const backButton = getByTestId("order-menu-back-button");
+    const backButton = getByTestId("order-menu-drawer-back-button");
     fireEvent.press(backButton);
 
-    await waitFor(() => {
-      expect(queryByTestId("map-view")).toBeTruthy();
-    });
+    await waitFor(
+      () => {
+        expect(queryByText("OrderMenu")).toBeTruthy();
+      },
+      { timeout: 1000 }
+    );
   });
 
   it("logs in and navigates through the app", async () => {
-    const { getByPlaceholderText, getByTestId, queryByTestId } = render(
-      <App />
-    );
+    const { getByPlaceholderText, getByTestId, queryByTestId, queryByText } =
+      render(<App />);
     await simulateLogin(getByPlaceholderText, getByTestId, queryByTestId);
 
     const orderMenuButton = getByTestId("order-button");
@@ -189,10 +191,13 @@ describe("App Navigation", () => {
       expect(queryByTestId("order-menu-screen")).toBeTruthy();
     });
 
-    fireEvent.press(getByTestId("order-menu-back-button"));
-    await waitFor(() => {
-      expect(queryByTestId("map-view")).toBeTruthy();
-    });
+    fireEvent.press(getByTestId("order-menu-drawer-back-button"));
+    await waitFor(
+      () => {
+        expect(queryByText("OrderMenu")).toBeTruthy();
+      },
+      { timeout: 1000 }
+    );
   });
 
   it("onAuthStateChanged is called when the user logs in", async () => {

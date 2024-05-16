@@ -31,7 +31,7 @@ const SignUpTest = () => {
         <Stack.Screen name="Login">
           {(props) => <Login {...props} />}
         </Stack.Screen>
-        <Stack.Screen name="Map">
+        <Stack.Screen name="UserDrawer">
           {() => (
             <>
               <Text testID="map-screen">Map screen</Text>

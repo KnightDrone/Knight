@@ -12,9 +12,6 @@ export type RootStackParamList = {
     latitude: number;
     longitude: number;
   };
-  Map: undefined;
-  Settings: undefined;
-  ProfileScreen: undefined;
   OrderPlaced: {
     orderId: string;
   };
@@ -23,4 +20,5 @@ export type RootStackParamList = {
     userId: string;
   };
   PendingOrders: undefined; // Added for PendingOrders
+  UserDrawer: undefined;
 };
