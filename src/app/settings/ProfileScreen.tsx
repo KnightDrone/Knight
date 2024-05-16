@@ -14,13 +14,17 @@ import DatePicker from "react-native-date-picker";
 import { auth, storage } from "../../services/Firebase";
 import { updateProfile, updateEmail, updatePassword } from "firebase/auth";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import * as ImagePicker from "expo-image-picker";
 import { FirestoreManager, DBUser } from "../../services/FirestoreManager";
+import { User } from "../../types/User";
+import * as ImagePicker from "expo-image-picker";
+
+const firestoreManager = new FirestoreManager();
 
 const ProfileScreen = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isOperator, setIsOperator] = useState(false);
   const [dateOfBirth, setDateOfBirth] = useState("");
   const [isPickerShow, setIsPickerShow] = useState(false);
   const [photoURL, setPhotoURL] = useState("");
@@ -136,6 +140,17 @@ const ProfileScreen = () => {
     setDateOfBirth(date.toLocaleDateString("en-GB")); // formats date as DD/MM/YYYY
   };
 
+  const changeImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 4],
+      quality: 1,
+    });
+
+    console.log(result);
+  };
+
   return (
     <ScrollView style={styles.container}>
       <TouchableOpacity
@@ -148,7 +163,7 @@ const ProfileScreen = () => {
               ? { uri: `data:image/jpeg;base64,${photoBase64}` }
               : photoURL
                 ? { uri: photoURL }
-                : require("../../../assets/images/defaultProfile.png")
+                : require("../../../assets/images/profile.png")
           }
           testID="profile-image"
           style={styles.profileImage}

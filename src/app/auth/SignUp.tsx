@@ -16,9 +16,10 @@ import { OrSeparator } from "../../components/OrSeparator";
 import { MessageBox } from "../../ui/MessageBox";
 import { useTranslation } from "react-i18next";
 import { DBUser, FirestoreManager } from "../../services/FirestoreManager";
+import { User } from "../../types/User";
 
 export default function SignUp({ navigation }: any) {
-  const [user, setUser] = useState("");
+  const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
 
@@ -123,20 +124,12 @@ export default function SignUp({ navigation }: any) {
     }
   };
 
-  // const writeUserData = async (response: UserCredential) => {
-  //   set(ref(database, "users/" + response.user.uid), {
-  //     username: user,
-  //     email: email,
-  //     orders: [], // This will create an empty list for orders
-  //   });
-  // };
-
   const signUpWithEmail = async () => {
-    if (email && password) {
+    if (userName && email && password) {
       createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
           const userData: DBUser = {
-            name: user,
+            name: userName,
             email: email,
             photoURL: "",
             role: "user",
@@ -206,8 +199,8 @@ export default function SignUp({ navigation }: any) {
       <View className="flex flex-col gap-3">
         <TextField
           placeholder={t("signup.username")}
-          value={user}
-          onChangeText={setUser}
+          value={userName}
+          onChangeText={setUserName}
           type="text"
           testID="username-input"
         />

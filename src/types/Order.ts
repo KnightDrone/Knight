@@ -74,7 +74,7 @@ class Order {
     return this.id;
   }
 
-  getUser(): string {
+  getUserId(): string {
     return this.userId;
   }
 
@@ -134,7 +134,7 @@ class Order {
 const orderConverter = {
   toFirestore: (order: Order) => {
     return {
-      userId: order.getUser(),
+      userId: order.getUserId(),
       operatorId: order.getOperator(),
       item: order.getItem().toDict(),
       orderDate: order.getOrderDate(),
