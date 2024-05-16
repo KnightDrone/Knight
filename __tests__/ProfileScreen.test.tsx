@@ -65,7 +65,7 @@ describe("ProfileScreen", () => {
 
 describe("ProfileScreen Component", () => {
   it("renders all inputs and buttons", () => {
-    const { getByText, getByDisplayValue } = render(<ProfileScreen />);
+    const { getByText } = render(<ProfileScreen />);
 
     expect(getByText("Name")).toBeTruthy();
     expect(getByText("Email")).toBeTruthy();
@@ -74,7 +74,7 @@ describe("ProfileScreen Component", () => {
   });
 
   it("allows input to be entered", () => {
-    const { getByDisplayValue } = render(<ProfileScreen />);
+    render(<ProfileScreen />);
   });
 
   it("handles save button press", () => {

@@ -13,8 +13,6 @@ import { View, Text } from "react-native";
 import { RootStackParamList } from "../src/types/RootStackParamList";
 import { Item } from "../src/types/Item";
 import { Order } from "../src/types/Order";
-import FirestoreManager from "../src/services/FirestoreManager";
-import { read } from "fs";
 
 type OrderPlacedStack = {
   OrderPlaced: RootStackParamList["OrderPlaced"];
@@ -104,8 +102,6 @@ describe("OrderPlaced", () => {
     expect(orderSummary).toBeTruthy();
     const orderedItemName = getByTestId("ordered-item-name");
     expect(orderedItemName).toBeTruthy();
-    // const userLocation = getByTestId("user-location");
-    // expect(userLocation).toBeTruthy();
     const orderedItemImage = getByTestId("ordered-item-image");
     expect(orderedItemImage).toBeTruthy();
   });
@@ -174,7 +170,5 @@ describe("OrderPlaced", () => {
     expect(orderComplete).toBeTruthy();
     const orderCompleteMessage = getByTestId("order-complete-message");
     expect(orderCompleteMessage).toBeTruthy();
-    // const reportIssue = getByTestId("report-issue");
-    // expect(reportIssue).toBeTruthy();
   });
 });

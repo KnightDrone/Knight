@@ -66,7 +66,7 @@ export default class FirestoreManager {
     console.log("field " + field);
     console.log("data " + data);
     if (validFields.includes(field)) {
-      var orders: Order[] = [];
+      const orders: Order[] = [];
       const q = query(
         collection(firestore, "orders"),
         where(field, "==", data)

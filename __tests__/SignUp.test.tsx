@@ -32,11 +32,7 @@ const SignUpTest = () => {
           {(props) => <Login {...props} />}
         </Stack.Screen>
         <Stack.Screen name="Map">
-          {() => (
-            <>
-              <Text testID="map-screen">Map screen</Text>
-            </>
-          )}
+          {() => <Text testID="map-screen">Map screen</Text>}
         </Stack.Screen>
         <Stack.Screen name="SignUp">
           {(props) => <SignUp {...props} />}
@@ -59,9 +55,7 @@ describe("SignUp Component", () => {
   });
 
   it("renders correctly", () => {
-    const { getByText, getByPlaceholderText, getByTestId } = render(
-      <SignUpTest />
-    );
+    const { getByTestId } = render(<SignUpTest />);
     expect(getByTestId("signup-title")).toBeTruthy();
     expect(getByTestId("username-input")).toBeTruthy();
     expect(getByTestId("email-input")).toBeTruthy();
@@ -154,9 +148,7 @@ describe("SignUp Component", () => {
   });
 
   it("toggles password visibility when the eye icon is pressed", () => {
-    const { getByTestId, getByPlaceholderText, getAllByTestId } = render(
-      <SignUpTest />
-    );
+    const { getByPlaceholderText, getAllByTestId } = render(<SignUpTest />);
     const passwordInput = getByPlaceholderText("Enter your password");
     const passwordToggles = getAllByTestId("password-toggle");
     const passwordToggle = passwordToggles[2]; // Select the third password-toggle
@@ -172,7 +164,7 @@ describe("SignUp Component", () => {
   });
 
   it("navigates to the map screen after successful sign-up", async () => {
-    const { getByText, getByTestId } = render(<SignUpTest />);
+    const { getByTestId } = render(<SignUpTest />);
 
     // Mock is true (successful sign-up) by default in jestSetupFile.js
 
@@ -200,7 +192,7 @@ describe("SignUp Component", () => {
       jest.fn(), // Mocked promptAsync function
     ]);
 
-    const { getByText, getByTestId, findByTestId } = render(<SignUpTest />);
+    const { getByTestId, findByTestId } = render(<SignUpTest />);
 
     const userNameInput = getByTestId("username-input");
     const emailInput = getByTestId("email-input");

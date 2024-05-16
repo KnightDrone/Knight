@@ -3,10 +3,7 @@ jest.mock("@react-native-async-storage/async-storage", () =>
 );
 
 jest.mock("firebase/app", () => ({
-  initializeApp: jest.fn(() => {
-    {
-    }
-  }),
+  initializeApp: jest.fn(() => {}),
   getApps: jest.fn(() => []),
   getApp: jest.fn(),
 }));

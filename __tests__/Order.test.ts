@@ -1,10 +1,5 @@
 import { Item } from "../src/types/Item";
-import {
-  Order,
-  OrderStatus,
-  OrderLocation,
-  orderConverter,
-} from "../src/types/Order";
+import { Order, OrderStatus, OrderLocation } from "../src/types/Order";
 
 describe("Order", () => {
   let order: Order;

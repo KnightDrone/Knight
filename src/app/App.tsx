@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { View, ActivityIndicator } from "react-native";
 import { User, onAuthStateChanged, auth } from "../services/Firebase";
 import * as WebBrowser from "expo-web-browser";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import "./global.css";
 

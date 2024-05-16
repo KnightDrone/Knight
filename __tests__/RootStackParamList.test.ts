@@ -1,4 +1,3 @@
-import { Item } from "../src/types/Item";
 import { RootStackParamList } from "../src/types/RootStackParamList";
 
 const mockRootStackParamList: RootStackParamList = {
@@ -15,8 +14,11 @@ const mockRootStackParamList: RootStackParamList = {
   },
   OrderHistory: {
     userId: "123",
-    opOrders: true,
+    historyOp: true,
   },
+  PendingOrders: undefined,
+  Settings: undefined,
+  ProfileScreen: undefined,
 };
 
 describe("RootStackParamList", () => {
@@ -45,7 +47,7 @@ describe("RootStackParamList", () => {
 
   it("should have the correct values", () => {
     expect(mockRootStackParamList.OrderPlaced.orderId).toEqual("1");
-    expect(mockRootStackParamList.OrderHistory.opOrders).toBeTruthy();
+    expect(mockRootStackParamList.OrderHistory.historyOp).toBeTruthy();
     expect(mockRootStackParamList.OrderMenu.latitude).toEqual(-999);
     expect(mockRootStackParamList.OrderMenu.longitude).toEqual(-999);
   });

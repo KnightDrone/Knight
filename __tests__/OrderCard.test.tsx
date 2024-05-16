@@ -1,7 +1,7 @@
 import React from "react";
 import { render, fireEvent } from "@testing-library/react-native";
 import OrderCard from "../src/components/cards/OrderCard";
-import { Order, OrderStatus } from "../src/types/Order";
+import { Order } from "../src/types/Order";
 import { Item } from "../src/types/Item";
 
 describe("OrderCard", () => {
