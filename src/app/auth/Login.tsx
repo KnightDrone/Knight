@@ -56,7 +56,7 @@ export default function Login({ navigation }: any) {
         } else {
           firestoreManager.getUser(result.user.uid).then((user) => {
             if (user && user.role === "user") {
-              navigation.navigate("OperatorMap");
+              navigation.navigate("UserDrawer");
             } else {
               navigation.navigate("OperatorMap");
             }
@@ -78,7 +78,7 @@ export default function Login({ navigation }: any) {
           const user = await firestoreManager.getUser(response.user.uid);
           console.log("User: ", user);
           if (user && user.role === "user") {
-            navigation.navigate("OperatorMap");
+            navigation.navigate("UserDrawer");
           } else {
             navigation.navigate("OperatorMap");
           }

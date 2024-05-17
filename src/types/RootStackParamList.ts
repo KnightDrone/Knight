@@ -13,9 +13,6 @@ export type RootStackParamList = {
     latitude: number;
     longitude: number;
   };
-  Map: undefined;
-  Settings: undefined;
-  ProfileScreen: undefined;
   OrderPlaced: {
     orderId: Order;
   };
@@ -28,4 +25,6 @@ export type RootStackParamList = {
   OperatorOrderPlaced: {
     orderId: Order;
   };
+  OperatorDrawer: undefined;
+  UserDrawer: undefined;
 };

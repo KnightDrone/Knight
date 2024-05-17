@@ -39,7 +39,8 @@
     "permission-denied": "Permission to access location denied",
     "permission-not-granted": "Location permission not granted",
     "marker-title": "Current location",
-    "order-button": "Order"
+    "order-button": "Order",
+    "pending-orders-button": "Pending orders"
   },
   "items": {
     "first-aid": "First aid kit",

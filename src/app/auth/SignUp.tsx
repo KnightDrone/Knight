@@ -16,9 +16,12 @@ import { OrSeparator } from "../../components/OrSeparator";
 import { MessageBox } from "../../ui/MessageBox";
 import { useTranslation } from "react-i18next";
 import { DBUser, FirestoreManager } from "../../services/FirestoreManager";
+import { User } from "../../types/User";
+
+const firestoreManager = new FirestoreManager();
 
 export default function SignUp({ navigation }: any) {
-  const [user, setUser] = useState("");
+  const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
 
@@ -43,7 +46,7 @@ export default function SignUp({ navigation }: any) {
       const credential = GoogleAuthProvider.credential(id_token);
       signInWithCredential(auth, credential)
         .then(() => {
-          navigation.navigate("Map");
+          navigation.navigate("UserDrawer");
         })
         .catch((error) => {
           console.error(error);
@@ -88,20 +91,12 @@ export default function SignUp({ navigation }: any) {
     }
   };
 
-  // const writeUserData = async (response: UserCredential) => {
-  //   set(ref(database, "users/" + response.user.uid), {
-  //     username: user,
-  //     email: email,
-  //     orders: [], // This will create an empty list for orders
-  //   });
-  // };
-
   const signUpWithEmail = async () => {
-    if (email && password) {
+    if (userName && email && password) {
       createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
           const userData: DBUser = {
-            name: user,
+            name: userName,
             email: email,
             photoURL: "",
             role: "user",
@@ -111,8 +106,20 @@ export default function SignUp({ navigation }: any) {
           firestoreManager
             .createUser(userCredential.user.uid, userData)
             .then(() => {
-              navigation.navigate("Map");
+              navigation.navigate("UserDrawer");
             });
+          navigation.navigate("UserDrawer");
+          if (auth.currentUser != null) {
+            const user = new User(
+              auth.currentUser?.uid,
+              email,
+              false,
+              userName
+            );
+            firestoreManager.writeData("users", user);
+            navigation.navigate("UserDrawer");
+          } else {
+          }
         })
         .catch((error) => {
           setError("Sign Up failed. Please check your credentials.");
@@ -171,8 +178,8 @@ export default function SignUp({ navigation }: any) {
       <View className="flex flex-col gap-3">
         <TextField
           placeholder={t("signup.username")}
-          value={user}
-          onChangeText={setUser}
+          value={userName}
+          onChangeText={setUserName}
           type="text"
           testID="username-input"
         />
@@ -230,6 +237,12 @@ export default function SignUp({ navigation }: any) {
         imgSrc={require("../../../assets/images/google-icon.png")}
         onPress={() => promptAsync()}
         style="secondary"
+      />
+      <Button
+        text={"Login as Operator"}
+        onPress={() => navigation.navigate("OperatorMap")}
+        style="primary"
+        className="mt-4"
       />
 
       {error && (

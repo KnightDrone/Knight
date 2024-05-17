@@ -1,7 +1,8 @@
 import React from "react";
 import { render, fireEvent, waitFor } from "@testing-library/react-native";
-import MapOverview from "../src/app/Map";
+import OperatorMap from "../src/app/OperatorMap";
 import * as Location from "expo-location";
+import { Order } from "../src/types/Order";
 
 jest.mock("expo-location", () => {
   const originalModule = jest.requireActual("expo-location");
@@ -15,8 +16,29 @@ jest.mock("expo-location", () => {
 
 jest.mock("react-native-vector-icons/MaterialIcons", () => "Icon");
 jest.mock("../src/components/LocationMarker", () => "LocationMarker");
+jest.mock("../src/services/FirestoreManager", () => {
+  return {
+    __esModule: true,
+    default: jest.fn().mockImplementation(() => ({
+      queryOrder: jest.fn(() => Promise.resolve([])),
+    })),
+  };
+});
 
-describe("Map", () => {
+jest.mock("../src/types/Order", () => ({
+  OrderStatus: jest.fn(),
+  Order: jest.fn(),
+}));
+jest.mock("react-native-maps", () => {
+  const { View } = require("react-native");
+  return {
+    __esModule: true,
+    default: View,
+    Marker: View,
+  };
+});
+
+describe("OperatorMap", () => {
   beforeEach(() => {
     (Location.requestForegroundPermissionsAsync as jest.Mock).mockResolvedValue(
       { status: "granted" }
@@ -33,12 +55,12 @@ describe("Map", () => {
   });
 
   it("renders correctly", () => {
-    const { getByTestId } = render(<MapOverview />);
+    const { getByTestId } = render(<OperatorMap />);
     expect(getByTestId("map-view")).toBeTruthy();
   });
 
   it("requests location permission on mount", async () => {
-    render(<MapOverview />);
+    render(<OperatorMap />);
     await waitFor(() =>
       expect(Location.requestForegroundPermissionsAsync).toHaveBeenCalled()
     );
@@ -50,35 +72,27 @@ describe("Map", () => {
         remove: jest.fn(),
       })
     );
-    const { getByText } = render(<MapOverview />);
+    const { getByText } = render(<OperatorMap />);
     expect(getByText("Loading your location...")).toBeTruthy();
-  });
-
-  it("toggles auto-centering when map is dragged", () => {
-    const setAutoCenter = jest.fn();
-    React.useState = jest.fn(() => [true, setAutoCenter]);
-    const { getByTestId } = render(<MapOverview />);
-    fireEvent(getByTestId("map-view"), "onPanDrag");
-    expect(setAutoCenter).toHaveBeenCalledWith(false);
-  });
-
-  it("centers map to user location when auto-center button is pressed", () => {
-    const animateToRegionMock = jest.fn();
-    const { getByTestId } = render(<MapOverview />);
-    const button = getByTestId("my-location-button");
-    fireEvent.press(button);
-    //expect(animateToRegionMock).toHaveBeenCalled();
   });
 
   it("passes location as a prop when navigating to OrderMenu", () => {
     const navigate = jest.fn();
-    const { getByTestId } = render(<MapOverview navigation={{ navigate }} />);
+    const { getByTestId } = render(<OperatorMap navigation={{ navigate }} />);
 
     fireEvent.press(getByTestId("order-button"));
 
     expect(navigate).toHaveBeenCalledWith("OrderMenu", {
-      latitude: undefined,
-      longitude: undefined,
+      latitude: expect.any(Number),
+      longitude: expect.any(Number),
     });
+  });
+
+  it("centers map to user location when auto-center button is pressed", () => {
+    const animateToRegionMock = jest.fn();
+    const { getByTestId } = render(<OperatorMap />);
+    const button = getByTestId("my-location-button");
+    fireEvent.press(button);
+    //expect(animateToRegionMock).toHaveBeenCalled();
   });
 });

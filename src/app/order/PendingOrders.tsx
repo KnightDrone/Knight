@@ -9,12 +9,14 @@ import {
 } from "react-native";
 import OrderCard from "../../components/cards/OrderCard";
 import { Button } from "../../ui/Button";
-import { Order, OrderStatus } from "../../types/Order";
+import { Order, OrderStatus, sortOrders } from "../../types/Order";
 import { Item } from "../../types/Item";
 import TriangleBackground from "../../components/TriangleBackground";
 import { FirestoreManager } from "../../services/FirestoreManager";
 import { MessageBox } from "../../ui/MessageBox";
-
+import { formatDate } from "../../components/cards/OrderCard";
+import { Picker } from "@react-native-picker/picker";
+import { TextField } from "../../ui/TextField";
 /* 
 NOTE: This is a temporary solution to simulate fetching pending orders from a server. Should be replaced with actual database calls
 */
@@ -58,6 +60,8 @@ const PendingOrders = ({ navigation }: any) => {
   const [orders, setOrders] = useState<Order[]>([]);
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState<Error | null>(null);
+  const [searchText, setSearchText] = useState("");
+  const [sortingOption, setSortingOption] = useState("ascendingDate");
   useEffect(() => {
     fetchOrders();
   }, []);
@@ -75,6 +79,22 @@ const PendingOrders = ({ navigation }: any) => {
     setSelectedOrder(null);
   };
   // ---------------------------------------------------------
+  const orderListFiltered = sortOrders(
+    sortingOption,
+    orders.filter(
+      (order) =>
+        order
+          .getItem()
+          .getName()
+          .toLowerCase()
+          .includes(searchText.toLowerCase()) ||
+        order
+          .getUsrLocName()
+          .toLowerCase()
+          .includes(searchText.toLowerCase()) ||
+        formatDate(order.getOrderDate()).includes(searchText)
+    )
+  );
   const fetchOrders = async () => {
     setRefreshing(true);
     try {
@@ -90,10 +110,10 @@ const PendingOrders = ({ navigation }: any) => {
         );
       } else {
         // Sort the orders by date so that the oldest orders are shown first
-        const sortedOrders = newOrders.sort(
+        /*const sortedOrders = newOrders.sort(
           (a, b) => a.getOrderDate().getTime() - b.getOrderDate().getTime()
-        );
-        setOrders(sortedOrders);
+        );*/
+        setOrders(newOrders);
         setError(null); // Clear the error if the fetch is successful
       }
     } catch (err) {
@@ -103,12 +123,46 @@ const PendingOrders = ({ navigation }: any) => {
     }
   };
 
+  interface SortingPickerProps {
+    sortingOption: string;
+    setSortingOption: React.Dispatch<React.SetStateAction<string>>;
+  }
+
+  const SortingPicker: React.FC<SortingPickerProps> = ({
+    sortingOption,
+    setSortingOption,
+  }) => {
+    const sortingOptions = [
+      { label: "Date ↓", value: "descendingDate" },
+      { label: "Date ↑", value: "ascendingDate" },
+      { label: "Price ↓", value: "descendingPrice" },
+      { label: "Price ↑", value: "ascendingPrice" },
+    ];
+
+    return (
+      <Picker
+        style={{
+          transform: [{ translateY: -6.5 }],
+          color: "black",
+          width: 140,
+        }}
+        // <Picker> is a component from @react-native-picker/picker, and as a result it is NOT comptabile with Nativewind
+        selectedValue={sortingOption}
+        onValueChange={(itemValue, itemIndex) => setSortingOption(itemValue)}
+      >
+        {sortingOptions.map((option, index) => (
+          <Picker.Item label={option.label} value={option.value} key={index} />
+        ))}
+      </Picker>
+    );
+  };
+
   return (
     <View className="mt-16" testID="pending-orders-screen">
       <View className="flex-row items-center justify-center">
         <TouchableOpacity className="absolute left-4" testID="menu-button">
           <Image
-            source={require("../../assets/icons/menu_icon.png")}
+            source={require("../../../assets/icons/menu_icon.png")}
             className="w-9 h-9"
             testID="menu-icon"
           />
@@ -125,11 +179,26 @@ const PendingOrders = ({ navigation }: any) => {
           onPress={() => navigation.goBack()}
         >
           <Image
-            source={require("../../assets/icons/x_icon.png")}
+            source={require("../../../assets/icons/x_icon.png")}
             className="w-5 h-5"
             testID="close-icon"
           />
         </TouchableOpacity>
+      </View>
+      <View className="flex-row">
+        <TextField
+          className="w-6/12 mx-auto mt-4 bg-white ml-4"
+          placeholder="Type here to search"
+          onChangeText={setSearchText}
+          value={searchText}
+          type="text"
+        />
+        <View className="w-40 mx-auto mt-4 bg-gray-50 ml-4 relative h-12 rounded-full border border-gray-400 pb-8">
+          <SortingPicker
+            sortingOption={sortingOption}
+            setSortingOption={setSortingOption}
+          />
+        </View>
       </View>
 
       {
@@ -147,7 +216,8 @@ const PendingOrders = ({ navigation }: any) => {
         />
       )}
       <FlatList
-        data={orders}
+        className="mt-4 min-h-full mb-6"
+        data={orderListFiltered}
         renderItem={({ item }) => (
           <OrderCard
             order={item}
@@ -175,12 +245,12 @@ const PendingOrders = ({ navigation }: any) => {
                 className="absolute right-5 top-5 "
               >
                 <Image
-                  source={require("../../assets/icons/x_icon.png")}
+                  source={require("../../../assets/icons/x_icon.png")}
                   className="w-5 h-5"
                 />
               </TouchableOpacity>
               <Text className="text-center font-bold text-xl pt-5 pb-6">
-                {`Would you like to accept the order for ${selectedOrder.getItem().getName()} from ${selectedOrder.getUser()}?`}
+                {`Would you like to accept the order for ${selectedOrder.getItem().getName()} from ${selectedOrder.getUserId()}?`}
               </Text>
 
               <Button

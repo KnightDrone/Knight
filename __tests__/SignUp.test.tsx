@@ -31,7 +31,7 @@ const SignUpTest = () => {
         <Stack.Screen name="Login">
           {(props) => <Login {...props} />}
         </Stack.Screen>
-        <Stack.Screen name="Map">
+        <Stack.Screen name="UserDrawer">
           {() => (
             <>
               <Text testID="map-screen">Map screen</Text>
@@ -202,9 +202,11 @@ describe("SignUp Component", () => {
 
     const { getByText, getByTestId, findByTestId } = render(<SignUpTest />);
 
+    const userNameInput = getByTestId("username-input");
     const emailInput = getByTestId("email-input");
     const passwordInput = getByTestId("password-input");
 
+    fireEvent.changeText(userNameInput, "Test User");
     fireEvent.changeText(emailInput, "test@gmail.com");
     fireEvent.changeText(passwordInput, "password123");
 

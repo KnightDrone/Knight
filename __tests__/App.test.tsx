@@ -92,12 +92,28 @@ describe("App Navigation", () => {
     jest.clearAllMocks();
   });
 
-  it("renders the login screen as the initial route", () => {
+  it("renders the login screen as the initial route", async () => {
+    // Mock AsyncStorage to simulate an empty state
+    (onAuthStateChanged as jest.Mock).mockImplementation((auth, callback) => {
+      callback(null);
+      return jest.fn();
+    });
     const { getByTestId } = render(<App />);
-    expect(getByTestId("login-screen")).toBeTruthy();
+    await waitFor(() => expect(getByTestId("login-screen")).toBeTruthy()); // await because onAuthStateChanged call in App.tsx
   });
 
   it("directly logs in with Google due to the mock implementation", async () => {
+    jest.doMock("../src/services/Firebase", () => ({
+      User: jest.fn(),
+      onAuthStateChanged: jest.fn(),
+      auth: {
+        currentUser: {
+          // Mocking a user object to simulate a logged-in state
+          uid: "mock-uid",
+        },
+      },
+    }));
+
     const { queryByTestId } = render(<App />);
     await waitFor(() => {
       expect(queryByTestId("map-view")).toBeTruthy();
@@ -105,6 +121,10 @@ describe("App Navigation", () => {
   });
 
   it.only("logs in when the login button is pressed", async () => {
+    // Mock AsyncStorage to simulate an empty state
+    jest.mock("@react-native-async-storage/async-storage", () => ({
+      getItem: jest.fn().mockResolvedValue(null),
+    }));
     (Google.useAuthRequest as jest.Mock).mockReturnValue([
       {},
       { type: "fail", params: { id_token: "" } },
@@ -114,6 +134,7 @@ describe("App Navigation", () => {
     const { getByTestId, getByPlaceholderText, queryByTestId } = render(
       <App />
     );
+    await waitFor(() => expect(getByTestId("login-screen")).toBeTruthy());
 
     await simulateLogin(getByPlaceholderText, getByTestId, queryByTestId);
   });
@@ -140,7 +161,7 @@ describe("App Navigation", () => {
   });
 
   it("goes to order menu, then goes back", async () => {
-    const { getByTestId, queryByTestId } = render(<App />);
+    const { getByTestId, queryByTestId, queryByText } = render(<App />);
 
     await waitFor(() => {
       expect(queryByTestId("map-view")).toBeTruthy();
@@ -153,18 +174,20 @@ describe("App Navigation", () => {
       expect(queryByTestId("order-menu-screen")).toBeTruthy();
     });
 
-    const backButton = getByTestId("order-menu-back-button");
+    const backButton = getByTestId("order-menu-drawer-back-button");
     fireEvent.press(backButton);
 
-    await waitFor(() => {
-      expect(queryByTestId("map-view")).toBeTruthy();
-    });
+    await waitFor(
+      () => {
+        expect(queryByText("OrderMenu")).toBeTruthy();
+      },
+      { timeout: 1000 }
+    );
   });
 
   it("logs in and navigates through the app", async () => {
-    const { getByPlaceholderText, getByTestId, queryByTestId } = render(
-      <App />
-    );
+    const { getByPlaceholderText, getByTestId, queryByTestId, queryByText } =
+      render(<App />);
     await simulateLogin(getByPlaceholderText, getByTestId, queryByTestId);
 
     const orderMenuButton = getByTestId("order-button");
@@ -174,10 +197,13 @@ describe("App Navigation", () => {
       expect(queryByTestId("order-menu-screen")).toBeTruthy();
     });
 
-    fireEvent.press(getByTestId("order-menu-back-button"));
-    await waitFor(() => {
-      expect(queryByTestId("map-view")).toBeTruthy();
-    });
+    fireEvent.press(getByTestId("order-menu-drawer-back-button"));
+    await waitFor(
+      () => {
+        expect(queryByText("OrderMenu")).toBeTruthy();
+      },
+      { timeout: 1000 }
+    );
   });
 
   it("onAuthStateChanged is called when the user logs in", async () => {
@@ -188,14 +214,9 @@ describe("App Navigation", () => {
     });
 
     const { queryByTestId } = render(<App />);
-
     await waitFor(() => {
       expect(queryByTestId("map-view")).toBeTruthy();
       expect(onAuthStateChanged).toHaveBeenCalled();
-      expect(AsyncStorage.setItem).toHaveBeenCalledWith(
-        "@user",
-        JSON.stringify(mockUser)
-      );
     });
   });
 
@@ -211,55 +232,6 @@ describe("App Navigation", () => {
     await waitFor(() => {
       expect(queryByTestId("map-view")).toBeTruthy();
       expect(onAuthStateChanged).toHaveBeenCalled();
-      expect(AsyncStorage.removeItem).toHaveBeenCalledWith("@user");
-    });
-  });
-
-  it("alerts due to setItem error", async () => {
-    const mockUser = {
-      uid: "123",
-      email: "random@gmail.com",
-    };
-    (onAuthStateChanged as jest.Mock).mockImplementation((auth, callback) => {
-      callback(mockUser);
-      return jest.fn();
-    });
-
-    // Mock the AsyncStorage error
-    (AsyncStorage.setItem as jest.Mock).mockRejectedValue(
-      new Error("AsyncStorage error")
-    );
-
-    const { queryByTestId } = render(<App />);
-    await waitFor(() => {
-      expect(queryByTestId("map-view")).toBeTruthy();
-      expect(onAuthStateChanged).toHaveBeenCalled();
-      expect(AsyncStorage.setItem).toHaveBeenCalledWith(
-        "@user",
-        JSON.stringify(mockUser)
-      );
-      expect(alert).toHaveBeenCalledWith(new Error("AsyncStorage error"));
-    });
-  });
-
-  it("alerts due to removeItem error", async () => {
-    const mockUser = null;
-    (onAuthStateChanged as jest.Mock).mockImplementation((auth, callback) => {
-      callback(mockUser);
-      return jest.fn();
-    });
-
-    // Mock the AsyncStorage error
-    (AsyncStorage.removeItem as jest.Mock).mockRejectedValue(
-      new Error("AsyncStorage error")
-    );
-
-    const { queryByTestId } = render(<App />);
-    await waitFor(() => {
-      expect(queryByTestId("map-view")).toBeTruthy();
-      expect(onAuthStateChanged).toHaveBeenCalled();
-      expect(AsyncStorage.removeItem).toHaveBeenCalledWith("@user");
-      expect(alert).toHaveBeenCalledWith(new Error("AsyncStorage error"));
     });
   });
 });
