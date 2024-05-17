@@ -21,6 +21,9 @@ import Profile from "./settings/ProfileScreen";
 import Setting from "./settings/Setting";
 import OrderHistory from "./order/OrderHistory";
 
+// Back button
+import BackButton from "../components/buttons/BackButton";
+
 const { Navigator, Screen, Group } = createStackNavigator<RootStackParamList>();
 
 const Drawer = createDrawerNavigator<DrawerParamList>();
@@ -42,7 +45,7 @@ function UserDrawer<UserDrawerProps>(user: UserDrawerProps) {
           headerTransparent: true,
           headerTitle: "",
           headerLeft: () => (
-            <HeaderBackButton
+            <BackButton
               onPress={() => navigation.toggleDrawer()}
               labelVisible={false}
               testID="profile-drawer-button" // Ensure this testID is correctly set
@@ -61,7 +64,7 @@ function UserDrawer<UserDrawerProps>(user: UserDrawerProps) {
           headerTransparent: true,
           headerTitle: "",
           headerLeft: () => (
-            <HeaderBackButton
+            <BackButton
               onPress={() => navigation.toggleDrawer()}
               labelVisible={false}
               testID="settings-back-button"
@@ -78,7 +81,7 @@ function UserDrawer<UserDrawerProps>(user: UserDrawerProps) {
           headerTransparent: true,
           headerTitle: "",
           headerLeft: () => (
-            <HeaderBackButton
+            <BackButton
               onPress={() => navigation.toggleDrawer()}
               labelVisible={false}
               testID="order-menu-drawer-back-button"
@@ -96,7 +99,7 @@ function UserDrawer<UserDrawerProps>(user: UserDrawerProps) {
           headerTransparent: true,
           headerTitle: "",
           headerLeft: () => (
-            <HeaderBackButton
+            <BackButton
               onPress={() => navigation.toggleDrawer()}
               labelVisible={false}
               testID="order-history-back-button"
