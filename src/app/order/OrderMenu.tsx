@@ -27,17 +27,7 @@ export default function OrderMenu({
   const { t } = useTranslation();
 
   const [visibleItemId, setVisibleItemId] = useState<number | null>(null);
-  const handleSignOut = async () => {
-    try {
-      await signOut(auth);
-      // Navigate to login screen or perform other actions after sign out
-      navigation.navigate("Login");
-    } catch (error) {
-      console.error("Error signing out: ", error);
-    } finally {
-      console.log("Signout handled");
-    }
-  };
+
   const handleOpenCard = (itemId: number) => {
     setVisibleItemId(itemId);
   };
@@ -87,16 +77,6 @@ export default function OrderMenu({
           />
         );
       })}
-      <Button
-        title="Go to Settings"
-        onPress={() => navigation.navigate("Settings")}
-        color="#007AFF"
-      />
-      <Button
-        title="Sign out"
-        onPress={() => handleSignOut()}
-        color="#007AFF"
-      />
     </View>
   );
 }
