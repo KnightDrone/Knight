@@ -68,7 +68,6 @@ const ProfileScreen = () => {
           await uploadBytes(photoRef, blob).then(async () => {
             const url = await getDownloadURL(photoRef);
             setPhotoURL(url);
-            console.log("File uploaded successfully: ", url);
           });
         } catch (error) {
           console.error("Error during image upload: ", error);
