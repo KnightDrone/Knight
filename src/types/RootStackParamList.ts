@@ -20,5 +20,6 @@ export type RootStackParamList = {
     userId: string;
   };
   PendingOrders: undefined; // Added for PendingOrders
+  OperatorDrawer: undefined;
   UserDrawer: undefined;
 };
