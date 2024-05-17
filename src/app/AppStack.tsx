@@ -105,10 +105,7 @@ function UserDrawer<UserDrawerProps>(user: UserDrawerProps) {
         })}
       >
         {(props: any) => (
-          <OrderHistory
-            {...props}
-            route={{ params: { historyOp: false, user } }}
-          />
+          <OrderHistory {...props} route={{ params: { historyOp: false } }} />
         )}
       </Drawer.Screen>
     </Drawer.Navigator>
