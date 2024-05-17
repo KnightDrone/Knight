@@ -150,7 +150,7 @@ const OperatorMap = ({ navigation }: any) => {
       <Button
         testID="my-location-button"
         onPress={toggleAutoCenter}
-        style="primary"
+        style="secondary"
         className="absolute top-[60px] right-[30px] w-16 h-16"
       >
         <Icon name="my-location" size={24} color="#fff" />
