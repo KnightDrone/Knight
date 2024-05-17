@@ -157,10 +157,10 @@ const OrderHistory = ({
     <View className="mt-16" testID="order-history-screen">
       <View className="flex-row items-center justify-center">
         <TouchableOpacity className="absolute left-4" testID="menu-button">
-          <Image
+          {/* <Image
             source={require("../../../assets/icons/menu_icon.png")}
             className="w-9 h-9"
-          />
+          /> */}
         </TouchableOpacity>
         <Text className="text-2xl font-bold text-center my-4">
           {t("order-history.title")}
