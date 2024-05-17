@@ -52,6 +52,16 @@ jest.mock("../src/services/FirestoreManager", () => {
   };
 });
 
+jest.mock("../src/services/Firebase", () => {
+  return {
+    auth: {
+      currentUser: {
+        uid: "user1",
+      },
+    },
+  };
+});
+
 type OrderHistoryStack = {
   OrderHistory: RootStackParamList["OrderHistory"];
 };
@@ -66,7 +76,6 @@ const OrderHistoryTest = () => {
           name="OrderHistory"
           initialParams={{
             historyOp: false,
-            userId: "user1",
           }}
         >
           {(props) => <OrderHistory {...props} />}
@@ -110,7 +119,6 @@ describe("OrderHistory", () => {
       name: "OrderHistory",
       params: {
         historyOp: false,
-        userId: "user1",
       },
     };
 

@@ -19,6 +19,7 @@ import FirestoreManager from "../../services/FirestoreManager";
 import { useTranslation } from "react-i18next";
 import { formatDate } from "../../components/cards/OrderCard";
 import { Picker } from "@react-native-picker/picker";
+import { auth } from "../../services/Firebase";
 /* 
 NOTE: This is a temporary solution to simulate fetching orders from a server. Should be replaced with actual database calls
 */
@@ -69,13 +70,14 @@ const OrderHistory = ({
   navigation: any;
 }) => {
   const firestoreManager = new FirestoreManager();
-  const { historyOp, userId } = route.params;
+  const { historyOp } = route.params;
   const [searchText, setSearchText] = useState("");
   const { t } = useTranslation();
   const [orders, setOrders] = useState<Order[]>([]);
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState<Error | null>(null);
   const [sortingOption, setSortingOption] = useState("descendingDate");
+  const uid = auth.currentUser?.uid;
 
   useEffect(() => {
     fetchOrders();
@@ -85,7 +87,8 @@ const OrderHistory = ({
     setRefreshing(true);
     try {
       const field = historyOp ? "operatorId" : "userId";
-      let newOrders = await firestoreManager.queryOrder(field, userId);
+      console.log("fetching orders for user: " + uid);
+      let newOrders = await firestoreManager.queryOrder(field, uid || "");
       if (newOrders === null) {
         setError(new Error("Failed to fetch from database."));
       } else if (newOrders.length === 0) {
@@ -93,9 +96,6 @@ const OrderHistory = ({
           new Error("No orders have been made yet. Go place some orders :)")
         );
       } else {
-        /*const sortedOrders = newOrders.sort(
-          (a, b) => b.getOrderDate().getTime() - a.getOrderDate().getTime()
-        );*/
         setOrders(newOrders);
         setError(null); // Clear the error if the fetch is successful
       }
