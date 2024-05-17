@@ -10,6 +10,7 @@ import { registerRootComponent } from "expo";
 import { initI18n } from "../lang/i18n";
 import { AppStack } from "./AppStack";
 import { StripeProvider } from "@stripe/stripe-react-native";
+import FirestoreManager from "../services/FirestoreManager";
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -18,15 +19,24 @@ initI18n();
 function App() {
   const [userInfo, setUserInfo] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
-  const [isLoggedIn, setIsLoggedIn] = useState<"Login" | "UserDrawer">("Login");
+  const [isLoggedIn, setIsLoggedIn] = useState<
+    "Login" | "UserDrawer" | "OperatorDrawer"
+  >("Login");
 
   const stripePublishableKey = process.env.STRIPE_PUBLISHABLE_KEY || "";
+  const firestoreManager = new FirestoreManager();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
         setUserInfo(user);
-        setIsLoggedIn("UserDrawer"); // Set to "Map" if user is logged in
+        const userData = await firestoreManager.getUser(user.uid);
+
+        if (userData?.role === "operator") {
+          setIsLoggedIn("OperatorDrawer");
+        } else {
+          setIsLoggedIn("UserDrawer");
+        }
       } else {
         setUserInfo(null);
         setIsLoggedIn("Login");

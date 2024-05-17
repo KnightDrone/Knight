@@ -25,6 +25,21 @@ jest.mock("expo-location", () => {
   };
 });
 
+jest.mock("../src/services/FirestoreManager.ts", () => {
+  return {
+    __esModule: true,
+    default: jest.fn().mockImplementation(() => {
+      return {
+        writeData: jest.fn().mockResolvedValue({}),
+        queryData: jest.fn().mockResolvedValue([]),
+        queryOrder: jest.fn().mockResolvedValue([]),
+        getUser: jest.fn().mockResolvedValue({}),
+        createUser: jest.fn().mockResolvedValue({}),
+      };
+    }),
+  };
+});
+
 jest.mock("react-native-vector-icons/MaterialIcons", () => "Icon");
 jest.mock("react-native-vector-icons/MaterialCommunityIcons", () => "Icon");
 jest.mock("../src/components/LocationMarker", () => "LocationMarker");
@@ -338,5 +353,13 @@ describe("Drawer Navigation", () => {
       },
       { timeout: 1000 }
     );
+  });
+
+  it("Should access the OperatorDrawer", async () => {
+    const { queryByTestId } = render(<AppStack isLoggedIn="OperatorDrawer" />);
+
+    await waitFor(() => {
+      expect(queryByTestId("operator-map-screen")).toBeTruthy();
+    });
   });
 });

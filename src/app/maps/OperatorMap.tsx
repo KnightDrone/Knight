@@ -113,7 +113,7 @@ const OperatorMap = ({ navigation }: any) => {
   }, []);
 
   return (
-    <View style={StyleSheet.absoluteFillObject}>
+    <View style={StyleSheet.absoluteFillObject} testID="operator-map-screen">
       <MapView
         onPanDrag={() => {
           setAutoCenter(false);
