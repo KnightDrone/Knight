@@ -15,6 +15,7 @@ import { CustomDrawerContent } from "./CustomDrawerContent";
 import FirestoreManager from "../../services/FirestoreManager";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import OperatorMap from "../../app/maps/OperatorMap";
+import PendingOrders from "../../app/order/PendingOrders";
 
 const Drawer = createDrawerNavigator<DrawerParamList>();
 
@@ -120,6 +121,19 @@ export function OperatorDrawer<OperatorDrawerProps>(user: OperatorDrawerProps) {
             route={{ params: { historyOp: true, userId: userId } }}
           />
         )}
+      </Drawer.Screen>
+      <Drawer.Screen
+        name="PendingOrders"
+        options={{
+          headerTransparent: true,
+          drawerLabel: "Pending Orders",
+          headerTitle: "Pending Orders",
+          drawerIcon: ({ color }) => (
+            <Icon name="cart" color={color} size={22} />
+          ),
+        }}
+      >
+        {(props: any) => <PendingOrders {...props} />}
       </Drawer.Screen>
     </Drawer.Navigator>
   );

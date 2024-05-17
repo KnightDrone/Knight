@@ -15,4 +15,5 @@ export type DrawerParamList = {
     longitude: number;
   };
   Knaight: undefined;
+  PendingOrders: undefined;
 };
