@@ -46,7 +46,7 @@ export function UserDrawer<UserDrawerProps>(user: UserDrawerProps) {
         });
       }
     }
-  }, []);
+  }, [auth.currentUser]);
 
   return (
     <Drawer.Navigator

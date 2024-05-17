@@ -45,7 +45,7 @@ export function OperatorDrawer<OperatorDrawerProps>(user: OperatorDrawerProps) {
         });
       }
     }
-  }, []);
+  }, [auth.currentUser]);
 
   return (
     <Drawer.Navigator
