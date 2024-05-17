@@ -1,6 +1,6 @@
 import React from "react";
 import { render, fireEvent, waitFor } from "@testing-library/react-native";
-import MapOverview from "../src/app/Map";
+import MapOverview from "../src/app/maps/Map";
 import * as Location from "expo-location";
 
 jest.mock("expo-location", () => {
