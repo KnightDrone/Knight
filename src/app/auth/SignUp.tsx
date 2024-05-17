@@ -223,6 +223,12 @@ export default function SignUp({ navigation }: any) {
         onPress={() => promptAsync()}
         style="secondary"
       />
+      <Button
+        text={"Login as Operator"}
+        onPress={() => navigation.navigate("OperatorMap")}
+        style="primary"
+        className="mt-4"
+      />
 
       {error && (
         <MessageBox
