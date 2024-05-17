@@ -11,6 +11,13 @@ jest.mock("firebase/app", () => ({
   getApp: jest.fn(),
 }));
 
+jest.mock("firebase/storage", () => ({
+  getStorage: jest.fn(() => {}),
+  ref: jest.fn(),
+  uploadString: jest.fn(),
+  getDownloadURL: jest.fn(),
+}));
+
 jest.mock("firebase/firestore", () => ({
   getFirestore: jest.fn(() => {}),
   initializeFirestore: jest.fn(),
@@ -156,4 +163,10 @@ jest.mock("@stripe/stripe-react-native", () => ({
       .mockReturnValue(Promise.resolve({ error: null })),
     confirmPaymentSheetPayment: jest.fn(),
   }),
+}));
+
+jest.mock("expo-image-picker", () => ({
+  requestMediaLibraryPermissionsAsync: jest.fn(() =>
+    Promise.resolve({ status: "granted" })
+  ),
 }));
