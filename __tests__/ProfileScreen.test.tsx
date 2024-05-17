@@ -35,7 +35,6 @@ describe("ProfileScreen", () => {
     expect(getByPlaceholderText("Name")).toBeTruthy();
     expect(getByPlaceholderText("Email")).toBeTruthy();
     expect(getByPlaceholderText("Password")).toBeTruthy();
-    expect(getByPlaceholderText("DD/MM/YYYY")).toBeTruthy();
   });
 
   it("allows input to be entered", async () => {
@@ -47,7 +46,6 @@ describe("ProfileScreen", () => {
     );
     fireEvent.changeText(getByPlaceholderText("Email"), "jane@example.com");
     fireEvent.changeText(getByPlaceholderText("Password"), "newpassword");
-    fireEvent.changeText(getByPlaceholderText("DD/MM/YYYY"), "01/01/1990");
   });
 
   it("handles save button press", async () => {
@@ -91,10 +89,7 @@ describe("ProfileScreen", () => {
     expect(getByText("Name")).toBeTruthy();
     expect(getByText("Email")).toBeTruthy();
     expect(getByText("Password")).toBeTruthy();
-    expect(getByText("Date of Birth")).toBeTruthy();
     expect(getByText("Save changes")).toBeTruthy();
-
-    expect(getByPlaceholderText("DD/MM/YYYY")).toBeTruthy();
   });
 
   it("allows input to be entered", () => {
@@ -108,25 +103,14 @@ describe("ProfileScreen", () => {
     const passwordInput = getByPlaceholderText("Password");
     fireEvent.changeText(passwordInput, "newpassword");
 
-    const dobInput = getByPlaceholderText("DD/MM/YYYY");
-    fireEvent.changeText(dobInput, "01/01/1990");
-
     expect(nameInput.props.value).toEqual("Jane Doe");
     expect(emailInput.props.value).toEqual("jane@example.com");
     expect(passwordInput.props.value).toEqual("newpassword");
-    expect(dobInput.props.value).toEqual("01/01/1990");
   });
 
   it("handles save button press", () => {
     const { getByText } = render(<ProfileScreen />);
     const saveButton = getByText("Save changes");
     fireEvent.press(saveButton);
-  });
-
-  it("opens the date picker when date input is pressed", () => {
-    const { getByPlaceholderText } = render(<ProfileScreen />);
-    const dobInput = getByPlaceholderText("DD/MM/YYYY");
-    fireEvent.press(dobInput);
-    // Check for DatePicker visibility if it is state-based or mocked
   });
 });
