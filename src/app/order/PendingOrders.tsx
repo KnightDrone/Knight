@@ -39,16 +39,13 @@ const PendingOrders = ({ navigation }: any) => {
   }, []);
   // ------------ Handle card opening and closing ------------
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
-  const [isCardVisible, setIsCardVisible] = useState(false);
 
   const handleOpenCard = (order: Order) => {
     setSelectedOrder(order);
-    setIsCardVisible(true);
   };
 
   const handleCloseCard = () => {
     setSelectedOrder(null);
-    setIsCardVisible(false);
   };
 
   const handleAcceptOrder = () => {
@@ -231,7 +228,7 @@ const PendingOrders = ({ navigation }: any) => {
       />
 
       {selectedOrder && (
-        <Modal animationType="none" transparent={true} visible={isCardVisible}>
+        <Modal animationType="none" transparent={true}>
           <View className="flex-1 justify-center items-center bg-opacity-100">
             <View className="bg-white border-2 border-gray-500 p-5 items-start justify-start shadow-lg w-[300] h-[180] rounded-lg relative">
               <TouchableOpacity
