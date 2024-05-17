@@ -15,6 +15,7 @@ import OrderHistory from "../../app/order/OrderHistory";
 import { CustomDrawerContent } from "./CustomDrawerContent";
 import FirestoreManager from "../../services/FirestoreManager";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import ChatScreen from "../Knaight";
 
 const Drawer = createDrawerNavigator<DrawerParamList>();
 
@@ -134,6 +135,16 @@ export function UserDrawer<UserDrawerProps>(user: UserDrawerProps) {
           />
         )}
       </Drawer.Screen>
+      <Drawer.Screen
+        name="Knaight"
+        options={{
+          drawerLabel: "knAIght",
+          drawerIcon: ({ color }) => (
+            <Icon name="shield-account" color={color} size={22} />
+          ),
+        }}
+        component={ChatScreen}
+      />
     </Drawer.Navigator>
   );
 }
