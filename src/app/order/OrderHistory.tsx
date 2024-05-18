@@ -19,6 +19,7 @@ import FirestoreManager from "../../services/FirestoreManager";
 import { useTranslation } from "react-i18next";
 import { formatDate } from "../../components/cards/OrderCard";
 import { Picker } from "@react-native-picker/picker";
+import { auth } from "../../services/Firebase";
 /* 
 NOTE: This is a temporary solution to simulate fetching orders from a server. Should be replaced with actual database calls
 */
@@ -69,13 +70,14 @@ const OrderHistory = ({
   navigation: any;
 }) => {
   const firestoreManager = new FirestoreManager();
-  const { historyOp, userId } = route.params;
+  const { historyOp } = route.params;
   const [searchText, setSearchText] = useState("");
   const { t } = useTranslation();
   const [orders, setOrders] = useState<Order[]>([]);
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState<Error | null>(null);
   const [sortingOption, setSortingOption] = useState("descendingDate");
+  const uid = auth.currentUser?.uid;
 
   useEffect(() => {
     fetchOrders();
@@ -85,7 +87,8 @@ const OrderHistory = ({
     setRefreshing(true);
     try {
       const field = historyOp ? "operatorId" : "userId";
-      let newOrders = await firestoreManager.queryOrder(field, userId);
+      console.log("fetching orders for user: " + uid);
+      let newOrders = await firestoreManager.queryOrder(field, uid || "");
       if (newOrders === null) {
         setError(new Error("Failed to fetch from database."));
       } else if (newOrders.length === 0) {
@@ -93,9 +96,6 @@ const OrderHistory = ({
           new Error("No orders have been made yet. Go place some orders :)")
         );
       } else {
-        /*const sortedOrders = newOrders.sort(
-          (a, b) => b.getOrderDate().getTime() - a.getOrderDate().getTime()
-        );*/
         setOrders(newOrders);
         setError(null); // Clear the error if the fetch is successful
       }
@@ -154,29 +154,7 @@ const OrderHistory = ({
     );
   };
   return (
-    <View className="mt-16" testID="order-history-screen">
-      <View className="flex-row items-center justify-center">
-        <TouchableOpacity className="absolute left-4" testID="menu-button">
-          <Image
-            source={require("../../../assets/icons/menu_icon.png")}
-            className="w-9 h-9"
-          />
-        </TouchableOpacity>
-        <Text className="text-2xl font-bold text-center my-4">
-          {t("order-history.title")}
-        </Text>
-        <TouchableOpacity
-          className="absolute right-4"
-          testID="x-button"
-          onPress={() => navigation.goBack()}
-        >
-          <Image
-            source={require("../../../assets/icons/x_icon.png")}
-            className="w-5 h-5"
-            testID="x-icon"
-          />
-        </TouchableOpacity>
-      </View>
+    <View className="mt-28" testID="order-history-screen">
       <View className="flex-row">
         <TextField
           className="w-6/12 mx-auto mt-4 bg-white ml-4"
