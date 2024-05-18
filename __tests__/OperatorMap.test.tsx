@@ -55,12 +55,14 @@ describe("OperatorMap", () => {
   });
 
   it("renders correctly", () => {
-    const { getByTestId } = render(<OperatorMap />);
+    const { getByTestId } = render(
+      <OperatorMap navigation={{ navigate: jest.fn() }} />
+    );
     expect(getByTestId("map-view")).toBeTruthy();
   });
 
   it("requests location permission on mount", async () => {
-    render(<OperatorMap />);
+    render(<OperatorMap navigation={{ navigate: jest.fn() }} />);
     await waitFor(() =>
       expect(Location.requestForegroundPermissionsAsync).toHaveBeenCalled()
     );
@@ -72,15 +74,18 @@ describe("OperatorMap", () => {
         remove: jest.fn(),
       })
     );
-    const { getByText } = render(<OperatorMap />);
+    const { getByText } = render(
+      <OperatorMap navigation={{ navigate: jest.fn() }} />
+    );
     expect(getByText("Loading your location...")).toBeTruthy();
   });
 
   it("centers map to user location when auto-center button is pressed", () => {
-    const animateToRegionMock = jest.fn();
-    const { getByTestId } = render(<OperatorMap />);
+    const { getByTestId } = render(
+      <OperatorMap navigation={{ navigate: jest.fn() }} />
+    );
     const button = getByTestId("my-location-button");
     fireEvent.press(button);
-    //expect(animateToRegionMock).toHaveBeenCalled();
+    // Note: Since the animateToRegion is encapsulated within the hook, we cannot directly test it here without more complex setup.
   });
 });
