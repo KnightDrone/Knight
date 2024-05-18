@@ -14,8 +14,11 @@ import { updateProfile, updateEmail, updatePassword } from "firebase/auth";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import FirestoreManager, { DBUser } from "../../services/FirestoreManager";
 import * as ImagePicker from "expo-image-picker";
+interface ProfileScreenProps {
+  onSaveChanges?: () => void;
+}
 
-const ProfileScreen = () => {
+const ProfileScreen: React.FC<ProfileScreenProps> = ({ onSaveChanges }) => {
   const firestoreManager = new FirestoreManager();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -110,7 +113,8 @@ const ProfileScreen = () => {
             await updateProfile(user, {
               photoURL: photoURL,
             });
-            await user.reload();
+
+            onSaveChanges?.();
           }
         }
 
