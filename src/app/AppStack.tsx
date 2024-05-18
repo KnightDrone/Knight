@@ -18,7 +18,7 @@ import { OperatorDrawer } from "../components/drawers/OperatorDrawer";
 const { Navigator, Screen, Group } = createStackNavigator<RootStackParamList>();
 
 interface AppStackProps {
-  isLoggedIn: "Login" | "UserDrawer";
+  isLoggedIn: "Login" | "UserDrawer" | "OperatorDrawer";
   user?: User | null; // Define a more specific type if possible
 }
 export const AppStack: React.FC<AppStackProps> = ({ isLoggedIn, user }) => {

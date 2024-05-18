@@ -2,11 +2,8 @@ import React from "react";
 import { fireEvent, render, waitFor } from "@testing-library/react-native";
 import OrderHistory from "../src/app/order/OrderHistory";
 import { RootStackParamList } from "../src/types/RootStackParamList";
-import {
-  createStackNavigator,
-  StackNavigationProp,
-} from "@react-navigation/stack";
-import { NavigationContainer, RouteProp } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import { NavigationContainer } from "@react-navigation/native";
 import { initI18n } from "../src/lang/i18n";
 import { Order, OrderStatus } from "../src/types/Order";
 import { Item } from "../src/types/Item";
@@ -52,6 +49,16 @@ jest.mock("../src/services/FirestoreManager", () => {
   };
 });
 
+jest.mock("../src/services/Firebase", () => {
+  return {
+    auth: {
+      currentUser: {
+        uid: "user1",
+      },
+    },
+  };
+});
+
 type OrderHistoryStack = {
   OrderHistory: RootStackParamList["OrderHistory"];
 };
@@ -66,7 +73,6 @@ const OrderHistoryTest = () => {
           name="OrderHistory"
           initialParams={{
             historyOp: false,
-            userId: "user1",
           }}
         >
           {(props) => <OrderHistory {...props} />}

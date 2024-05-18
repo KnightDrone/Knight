@@ -160,9 +160,9 @@ const Settings: React.FC<SettingsProps> = ({
         { name: "Report a problem", icon: "report-problem" },
         { name: "Add account", icon: "person-add" },
         {
-          name: `Become ${role === "operator" ? "a user" : "an operator"}`,
+          name: `Become ${role == "operator" ? "a user" : "an operator"}`,
           id: "role-button",
-          action: role === "operator" ? handleBecomeUser : handleBecomeOperator,
+          action: role == "operator" ? handleBecomeUser : handleBecomeOperator,
           icon: "work",
         },
         { name: "Log out", action: handleLogout, icon: "logout" },
