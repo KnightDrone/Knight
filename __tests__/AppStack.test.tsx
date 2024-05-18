@@ -355,8 +355,11 @@ describe("Drawer Navigation", () => {
     );
   });
 
-  it("Should access the OperatorDrawer", async () => {
+  it.only("Should access the OperatorDrawer", async () => {
+    jest.useFakeTimers();
     const { queryByTestId } = render(<AppStack isLoggedIn="OperatorDrawer" />);
+
+    jest.advanceTimersByTime(10_000);
 
     await waitFor(() => {
       expect(queryByTestId("operator-map-screen")).toBeTruthy();

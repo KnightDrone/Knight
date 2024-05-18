@@ -113,6 +113,7 @@ const ChatScreen = () => {
   return (
     <View style={styles.container}>
       <FlatList
+        testID="messages-list"
         data={messages}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
@@ -125,7 +126,12 @@ const ChatScreen = () => {
           </View>
         )}
       />
-      {loading && <ActivityIndicator style={styles.loadingIndicator} />}
+      {loading && (
+        <ActivityIndicator
+          style={styles.loadingIndicator}
+          testID="loading-indicator"
+        />
+      )}
       <View style={styles.inputContainer}>
         <TextInput
           style={styles.input}
