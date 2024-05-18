@@ -71,7 +71,7 @@ export function OperatorDrawer<OperatorDrawerProps>(user: OperatorDrawerProps) {
       <Drawer.Screen
         name="Map"
         options={{
-          headerShown: true,
+          headerShown: false,
           headerTransparent: true,
           headerTitle: "",
           drawerIcon: ({ color, size }) => (
