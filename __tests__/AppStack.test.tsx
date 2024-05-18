@@ -355,7 +355,7 @@ describe("Drawer Navigation", () => {
     );
   });
 
-  it.only("Should access the OperatorDrawer", async () => {
+  it("Should access the OperatorDrawer", async () => {
     jest.useFakeTimers();
     const { queryByTestId } = render(<AppStack isLoggedIn="OperatorDrawer" />);
 
