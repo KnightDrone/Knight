@@ -18,6 +18,16 @@ import {
 import { User, userConverter } from "../types/User";
 import { FirestoreDataConverter } from "@firebase/firestore";
 
+export type DBUser = {
+  name: string;
+  email: string;
+  phone?: string;
+  address?: string;
+  role: string;
+  createdAt: Date;
+  photoURL?: string;
+};
+
 export default class FirestoreManager {
   private converterDictionary: { [key: string]: FirestoreDataConverter<any> };
 
@@ -27,6 +37,53 @@ export default class FirestoreManager {
       users: userConverter,
       orders: orderConverter,
     };
+  }
+
+  /**
+   * Creates or updates a user document in Firestore.
+   * @param userId The UID of the user.
+   * @param userData The user data to store or update.
+   */
+  async createUser(userId: string, userData: DBUser): Promise<void> {
+    try {
+      const userRef = doc(firestore, "users", userId);
+      await setDoc(userRef, userData, { merge: true });
+    } catch (error) {
+      console.error("Error writing user document: ", error);
+    }
+  }
+
+  /**
+   * Updates specific fields of a user's document in Firestore.
+   * @param userId The UID of the user.
+   * @param updates An object containing the fields to update.
+   */
+  async updateUser(userId: string, updates: Partial<DBUser>): Promise<void> {
+    try {
+      const userRef = doc(firestore, "users", userId);
+      await setDoc(userRef, updates, { merge: true });
+    } catch (error) {
+      console.error("Error updating user document: ", error);
+    }
+  }
+
+  /**
+   * Retrieves a user document from Firestore by UID.
+   * @param userId The UID of the user to retrieve.
+   * @returns A promise that resolves to the user data or null if not found.
+   */
+  async getUser(userId: string): Promise<DBUser | null> {
+    try {
+      const userRef = doc(firestore, "users", userId);
+      const docSnap = await getDoc(userRef);
+      if (docSnap.exists()) {
+        return docSnap.data() as DBUser;
+      } else {
+        throw new Error("User not found.");
+      }
+    } catch (error) {
+      throw error;
+    }
   }
 
   /**

@@ -34,21 +34,29 @@ jest.mock("expo-auth-session/providers/google", () => ({
   useAuthRequest: jest.fn(),
 }));
 
+const resolvedUser = {
+  user: {
+    metadata: {
+      creationTime: 0,
+      lastSignInTime: 0,
+    },
+    uid: "12345",
+  },
+};
+
 jest.mock("firebase/auth", () => ({
-  getAuth: jest.fn(() => {}),
+  getAuth: jest.fn(),
   initializeAuth: jest.fn(),
   getReactNativePersistence: jest.fn(),
   GoogleAuthProvider: {
     credential: jest.fn(() => "mock-credential"), // Ensure this returns a mock credential as expected
   },
-  signInWithCredential: jest.fn(() => Promise.resolve({ user: true })), // Explicitly return a resolved promise
-  signInWithEmailAndPassword: jest.fn(() => Promise.resolve({ user: true })), // Explicitly return a resolved promise
+  signInWithCredential: jest.fn(() => Promise.resolve(resolvedUser)), // Explicitly return a resolved promise
+  signInWithEmailAndPassword: jest.fn(() => Promise.resolve(resolvedUser)), // Explicitly return a resolved promise
   signOut: jest.fn(() => Promise.resolve()), // Explicitly return a resolved promise
-  createUserWithEmailAndPassword: jest.fn(() =>
-    Promise.resolve({ user: true })
-  ), // Explicitly return a resolved promise
-  signInWithPopup: jest.fn(() => Promise.resolve({ user: true })), // Explicitly return a resolved promise
-  signInWithRedirect: jest.fn(() => Promise.resolve({ user: true })), // Explicitly return a resolved promise
+  createUserWithEmailAndPassword: jest.fn(() => Promise.resolve(resolvedUser)), // Explicitly return a resolved promise
+  signInWithPopup: jest.fn(() => Promise.resolve(resolvedUser)), // Explicitly return a resolved promise
+  signInWithRedirect: jest.fn(() => Promise.resolve(resolvedUser)), // Explicitly return a resolved promise
   sendPasswordResetEmail: jest.fn(() => Promise.resolve()),
   onAuthStateChanged: jest.fn(),
   updateCurrentUser: jest.fn(),

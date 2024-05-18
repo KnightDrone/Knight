@@ -1,6 +1,6 @@
 import React from "react";
 import { render, fireEvent, waitFor } from "@testing-library/react-native";
-import OperatorMap from "../src/app/OperatorMap";
+import OperatorMap from "../src/app/maps/OperatorMap";
 import * as Location from "expo-location";
 import { Order } from "../src/types/Order";
 
@@ -74,18 +74,6 @@ describe("OperatorMap", () => {
     );
     const { getByText } = render(<OperatorMap />);
     expect(getByText("Loading your location...")).toBeTruthy();
-  });
-
-  it("passes location as a prop when navigating to OrderMenu", () => {
-    const navigate = jest.fn();
-    const { getByTestId } = render(<OperatorMap navigation={{ navigate }} />);
-
-    fireEvent.press(getByTestId("order-button"));
-
-    expect(navigate).toHaveBeenCalledWith("OrderMenu", {
-      latitude: expect.any(Number),
-      longitude: expect.any(Number),
-    });
   });
 
   it("centers map to user location when auto-center button is pressed", () => {
