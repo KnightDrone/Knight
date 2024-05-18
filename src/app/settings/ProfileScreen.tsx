@@ -130,6 +130,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ onSaveChanges }) => {
       <TouchableOpacity
         style={styles.profileImageContainer}
         onPress={async () => await pickImage()}
+        testID="profile-image-button"
       >
         <Image
           source={

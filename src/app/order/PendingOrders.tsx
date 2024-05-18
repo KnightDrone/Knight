@@ -23,8 +23,13 @@ import { formatDate } from "../../components/cards/OrderCard";
 import { Picker } from "@react-native-picker/picker";
 import { TextField } from "../../ui/TextField";
 import { useTranslation } from "react-i18next";
-import { collection, onSnapshot, query, where } from "@firebase/firestore";
-import { firestore } from "../../services/Firebase";
+import {
+  firestore,
+  collection,
+  onSnapshot,
+  query,
+  where,
+} from "../../services/Firebase";
 
 const PendingOrders = ({ navigation }: any) => {
   const { t } = useTranslation();
