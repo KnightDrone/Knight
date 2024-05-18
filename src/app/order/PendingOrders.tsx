@@ -9,7 +9,12 @@ import {
 } from "react-native";
 import OrderCard from "../../components/cards/OrderCard";
 import { Button } from "../../ui/Button";
-import { Order, OrderStatus, sortOrders } from "../../types/Order";
+import {
+  Order,
+  orderConverter,
+  OrderStatus,
+  sortOrders,
+} from "../../types/Order";
 import { Item } from "../../types/Item";
 import TriangleBackground from "../../components/TriangleBackground";
 import FirestoreManager from "../../services/FirestoreManager";
@@ -17,48 +22,15 @@ import { MessageBox } from "../../ui/MessageBox";
 import { formatDate } from "../../components/cards/OrderCard";
 import { Picker } from "@react-native-picker/picker";
 import { TextField } from "../../ui/TextField";
-/* 
-NOTE: This is a temporary solution to simulate fetching pending orders from a server. Should be replaced with actual database calls
-*/
-/*const fetchPendingOrdersMock = async (): Promise<Order[]> => {
-  return new Promise((resolve) => {
-    setTimeout(async () => {
-      const orders: Order[] = [
-        // Replace with predefined set pending orders
-        new Order(
-          "user1",
-          new Item(1, "item1", "description1", 1, 1, 10),
-          { latitude: 46.8182, longitude: 8.2275 } // Correct way to create an OrderLocation object
-        ),
-        new Order(
-          "user2",
-          new Item(2, "item2", "description2", 2, 2, 22),
-          { latitude: 40.8182, longitude: 8.2275 } // Correct way to create an OrderLocation object
-        ),
-        new Order(
-          "user3",
-          new Item(3, "item3", "description3", 3, 3, 330),
-          { latitude: 0, longitude: 0 } // Correct way to create an OrderLocation object
-        ),
-        new Order(
-          "user4",
-          new Item(3, "item4", "description3", 3, 3, 330),
-          { latitude: 20, longitude: 50 } // Correct way to create an OrderLocation object
-        ),
-      ];
-      // Call locSearch for each order and wait for all to complete, Nominatim API to search
-      await Promise.all(orders.map((order) => order.locSearch()));
-      resolve(orders);
-    }, 1000); // 1 second delay
-  });
-};*/
-
-// TODO: Maybe add some search bar to filter?
+import { useTranslation } from "react-i18next";
+import { collection, onSnapshot, query, where } from "@firebase/firestore";
+import { firestore } from "../../services/Firebase";
 
 const PendingOrders = ({ navigation }: any) => {
+  const { t } = useTranslation();
   const firestoreManager = new FirestoreManager();
   const [orders, setOrders] = useState<Order[]>([]);
-  const [refreshing, setRefreshing] = useState(false);
+  const [refreshing, setRefreshing] = useState<boolean>(false);
   const [error, setError] = useState<Error | null>(null);
   const [searchText, setSearchText] = useState("");
   const [sortingOption, setSortingOption] = useState("ascendingDate");
@@ -67,6 +39,7 @@ const PendingOrders = ({ navigation }: any) => {
   }, []);
   // ------------ Handle card opening and closing ------------
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
+
   const handleOpenCard = (order: Order) => {
     setSelectedOrder(order);
   };
@@ -74,8 +47,15 @@ const PendingOrders = ({ navigation }: any) => {
   const handleCloseCard = () => {
     setSelectedOrder(null);
   };
+
   const handleAcceptOrder = () => {
-    // Call necessary function from Firestore class to update the order status
+    firestoreManager.updateData(
+      "orders",
+      selectedOrder!.getId(),
+      "status",
+      OrderStatus.Accepted
+    );
+
     setSelectedOrder(null);
   };
   // ---------------------------------------------------------
@@ -95,13 +75,25 @@ const PendingOrders = ({ navigation }: any) => {
         formatDate(order.getOrderDate()).includes(searchText)
     )
   );
+
+  useEffect(() => {
+    const unsub = onSnapshot(
+      collection(firestore, "orders"),
+      async (snapshot) => {
+        fetchOrders();
+      }
+    );
+
+    return () => unsub();
+  }, []);
+
   const fetchOrders = async () => {
-    setRefreshing(true);
     try {
       const newOrders = await firestoreManager.queryOrder(
         "status",
         OrderStatus.Pending
       );
+
       if (newOrders === null) {
         setError(new Error("Failed to fetch from database."));
       } else if (newOrders.length === 0) {
@@ -236,7 +228,7 @@ const PendingOrders = ({ navigation }: any) => {
       />
 
       {selectedOrder && (
-        <Modal animationType="none" transparent={true} visible={true}>
+        <Modal animationType="none" transparent={true}>
           <View className="flex-1 justify-center items-center bg-opacity-100">
             <View className="bg-white border-2 border-gray-500 p-5 items-start justify-start shadow-lg w-[300] h-[180] rounded-lg relative">
               <TouchableOpacity
@@ -250,7 +242,7 @@ const PendingOrders = ({ navigation }: any) => {
                 />
               </TouchableOpacity>
               <Text className="text-center font-bold text-xl pt-5 pb-6">
-                {`Would you like to accept the order for ${selectedOrder.getItem().getName()} from ${selectedOrder.getUserId()}?`}
+                {`Would you like to accept the order for ${t(selectedOrder.getItem().getName() as any)}?`}
               </Text>
 
               <Button

@@ -120,8 +120,6 @@ export default class FirestoreManager {
    */
   async queryOrder(field: string, data: string): Promise<Order[] | null> {
     const validFields = ["userId", "status", "item.name", "operatorId"];
-    console.log("field " + field);
-    console.log("data " + data);
     if (validFields.includes(field)) {
       var orders: Order[] = [];
       const q = query(
