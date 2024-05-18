@@ -205,7 +205,7 @@ export default function SignUp({ navigation }: any) {
       />
       <Button
         text={"Login as Operator"}
-        onPress={() => navigation.navigate("OperatorMap")}
+        onPress={() => navigation.navigate("OperatorDrawer")}
         style="primary"
         className="mt-4"
       />
