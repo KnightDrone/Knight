@@ -91,15 +91,15 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ onSaveChanges }) => {
           updatePassword(auth.currentUser, password);
         }
 
-        if (photoURL) {
+        if (picURL) {
           const user = auth.currentUser;
           if (user) {
             const updatedUser: Partial<DBUser> = {
-              photoURL: photoURL,
+              photoURL: picURL,
             };
             await firestoreManager.updateUser(user.uid, updatedUser);
             await updateProfile(user, {
-              photoURL: photoURL,
+              photoURL: picURL,
             });
 
             onSaveChanges?.();
