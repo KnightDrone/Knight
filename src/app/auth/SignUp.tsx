@@ -15,7 +15,6 @@ import { Button } from "../../ui/Button";
 import { OrSeparator } from "../../components/OrSeparator";
 import { MessageBox } from "../../ui/MessageBox";
 import { useTranslation } from "react-i18next";
-import { User } from "../../types/User";
 import FirestoreManager from "../../services/FirestoreManager";
 import { logInWithGoogle, signUpWithEmail } from "../../utils/Auth";
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, Platform } from "react-native";
+import { Text, View } from "react-native";
 // ------------- FIREBASE IMPORTS ----------------
 import { auth, createUserWithEmailAndPassword } from "../../services/Firebase";
 // -----------------------------------------------
@@ -7,10 +7,8 @@ import { TextField } from "../../ui/TextField";
 import { Button } from "../../ui/Button";
 import { MessageBox } from "../../ui/MessageBox";
 import { useTranslation } from "react-i18next";
-import { User } from "../../types/User";
 import FirestoreManager, { DBUser } from "../../services/FirestoreManager";
 import * as ImagePicker from "expo-image-picker";
-import { OrSeparator } from "../../components/OrSeparator";
 
 const firestoreManager = new FirestoreManager();
 
