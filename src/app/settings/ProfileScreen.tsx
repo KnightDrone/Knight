@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   TextInput,
   Platform,
+  Alert,
 } from "react-native";
 import { auth, storage } from "../../services/Firebase";
 import { updateProfile, updateEmail, updatePassword } from "firebase/auth";
@@ -61,10 +62,14 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ onSaveChanges }) => {
           const response = await fetch(item.uri);
           const blob = await response.blob();
 
-          await uploadBytes(photoRef, blob).then(async () => {
-            const url = await getDownloadURL(photoRef);
-            setPicURL(url);
-          });
+          uploadBytes(photoRef, blob)
+            .then(async () => {
+              const url = await getDownloadURL(photoRef);
+              setPicURL(url);
+            })
+            .catch(() => {
+              Alert.alert("Error", "Failed to upload image");
+            });
         } catch (error) {
           console.error("Error during image upload: ", error);
         }
