@@ -8,7 +8,7 @@ import { Button } from "../../ui/Button";
 import { MessageBox } from "../../ui/MessageBox";
 import { useTranslation } from "react-i18next";
 import { User } from "../../types/User";
-import FirestoreManager from "../../services/FirestoreManager";
+import FirestoreManager, { DBUser } from "../../services/FirestoreManager";
 import * as ImagePicker from "expo-image-picker";
 import { OrSeparator } from "../../components/OrSeparator";
 
@@ -83,16 +83,15 @@ export default function OperatorSignUp({ navigation }: any) {
       createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
           if (auth.currentUser != null) {
-            const user = new User(
-              auth.currentUser?.uid,
-              email,
-              false,
-              userName,
-              phoneNumber,
-              photoID
-            );
-            firestoreManager.writeData("users", user);
-            navigation.navigate("UserDrawer");
+            const user: DBUser = {
+              name: userName,
+              email: email,
+              role: "operator",
+              createdAt: new Date(),
+            };
+
+            firestoreManager.createUser(auth.currentUser.uid, user);
+            navigation.navigate("OperatorDrawer");
           }
         })
         .catch((error) => {
