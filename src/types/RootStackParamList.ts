@@ -18,7 +18,6 @@ export type RootStackParamList = {
   };
   OrderHistory: {
     historyOp: boolean;
-    userId: string;
   };
   PendingOrders: undefined; // Added for PendingOrders
   OperatorDrawer: undefined;
