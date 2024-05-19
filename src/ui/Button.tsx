@@ -2,7 +2,6 @@ import {
   Image,
   ImageSourcePropType,
   Text,
-  TouchableHighlight,
   TouchableOpacity,
 } from "react-native";
 import { twMerge } from "tailwind-merge";

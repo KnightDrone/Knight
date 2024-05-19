@@ -3,6 +3,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { HeaderBackButton } from "@react-navigation/elements";
 import { NavigationContainer } from "@react-navigation/native";
 import { RootStackParamList } from "../types/RootStackParamList";
+import OperatorSignup from "./auth/OperatorSignup";
 
 // Stack Navigation Screens
 import { User } from "../services/Firebase";
@@ -74,6 +75,23 @@ export const AppStack: React.FC<AppStackProps> = ({ isLoggedIn, user }) => {
               ),
             })}
           />
+          <Screen
+            name="OperatorSignup"
+            options={({ navigation }: any) => ({
+              headerShown: true,
+              headerTransparent: true,
+              headerTitle: "",
+              headerLeft: () => (
+                <HeaderBackButton
+                  onPress={() => navigation.popToTop()}
+                  labelVisible={false}
+                  testID="operator-signup-back-button"
+                />
+              ),
+            })}
+          >
+            {(props: any) => <OperatorSignup {...props} />}
+          </Screen>
         </Group>
         <Group>
           <Screen name="UserDrawer">

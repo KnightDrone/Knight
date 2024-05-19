@@ -1,53 +1,29 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, Platform } from "react-native";
+import { Text, View } from "react-native";
 // ------------- FIREBASE IMPORTS ----------------
-import {
-  auth,
-  GoogleAuthProvider,
-  signInWithCredential,
-  createUserWithEmailAndPassword,
-} from "../../services/Firebase";
+import { auth, createUserWithEmailAndPassword } from "../../services/Firebase";
 // -----------------------------------------------
-import * as Google from "expo-auth-session/providers/google";
-import GoogleAuthConfig from "../../types/GoogleAuthConfig";
 import { TextField } from "../../ui/TextField";
 import { Button } from "../../ui/Button";
-import { OrSeparator } from "../../components/OrSeparator";
 import { MessageBox } from "../../ui/MessageBox";
 import { useTranslation } from "react-i18next";
-import FirestoreManager from "../../services/FirestoreManager";
-import { logInWithGoogle, signUpWithEmail } from "../../utils/Auth";
+import FirestoreManager, { DBUser } from "../../services/FirestoreManager";
+import * as ImagePicker from "expo-image-picker";
 
 const firestoreManager = new FirestoreManager();
 
-export default function SignUp({ navigation }: any) {
+export default function OperatorSignUp({ navigation }: any) {
   const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
-  const [error, setError] = useState("");
-
   const [password, setPassword] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [yearsOfExperience, setYearsOfExperience] = useState("");
+  const [photoID, setPhotoID] = useState<string | null>(null);
+  const [error, setError] = useState("");
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [strength, setStrength] = useState("");
 
-  const [showPassword, setShowPassword] = useState(false);
-
-  const config = Platform.select({
-    web: GoogleAuthConfig.web,
-    ios: GoogleAuthConfig.ios,
-    android: GoogleAuthConfig.android,
-  });
-
-  const [request, response, promptAsync] = Google.useAuthRequest(config);
-
   useEffect(() => {
-    if (response?.type === "success") {
-      const { id_token } = response.params;
-      const credential = GoogleAuthProvider.credential(id_token);
-      logInWithGoogle(credential, navigation, firestoreManager);
-    }
-  }, [response]);
-
-  React.useEffect(() => {
     validatePassword(password);
   }, [password]);
 
@@ -59,18 +35,13 @@ export default function SignUp({ navigation }: any) {
     if (!/\d/.test(input)) {
       newSuggestions.push(t("password-suggestions.number"));
     }
-
     if (!/[A-Z]/.test(input) || !/[a-z]/.test(input)) {
       newSuggestions.push(t("password-suggestions.upper-lower"));
     }
-
     if (!/[^A-Za-z0-9]/.test(input)) {
       newSuggestions.push(t("password-suggestions.special"));
     }
-
     setSuggestions(newSuggestions);
-
-    // Determine password strength based on suggestions
     if (newSuggestions.length === 0) {
       setStrength(t("password-suggestions.very-strong"));
     } else if (newSuggestions.length <= 1) {
@@ -81,6 +52,51 @@ export default function SignUp({ navigation }: any) {
       setStrength(t("password-suggestions.weak"));
     } else {
       setStrength(t("password-suggestions.too-weak"));
+    }
+  };
+
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.canceled && result.assets && result.assets.length > 0) {
+      setPhotoID(result.assets[0].uri);
+    }
+  };
+
+  const signUpWithEmail = async () => {
+    if (
+      userName &&
+      email &&
+      password &&
+      phoneNumber &&
+      yearsOfExperience &&
+      photoID &&
+      location
+    ) {
+      createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          if (auth.currentUser != null) {
+            const user: DBUser = {
+              name: userName,
+              email: email,
+              role: "operator",
+              createdAt: new Date(),
+            };
+
+            firestoreManager.createUser(auth.currentUser.uid, user);
+            navigation.navigate("OperatorDrawer");
+          }
+        })
+        .catch((error) => {
+          setError("Sign Up failed. Please check your credentials.");
+        });
+    } else {
+      setError("Please fill all fields.");
     }
   };
 
@@ -127,7 +143,7 @@ export default function SignUp({ navigation }: any) {
         className="text-4xl font-bold mb-16 text-center"
         testID="signup-title"
       >
-        {t("signup.title")}
+        {"Operator Sign Up"}
       </Text>
 
       <View className="flex flex-col gap-3">
@@ -154,6 +170,16 @@ export default function SignUp({ navigation }: any) {
           type="password"
           testID="password-input"
         />
+
+        <TextField
+          placeholder={t("signup.phone-number", {
+            defaultValue: "Enter your phone number",
+          })}
+          value={phoneNumber}
+          onChangeText={setPhoneNumber}
+          type="text"
+          testID="phone-number-input"
+        />
       </View>
 
       <View className="w-full my-8 flex flex-col items-center bg-gray-100 p-4 rounded-lg">
@@ -177,36 +203,25 @@ export default function SignUp({ navigation }: any) {
           ))}
         </View>
       </View>
-
+      <Button
+        text={"Upload Photo ID"}
+        onPress={pickImage}
+        style="secondary"
+        testID="upload-photo-button"
+      />
+      <View
+        style={{
+          height: 1,
+          width: "100%",
+          backgroundColor: "#ccc",
+          marginVertical: 20,
+        }}
+      />
       <Button
         text={t("signup.signup-button")}
-        onPress={() =>
-          signUpWithEmail(
-            userName,
-            email,
-            password,
-            firestoreManager,
-            navigation,
-            setError
-          )
-        }
+        onPress={signUpWithEmail}
         style="primary"
         testID="sign-up-button"
-      />
-
-      <OrSeparator />
-
-      <Button
-        text={t("signup.google-login")}
-        imgSrc={require("../../../assets/images/google-icon.png")}
-        onPress={() => promptAsync()}
-        style="secondary"
-      />
-      <Button
-        text={"Operator Sign up"}
-        onPress={() => navigation.navigate("OperatorSignup")}
-        style="primary"
-        className="mt-4"
       />
 
       {error && (
