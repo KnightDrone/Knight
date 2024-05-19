@@ -3,6 +3,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { HeaderBackButton } from "@react-navigation/elements";
 import { NavigationContainer } from "@react-navigation/native";
 import { RootStackParamList } from "../types/RootStackParamList";
+import OperatorSignup from "./auth/OperatorSignup";
 
 // Stack Navigation Screens
 import { User } from "../services/Firebase";
