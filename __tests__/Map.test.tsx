@@ -14,6 +14,7 @@ jest.mock("expo-location", () => {
 });
 
 jest.mock("react-native-vector-icons/MaterialIcons", () => "Icon");
+jest.mock("react-native-vector-icons/MaterialCommunityIcons", () => "Icon");
 jest.mock("../src/components/LocationMarker", () => "LocationMarker");
 
 describe("MapOverview", () => {
