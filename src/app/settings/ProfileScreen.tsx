@@ -72,6 +72,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ onSaveChanges }) => {
             });
         } catch (error) {
           console.error("Error during image upload: ", error);
+          Alert.alert("Error", "Failed to upload image");
         }
       }
     }
