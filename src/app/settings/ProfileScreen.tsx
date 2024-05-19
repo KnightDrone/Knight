@@ -7,100 +7,127 @@ import {
   Image,
   TouchableOpacity,
   TextInput,
+  Platform,
 } from "react-native";
-import { TextInputMask } from "react-native-masked-text";
-import DatePicker from "react-native-date-picker";
-import { auth } from "../../services/Firebase";
+import { auth, storage } from "../../services/Firebase";
 import { updateProfile, updateEmail, updatePassword } from "firebase/auth";
-import FirestoreManager from "../../services/FirestoreManager";
-import { User } from "../../types/User";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import FirestoreManager, { DBUser } from "../../services/FirestoreManager";
 import * as ImagePicker from "expo-image-picker";
-import * as FileSystem from "expo-file-system";
+import { isValidEmail } from "../../utils/Auth";
+interface ProfileScreenProps {
+  onSaveChanges?: () => void;
+}
 
-const firestoreManager = new FirestoreManager();
-
-const ProfileScreen = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+const ProfileScreen: React.FC<ProfileScreenProps> = ({ onSaveChanges }) => {
+  const { displayName, email, photoURL } = auth.currentUser || {};
+  const firestoreManager = new FirestoreManager();
+  const [name, setName] = useState(displayName || "");
+  const [userEmail, setUserEmail] = useState(email || "");
   const [password, setPassword] = useState("");
-  const [isOperator, setIsOperator] = useState(false); // TODO: Implement operator functionality
-  const [dateOfBirth, setDateOfBirth] = useState("");
-  const [isPickerShow, setIsPickerShow] = useState(false);
-
-  const showPicker = () => {
-    setIsPickerShow(true);
-  };
+  const [picURL, setPicURL] = useState(photoURL || "");
+  const [photoBase64, setPhotoBase64] = useState("");
 
   useEffect(() => {
-    const fetchData = async () => {
-      const user = auth.currentUser;
-      if (user) {
-        const userData = await firestoreManager.readData("users", user.uid);
-
-        if (!userData) {
-          console.error("User data not found");
-          return;
+    (async () => {
+      if (Platform.OS !== "web") {
+        const { status } =
+          await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (status !== "granted") {
+          alert("Sorry, we need camera roll permissions to make this work!");
         }
-        setIsOperator(userData.getIsOperator());
-        setName(userData.getDisplayName());
-        setEmail(userData.getEmail());
-        setDateOfBirth(userData.getBirthday().toLocaleDateString("en-GB"));
-      } else {
-        console.error("No user logged in");
       }
-    };
-    fetchData();
+    })();
   }, []);
 
-  function parseDate(dateString: string): Date {
-    const [day, month, year] = dateString.split("/");
-    return new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
-  }
-
-  const saveChanges = async () => {
-    try {
-      const user = auth.currentUser;
-      if (user) {
-        const newUser = new User(
-          user.uid,
-          email,
-          isOperator,
-          name,
-          parseDate(dateOfBirth)
-        );
-        await firestoreManager.writeData("users", newUser);
-        updatePassword(user, password);
-        alert("Changes Saved!");
-      }
-    } catch (error) {
-      console.error("Error updating user data:", error);
-    }
-  };
-
-  const handleConfirm = (date: Date) => {
-    setIsPickerShow(false);
-    setDateOfBirth(date.toLocaleDateString("en-GB")); // formats date as DD/MM/YYYY
-  };
-
-  const changeImage = async () => {
+  const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      aspect: [4, 4],
+      aspect: [4, 3],
       quality: 1,
+      base64: true,
     });
 
-    console.log(result);
+    if (!result.canceled) {
+      const item = result.assets[0] as any;
+      setPhotoBase64(item.base64);
+      if (auth.currentUser) {
+        const uid = auth.currentUser.uid;
+        const url = `profile_pictures/${uid}.jpg`;
+        const photoRef = ref(storage, url);
+
+        try {
+          const response = await fetch(item.uri);
+          const blob = await response.blob();
+
+          await uploadBytes(photoRef, blob).then(async () => {
+            const url = await getDownloadURL(photoRef);
+            setPicURL(url);
+          });
+        } catch (error) {
+          console.error("Error during image upload: ", error);
+        }
+      }
+    }
+  };
+
+  const handleSaveChanges = async () => {
+    try {
+      if (auth.currentUser) {
+        await updateProfile(auth.currentUser, {
+          displayName: name,
+          photoURL: photoURL,
+        });
+
+        if (isValidEmail(userEmail)) {
+          auth.currentUser.email !== email &&
+            updateEmail(auth.currentUser, userEmail);
+        } else {
+          return alert("Invalid email address");
+        }
+
+        if (password) {
+          updatePassword(auth.currentUser, password);
+        }
+
+        if (photoURL) {
+          const user = auth.currentUser;
+          if (user) {
+            const updatedUser: Partial<DBUser> = {
+              photoURL: photoURL,
+            };
+            await firestoreManager.updateUser(user.uid, updatedUser);
+            await updateProfile(user, {
+              photoURL: photoURL,
+            });
+
+            onSaveChanges?.();
+          }
+        }
+
+        alert("Changes Saved!");
+      }
+    } catch (error: any) {
+      alert(`Failed to save changes: ${error.message}`);
+    }
   };
 
   return (
     <ScrollView style={styles.container} testID="profile-screen">
       <TouchableOpacity
         style={styles.profileImageContainer}
-        onPress={() => changeImage()}
+        onPress={pickImage}
+        testID="profile-image-button"
       >
         <Image
-          source={require("../../../assets/images/profile.png")}
+          source={
+            photoBase64
+              ? { uri: `data:image/jpeg;base64,${photoBase64}` }
+              : picURL
+                ? { uri: picURL }
+                : require("../../../assets/images/profile.png")
+          }
           testID="profile-image"
           style={styles.profileImage}
         />
@@ -120,8 +147,8 @@ const ProfileScreen = () => {
         <TextInput
           style={styles.input}
           placeholder="Email"
-          value={email}
-          onChangeText={setEmail}
+          value={userEmail}
+          onChangeText={setUserEmail}
         />
       </View>
 
@@ -136,29 +163,9 @@ const ProfileScreen = () => {
         />
       </View>
 
-      <View style={styles.inputContainer}>
-        <Text style={styles.label}>Date of Birth</Text>
-        <TextInputMask
-          type={"datetime"}
-          options={{ format: "DD/MM/YYYY" }}
-          placeholder="DD/MM/YYYY"
-          value={dateOfBirth}
-          onChangeText={setDateOfBirth}
-          style={styles.input}
-        />
-        {isPickerShow && (
-          <DatePicker
-            modal
-            open={isPickerShow}
-            date={new Date()}
-            onConfirm={handleConfirm}
-            onCancel={() => setIsPickerShow(false)}
-          />
-        )}
-      </View>
       <TouchableOpacity
         style={styles.saveButton}
-        onPress={saveChanges}
+        onPress={handleSaveChanges}
         testID="save-button"
       >
         <Text style={styles.saveButtonText}>Save changes</Text>

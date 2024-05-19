@@ -15,6 +15,7 @@ import { CustomDrawerContent } from "./CustomDrawerContent";
 import FirestoreManager from "../../services/FirestoreManager";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import OperatorMap from "../../app/maps/OperatorMap";
+import { reload } from "firebase/auth";
 
 const Drawer = createDrawerNavigator<DrawerParamList>();
 
@@ -27,25 +28,30 @@ export function OperatorDrawer<OperatorDrawerProps>(user: OperatorDrawerProps) {
   const [email, setEmail] = useState("");
   const [photoURL, setPhotoURL] = useState("");
   const [userId, setUserId] = useState("");
+  const [changePFP, setChangePFP] = useState(false);
   const firestoreManager = new FirestoreManager();
+
+  const updateUserProfile = async (user: User) => {
+    await reload(user);
+    setUserId(user.uid);
+    setName(user.displayName || "");
+    setEmail(user.email || "");
+    if (user.photoURL) {
+      setPhotoURL(user.photoURL || "");
+    } else {
+      const userData = await firestoreManager.getUser(user.uid);
+      if (userData) {
+        setPhotoURL(userData.photoURL || "");
+      }
+    }
+  };
 
   useEffect(() => {
     const user = auth.currentUser;
     if (user) {
-      setUserId(user.uid);
-      setName(user.displayName || "");
-      setEmail(user.email || "");
-      if (user.photoURL) {
-        setPhotoURL(user.photoURL || "");
-      } else {
-        firestoreManager.getUser(user.uid).then((user) => {
-          if (user) {
-            setPhotoURL(user.photoURL || "");
-          }
-        });
-      }
+      updateUserProfile(user);
     }
-  }, []);
+  }, [changePFP]);
 
   return (
     <Drawer.Navigator
@@ -90,7 +96,14 @@ export function OperatorDrawer<OperatorDrawerProps>(user: OperatorDrawerProps) {
         }}
       >
         {(props: any) => {
-          return <Profile {...props} />;
+          return (
+            <Profile
+              {...props}
+              onSaveChanges={() => {
+                setChangePFP(!changePFP);
+              }}
+            />
+          );
         }}
       </Drawer.Screen>
       <Drawer.Screen

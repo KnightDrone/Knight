@@ -9,7 +9,7 @@ import { View, Text } from "react-native";
 import { initI18n } from "../src/lang/i18n";
 
 import * as Location from "expo-location";
-import { initializeAuth } from "firebase/auth";
+import { initializeAuth, reload } from "firebase/auth";
 
 beforeEach(() => {
   const mockPromptAsync = jest.fn();
@@ -73,6 +73,7 @@ jest.mock("firebase/auth", () => ({
   updateEmail: jest.fn(),
   updatePassword: jest.fn(),
   updateProfile: jest.fn(),
+  reload: jest.fn(() => Promise.resolve()),
 }));
 
 jest.mock("expo-location", () => {
