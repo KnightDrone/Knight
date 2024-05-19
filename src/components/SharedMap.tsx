@@ -15,6 +15,7 @@ type SharedMapProps = {
   toggleAutoCenter: () => void;
   navigation?: any;
   children?: ReactNode;
+  testid?: string;
 };
 
 const SharedMap: React.FC<SharedMapProps> = ({
@@ -27,12 +28,13 @@ const SharedMap: React.FC<SharedMapProps> = ({
   toggleAutoCenter,
   navigation,
   children,
+  testid,
 }) => {
   return (
     <View style={StyleSheet.absoluteFillObject}>
       <MapView
         onPanDrag={onPanDrag}
-        testID="map-view"
+        testID={testid}
         ref={mapRef}
         style={StyleSheet.absoluteFillObject}
         initialRegion={currentRegion}

@@ -359,7 +359,7 @@ describe("Drawer Navigation", () => {
     const { queryByTestId } = render(<AppStack isLoggedIn="OperatorDrawer" />);
 
     await waitFor(() => {
-      expect(queryByTestId("operator-map-screen")).toBeTruthy();
+      expect(queryByTestId("map-view")).toBeTruthy();
     });
   });
 });

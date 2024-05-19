@@ -26,10 +26,11 @@ const MapOverview: React.FC<{ navigation: any }> = ({ navigation }) => {
       onPanDrag={() => setAutoCenter(false)}
       toggleAutoCenter={toggleAutoCenter}
       navigation={navigation}
+      testid="map-view"
     >
       <Button
-        testID="order-button"
         text={t("map.order-button")}
+        testID="order-button"
         className="absolute bottom-[40px] right-[30px] w-[100px] h-16"
         onPress={() => {
           navigation.navigate("OrderMenu", {

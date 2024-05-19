@@ -50,6 +50,7 @@ const OperatorMap: React.FC<{ navigation: any }> = ({ navigation }) => {
       onPanDrag={() => setAutoCenter(false)}
       toggleAutoCenter={toggleAutoCenter}
       navigation={navigation}
+      testid="operator-map"
     >
       {orders.map((order) => (
         <Marker

@@ -58,7 +58,7 @@ describe("OperatorMap", () => {
     const { getByTestId } = render(
       <OperatorMap navigation={{ navigate: jest.fn() }} />
     );
-    expect(getByTestId("map-view")).toBeTruthy();
+    expect(getByTestId("operator-map")).toBeTruthy();
   });
 
   it("requests location permission on mount", async () => {
