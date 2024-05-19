@@ -7,6 +7,11 @@ import {
 } from "../services/Firebase";
 import FirestoreManager, { DBUser } from "../services/FirestoreManager";
 
+export function isValidEmail(email: string) {
+  var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+  return regex.test(email);
+}
+
 export const logInWithGoogle = (
   credential: any,
   navigation: any,

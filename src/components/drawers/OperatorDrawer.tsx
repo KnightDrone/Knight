@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { HeaderBackButton } from "@react-navigation/elements";
 import { DrawerParamList } from "../../types/DrawerParamList";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 
 // Stack Navigation Screens
 import { auth, User } from "../../services/Firebase";
-import OrderMenu from "../../app/order/OrderMenu";
 
 // Drawer Navigation Screens
 import Profile from "../../app/settings/ProfileScreen";
@@ -15,6 +13,8 @@ import { CustomDrawerContent } from "./CustomDrawerContent";
 import FirestoreManager from "../../services/FirestoreManager";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import OperatorMap from "../../app/maps/OperatorMap";
+import PendingOrders from "../../app/order/PendingOrders";
+import { reload } from "firebase/auth";
 
 const Drawer = createDrawerNavigator<DrawerParamList>();
 
@@ -27,25 +27,30 @@ export function OperatorDrawer<OperatorDrawerProps>(user: OperatorDrawerProps) {
   const [email, setEmail] = useState("");
   const [photoURL, setPhotoURL] = useState("");
   const [userId, setUserId] = useState("");
+  const [changePFP, setChangePFP] = useState(false);
   const firestoreManager = new FirestoreManager();
+
+  const updateUserProfile = async (user: User) => {
+    await reload(user);
+    setUserId(user.uid);
+    setName(user.displayName || "");
+    setEmail(user.email || "");
+    if (user.photoURL) {
+      setPhotoURL(user.photoURL || "");
+    } else {
+      const userData = await firestoreManager.getUser(user.uid);
+      if (userData) {
+        setPhotoURL(userData.photoURL || "");
+      }
+    }
+  };
 
   useEffect(() => {
     const user = auth.currentUser;
     if (user) {
-      setUserId(user.uid);
-      setName(user.displayName || "");
-      setEmail(user.email || "");
-      if (user.photoURL) {
-        setPhotoURL(user.photoURL || "");
-      } else {
-        firestoreManager.getUser(user.uid).then((user) => {
-          if (user) {
-            setPhotoURL(user.photoURL || "");
-          }
-        });
-      }
+      updateUserProfile(user);
     }
-  }, []);
+  }, [changePFP]);
 
   return (
     <Drawer.Navigator
@@ -71,7 +76,7 @@ export function OperatorDrawer<OperatorDrawerProps>(user: OperatorDrawerProps) {
       <Drawer.Screen
         name="Map"
         options={{
-          headerShown: true,
+          headerShown: false,
           headerTransparent: true,
           headerTitle: "",
           drawerIcon: ({ color, size }) => (
@@ -90,7 +95,14 @@ export function OperatorDrawer<OperatorDrawerProps>(user: OperatorDrawerProps) {
         }}
       >
         {(props: any) => {
-          return <Profile {...props} />;
+          return (
+            <Profile
+              {...props}
+              onSaveChanges={() => {
+                setChangePFP(!changePFP);
+              }}
+            />
+          );
         }}
       </Drawer.Screen>
       <Drawer.Screen
@@ -120,6 +132,19 @@ export function OperatorDrawer<OperatorDrawerProps>(user: OperatorDrawerProps) {
             route={{ params: { historyOp: true, userId: userId } }}
           />
         )}
+      </Drawer.Screen>
+      <Drawer.Screen
+        name="PendingOrders"
+        options={{
+          headerTransparent: true,
+          drawerLabel: "Pending Orders",
+          headerTitle: "Pending Orders",
+          drawerIcon: ({ color }) => (
+            <Icon name="cart" color={color} size={22} />
+          ),
+        }}
+      >
+        {(props: any) => <PendingOrders {...props} />}
       </Drawer.Screen>
     </Drawer.Navigator>
   );
