@@ -14,26 +14,19 @@ import { updateProfile, updateEmail, updatePassword } from "firebase/auth";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import FirestoreManager, { DBUser } from "../../services/FirestoreManager";
 import * as ImagePicker from "expo-image-picker";
+import { isValidEmail } from "../../utils/Auth";
 interface ProfileScreenProps {
   onSaveChanges?: () => void;
 }
 
 const ProfileScreen: React.FC<ProfileScreenProps> = ({ onSaveChanges }) => {
+  const { displayName, email, photoURL } = auth.currentUser || {};
   const firestoreManager = new FirestoreManager();
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+  const [name, setName] = useState(displayName || "");
+  const [userEmail, setUserEmail] = useState(email || "");
   const [password, setPassword] = useState("");
-  const [photoURL, setPhotoURL] = useState("");
+  const [picURL, setPicURL] = useState(photoURL || "");
   const [photoBase64, setPhotoBase64] = useState("");
-
-  useEffect(() => {
-    if (auth.currentUser) {
-      const { displayName, email, photoURL } = auth.currentUser;
-      setName(displayName || "");
-      setEmail(email || "");
-      setPhotoURL(photoURL || "");
-    }
-  }, []);
 
   useEffect(() => {
     (async () => {
@@ -70,7 +63,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ onSaveChanges }) => {
 
           await uploadBytes(photoRef, blob).then(async () => {
             const url = await getDownloadURL(photoRef);
-            setPhotoURL(url);
+            setPicURL(url);
           });
         } catch (error) {
           console.error("Error during image upload: ", error);
@@ -78,11 +71,6 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ onSaveChanges }) => {
       }
     }
   };
-
-  function isValidEmail(email: string) {
-    var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-    return regex.test(email);
-  }
 
   const handleSaveChanges = async () => {
     try {
@@ -92,9 +80,9 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ onSaveChanges }) => {
           photoURL: photoURL,
         });
 
-        if (isValidEmail(email)) {
+        if (isValidEmail(userEmail)) {
           auth.currentUser.email !== email &&
-            updateEmail(auth.currentUser, email);
+            updateEmail(auth.currentUser, userEmail);
         } else {
           return alert("Invalid email address");
         }
@@ -129,15 +117,15 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ onSaveChanges }) => {
     <ScrollView style={styles.container} testID="profile-screen">
       <TouchableOpacity
         style={styles.profileImageContainer}
-        onPress={async () => await pickImage()}
+        onPress={pickImage}
         testID="profile-image-button"
       >
         <Image
           source={
             photoBase64
               ? { uri: `data:image/jpeg;base64,${photoBase64}` }
-              : photoURL
-                ? { uri: photoURL }
+              : picURL
+                ? { uri: picURL }
                 : require("../../../assets/images/profile.png")
           }
           testID="profile-image"
@@ -159,8 +147,8 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ onSaveChanges }) => {
         <TextInput
           style={styles.input}
           placeholder="Email"
-          value={email}
-          onChangeText={setEmail}
+          value={userEmail}
+          onChangeText={setUserEmail}
         />
       </View>
 
