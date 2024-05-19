@@ -15,7 +15,7 @@ import { logoutUser } from "../../utils/Auth";
 import FirestoreManager from "../../services/FirestoreManager";
 
 interface SettingsProps {
-  onItemPress?: (itemName: string) => void;
+  onItemPress?: any;
 }
 
 interface SettingsSection {
