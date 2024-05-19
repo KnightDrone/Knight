@@ -7,10 +7,9 @@ jest.mock("expo-location", () => {
   const originalModule = jest.requireActual("expo-location");
   return {
     __esModule: true,
-    default: jest.fn().mockImplementation(() => ({
-      watchPositionAsync: jest.fn(),
-      getCurrentPositionAsync: jest.fn(),
-    })),
+    ...originalModule,
+    requestForegroundPermissionsAsync: jest.fn(),
+    watchPositionAsync: jest.fn(),
   };
 });
 
