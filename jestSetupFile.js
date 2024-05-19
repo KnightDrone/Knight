@@ -37,6 +37,8 @@ jest.mock("firebase/firestore", () => ({
   query: jest.fn(),
   setDoc: jest.fn(),
   where: jest.fn(),
+  onSnapshot: jest.fn(),
+  updateDoc: jest.fn(),
 }));
 
 jest.mock("expo-auth-session/providers/google", () => ({
@@ -171,6 +173,14 @@ jest.mock("expo-image-picker", () => ({
   requestMediaLibraryPermissionsAsync: jest.fn(() =>
     Promise.resolve({ status: "granted" })
   ),
+  launchImageLibraryAsync: jest.fn().mockResolvedValue({
+    cancelled: false,
+    uri: "file://path/to/image",
+    assets: [{ uri: "file://path/to/image", base64: "base64" }],
+  }),
+  MediaTypeOptions: {
+    Images: "Images",
+  },
 }));
 
 jest.mock("openai", () => ({

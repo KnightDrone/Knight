@@ -113,4 +113,10 @@ describe("ProfileScreen", () => {
     const saveButton = getByText("Save changes");
     fireEvent.press(saveButton);
   });
+
+  it("handles image picker press", () => {
+    const { getByTestId } = render(<ProfileScreen />);
+    const imagePicker = getByTestId("profile-image-button");
+    fireEvent.press(imagePicker);
+  });
 });

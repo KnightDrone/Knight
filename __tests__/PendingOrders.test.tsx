@@ -4,16 +4,21 @@ import PendingOrders from "../src/app/order/PendingOrders";
 import { Order, OrderStatus } from "../src/types/Order";
 import { Item } from "../src/types/Item";
 import FirestoreManager from "../src/services/FirestoreManager";
-import { FlatList, TouchableOpacity, View } from "react-native";
-import { Text, Image } from "react-native";
-import { TextField } from "../src/ui/TextField";
-import OrderCard from "../src/components/cards/OrderCard";
 
 jest.mock("../src/services/FirestoreManager", () => {
   return {
     __esModule: true,
     default: jest.fn().mockImplementation(() => {
       return {
+        writeData: jest.fn().mockResolvedValue({}),
+        queryData: jest.fn().mockResolvedValue([]),
+        readData: jest.fn().mockResolvedValue({}),
+        updateData: jest.fn().mockResolvedValue({}),
+        deleteData: jest.fn().mockResolvedValue({}),
+        getUser: jest.fn().mockResolvedValue({}),
+        createUser: jest.fn().mockResolvedValue({}),
+        deleteUser: jest.fn().mockResolvedValue({}),
+        updateUser: jest.fn().mockResolvedValue({}),
         queryOrder: jest
           .fn()
           .mockImplementation(() =>
@@ -51,74 +56,6 @@ jest.mock("../src/services/FirestoreManager", () => {
   };
 });
 
-jest.mock("../src/app/order/PendingOrders", () => ({
-  __esModule: true,
-  default: () => (
-    <View className="mt-16" testID="pending-orders-screen">
-      <View className="flex-row items-center justify-center">
-        <TouchableOpacity className="absolute left-4" testID="menu-button">
-          <Image testID="menu-icon" />
-        </TouchableOpacity>
-        <Text testID="pending-orders-title">Pending Orders</Text>
-        <TouchableOpacity testID="close-button">
-          <Image testID="close-icon" />
-        </TouchableOpacity>
-      </View>
-      <View className="flex-row">
-        <View className="w-40 mx-auto mt-4 bg-gray-50 ml-4 relative h-12 rounded-full border border-gray-400 pb-8"></View>
-      </View>
-      <FlatList
-        data={[]}
-        testID="order-list"
-        renderItem={({ item }) => (
-          <OrderCard
-            order={item}
-            opBool={false}
-            testId={"order-card-1"}
-            onClickTestId={"order-card-1"}
-          /> // opBool is false because we want to show the user's location name
-        )}
-      />
-      <TouchableOpacity
-        testID="close-card-button"
-        className="absolute right-5 top-5 "
-      ></TouchableOpacity>
-    </View>
-  ),
-  fetchOrders: jest
-    .fn()
-    .mockImplementation(() =>
-      Promise.resolve([
-        new Order(
-          "user1",
-          new Item(1, "mock item1", "description1", 1, 1, 10),
-          { latitude: 46.8182, longitude: 8.2275 },
-          new Date(),
-          OrderStatus.Delivered,
-          new Date(),
-          "Mattenhorn peak #3",
-          "abc",
-          "St. Gallen Hospital",
-          { latitude: 55, longitude: 33 },
-          "1"
-        ),
-        new Order(
-          "user2",
-          new Item(2, "mock item2", "description1", 1, 1, 22),
-          { latitude: 46.8182, longitude: 8.2275 },
-          new Date(),
-          OrderStatus.Delivered,
-          new Date(),
-          "Mattenhorn peak #1",
-          "def",
-          "Pharmacy #5",
-          { latitude: 55, longitude: 33 },
-          "2"
-        ),
-      ])
-    ),
-}));
-
 describe("PendingOrders Component", () => {
   it("renders without crashing", () => {
     const { getByTestId } = render(<PendingOrders />);
@@ -137,13 +74,13 @@ describe("PendingOrders Component", () => {
     expect(orderList).toBeDefined();
 
     await waitFor(() => {
-      // expect(getByTestId("order-card-1")).toBeDefined();
+      expect(getByTestId("order-card-1")).toBeDefined();
     });
 
     await waitFor(() => {
-      // const button = getByTestId("order-card-1-button");
-      // expect(button).toBeDefined();
-      // fireEvent.press(button);
+      const button = getByTestId("order-card-1-button");
+      expect(button).toBeDefined();
+      fireEvent.press(button);
     });
 
     await waitFor(() => {
@@ -154,21 +91,21 @@ describe("PendingOrders Component", () => {
   });
 
   it("fails to fetch orders", async () => {
-    // (FirestoreManager as jest.Mock).mockImplementationOnce(() => ({
-    //   queryOrder: jest.fn().mockReturnValue(null),
-    // }));
+    (FirestoreManager as jest.Mock).mockImplementationOnce(() => ({
+      queryOrder: jest.fn().mockReturnValue(null),
+    }));
 
     const { getByText, getByTestId } = render(<PendingOrders />);
 
     await waitFor(
       () => {
-        // expect(getByTestId("error-box")).toBeTruthy();
-        // expect(getByText("Failed to fetch from database.")).toBeTruthy();
+        expect(getByTestId("error-box")).toBeTruthy();
+        expect(getByText("Failed to fetch from database.")).toBeTruthy();
       },
       { timeout: 2000 }
     );
 
-    // fireEvent.press(getByTestId("error-box"));
+    fireEvent.press(getByTestId("error-box"));
   });
 
   it("returns empty orders", async () => {
@@ -180,10 +117,10 @@ describe("PendingOrders Component", () => {
 
     await waitFor(
       () => {
-        // expect(getByTestId("error-box")).toBeTruthy();
-        // expect(
-        //   getByText("No orders pending orders at the moment, check back later.")
-        // ).toBeTruthy();
+        expect(getByTestId("error-box")).toBeTruthy();
+        expect(
+          getByText("No orders pending orders at the moment, check back later.")
+        ).toBeTruthy();
       },
       { timeout: 2000 }
     );
@@ -198,8 +135,8 @@ describe("PendingOrders Component", () => {
 
     await waitFor(
       () => {
-        // expect(getByTestId("error-box")).toBeTruthy();
-        // expect(getByText("Query failed.")).toBeTruthy();
+        expect(getByTestId("error-box")).toBeTruthy();
+        expect(getByText("Query failed.")).toBeTruthy();
       },
       { timeout: 2000 }
     );

@@ -26,6 +26,7 @@ import {
   setDoc,
   where,
   Firestore,
+  onSnapshot,
 } from "firebase/firestore";
 
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -70,4 +71,5 @@ export {
   where,
   Firestore,
   storage,
+  onSnapshot,
 };
