@@ -29,7 +29,7 @@ const MapOverview: React.FC<{ navigation: any }> = ({ navigation }) => {
       navigation={navigation}
       testid="map-view"
     >
-      <Button
+      {/* <Button
         testID="order-button"
         className="absolute bottom-[40px] right-[30px] w-[100px] h-16"
         onPress={() => {
@@ -41,7 +41,7 @@ const MapOverview: React.FC<{ navigation: any }> = ({ navigation }) => {
         style="primary"
       >
         <Icon name="cart" size={24} color="#fff" />
-      </Button>
+      </Button> */}
     </SharedMap>
   );
 };
