@@ -356,7 +356,10 @@ describe("Drawer Navigation", () => {
   });
 
   it("Should access the OperatorDrawer", async () => {
+    jest.useFakeTimers();
     const { queryByTestId } = render(<AppStack isLoggedIn="OperatorDrawer" />);
+
+    jest.advanceTimersByTime(10_000);
 
     await waitFor(() => {
       expect(queryByTestId("map-view")).toBeTruthy();

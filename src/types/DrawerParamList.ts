@@ -14,4 +14,6 @@ export type DrawerParamList = {
     latitude: number;
     longitude: number;
   };
+  Knaight: undefined;
+  PendingOrders: undefined;
 };

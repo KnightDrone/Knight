@@ -23,8 +23,13 @@ import { formatDate } from "../../components/cards/OrderCard";
 import { Picker } from "@react-native-picker/picker";
 import { TextField } from "../../ui/TextField";
 import { useTranslation } from "react-i18next";
-import { collection, onSnapshot, query, where } from "@firebase/firestore";
-import { firestore } from "../../services/Firebase";
+import {
+  firestore,
+  collection,
+  onSnapshot,
+  query,
+  where,
+} from "../../services/Firebase";
 
 const PendingOrders = ({ navigation }: any) => {
   const { t } = useTranslation();
@@ -150,33 +155,7 @@ const PendingOrders = ({ navigation }: any) => {
   };
 
   return (
-    <View className="mt-16" testID="pending-orders-screen">
-      <View className="flex-row items-center justify-center">
-        <TouchableOpacity className="absolute left-4" testID="menu-button">
-          <Image
-            source={require("../../../assets/icons/menu_icon.png")}
-            className="w-9 h-9"
-            testID="menu-icon"
-          />
-        </TouchableOpacity>
-        <Text
-          className="text-2xl font-bold text-center my-4"
-          testID="pending-orders-title"
-        >
-          Pending Orders
-        </Text>
-        <TouchableOpacity
-          className="absolute right-4"
-          testID="close-button"
-          onPress={() => navigation.goBack()}
-        >
-          <Image
-            source={require("../../../assets/icons/x_icon.png")}
-            className="w-5 h-5"
-            testID="close-icon"
-          />
-        </TouchableOpacity>
-      </View>
+    <View className="mt-28" testID="pending-orders-screen">
       <View className="flex-row">
         <TextField
           className="w-6/12 mx-auto mt-4 bg-white ml-4"
