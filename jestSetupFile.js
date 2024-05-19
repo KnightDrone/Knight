@@ -1,3 +1,5 @@
+const { default: OpenAI } = require("openai");
+
 jest.mock("@react-native-async-storage/async-storage", () =>
   require("@react-native-async-storage/async-storage/jest/async-storage-mock")
 );
@@ -179,4 +181,23 @@ jest.mock("expo-image-picker", () => ({
   MediaTypeOptions: {
     Images: "Images",
   },
+}));
+
+jest.mock("openai", () => ({
+  __esModule: true,
+  default: jest.fn().mockImplementation(() => ({
+    chat: jest.fn().mockResolvedValue({
+      completion: {
+        create: jest.fn().mockResolvedValue({
+          choices: [
+            {
+              message: {
+                content: "Hello, how can I help you today?",
+              },
+            },
+          ],
+        }),
+      },
+    }),
+  })),
 }));

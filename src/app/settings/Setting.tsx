@@ -188,7 +188,7 @@ const Settings: React.FC<SettingsProps> = ({
                           ? onItemPress(item.name)
                           : console.log(`${item.name} pressed`)
                 }
-                testID={`${item.name}-button`}
+                testID={item.id ? `${item.id}` : `${item.name}-button`}
               >
                 <Icon
                   name={item.icon}
