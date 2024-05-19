@@ -14,7 +14,7 @@ export function TextField({
   placeholder: string;
   onChangeText: (text: string) => void;
   value: string;
-  type: "email" | "password" | "text";
+  type: "email" | "password" | "text" | "number" | "phone";
   testID?: string;
 }) {
   const [showPassword, setShowPassword] = useState(false);

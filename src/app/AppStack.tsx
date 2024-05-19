@@ -15,6 +15,7 @@ import OrderPlaced from "./order/OrderPlaced";
 import OrderMenu from "./order/OrderMenu";
 import PendingOrders from "./order/PendingOrders";
 import MapOverview from "./Map";
+import OperatorSignup from "./auth/OperatorSignup";
 
 // Drawer Navigation Screens
 import Profile from "./settings/ProfileScreen";
@@ -172,6 +173,23 @@ export const AppStack: React.FC<AppStackProps> = ({ isLoggedIn, user }) => {
               ),
             })}
           />
+          <Screen
+            name="OperatorSignup"
+            options={({ navigation }: any) => ({
+              headerShown: true,
+              headerTransparent: true,
+              headerTitle: "",
+              headerLeft: () => (
+                <HeaderBackButton
+                  onPress={() => navigation.popToTop()}
+                  labelVisible={false}
+                  testID="operator-signup-back-button"
+                />
+              ),
+            })}
+          >
+            {(props: any) => <OperatorSignup {...props} />}
+          </Screen>
         </Group>
         <Group>
           <Screen name="UserDrawer">
