@@ -15,7 +15,6 @@ import {
   OrderLocation,
   OrderStatus,
 } from "../types/Order";
-import { User, userConverter } from "../types/User";
 import { FirestoreDataConverter } from "@firebase/firestore";
 
 export type DBUser = {
@@ -34,7 +33,6 @@ export default class FirestoreManager {
   constructor() {
     // Dictionary to map collection names to their respective converters
     this.converterDictionary = {
-      users: userConverter,
       orders: orderConverter,
     };
   }
@@ -216,7 +214,6 @@ export default class FirestoreManager {
         "location",
         "operatorName",
       ],
-      users: ["email", "displayName", "birthday"],
     };
 
     try {

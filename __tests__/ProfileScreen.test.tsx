@@ -1,7 +1,6 @@
 import React from "react";
 import ProfileScreen from "../src/app/settings/ProfileScreen";
 import { render, fireEvent, waitFor } from "@testing-library/react-native";
-import { User } from "../src/types/User";
 
 beforeAll(() => {
   global.alert = jest.fn();
@@ -21,7 +20,7 @@ jest.mock("../src/services/FirestoreManager", () => {
   return jest.fn().mockImplementation(() => {
     return {
       readData: jest.fn().mockImplementation(() => {
-        return new User("2", "jane@example.com", false, "Jane Doe");
+        return Promise.resolve({});
       }),
       updateData: jest.fn(),
     };
