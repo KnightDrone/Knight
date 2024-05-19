@@ -28,21 +28,9 @@ const MapOverview: React.FC<{ navigation: any }> = ({ navigation }) => {
       toggleAutoCenter={toggleAutoCenter}
       navigation={navigation}
       testid="map-view"
-    >
-      {/* <Button
-        testID="order-button"
-        className="absolute bottom-[40px] right-[30px] w-[100px] h-16"
-        onPress={() => {
-          navigation.navigate("OrderMenu", {
-            latitude: currentRegion.latitude,
-            longitude: currentRegion.longitude,
-          });
-        }}
-        style="primary"
-      >
-        <Icon name="cart" size={24} color="#fff" />
-      </Button> */}
-    </SharedMap>
+      mapType="user"
+      bottomLeftButtonText={t("map.order-button")}
+    ></SharedMap>
   );
 };
 

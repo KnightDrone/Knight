@@ -51,6 +51,7 @@ const OperatorMap: React.FC<{ navigation: any }> = ({ navigation }) => {
       toggleAutoCenter={toggleAutoCenter}
       navigation={navigation}
       testid="operator-map"
+      mapType="operator"
     >
       {orders.map((order) => (
         <Marker

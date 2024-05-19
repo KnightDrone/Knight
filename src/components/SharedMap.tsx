@@ -16,6 +16,8 @@ type SharedMapProps = {
   navigation?: any;
   children?: ReactNode;
   testid?: string;
+  mapType: "operator" | "user";
+  bottomLeftButtonText?: string;
 };
 
 const SharedMap: React.FC<SharedMapProps> = ({
@@ -29,6 +31,8 @@ const SharedMap: React.FC<SharedMapProps> = ({
   navigation,
   children,
   testid,
+  mapType,
+  bottomLeftButtonText,
 }) => {
   return (
     <View style={StyleSheet.absoluteFillObject}>
@@ -71,6 +75,20 @@ const SharedMap: React.FC<SharedMapProps> = ({
       >
         <Icon name="menu" size={24} color="#000" />
       </Button>
+      {mapType === "user" && (
+        <Button
+          testID="order-button"
+          className="absolute bottom-[40px] right-[30px] w-[100px] h-16"
+          onPress={() => {
+            navigation.navigate("OrderMenu", {
+              latitude: currentRegion.latitude,
+              longitude: currentRegion.longitude,
+            });
+          }}
+          style="primary"
+          text={bottomLeftButtonText}
+        ></Button>
+      )}
     </View>
   );
 };
