@@ -14,9 +14,10 @@ jest.mock("expo-location", () => {
 });
 
 jest.mock("react-native-vector-icons/MaterialIcons", () => "Icon");
+jest.mock("react-native-vector-icons/MaterialCommunityIcons", () => "Icon");
 jest.mock("../src/components/LocationMarker", () => "LocationMarker");
 
-describe("Map", () => {
+describe("MapOverview", () => {
   beforeEach(() => {
     (Location.requestForegroundPermissionsAsync as jest.Mock).mockResolvedValue(
       { status: "granted" }
@@ -33,12 +34,14 @@ describe("Map", () => {
   });
 
   it("renders correctly", () => {
-    const { getByTestId } = render(<MapOverview />);
+    const { getByTestId } = render(
+      <MapOverview navigation={{ navigate: jest.fn() }} />
+    );
     expect(getByTestId("map-view")).toBeTruthy();
   });
 
   it("requests location permission on mount", async () => {
-    render(<MapOverview />);
+    render(<MapOverview navigation={{ navigate: jest.fn() }} />);
     await waitFor(() =>
       expect(Location.requestForegroundPermissionsAsync).toHaveBeenCalled()
     );
@@ -50,24 +53,29 @@ describe("Map", () => {
         remove: jest.fn(),
       })
     );
-    const { getByText } = render(<MapOverview />);
+    const { getByText } = render(
+      <MapOverview navigation={{ navigate: jest.fn() }} />
+    );
     expect(getByText("Loading your location...")).toBeTruthy();
   });
 
   it("toggles auto-centering when map is dragged", () => {
     const setAutoCenter = jest.fn();
     React.useState = jest.fn(() => [true, setAutoCenter]);
-    const { getByTestId } = render(<MapOverview />);
+    const { getByTestId } = render(
+      <MapOverview navigation={{ navigate: jest.fn() }} />
+    );
     fireEvent(getByTestId("map-view"), "onPanDrag");
     expect(setAutoCenter).toHaveBeenCalledWith(false);
   });
 
   it("centers map to user location when auto-center button is pressed", () => {
-    const animateToRegionMock = jest.fn();
-    const { getByTestId } = render(<MapOverview />);
+    const { getByTestId } = render(
+      <MapOverview navigation={{ navigate: jest.fn() }} />
+    );
     const button = getByTestId("my-location-button");
     fireEvent.press(button);
-    //expect(animateToRegionMock).toHaveBeenCalled();
+    // Note: Since the animateToRegion is encapsulated within the hook, we cannot directly test it here without more complex setup.
   });
 
   it("passes location as a prop when navigating to OrderMenu", () => {

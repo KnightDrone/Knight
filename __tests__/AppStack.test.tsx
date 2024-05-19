@@ -362,7 +362,7 @@ describe("Drawer Navigation", () => {
     jest.advanceTimersByTime(10_000);
 
     await waitFor(() => {
-      expect(queryByTestId("operator-map-screen")).toBeTruthy();
+      expect(queryByTestId("map-view")).toBeTruthy();
     });
   });
 });
