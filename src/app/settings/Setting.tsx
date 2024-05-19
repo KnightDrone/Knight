@@ -22,7 +22,6 @@ interface SettingsSection {
   title: string;
   data: SettingsItem[];
 }
-
 interface SettingsItem {
   name: string;
   icon: string;
@@ -139,26 +138,28 @@ const Settings: React.FC<SettingsProps> = ({
         {
           name: "Edit profile",
           icon: "edit",
-          action: () => navigation.navigate("ProfileScreen"),
+          action: () => navigation.navigate("Profile"),
         } as { name: string; icon: string; action: () => void },
-        { name: "Security", icon: "security" },
-        { name: "Notifications", icon: "notifications" },
-        { name: "Privacy", icon: "privacy-tip" },
       ],
     },
     {
       title: "Support & About",
       data: [
-        { name: "My Subscription", icon: "subscriptions" },
-        { name: "Help & Support", icon: "help" },
-        { name: "Terms and Policies", icon: "gavel" },
+        {
+          name: "FAQs",
+          icon: "help",
+          action: () => navigation.navigate("FAQs"),
+        },
+        {
+          name: "Terms and Conditions",
+          icon: "gavel",
+          action: () => navigation.navigate("Terms and Conditions"),
+        },
       ],
     },
     {
       title: "Actions",
       data: [
-        { name: "Report a problem", icon: "report-problem" },
-        { name: "Add account", icon: "person-add" },
         {
           name: `Become ${role == "operator" ? "a user" : "an operator"}`,
           id: "role-button",

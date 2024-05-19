@@ -12,20 +12,6 @@ describe("Settings Component", () => {
     expect(getByText("Account")).toBeTruthy();
   });
 
-  it("contains correct sections and items", () => {
-    const { getByTestId } = render(<Settings />);
-    expect(getByTestId("Edit profile-button")).toBeTruthy();
-    expect(getByTestId("Security-button")).toBeTruthy();
-  });
-
-  it("simulates pressing an item", () => {
-    const handlePressMock = jest.fn();
-    const { getByTestId } = render(<Settings onItemPress={handlePressMock} />);
-    const securityButton = getByTestId("Security-button");
-    fireEvent.press(securityButton);
-    expect(handlePressMock).toHaveBeenCalledWith("Security");
-  });
-
   it("simulates pressing the log out button", async () => {
     const { getByTestId } = render(<Settings />);
     const signOutButton = getByTestId("Log out-button");
