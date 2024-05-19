@@ -15,6 +15,8 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import OperatorMap from "../../app/maps/OperatorMap";
 import PendingOrders from "../../app/order/PendingOrders";
 import { reload } from "firebase/auth";
+import FAQs from "../../app/settings/FAQs";
+import TermsAndConditions from "../../app/settings/TermsAndConditions";
 
 const Drawer = createDrawerNavigator<DrawerParamList>();
 
@@ -145,6 +147,30 @@ export function OperatorDrawer<OperatorDrawerProps>(user: OperatorDrawerProps) {
         }}
       >
         {(props: any) => <PendingOrders {...props} />}
+      </Drawer.Screen>
+      <Drawer.Screen
+        name="FAQs"
+        options={{
+          drawerIcon: ({ color, size }) => (
+            <Icon name="frequently-asked-questions" color={color} size={size} />
+          ),
+        }}
+      >
+        {(props: any) => {
+          return <FAQs {...props} />;
+        }}
+      </Drawer.Screen>
+      <Drawer.Screen
+        name="Terms and Conditions"
+        options={{
+          drawerIcon: ({ color, size }) => (
+            <Icon name="gavel" color={color} size={size} />
+          ),
+        }}
+      >
+        {(props: any) => {
+          return <TermsAndConditions {...props} />;
+        }}
       </Drawer.Screen>
     </Drawer.Navigator>
   );
