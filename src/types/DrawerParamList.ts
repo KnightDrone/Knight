@@ -6,6 +6,9 @@ export type DrawerParamList = {
   Settings: {
     userId: string;
   };
+  FAQs: undefined;
+  Privacy: undefined;
+  "Terms and Conditions": undefined;
   OrderHistory: {
     historyOp: boolean;
     userId: string;

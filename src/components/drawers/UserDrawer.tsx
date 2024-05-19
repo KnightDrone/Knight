@@ -17,6 +17,8 @@ import FirestoreManager from "../../services/FirestoreManager";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import ChatScreen from "../Knaight";
 import { reload } from "firebase/auth";
+import FAQs from "../../app/settings/FAQs";
+import TermsAndConditions from "../../app/settings/TermsAndConditions";
 
 const Drawer = createDrawerNavigator<DrawerParamList>();
 
@@ -157,6 +159,30 @@ export function UserDrawer<UserDrawerProps>(user: UserDrawerProps) {
         }}
         component={ChatScreen}
       />
+      <Drawer.Screen
+        name="FAQs"
+        options={{
+          drawerIcon: ({ color, size }) => (
+            <Icon name="frequently-asked-questions" color={color} size={size} />
+          ),
+        }}
+      >
+        {(props: any) => {
+          return <FAQs {...props} />;
+        }}
+      </Drawer.Screen>
+      <Drawer.Screen
+        name="Terms and Conditions"
+        options={{
+          drawerIcon: ({ color, size }) => (
+            <Icon name="gavel" color={color} size={size} />
+          ),
+        }}
+      >
+        {(props: any) => {
+          return <TermsAndConditions {...props} />;
+        }}
+      </Drawer.Screen>
     </Drawer.Navigator>
   );
 }
