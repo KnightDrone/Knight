@@ -19,6 +19,7 @@ import ChatScreen from "../Knaight";
 import { reload } from "firebase/auth";
 import FAQs from "../../app/settings/FAQs";
 import TermsAndConditions from "../../app/settings/TermsAndConditions";
+import { SettingsStack } from "../../app/settings/SettingsStack";
 
 const Drawer = createDrawerNavigator<DrawerParamList>();
 
@@ -37,8 +38,15 @@ export function UserDrawer<UserDrawerProps>(user: UserDrawerProps) {
   const updateUserProfile = async (user: User) => {
     await reload(user);
     setUserId(user.uid);
-    setName(user.displayName || "");
     setEmail(user.email || "");
+    if (user.displayName) {
+      setName(user.displayName || "");
+    } else {
+      const userData = await firestoreManager.getUser(user.uid);
+      if (userData) {
+        setName(userData.name || "");
+      }
+    }
     if (user.photoURL) {
       setPhotoURL(user.photoURL || "");
     } else {
@@ -88,7 +96,7 @@ export function UserDrawer<UserDrawerProps>(user: UserDrawerProps) {
       >
         {(props: any) => <MapOverview {...props} />}
       </Drawer.Screen>
-      <Drawer.Screen
+      {/* <Drawer.Screen
         name="Profile"
         options={{
           drawerIcon: ({ color, size }) => (
@@ -106,16 +114,21 @@ export function UserDrawer<UserDrawerProps>(user: UserDrawerProps) {
             />
           );
         }}
-      </Drawer.Screen>
+      </Drawer.Screen> */}
       <Drawer.Screen
-        name="Settings"
+        name="SettingsStack"
         options={{
+          drawerLabel: "Settings",
+          // headerTransparent: true,
+          headerTitle: "",
           drawerIcon: ({ color }) => (
             <Icon name="cog-outline" color={color} size={22} />
           ),
         }}
       >
-        {(props: any) => <Setting {...props} />}
+        {(props: any) => (
+          <SettingsStack {...props} route={{ params: { userId: userId } }} />
+        )}
       </Drawer.Screen>
       <Drawer.Screen
         name="OrderMenu"
@@ -128,7 +141,9 @@ export function UserDrawer<UserDrawerProps>(user: UserDrawerProps) {
           ),
         }}
       >
-        {(props: any) => <OrderMenu {...props} />}
+        {(props: any) => (
+          <OrderMenu {...props} route={{ params: { userId: userId } }} />
+        )}
       </Drawer.Screen>
 
       <Drawer.Screen
@@ -159,30 +174,6 @@ export function UserDrawer<UserDrawerProps>(user: UserDrawerProps) {
         }}
         component={ChatScreen}
       />
-      <Drawer.Screen
-        name="FAQs"
-        options={{
-          drawerIcon: ({ color, size }) => (
-            <Icon name="frequently-asked-questions" color={color} size={size} />
-          ),
-        }}
-      >
-        {(props: any) => {
-          return <FAQs {...props} />;
-        }}
-      </Drawer.Screen>
-      <Drawer.Screen
-        name="Terms and Conditions"
-        options={{
-          drawerIcon: ({ color, size }) => (
-            <Icon name="gavel" color={color} size={size} />
-          ),
-        }}
-      >
-        {(props: any) => {
-          return <TermsAndConditions {...props} />;
-        }}
-      </Drawer.Screen>
     </Drawer.Navigator>
   );
 }

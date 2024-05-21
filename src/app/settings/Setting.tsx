@@ -141,24 +141,17 @@ const Settings: React.FC<SettingsProps> = ({
           action: () => navigation.navigate("Profile"),
         } as { name: string; icon: string; action: () => void },
         {
-          name: "Security",
-          icon: "security",
-          action: () => {
-            navigation.navigate("SecurityScreen");
-          },
-        },
-        {
           name: "Notifications",
           icon: "notifications",
           action: () => {
-            navigation.navigate("NotificationsScreen");
+            navigation.navigate("Notifications");
           },
         },
         {
           name: "Privacy",
           icon: "privacy-tip",
           action: () => {
-            navigation.navigate("PrivacyScreen");
+            navigation.navigate("Privacy");
           },
         },
       ],
@@ -172,9 +165,9 @@ const Settings: React.FC<SettingsProps> = ({
           action: () => navigation.navigate("FAQs"),
         },
         {
-          name: "Terms and Conditions",
+          name: "TermsAndConditions",
           icon: "gavel",
-          action: () => navigation.navigate("Terms and Conditions"),
+          action: () => navigation.navigate("TermsAndConditions"),
         },
       ],
     },
