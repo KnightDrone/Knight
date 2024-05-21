@@ -22,7 +22,8 @@
     "password": "Enter your password",
     "password-strength": "Password Strength: ",
     "signup-button": "Sign up",
-    "google-login": "Continue with Google"
+    "google-login": "Continue with Google",
+    "phone-number": "Enter your phone number"
   },
   "password-suggestions": {
     "length": "Please include at least 8 characters",
@@ -39,7 +40,8 @@
     "permission-denied": "Permission to access location denied",
     "permission-not-granted": "Location permission not granted",
     "marker-title": "Current location",
-    "order-button": "Order"
+    "order-button": "Order",
+    "pending-orders-button": "Pending orders"
   },
   "items": {
     "first-aid": "First aid kit",

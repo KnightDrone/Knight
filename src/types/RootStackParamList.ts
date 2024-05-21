@@ -7,20 +7,19 @@ import { OrderLocation } from "./Order";
 export type RootStackParamList = {
   Login: undefined;
   SignUp: undefined;
+  OperatorSignup: undefined;
   ForgotPassword: undefined;
   OrderMenu: {
     latitude: number;
     longitude: number;
   };
-  Map: undefined;
-  Settings: undefined;
-  ProfileScreen: undefined;
   OrderPlaced: {
     orderId: string;
   };
   OrderHistory: {
     historyOp: boolean;
-    userId: string;
   };
   PendingOrders: undefined; // Added for PendingOrders
+  OperatorDrawer: undefined;
+  UserDrawer: undefined;
 };

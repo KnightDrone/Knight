@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "src/app/App.tsx",
   "scripts": {
-    "start": "expo start --go",
+    "start": "expo start --go --clear",
     "android": "expo run:android",
     "ios": "expo run:ios",
     "web": "expo start --web",
@@ -30,6 +30,7 @@
     "@react-native-firebase/firestore": "^19.2.2",
     "@react-native-picker/picker": "^2.7.5",
     "@react-navigation/bottom-tabs": "^6.5.20",
+    "@react-navigation/drawer": "^6.6.15",
     "@react-navigation/native": "^6.1.17",
     "@react-navigation/native-stack": "^6.9.26",
     "@react-navigation/stack": "^6.3.29",
@@ -45,6 +46,7 @@
     "expo-crypto": "~12.8.1",
     "expo-dev-client": "~3.3.11",
     "expo-font": "^11.10.3",
+    "expo-image-picker": "~14.7.1",
     "expo-linking": "~6.2.2",
     "expo-localization": "~14.8.4",
     "expo-location": "~16.5.5",
@@ -58,6 +60,7 @@
     "lightningcss": "^1.24.1",
     "mock": "^0.1.1",
     "nativewind": "^4.0.1",
+    "openai": "^4.47.1",
     "prettier": "^3.2.5",
     "react": "18.2.0",
     "react-i18next": "^14.1.1",
@@ -81,8 +84,7 @@
     "stable": "^0.1.8",
     "stripe": "^15.3.0",
     "tailwind-merge": "^2.2.2",
-    "tailwindcss": "^3.4.3",
-    "expo-image-picker": "~14.7.1"
+    "tailwindcss": "^3.4.3"
   },
   "devDependencies": {
     "@babel/core": "^7.24.4",
@@ -91,6 +93,7 @@
     "@eslint/js": "^9.0.0",
     "@testing-library/jest-native": "^5.4.3",
     "@testing-library/react-native": "^12.4.4",
+    "@types/expo": "^33.0.1",
     "@types/jest": "^29.5.12",
     "@types/react": "~18.2.45",
     "@types/react-native": "^0.73.0",

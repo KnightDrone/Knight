@@ -181,7 +181,7 @@ const OrderPlaced = ({
 
           <TouchableOpacity
             className="bg-blue-700 mt-4 w-4/5 rounded-lg p-2 text-white items-center"
-            onPress={() => navigation.navigate("Map")}
+            onPress={() => navigation.navigate("UserDrawer")}
             style={{
               opacity: completion >= 100 ? 1 : 0,
             }}
@@ -195,8 +195,7 @@ const OrderPlaced = ({
           testID="view-order-history"
           onPress={() =>
             navigation.navigate("OrderHistory", {
-              opOrders: true,
-              userId: auth.currentUser ? auth.currentUser.uid : "",
+              historyOp: false,
             })
           }
         >

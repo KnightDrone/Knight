@@ -1,24 +1,25 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
+import { HeaderBackButton } from "@react-navigation/elements";
+import { NavigationContainer } from "@react-navigation/native";
+import { RootStackParamList } from "../types/RootStackParamList";
+import OperatorSignup from "./auth/OperatorSignup";
+
+// Stack Navigation Screens
+import { User } from "../services/Firebase";
 import Login from "./auth/Login";
 import SignUp from "./auth/SignUp";
 import ForgotPassword from "./auth/ForgotPassword";
 import OrderPlaced from "./order/OrderPlaced";
-import OrderMenu from "./order/OrderMenu";
-import MapOverview from "./Map";
-import { HeaderBackButton } from "@react-navigation/elements";
-import { NavigationContainer } from "@react-navigation/native";
-import { RootStackParamList } from "../types/RootStackParamList";
+import PendingOrders from "./order/PendingOrders";
 
-import { User } from "../services/Firebase";
-import OrderHistory from "./order/OrderHistory";
-import Settings from "./settings/Setting";
-import ProfileScreen from "./settings/ProfileScreen";
+import { UserDrawer } from "../components/drawers/UserDrawer";
+import { OperatorDrawer } from "../components/drawers/OperatorDrawer";
 
 const { Navigator, Screen, Group } = createStackNavigator<RootStackParamList>();
 
 interface AppStackProps {
-  isLoggedIn: "Login" | "Map";
+  isLoggedIn: "Login" | "UserDrawer" | "OperatorDrawer";
   user?: User | null; // Define a more specific type if possible
 }
 export const AppStack: React.FC<AppStackProps> = ({ isLoggedIn, user }) => {
@@ -49,7 +50,7 @@ export const AppStack: React.FC<AppStackProps> = ({ isLoggedIn, user }) => {
               headerTitle: "",
               headerLeft: () => (
                 <HeaderBackButton
-                  onPress={() => navigation.navigate("Login")}
+                  onPress={() => navigation.popToTop()}
                   labelVisible={false}
                   testID="sign-up-back-button"
                 />
@@ -67,74 +68,43 @@ export const AppStack: React.FC<AppStackProps> = ({ isLoggedIn, user }) => {
               headerTitle: "",
               headerLeft: () => (
                 <HeaderBackButton
-                  onPress={() => navigation.navigate("Login")}
+                  onPress={() => navigation.popToTop()}
                   labelVisible={false}
                   testID="forgot-password-back-button"
                 />
               ),
             })}
           />
-        </Group>
-        <Group>
-          <Screen name="Map" options={{ title: "Map for User" }}>
-            {(props: any) => <MapOverview {...props} />}
-          </Screen>
           <Screen
-            name="OrderMenu"
+            name="OperatorSignup"
             options={({ navigation }: any) => ({
               headerShown: true,
               headerTransparent: true,
               headerTitle: "",
               headerLeft: () => (
                 <HeaderBackButton
-                  onPress={() => navigation.navigate("Map")}
+                  onPress={() => navigation.popToTop()}
                   labelVisible={false}
-                  testID="order-menu-back-button"
+                  testID="operator-signup-back-button"
                 />
               ),
             })}
           >
-            {(props: any) => <OrderMenu {...props} />}
+            {(props: any) => <OperatorSignup {...props} />}
+          </Screen>
+        </Group>
+        <Group>
+          <Screen name="UserDrawer">
+            {(props: any) => <UserDrawer {...props} user={{ user }} />}
+          </Screen>
+          <Screen name="OperatorDrawer">
+            {(props: any) => <OperatorDrawer {...props} />}
           </Screen>
           <Screen name="OrderPlaced">
             {(props: any) => <OrderPlaced {...props} />}
           </Screen>
-          <Screen name="OrderHistory">
-            {(props: any) => <OrderHistory {...props} />}
-          </Screen>
-          <Screen
-            name="Settings"
-            options={({ navigation }: any) => ({
-              headerShown: true,
-              headerTitle: "Settings",
-              headerLeft: () => (
-                <HeaderBackButton
-                  onPress={() => navigation.goBack()}
-                  labelVisible={false}
-                  labelStyle={{ color: "black" }}
-                  testID="settings-back-button"
-                />
-              ),
-            })}
-          >
-            {(props: any) => <Settings {...props} />}
-          </Screen>
-          <Screen
-            name="ProfileScreen"
-            options={({ navigation }: any) => ({
-              headerShown: true,
-              headerTitle: "Edit Profile",
-              headerLeft: () => (
-                <HeaderBackButton
-                  onPress={() => navigation.goBack()}
-                  labelVisible={false}
-                  labelStyle={{ color: "black" }}
-                  testID="Profile-back-button"
-                />
-              ),
-            })}
-          >
-            {(props: any) => <ProfileScreen {...props} />}
+          <Screen name="PendingOrders">
+            {(props: any) => <PendingOrders {...props} />}
           </Screen>
         </Group>
       </Navigator>
