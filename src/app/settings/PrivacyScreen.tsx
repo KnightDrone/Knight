@@ -1,7 +1,7 @@
 import React from "react";
 import { View, StyleSheet, TouchableOpacity, Text, Switch } from "react-native";
 
-const PrivacyScreen = (navigation: any) => {
+const PrivacyScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
   const [isAdsEnabled, setIsAdsEnabled] = React.useState(true);
   const [isTrackingEnabled, setIsTrackingEnabled] = React.useState(true);
   const [isLocationEnabled, setIsLocationEnabled] = React.useState(true);
@@ -15,10 +15,12 @@ const PrivacyScreen = (navigation: any) => {
   return (
     <View style={styles.container}>
       <View style={styles.boxes}>
-        <TouchableOpacity style={styles.buttons}>
+        <TouchableOpacity style={styles.buttons} testID="data-button">
           <View style={styles.textView}>
-            <Text style={styles.text}>Data Tracking</Text>
-            <Text style={styles.subtext}>
+            <Text style={styles.text} testID="data-text">
+              Data Tracking
+            </Text>
+            <Text style={styles.subtext} testID="data-subtext">
               Control what data is used for personalization
             </Text>
           </View>
@@ -26,12 +28,15 @@ const PrivacyScreen = (navigation: any) => {
             trackColor={{ false: "#767577", true: "#A0D1E4" }}
             onValueChange={toggleTracking}
             value={isTrackingEnabled}
+            testID="data-switch"
           />
         </TouchableOpacity>
         <TouchableOpacity style={styles.buttons}>
           <View style={styles.textView}>
-            <Text style={styles.text}>Personalized Ads</Text>
-            <Text style={styles.subtext}>
+            <Text style={styles.text} testID="ad-text">
+              Personalized Ads
+            </Text>
+            <Text style={styles.subtext} testID="ad-subtext">
               For a more tailored ad experience
             </Text>
           </View>
@@ -39,12 +44,15 @@ const PrivacyScreen = (navigation: any) => {
             trackColor={{ false: "#767577", true: "#A0D1E4" }}
             onValueChange={toggleAds}
             value={isAdsEnabled}
+            testID="ad-switch"
           />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.buttons}>
+        <TouchableOpacity style={styles.buttons} testID="location-button">
           <View style={styles.textView}>
-            <Text style={styles.text}>Share Live Location</Text>
-            <Text style={styles.subtext}>
+            <Text style={styles.text} testID="location-text">
+              Share Live Location
+            </Text>
+            <Text style={styles.subtext} testID="location-subtext">
               Allow access to your location in case of emergency
             </Text>
           </View>
@@ -52,13 +60,17 @@ const PrivacyScreen = (navigation: any) => {
             trackColor={{ false: "#767577", true: "#A0D1E4" }}
             onValueChange={toggleLocation}
             value={isLocationEnabled}
+            testID="location-switch"
           />
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => navigation.navigate("Terms of Service")}
           style={styles.buttons}
+          testID="tos-button"
         >
-          <Text style={styles.text}>Terms of Service</Text>
+          <Text style={styles.text} testID="tos-text">
+            Terms of Service
+          </Text>
         </TouchableOpacity>
       </View>
     </View>
