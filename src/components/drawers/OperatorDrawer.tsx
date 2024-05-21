@@ -17,6 +17,7 @@ import PendingOrders from "../../app/order/PendingOrders";
 import { reload } from "firebase/auth";
 import FAQs from "../../app/settings/FAQs";
 import TermsAndConditions from "../../app/settings/TermsAndConditions";
+import { SettingsStack } from "../../app/settings/SettingsStack";
 
 const Drawer = createDrawerNavigator<DrawerParamList>();
 
@@ -89,33 +90,19 @@ export function OperatorDrawer<OperatorDrawerProps>(user: OperatorDrawerProps) {
         {(props: any) => <OperatorMap {...props} />}
       </Drawer.Screen>
       <Drawer.Screen
-        name="Profile"
+        name="SettingsStack"
         options={{
-          drawerIcon: ({ color, size }) => (
-            <Icon name="account" color={color} size={size} />
-          ),
-        }}
-      >
-        {(props: any) => {
-          return (
-            <Profile
-              {...props}
-              onSaveChanges={() => {
-                setChangePFP(!changePFP);
-              }}
-            />
-          );
-        }}
-      </Drawer.Screen>
-      <Drawer.Screen
-        name="Settings"
-        options={{
+          drawerLabel: "Settings",
+          // headerTransparent: true,
+          headerTitle: "",
           drawerIcon: ({ color }) => (
             <Icon name="cog-outline" color={color} size={22} />
           ),
         }}
       >
-        {(props: any) => <Setting {...props} />}
+        {(props: any) => (
+          <SettingsStack {...props} route={{ params: { userId: userId } }} />
+        )}
       </Drawer.Screen>
       <Drawer.Screen
         name="OrderHistory"
@@ -147,30 +134,6 @@ export function OperatorDrawer<OperatorDrawerProps>(user: OperatorDrawerProps) {
         }}
       >
         {(props: any) => <PendingOrders {...props} />}
-      </Drawer.Screen>
-      <Drawer.Screen
-        name="FAQs"
-        options={{
-          drawerIcon: ({ color, size }) => (
-            <Icon name="frequently-asked-questions" color={color} size={size} />
-          ),
-        }}
-      >
-        {(props: any) => {
-          return <FAQs {...props} />;
-        }}
-      </Drawer.Screen>
-      <Drawer.Screen
-        name="Terms and Conditions"
-        options={{
-          drawerIcon: ({ color, size }) => (
-            <Icon name="gavel" color={color} size={size} />
-          ),
-        }}
-      >
-        {(props: any) => {
-          return <TermsAndConditions {...props} />;
-        }}
       </Drawer.Screen>
     </Drawer.Navigator>
   );
