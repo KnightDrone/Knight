@@ -5,7 +5,6 @@ import FAQs from "./FAQs";
 import TermsAndConditions from "./TermsAndConditions";
 import PrivacyScreen from "./PrivacyScreen";
 import NotificationsScreen from "./NotificationsScreen";
-import { NavigationContainer } from "@react-navigation/native";
 import { SettingsStackParamList } from "../../types/SettingsStackParamList";
 
 const { Navigator, Screen, Group } =
@@ -24,6 +23,9 @@ export const SettingsStack: React.FC<SettingsStackProps> = ({ userId }) => {
         name="Settings"
         component={Setting}
         initialParams={{ userId: userId }}
+        options={{
+          header: () => null,
+        }}
       />
       <Stack.Screen
         name="Profile"

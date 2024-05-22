@@ -64,7 +64,7 @@ const PrivacyScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
           />
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => navigation.navigate("Terms of Service")}
+          onPress={() => navigation.navigate("TermsAndConditions")}
           style={styles.buttons}
           testID="tos-button"
         >

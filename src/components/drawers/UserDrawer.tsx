@@ -96,31 +96,11 @@ export function UserDrawer<UserDrawerProps>(user: UserDrawerProps) {
       >
         {(props: any) => <MapOverview {...props} />}
       </Drawer.Screen>
-      {/* <Drawer.Screen
-        name="Profile"
-        options={{
-          drawerIcon: ({ color, size }) => (
-            <Icon name="account" color={color} size={size} />
-          ),
-        }}
-      >
-        {(props: any) => {
-          return (
-            <Profile
-              {...props}
-              onSaveChanges={() => {
-                setChangePFP(!changePFP);
-              }}
-            />
-          );
-        }}
-      </Drawer.Screen> */}
       <Drawer.Screen
         name="SettingsStack"
         options={{
           drawerLabel: "Settings",
-          // headerTransparent: true,
-          headerTitle: "",
+          header: () => null,
           drawerIcon: ({ color }) => (
             <Icon name="cog-outline" color={color} size={22} />
           ),

@@ -240,7 +240,7 @@ const styles = StyleSheet.create({
   },
   section: {
     paddingHorizontal: 20,
-    paddingTop: 10,
+    paddingTop: 30,
     paddingBottom: 20,
     borderBottomWidth: 1,
     borderBottomColor: "#E0E0E0",

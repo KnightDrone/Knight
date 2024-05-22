@@ -93,8 +93,7 @@ export function OperatorDrawer<OperatorDrawerProps>(user: OperatorDrawerProps) {
         name="SettingsStack"
         options={{
           drawerLabel: "Settings",
-          // headerTransparent: true,
-          headerTitle: "",
+          header: () => null,
           drawerIcon: ({ color }) => (
             <Icon name="cog-outline" color={color} size={22} />
           ),
