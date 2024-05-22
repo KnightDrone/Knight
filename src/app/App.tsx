@@ -23,6 +23,33 @@ function App() {
     "Login" | "UserDrawer" | "OperatorDrawer"
   >("Login");
 
+  const saveUserRole = async (role: string) => {
+    try {
+      await AsyncStorage.setItem("@user_role", role);
+    } catch (e) {
+      console.error("Failed to save user role to storage", e);
+    }
+  };
+
+  const getUserRole = async (): Promise<string | undefined> => {
+    try {
+      const role = await AsyncStorage.getItem("@user_role");
+      return role !== null ? role : undefined;
+    } catch (e) {
+      console.error("Failed to fetch user role from storage", e);
+      return undefined;
+    }
+  };
+
+  const fetchUserWithTimeout = async (userId: string, timeout: number) => {
+    return Promise.race([
+      firestoreManager.getUser(userId),
+      new Promise<null>((_, reject) =>
+        setTimeout(() => reject(new Error("Timeout")), timeout)
+      ),
+    ]);
+  };
+
   const stripePublishableKey = process.env.STRIPE_PUBLISHABLE_KEY || "";
   const firestoreManager = new FirestoreManager();
 
@@ -30,9 +57,24 @@ function App() {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
         setUserInfo(user);
-        const userData = await firestoreManager.getUser(user.uid);
-
-        if (userData?.role === "operator") {
+        let userData;
+        try {
+          userData = await fetchUserWithTimeout(user.uid, 5000); // 5 seconds timeout
+        } catch (error) {
+          console.error(
+            "Failed to fetch user data or request timed out",
+            error
+          );
+        }
+        let role = userData?.role;
+        if (!role) {
+          // in the case that we timed out or failed to fetch user
+          // note that if we're here, there has been a previous login
+          role = await getUserRole();
+        } else {
+          await saveUserRole(role);
+        }
+        if (role === "operator") {
           setIsLoggedIn("OperatorDrawer");
         } else {
           setIsLoggedIn("UserDrawer");
