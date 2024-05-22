@@ -187,7 +187,7 @@ const PendingOrders = ({ navigation }: any) => {
         />
       )}
       <FlatList
-        className="mt-4 min-h-full mb-6"
+        className="mt-4 max-h-[90%]"
         data={orderListFiltered}
         renderItem={({ item }) => (
           <OrderCard
