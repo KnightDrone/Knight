@@ -12,7 +12,7 @@ describe("SettingsStack", () => {
     );
 
     expect(getByText("Settings")).toBeTruthy();
-    expect(getByText("Profile")).toBeTruthy();
+    expect(getByText("Edit profile")).toBeTruthy();
     expect(getByText("FAQs")).toBeTruthy();
     expect(getByText("TermsAndConditions")).toBeTruthy();
     expect(getByText("Privacy")).toBeTruthy();
