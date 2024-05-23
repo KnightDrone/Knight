@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   FlatList,
   View,
@@ -49,7 +49,8 @@ const styles = StyleSheet.create({
   inputContainer: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 12,
+    padding: 0,
+    marginTop: 10,
   },
   input: {
     flex: 1,
@@ -75,6 +76,20 @@ const ChatScreen = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const flatListRef = useRef<FlatList>(null);
+
+  const scrollToBottom = () => {
+    if (flatListRef.current) {
+      setTimeout(
+        () => flatListRef.current.scrollToEnd({ animated: true }),
+        100
+      );
+    }
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
 
   const handleSend = async () => {
     if (!input.trim()) return;
@@ -125,6 +140,8 @@ const ChatScreen = () => {
   return (
     <View style={styles.container}>
       <FlatList
+        className="max-h-[91%]"
+        ref={flatListRef}
         testID="messages-list"
         data={messages}
         keyExtractor={(item) => item.id}
@@ -145,6 +162,8 @@ const ChatScreen = () => {
             </Text>
           </View>
         )}
+        onContentSizeChange={scrollToBottom}
+        onLayout={scrollToBottom}
       />
       {loading && (
         <ActivityIndicator
