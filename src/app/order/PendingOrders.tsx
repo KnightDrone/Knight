@@ -17,7 +17,7 @@ import {
 } from "../../types/Order";
 import { Item } from "../../types/Item";
 import TriangleBackground from "../../components/TriangleBackground";
-import { FirestoreManager } from "../../services/FirestoreManager";
+import FirestoreManager from "../../services/FirestoreManager";
 import { MessageBox } from "../../ui/MessageBox";
 import { formatDate } from "../../components/cards/OrderCard";
 import { Picker } from "@react-native-picker/picker";

@@ -1,6 +1,5 @@
 import uuid from "react-native-uuid";
 import { Item } from "./Item";
-import { autoId } from "@google-cloud/firestore/build/src/util";
 
 enum OrderStatus {
   Pending = "Pending",

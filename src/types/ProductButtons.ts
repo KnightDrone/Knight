@@ -12,18 +12,18 @@ const names: string[] = [
   "items.powerbank",
 ];
 
-const imageDirs: string[] = [
-  "../../assets/images/first_aid.png",
-  "../../assets/images/flashlight.png",
-  "../../assets/images/thermal_blanket.png",
-  "../../assets/images/powerbank.png",
-];
-
 const iconDirs: string[] = [
   "../../assets/icons/first_aid_icon.png",
   "../../assets/icons/flashlight_icon.png",
   "../../assets/icons/blanket_icon.png",
   "../../assets/icons/powerbank_icon.png",
+];
+
+const imageDirs: string[] = [
+  "../../assets/images/first_aid.png",
+  "../../assets/images/flashlight.png",
+  "../../assets/images/thermal_blanket.png",
+  "../../assets/images/powerbank.png",
 ];
 
 // require is used to import images,

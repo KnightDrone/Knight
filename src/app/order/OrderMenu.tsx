@@ -6,7 +6,7 @@ import { productButtons, ProductButton } from "../../types/ProductButtons";
 import ItemCard from "../../components/cards/ItemCard";
 import { useTranslation } from "react-i18next";
 import { TranslationKeys } from "../../types/translation-keys";
-import { FirestoreManager } from "../../services/FirestoreManager";
+import FirestoreManager from "../../services/FirestoreManager";
 import { Order, OrderLocation } from "../../types/Order";
 import { auth } from "../../services/Firebase";
 import { RouteProp } from "@react-navigation/native";

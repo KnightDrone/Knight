@@ -25,7 +25,7 @@ const OperatorOrderAccepted: React.FC<Props> = ({ route, navigation }) => {
       </Text>
       <Button
         title="Go to Dashboard"
-        onPress={() => navigation.navigate("OperatorMap")} // Assuming 'OperatorDashboard' is a valid screen
+        onPress={() => navigation.navigate("Map")} // Assuming 'OperatorDashboard' is a valid screen
       />
     </View>
   );

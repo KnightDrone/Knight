@@ -1,8 +1,7 @@
 // Types for navigation handling
 
-import { StackNavigationProp } from "@react-navigation/stack";
 import { Item } from "./Item";
-import { Order, OrderLocation } from "./Order";
+import { OrderLocation } from "./Order";
 
 // Should navigation be handled in a separate file??
 export type RootStackParamList = {
@@ -15,16 +14,12 @@ export type RootStackParamList = {
     longitude: number;
   };
   OrderPlaced: {
-    orderId: Order;
+    orderId: string;
   };
   OrderHistory: {
     historyOp: boolean;
   };
   PendingOrders: undefined; // Added for PendingOrders
-  OperatorMap: undefined;
-  OperatorOrderPlaced: {
-    orderId: Order;
-  };
   OperatorDrawer: undefined;
   UserDrawer: undefined;
 };
