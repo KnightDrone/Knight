@@ -2,8 +2,8 @@ name: preview
 on: 
   workflow_dispatch: 
   pull_request: 
-    branches: 
-      - main
+    # branches: 
+    #   - main
 
 jobs:
   update:
