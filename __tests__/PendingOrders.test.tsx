@@ -57,15 +57,25 @@ jest.mock("../src/services/FirestoreManager", () => {
   };
 });
 
-jest.mock("expo-location", () => {
-  const originalModule = jest.requireActual("expo-location");
-  return {
-    __esModule: true,
-    ...originalModule,
-    requestForegroundPermissionsAsync: jest.fn(),
-    watchPositionAsync: jest.fn(),
-  };
-});
+jest.mock("expo-location", () => ({
+  requestForegroundPermissionsAsync: jest.fn().mockResolvedValue({
+    status: "granted",
+  }),
+  watchPositionAsync: jest.fn().mockImplementation((options, callback) => {
+    callback({
+      coords: {
+        latitude: 37.789,
+        longitude: -122.4324,
+      },
+    });
+    return {
+      remove: jest.fn(),
+    };
+  }),
+  Accuracy: {
+    BestForNavigation: 5,
+  },
+}));
 
 describe("PendingOrders Component", () => {
   it("renders without crashing", () => {
