@@ -20,26 +20,18 @@ export default function OrderMenu({
   navigation: any;
 }) {
   const userLocation: OrderLocation = route.params;
-
   const firestoreManager = new FirestoreManager();
-
   const { t } = useTranslation();
-
   const [visibleItemId, setVisibleItemId] = useState<number | null>(null);
-
   const handleOpenCard = (itemId: number) => {
     setVisibleItemId(itemId);
   };
-
   const handleCloseCard = () => {
     setVisibleItemId(null);
   };
-
-  // sends order to firestore and then navigates to OrderPlaced
   const handleOrderCard = async (button: ProductButton) => {
     const item = button.item;
     const user = auth.currentUser;
-
     if (user != null) {
       const order = new Order(user.uid, item, userLocation);
       await order.locSearch(); // This is to call the Nominatim API to define the user location name
@@ -49,7 +41,6 @@ export default function OrderMenu({
       console.error("Could not find user.");
     }
   };
-
   return (
     <View
       className="flex-1 w-full h-full flex flex-col items-center pt-40"
@@ -57,7 +48,7 @@ export default function OrderMenu({
     >
       <TriangleBackground />
       <Text
-        className="text-4xl mb-8 leading-10 self-center"
+        className="text-9xl mb-8 leading-10 self-center"
         testID="order-menu-text"
       >
         {t("order-menu.choose-item")}
