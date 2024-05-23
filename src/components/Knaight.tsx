@@ -174,12 +174,14 @@ const ChatScreen = () => {
           onChangeText={setInput}
           type="text"
           placeholder="Type a message..."
+          testID="message-input"
         />
         <Button
           className="max-w-[25%]"
           text="Send"
           onPress={handleSend}
           style="primary"
+          testID="send-button"
         />
       </View>
     </View>
