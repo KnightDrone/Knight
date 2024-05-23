@@ -10,10 +10,12 @@ import {
 import OrderCard from "../../components/cards/OrderCard";
 import { Button } from "../../ui/Button";
 import {
+  getDistanceOpToUser,
   Order,
   orderConverter,
   OrderStatus,
   sortOrders,
+  OrderLocation,
 } from "../../types/Order";
 import { Item } from "../../types/Item";
 import TriangleBackground from "../../components/TriangleBackground";
@@ -31,6 +33,9 @@ import {
   where,
 } from "../../services/Firebase";
 
+// Import the useLocation hook
+import useLocation from "../../app/maps/hooks/useLocation";
+
 const PendingOrders = ({ navigation }: any) => {
   const { t } = useTranslation();
   const firestoreManager = new FirestoreManager();
@@ -39,13 +44,27 @@ const PendingOrders = ({ navigation }: any) => {
   const [error, setError] = useState<Error | null>(null);
   const [searchText, setSearchText] = useState("");
   const [sortingOption, setSortingOption] = useState("ascendingDate");
+  const [distance, setDistance] = useState<number>(0);
+
+  // Use the useLocation hook to get location data
+  const {
+    marker: opLocation, // Assuming the marker represents the operator's location
+    loading: locationLoading,
+    toggleAutoCenter,
+  } = useLocation();
+
   useEffect(() => {
     fetchOrders();
   }, []);
   // ------------ Handle card opening and closing ------------
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
 
-  const handleOpenCard = (order: Order) => {
+  const handleOpenCard = async (order: Order) => {
+    if (opLocation) {
+      // distance is computed in km
+      setDistance(getDistanceOpToUser(opLocation, order.getUsrLocation())); // operator has not yet accepted order so his location is not available within Order
+      //console.log("Distance: ", distance);
+    }
     setSelectedOrder(order);
   };
 
@@ -223,13 +242,21 @@ const PendingOrders = ({ navigation }: any) => {
               <Text className="text-center font-bold text-xl pt-5 pb-6">
                 {`Would you like to accept the order for ${t(selectedOrder.getItem().getName() as any)}?`}
               </Text>
-
-              <Button
-                text="Accept Order"
-                onPress={handleAcceptOrder}
-                style="primary"
-                className="shadow-lg"
-              />
+              <Text>{`Distance: ${distance.toFixed(2)} km`}</Text>
+              <View className="flex-row justify-center">
+                <Button
+                  text="Accept Order"
+                  onPress={handleAcceptOrder}
+                  style="primary"
+                  className="shadow-lg w-40"
+                />
+                <Button
+                  text="No"
+                  onPress={handleCloseCard}
+                  style="tertiary"
+                  className="shadow-lg w-40"
+                />
+              </View>
             </View>
           </View>
         </Modal>
