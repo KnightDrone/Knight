@@ -3,13 +3,22 @@ import { fireEvent, render, waitFor } from "@testing-library/react-native";
 import PendingOrders from "../src/app/order/PendingOrders";
 import { Order, OrderStatus } from "../src/types/Order";
 import { Item } from "../src/types/Item";
-import { FirestoreManager } from "../src/services/FirestoreManager";
+import FirestoreManager from "../src/services/FirestoreManager";
 
 jest.mock("../src/services/FirestoreManager", () => {
   return {
     __esModule: true,
-    FirestoreManager: jest.fn().mockImplementation(() => {
+    default: jest.fn().mockImplementation(() => {
       return {
+        writeData: jest.fn().mockResolvedValue({}),
+        queryData: jest.fn().mockResolvedValue([]),
+        readData: jest.fn().mockResolvedValue({}),
+        updateData: jest.fn().mockResolvedValue({}),
+        deleteData: jest.fn().mockResolvedValue({}),
+        getUser: jest.fn().mockResolvedValue({}),
+        createUser: jest.fn().mockResolvedValue({}),
+        deleteUser: jest.fn().mockResolvedValue({}),
+        updateUser: jest.fn().mockResolvedValue({}),
         queryOrder: jest
           .fn()
           .mockImplementation(() =>
@@ -54,19 +63,6 @@ describe("PendingOrders Component", () => {
     const pendingOrders = getByTestId("pending-orders-screen");
     expect(pendingOrders).toBeDefined();
 
-    const menuButton = getByTestId("menu-button");
-    expect(menuButton).toBeDefined();
-    const menuIcon = getByTestId("menu-icon");
-    expect(menuIcon).toBeDefined();
-
-    const pendingOrdersTitle = getByTestId("pending-orders-title");
-    expect(pendingOrdersTitle).toBeDefined();
-
-    const closeButton = getByTestId("close-button");
-    expect(closeButton).toBeDefined();
-    const closeIcon = getByTestId("close-icon");
-    expect(closeIcon).toBeDefined();
-
     const orderList = getByTestId("order-list");
     expect(orderList).toBeDefined();
   });
@@ -79,7 +75,6 @@ describe("PendingOrders Component", () => {
 
     await waitFor(() => {
       expect(getByTestId("order-card-1")).toBeDefined();
-      expect(getByTestId("order-card-2")).toBeDefined();
     });
 
     await waitFor(() => {

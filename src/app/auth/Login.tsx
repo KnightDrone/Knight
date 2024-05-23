@@ -17,13 +17,13 @@ import { useTranslation } from "react-i18next";
 import { langIcons, locales, useLocale } from "../../lang/i18n";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import GoogleAuthConfig from "../../types/GoogleAuthConfig";
-import { FirestoreManager, DBUser } from "../../services/FirestoreManager";
+import { logInWithEmail, logInWithGoogle } from "../../utils/Auth";
+import FirestoreManager from "../../services/FirestoreManager";
 
 export default function Login({ navigation }: any) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const firestoreManager = new FirestoreManager();
 
   const config = Platform.select({
     web: GoogleAuthConfig.web,
@@ -33,63 +33,15 @@ export default function Login({ navigation }: any) {
 
   const [request, response, promptAsync] = Google.useAuthRequest(config);
 
+  const firestoreManager = new FirestoreManager();
+
   useEffect(() => {
     if (response?.type === "success") {
       const { id_token } = response.params;
       const credential = GoogleAuthProvider.credential(id_token);
-      signInWithCredential(auth, credential).then((result) => {
-        const newUser =
-          result.user.metadata.creationTime ===
-          result.user.metadata.lastSignInTime;
-        if (newUser) {
-          const userData: DBUser = {
-            name: result.user.displayName || "",
-            email: result.user.email || "",
-            photoURL: result.user.photoURL || "",
-            role: "user",
-            createdAt: new Date(),
-          };
-
-          firestoreManager.createUser(result.user.uid, userData).then(() => {
-            navigation.navigate("OperatorMap");
-          });
-        } else {
-          firestoreManager.getUser(result.user.uid).then((user) => {
-            if (user && user.role === "user") {
-              navigation.navigate("UserDrawer");
-            } else {
-              navigation.navigate("OperatorMap");
-            }
-          });
-        }
-      });
+      logInWithGoogle(credential, navigation, firestoreManager);
     }
   }, [response]);
-
-  const logInWithEmail = async () => {
-    if (email && password) {
-      try {
-        const response = await signInWithEmailAndPassword(
-          auth,
-          email,
-          password
-        );
-        if (response.user) {
-          const user = await firestoreManager.getUser(response.user.uid);
-          console.log("User: ", user);
-          if (user && user.role === "user") {
-            navigation.navigate("UserDrawer");
-          } else {
-            navigation.navigate("OperatorMap");
-          }
-        } else {
-          setError("Invalid credentials");
-        }
-      } catch (e) {
-        setError("Login failed. Please check your credentials.");
-      }
-    }
-  };
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -137,7 +89,15 @@ export default function Login({ navigation }: any) {
 
         <Button
           text={t("login.login-button")}
-          onPress={logInWithEmail}
+          onPress={() =>
+            logInWithEmail(
+              email,
+              password,
+              firestoreManager,
+              navigation,
+              setError
+            )
+          }
           style="primary"
           testID="login-button"
         />

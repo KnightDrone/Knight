@@ -15,8 +15,8 @@ import { Button } from "../../ui/Button";
 import { OrSeparator } from "../../components/OrSeparator";
 import { MessageBox } from "../../ui/MessageBox";
 import { useTranslation } from "react-i18next";
-import { DBUser, FirestoreManager } from "../../services/FirestoreManager";
-import { User } from "../../types/User";
+import FirestoreManager from "../../services/FirestoreManager";
+import { logInWithGoogle, signUpWithEmail } from "../../utils/Auth";
 
 const firestoreManager = new FirestoreManager();
 
@@ -38,19 +38,12 @@ export default function SignUp({ navigation }: any) {
   });
 
   const [request, response, promptAsync] = Google.useAuthRequest(config);
-  const firestoreManager = new FirestoreManager();
 
   useEffect(() => {
     if (response?.type === "success") {
       const { id_token } = response.params;
       const credential = GoogleAuthProvider.credential(id_token);
-      signInWithCredential(auth, credential)
-        .then(() => {
-          navigation.navigate("UserDrawer");
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+      logInWithGoogle(credential, navigation, firestoreManager);
     }
   }, [response]);
 
@@ -88,44 +81,6 @@ export default function SignUp({ navigation }: any) {
       setStrength(t("password-suggestions.weak"));
     } else {
       setStrength(t("password-suggestions.too-weak"));
-    }
-  };
-
-  const signUpWithEmail = async () => {
-    if (userName && email && password) {
-      createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-          const userData: DBUser = {
-            name: userName,
-            email: email,
-            photoURL: "",
-            role: "user",
-            createdAt: new Date(),
-          };
-
-          firestoreManager
-            .createUser(userCredential.user.uid, userData)
-            .then(() => {
-              navigation.navigate("UserDrawer");
-            });
-          navigation.navigate("UserDrawer");
-          if (auth.currentUser != null) {
-            const user = new User(
-              auth.currentUser?.uid,
-              email,
-              false,
-              userName
-            );
-            firestoreManager.writeData("users", user);
-            navigation.navigate("UserDrawer");
-          } else {
-          }
-        })
-        .catch((error) => {
-          setError("Sign Up failed. Please check your credentials.");
-        });
-    } else {
-      setError("Please input email and password.");
     }
   };
 
@@ -225,7 +180,16 @@ export default function SignUp({ navigation }: any) {
 
       <Button
         text={t("signup.signup-button")}
-        onPress={signUpWithEmail}
+        onPress={() =>
+          signUpWithEmail(
+            userName,
+            email,
+            password,
+            firestoreManager,
+            navigation,
+            setError
+          )
+        }
         style="primary"
         testID="sign-up-button"
       />
@@ -239,8 +203,8 @@ export default function SignUp({ navigation }: any) {
         style="secondary"
       />
       <Button
-        text={"Login as Operator"}
-        onPress={() => navigation.navigate("OperatorMap")}
+        text={"Operator Sign up"}
+        onPress={() => navigation.navigate("OperatorSignup")}
         style="primary"
         className="mt-4"
       />

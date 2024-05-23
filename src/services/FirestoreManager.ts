@@ -15,7 +15,6 @@ import {
   OrderLocation,
   OrderStatus,
 } from "../types/Order";
-import { User, userConverter } from "../types/User";
 import { FirestoreDataConverter } from "@firebase/firestore";
 
 export type DBUser = {
@@ -34,7 +33,6 @@ export default class FirestoreManager {
   constructor() {
     // Dictionary to map collection names to their respective converters
     this.converterDictionary = {
-      users: userConverter,
       orders: orderConverter,
     };
   }
@@ -48,7 +46,6 @@ export default class FirestoreManager {
     try {
       const userRef = doc(firestore, "users", userId);
       await setDoc(userRef, userData, { merge: true });
-      console.log("User document created or updated successfully.");
     } catch (error) {
       console.error("Error writing user document: ", error);
     }
@@ -63,7 +60,6 @@ export default class FirestoreManager {
     try {
       const userRef = doc(firestore, "users", userId);
       await setDoc(userRef, updates, { merge: true });
-      console.log(`User document for ${userId} updated successfully.`);
     } catch (error) {
       console.error("Error updating user document: ", error);
     }
@@ -79,15 +75,12 @@ export default class FirestoreManager {
       const userRef = doc(firestore, "users", userId);
       const docSnap = await getDoc(userRef);
       if (docSnap.exists()) {
-        console.log("User document fetched successfully.");
         return docSnap.data() as DBUser;
       } else {
-        console.log("No such user document!");
-        return null;
+        throw new Error("User not found.");
       }
     } catch (error) {
-      console.error("Error fetching user document: ", error);
-      return null;
+      throw error;
     }
   }
 
@@ -125,8 +118,6 @@ export default class FirestoreManager {
    */
   async queryOrder(field: string, data: string): Promise<Order[] | null> {
     const validFields = ["userId", "status", "item.name", "operatorId"];
-    console.log("field " + field);
-    console.log("data " + data);
     if (validFields.includes(field)) {
       var orders: Order[] = [];
       const q = query(
@@ -223,7 +214,6 @@ export default class FirestoreManager {
         "location",
         "operatorName",
       ],
-      users: ["email", "displayName", "birthday"],
     };
 
     try {

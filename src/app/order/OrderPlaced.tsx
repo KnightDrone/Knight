@@ -7,7 +7,7 @@ import Icon from "react-native-vector-icons/Fontisto";
 import TriangleBackground from "../../components/TriangleBackground";
 import { Animated } from "react-native";
 import { secureRandom } from "../../utils/random";
-import { FirestoreManager } from "../../services/FirestoreManager";
+import FirestoreManager from "../../services/FirestoreManager";
 import { Item } from "../../types/Item";
 import { OrderLocation } from "../../types/Order";
 import { images } from "../../types/ProductButtons";
@@ -196,7 +196,6 @@ const OrderPlaced = ({
           onPress={() =>
             navigation.navigate("OrderHistory", {
               historyOp: false,
-              userId: auth.currentUser ? auth.currentUser.uid : "",
             })
           }
         >

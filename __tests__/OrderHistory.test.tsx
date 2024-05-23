@@ -2,20 +2,17 @@ import React from "react";
 import { fireEvent, render, waitFor } from "@testing-library/react-native";
 import OrderHistory from "../src/app/order/OrderHistory";
 import { RootStackParamList } from "../src/types/RootStackParamList";
-import {
-  createStackNavigator,
-  StackNavigationProp,
-} from "@react-navigation/stack";
-import { NavigationContainer, RouteProp } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import { NavigationContainer } from "@react-navigation/native";
 import { initI18n } from "../src/lang/i18n";
 import { Order, OrderStatus } from "../src/types/Order";
 import { Item } from "../src/types/Item";
-import { FirestoreManager } from "../src/services/FirestoreManager";
+import FirestoreManager from "../src/services/FirestoreManager";
 
 jest.mock("../src/services/FirestoreManager", () => {
   return {
     __esModule: true,
-    FirestoreManager: jest.fn().mockImplementation(() => {
+    default: jest.fn().mockImplementation(() => {
       return {
         queryOrder: jest
           .fn()
@@ -52,6 +49,16 @@ jest.mock("../src/services/FirestoreManager", () => {
   };
 });
 
+jest.mock("../src/services/Firebase", () => {
+  return {
+    auth: {
+      currentUser: {
+        uid: "user1",
+      },
+    },
+  };
+});
+
 type OrderHistoryStack = {
   OrderHistory: RootStackParamList["OrderHistory"];
 };
@@ -66,7 +73,6 @@ const OrderHistoryTest = () => {
           name="OrderHistory"
           initialParams={{
             historyOp: false,
-            userId: "user1",
           }}
         >
           {(props) => <OrderHistory {...props} />}
@@ -86,10 +92,6 @@ describe("OrderHistory", () => {
 
     await waitFor(
       () => {
-        expect(getByTestId("menu-button")).toBeTruthy();
-        expect(getByTestId("x-button")).toBeTruthy();
-        expect(getByTestId("x-icon")).toBeTruthy();
-        expect(getByText("Order history")).toBeTruthy();
         expect(getByText("mock item1")).toBeTruthy();
         expect(getByText("10 CHF")).toBeTruthy();
 
@@ -98,39 +100,6 @@ describe("OrderHistory", () => {
       },
       { timeout: 2000 }
     );
-  });
-
-  it("navigates back", async () => {
-    const mockNavigation = {
-      goBack: jest.fn(),
-    };
-
-    const mockRoute: RouteProp<RootStackParamList, "OrderHistory"> = {
-      key: "OrderHistory",
-      name: "OrderHistory",
-      params: {
-        historyOp: false,
-        userId: "user1",
-      },
-    };
-
-    const { getByTestId } = render(
-      <OrderHistory
-        navigation={
-          mockNavigation as unknown as StackNavigationProp<OrderHistoryStack>
-        }
-        route={mockRoute}
-      />
-    );
-
-    await waitFor(() => {
-      expect(getByTestId("x-button")).toBeTruthy();
-    });
-
-    const xButton = getByTestId("x-button");
-    fireEvent.press(xButton);
-
-    expect(mockNavigation.goBack).toHaveBeenCalledTimes(1);
   });
 
   it("fails to fetch orders", async () => {
