@@ -8,6 +8,7 @@ import { Order, OrderLocation } from "./Order";
 export type RootStackParamList = {
   Login: undefined;
   SignUp: undefined;
+  OperatorSignup: undefined;
   ForgotPassword: undefined;
   OrderMenu: {
     latitude: number;
@@ -18,7 +19,6 @@ export type RootStackParamList = {
   };
   OrderHistory: {
     historyOp: boolean;
-    userId: string;
   };
   PendingOrders: undefined; // Added for PendingOrders
   OperatorMap: undefined;

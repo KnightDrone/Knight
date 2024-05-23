@@ -22,7 +22,14 @@ module.exports = {
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
   collectCoverage: true,
   // ignore the src/services/ folder
-  collectCoverageFrom: ["src/**/*.{ts,tsx}", "!src/services/**"],
+  collectCoverageFrom: [
+    "src/**/*.{ts,tsx}",
+    "!src/services/**",
+    "!src/**/*.d.ts",
+    "!src/**/*.test.tsx",
+    "!src/lang/**",
+    "!src/types/**",
+  ],
   coverageDirectory: "coverage",
   coverageReporters: ["text", "lcov"],
   moduleNameMapper: {
@@ -30,7 +37,7 @@ module.exports = {
     "\\.(css)$": "identity-obj-proxy",
   },
   transformIgnorePatterns: [
-    "node_modules/(?!(jest-)?react-native|@react-native-community|expo(nent)?|@expo(nent)?/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|react-native|@react-native|@react-navigation|@firebase|firebase|@react-native-async-storage|@stripe/stripe-react-native)",
+    "node_modules/(?!(jest-)?react-native|@react-native-community|expo(nent)?|@expo(nent)?/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|react-native|@react-native|@react-navigation|@firebase|firebase|firebase/firestore|firebase/app|@react-native-async-storage|@stripe/stripe-react-native)",
   ],
 };
 

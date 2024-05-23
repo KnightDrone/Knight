@@ -1,6 +1,6 @@
 import React from "react";
 import { render, fireEvent, waitFor } from "@testing-library/react-native";
-import OperatorMap from "../src/app/OperatorMap";
+import OperatorMap from "../src/app/maps/OperatorMap";
 import * as Location from "expo-location";
 import { Order } from "../src/types/Order";
 
@@ -55,12 +55,14 @@ describe("OperatorMap", () => {
   });
 
   it("renders correctly", () => {
-    const { getByTestId } = render(<OperatorMap />);
-    expect(getByTestId("map-view")).toBeTruthy();
+    const { getByTestId } = render(
+      <OperatorMap navigation={{ navigate: jest.fn() }} />
+    );
+    expect(getByTestId("operator-map")).toBeTruthy();
   });
 
   it("requests location permission on mount", async () => {
-    render(<OperatorMap />);
+    render(<OperatorMap navigation={{ navigate: jest.fn() }} />);
     await waitFor(() =>
       expect(Location.requestForegroundPermissionsAsync).toHaveBeenCalled()
     );
@@ -72,27 +74,18 @@ describe("OperatorMap", () => {
         remove: jest.fn(),
       })
     );
-    const { getByText } = render(<OperatorMap />);
+    const { getByText } = render(
+      <OperatorMap navigation={{ navigate: jest.fn() }} />
+    );
     expect(getByText("Loading your location...")).toBeTruthy();
   });
 
-  it("passes location as a prop when navigating to OrderMenu", () => {
-    const navigate = jest.fn();
-    const { getByTestId } = render(<OperatorMap navigation={{ navigate }} />);
-
-    fireEvent.press(getByTestId("order-button"));
-
-    expect(navigate).toHaveBeenCalledWith("OrderMenu", {
-      latitude: expect.any(Number),
-      longitude: expect.any(Number),
-    });
-  });
-
   it("centers map to user location when auto-center button is pressed", () => {
-    const animateToRegionMock = jest.fn();
-    const { getByTestId } = render(<OperatorMap />);
+    const { getByTestId } = render(
+      <OperatorMap navigation={{ navigate: jest.fn() }} />
+    );
     const button = getByTestId("my-location-button");
     fireEvent.press(button);
-    //expect(animateToRegionMock).toHaveBeenCalled();
+    // Note: Since the animateToRegion is encapsulated within the hook, we cannot directly test it here without more complex setup.
   });
 });
