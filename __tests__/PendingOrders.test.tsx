@@ -4,6 +4,7 @@ import PendingOrders from "../src/app/order/PendingOrders";
 import { Order, OrderStatus } from "../src/types/Order";
 import { Item } from "../src/types/Item";
 import FirestoreManager from "../src/services/FirestoreManager";
+import * as Location from "expo-location";
 
 jest.mock("../src/services/FirestoreManager", () => {
   return {
@@ -53,6 +54,16 @@ jest.mock("../src/services/FirestoreManager", () => {
           ),
       };
     }),
+  };
+});
+
+jest.mock("expo-location", () => {
+  const originalModule = jest.requireActual("expo-location");
+  return {
+    __esModule: true,
+    ...originalModule,
+    requestForegroundPermissionsAsync: jest.fn(),
+    watchPositionAsync: jest.fn(),
   };
 });
 

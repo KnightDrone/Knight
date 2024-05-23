@@ -12,10 +12,8 @@ import { Button } from "../../ui/Button";
 import {
   getDistanceOpToUser,
   Order,
-  orderConverter,
   OrderStatus,
   sortOrders,
-  OrderLocation,
 } from "../../types/Order";
 import { Item } from "../../types/Item";
 import TriangleBackground from "../../components/TriangleBackground";
@@ -25,13 +23,7 @@ import { formatDate } from "../../components/cards/OrderCard";
 import { Picker } from "@react-native-picker/picker";
 import { TextField } from "../../ui/TextField";
 import { useTranslation } from "react-i18next";
-import {
-  firestore,
-  collection,
-  onSnapshot,
-  query,
-  where,
-} from "../../services/Firebase";
+import { firestore, collection, onSnapshot } from "../../services/Firebase";
 
 // Import the useLocation hook
 import useLocation from "../../app/maps/hooks/useLocation";
