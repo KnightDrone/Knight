@@ -11,8 +11,8 @@ describe("ChatScreen", () => {
     const messagesList = getByTestId("messages-list");
     expect(messagesList).toBeDefined();
 
-    const input = getByPlaceholderText("Type a message...");
-    const sendButton = getByText("Send");
+    const input = getByTestId("message-input");
+    const sendButton = getByTestId("send-button");
 
     fireEvent.changeText(input, "Hello");
     fireEvent.press(sendButton);

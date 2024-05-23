@@ -4,6 +4,7 @@ import PendingOrders from "../src/app/order/PendingOrders";
 import { Order, OrderStatus } from "../src/types/Order";
 import { Item } from "../src/types/Item";
 import FirestoreManager from "../src/services/FirestoreManager";
+import * as Location from "expo-location";
 
 jest.mock("../src/services/FirestoreManager", () => {
   return {
@@ -55,6 +56,26 @@ jest.mock("../src/services/FirestoreManager", () => {
     }),
   };
 });
+
+jest.mock("expo-location", () => ({
+  requestForegroundPermissionsAsync: jest.fn().mockResolvedValue({
+    status: "granted",
+  }),
+  watchPositionAsync: jest.fn().mockImplementation((options, callback) => {
+    callback({
+      coords: {
+        latitude: 37.789,
+        longitude: -122.4324,
+      },
+    });
+    return {
+      remove: jest.fn(),
+    };
+  }),
+  Accuracy: {
+    BestForNavigation: 5,
+  },
+}));
 
 describe("PendingOrders Component", () => {
   it("renders without crashing", () => {

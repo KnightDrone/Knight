@@ -56,7 +56,7 @@ const SharedMap: React.FC<SharedMapProps> = ({
 
       <Button
         testID="my-location-button"
-        className="absolute top-[60px] right-[30px] w-16 h-16"
+        className="absolute top-[60px] right-[30px] w-16 h-16 shadow-md bg-white"
         onPress={toggleAutoCenter}
         style="secondary"
       >
@@ -64,7 +64,7 @@ const SharedMap: React.FC<SharedMapProps> = ({
       </Button>
       <Button
         testID="user-drawer-button"
-        className="absolute top-[60px] left-[30px] w-16 h-16"
+        className="absolute top-[60px] left-[30px] w-16 h-16 shadow-md bg-white"
         onPress={() => {
           navigation.toggleDrawer({
             latitude: currentRegion.latitude,
@@ -78,7 +78,7 @@ const SharedMap: React.FC<SharedMapProps> = ({
       {mapType === "user" && (
         <Button
           testID="order-button"
-          className="absolute bottom-[40px] right-[30px] w-[100px] h-16"
+          className="absolute bottom-[40px] right-[30px] w-[100px] h-16 shadow-md"
           onPress={() => {
             navigation.navigate("OrderMenu", {
               latitude: currentRegion.latitude,
