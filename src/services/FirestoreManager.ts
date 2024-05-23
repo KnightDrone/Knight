@@ -15,7 +15,6 @@ import {
   OrderLocation,
   OrderStatus,
 } from "../types/Order";
-import { User, userConverter } from "../types/User";
 import { FirestoreDataConverter } from "@firebase/firestore";
 
 export type DBUser = {
@@ -34,7 +33,6 @@ export default class FirestoreManager {
   constructor() {
     // Dictionary to map collection names to their respective converters
     this.converterDictionary = {
-      users: userConverter,
       orders: orderConverter,
     };
   }
@@ -120,8 +118,6 @@ export default class FirestoreManager {
    */
   async queryOrder(field: string, data: string): Promise<Order[] | null> {
     const validFields = ["userId", "status", "item.name", "operatorId"];
-    console.log("field " + field);
-    console.log("data " + data);
     if (validFields.includes(field)) {
       var orders: Order[] = [];
       const q = query(
@@ -218,7 +214,6 @@ export default class FirestoreManager {
         "location",
         "operatorName",
       ],
-      users: ["email", "displayName", "birthday"],
     };
 
     try {

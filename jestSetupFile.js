@@ -1,3 +1,5 @@
+const { default: OpenAI } = require("openai");
+
 jest.mock("@react-native-async-storage/async-storage", () =>
   require("@react-native-async-storage/async-storage/jest/async-storage-mock")
 );
@@ -9,6 +11,13 @@ jest.mock("firebase/app", () => ({
   }),
   getApps: jest.fn(() => []),
   getApp: jest.fn(),
+}));
+
+jest.mock("firebase/storage", () => ({
+  getStorage: jest.fn(() => {}),
+  ref: jest.fn(),
+  uploadString: jest.fn(),
+  getDownloadURL: jest.fn(),
 }));
 
 jest.mock("firebase/firestore", () => ({
@@ -28,6 +37,8 @@ jest.mock("firebase/firestore", () => ({
   query: jest.fn(),
   setDoc: jest.fn(),
   where: jest.fn(),
+  onSnapshot: jest.fn(),
+  updateDoc: jest.fn(),
 }));
 
 jest.mock("expo-auth-session/providers/google", () => ({
@@ -156,4 +167,37 @@ jest.mock("@stripe/stripe-react-native", () => ({
       .mockReturnValue(Promise.resolve({ error: null })),
     confirmPaymentSheetPayment: jest.fn(),
   }),
+}));
+
+jest.mock("expo-image-picker", () => ({
+  requestMediaLibraryPermissionsAsync: jest.fn(() =>
+    Promise.resolve({ status: "granted" })
+  ),
+  launchImageLibraryAsync: jest.fn().mockResolvedValue({
+    cancelled: false,
+    uri: "file://path/to/image",
+    assets: [{ uri: "file://path/to/image", base64: "base64" }],
+  }),
+  MediaTypeOptions: {
+    Images: "Images",
+  },
+}));
+
+jest.mock("openai", () => ({
+  __esModule: true,
+  default: jest.fn().mockImplementation(() => ({
+    chat: jest.fn().mockResolvedValue({
+      completion: {
+        create: jest.fn().mockResolvedValue({
+          choices: [
+            {
+              message: {
+                content: "Hello, how can I help you today?",
+              },
+            },
+          ],
+        }),
+      },
+    }),
+  })),
 }));

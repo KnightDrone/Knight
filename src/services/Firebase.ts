@@ -12,6 +12,7 @@ import {
   initializeAuth,
   getAuth,
 } from "firebase/auth";
+import { getStorage } from "firebase/storage";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
@@ -25,6 +26,7 @@ import {
   setDoc,
   where,
   Firestore,
+  onSnapshot,
 } from "firebase/firestore";
 
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -46,6 +48,7 @@ const firestore = getFirestore(app);
 const auth = initializeAuth(app, {
   persistence: getReactNativePersistence(AsyncStorage),
 });
+const storage = getStorage(app);
 
 export {
   app,
@@ -67,4 +70,6 @@ export {
   setDoc,
   where,
   Firestore,
+  storage,
+  onSnapshot,
 };

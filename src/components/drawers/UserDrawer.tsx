@@ -15,6 +15,10 @@ import OrderHistory from "../../app/order/OrderHistory";
 import { CustomDrawerContent } from "./CustomDrawerContent";
 import FirestoreManager from "../../services/FirestoreManager";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import ChatScreen from "../Knaight";
+import { reload } from "firebase/auth";
+import FAQs from "../../app/settings/FAQs";
+import TermsAndConditions from "../../app/settings/TermsAndConditions";
 
 const Drawer = createDrawerNavigator<DrawerParamList>();
 
@@ -27,26 +31,30 @@ export function UserDrawer<UserDrawerProps>(user: UserDrawerProps) {
   const [email, setEmail] = useState("");
   const [photoURL, setPhotoURL] = useState("");
   const [userId, setUserId] = useState("");
+  const [changePFP, setChangePFP] = useState(false);
   const firestoreManager = new FirestoreManager();
 
-  useEffect(() => {
-    console.log("USer Drawer user", auth);
-    const user = auth.currentUser;
-    if (user) {
-      setUserId(user.uid);
-      setName(user.displayName || "");
-      setEmail(user.email || "");
-      if (user.photoURL) {
-        setPhotoURL(user.photoURL || "");
-      } else {
-        firestoreManager.getUser(user.uid).then((user) => {
-          if (user) {
-            setPhotoURL(user.photoURL || "");
-          }
-        });
+  const updateUserProfile = async (user: User) => {
+    await reload(user);
+    setUserId(user.uid);
+    setName(user.displayName || "");
+    setEmail(user.email || "");
+    if (user.photoURL) {
+      setPhotoURL(user.photoURL || "");
+    } else {
+      const userData = await firestoreManager.getUser(user.uid);
+      if (userData) {
+        setPhotoURL(userData.photoURL || "");
       }
     }
-  }, []);
+  };
+
+  useEffect(() => {
+    const user = auth.currentUser;
+    if (user) {
+      updateUserProfile(user);
+    }
+  }, [changePFP]);
 
   return (
     <Drawer.Navigator
@@ -89,7 +97,14 @@ export function UserDrawer<UserDrawerProps>(user: UserDrawerProps) {
         }}
       >
         {(props: any) => {
-          return <Profile {...props} />;
+          return (
+            <Profile
+              {...props}
+              onSaveChanges={() => {
+                setChangePFP(!changePFP);
+              }}
+            />
+          );
         }}
       </Drawer.Screen>
       <Drawer.Screen
@@ -133,6 +148,40 @@ export function UserDrawer<UserDrawerProps>(user: UserDrawerProps) {
             route={{ params: { historyOp: false, userId: userId } }}
           />
         )}
+      </Drawer.Screen>
+      <Drawer.Screen
+        name="Knaight"
+        options={{
+          drawerLabel: "knAIght",
+          drawerIcon: ({ color }) => (
+            <Icon name="shield-account" color={color} size={22} />
+          ),
+        }}
+        component={ChatScreen}
+      />
+      <Drawer.Screen
+        name="FAQs"
+        options={{
+          drawerIcon: ({ color, size }) => (
+            <Icon name="frequently-asked-questions" color={color} size={size} />
+          ),
+        }}
+      >
+        {(props: any) => {
+          return <FAQs {...props} />;
+        }}
+      </Drawer.Screen>
+      <Drawer.Screen
+        name="Terms and Conditions"
+        options={{
+          drawerIcon: ({ color, size }) => (
+            <Icon name="gavel" color={color} size={size} />
+          ),
+        }}
+      >
+        {(props: any) => {
+          return <TermsAndConditions {...props} />;
+        }}
       </Drawer.Screen>
     </Drawer.Navigator>
   );
