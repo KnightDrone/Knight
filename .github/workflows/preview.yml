@@ -1,10 +1,5 @@
 name: preview
-on: 
-  workflow_dispatch: 
-  pull_request:
-    types: [opened, synchronize, reopened]
-    # branches: 
-    #   - main
+on: [workflow_dispatch, pull_request]
 
 jobs:
   update:
