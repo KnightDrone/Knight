@@ -67,7 +67,7 @@ class Order {
         ), // in case of timeout error is thrown, and we go to catch block
       ])) as Response;
       const data = await response.json();
-      this.usrLocName = data.name;
+      this.usrLocName = data.name || this.usrLocName;
     } catch {
       console.error(
         "Failed to fetch location name with Nominatim API. Request timed out"

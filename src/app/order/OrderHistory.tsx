@@ -92,9 +92,13 @@ const OrderHistory = ({
       if (newOrders === null) {
         setError(new Error("Failed to fetch from database."));
       } else if (newOrders.length === 0) {
-        setError(
-          new Error("No orders have been made yet. Go place some orders :)")
-        );
+        historyOp
+          ? setError(
+              new Error("You have not accepted any orders yet as an operator.")
+            )
+          : setError(
+              new Error("No orders have been made yet. Go place some orders :)")
+            );
       } else {
         setOrders(newOrders);
         setError(null); // Clear the error if the fetch is successful
@@ -186,12 +190,16 @@ const OrderHistory = ({
       )}
 
       <FlatList
-        className="mt-4 max-h-[90%]"
+        className="mt-4 max-h-[90%] min-h-[90%]"
         data={orderListFiltered}
         // if I am an operator, I want to see the user's location name
         // if I am user, I want to see where I ordered from
         renderItem={({ item }) => (
-          <OrderCard order={item} opBool={!historyOp} />
+          <OrderCard
+            order={item}
+            opBool={!historyOp}
+            //onClick={() => console.log(item.getId())}
+          />
         )}
         keyExtractor={(item) => item.getId()}
         onEndReached={fetchOrders}
