@@ -79,12 +79,7 @@ const ChatScreen = () => {
   const flatListRef = useRef<FlatList>(null);
 
   const scrollToBottom = () => {
-    if (flatListRef.current) {
-      setTimeout(
-        () => flatListRef.current.scrollToEnd({ animated: true }),
-        100
-      );
-    }
+    flatListRef.current?.scrollToEnd({ animated: true });
   };
 
   useEffect(() => {
