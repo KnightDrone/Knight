@@ -21,17 +21,13 @@ export function Button({
   onPress: () => void;
   testID?: string;
   className?: string;
-  style: "primary" | "secondary" | "tertiary";
+  style: "primary" | "secondary";
 }) {
   return (
     <TouchableOpacity
       className={twMerge(
         "w-full rounded-full flex-row items-center justify-center h-12 gap-2",
-        style == "primary"
-          ? "bg-primary-400"
-          : style == "secondary"
-            ? "bg-gray-100"
-            : "bg-primary-500",
+        style == "primary" ? "bg-primary-400" : "bg-gray-200",
         className
       )}
       onPress={onPress}
@@ -42,11 +38,7 @@ export function Button({
         <Text
           className={twMerge(
             "text-lg text-center",
-            style == "primary"
-              ? "text-white font-bold"
-              : style == "secondary"
-                ? "text-black"
-                : "text-white font-bold"
+            style == "primary" ? "text-white font-bold" : "text-black"
           )}
         >
           {text}

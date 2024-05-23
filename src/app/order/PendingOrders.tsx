@@ -228,33 +228,24 @@ const PendingOrders = ({ navigation }: any) => {
       {selectedOrder && (
         <Modal animationType="none" transparent={true}>
           <View className="flex-1 justify-center items-center bg-opacity-100">
-            <View className="bg-white border-2 border-gray-500 p-5 items-start justify-start shadow-lg w-[300] h-[180] rounded-lg relative">
-              <TouchableOpacity
-                testID="close-card-button"
-                onPress={() => handleCloseCard()}
-                className="absolute right-5 top-5 "
-              >
-                <Image
-                  source={require("../../../assets/icons/x_icon.png")}
-                  className="w-5 h-5"
-                />
-              </TouchableOpacity>
-              <Text className="text-center font-bold text-xl pt-5 pb-6">
+            <View className="bg-white border-2 border-gray-500 p-5  shadow-lg w-[300] h-[180] rounded-lg">
+              <Text className="text-center font-bold text-xl ">
                 {`Would you like to accept the order for ${t(selectedOrder.getItem().getName() as any)}?`}
               </Text>
-              <Text>{`Distance: ${distance.toFixed(2)} km`}</Text>
-              <View className="flex-row justify-center">
+              <Text className="mt-2 text-lg">{`Trip distance: ${distance.toFixed(2)} km`}</Text>
+              <View className="flex-row justify-between mt-4">
                 <Button
                   text="Accept Order"
                   onPress={handleAcceptOrder}
                   style="primary"
-                  className="shadow-lg w-40"
+                  className="shadow-lg w-36"
                 />
                 <Button
                   text="No"
                   onPress={handleCloseCard}
-                  style="tertiary"
-                  className="shadow-lg w-40"
+                  style="primary"
+                  className="shadow-lg bg-red-400 w-36"
+                  testID="close-card-button"
                 />
               </View>
             </View>
