@@ -16,6 +16,9 @@ import PendingOrders from "./order/PendingOrders";
 import { UserDrawer } from "../components/drawers/UserDrawer";
 import { OperatorDrawer } from "../components/drawers/OperatorDrawer";
 
+// Back button
+import BackButton from "../components/buttons/BackButton";
+
 const { Navigator, Screen, Group } = createStackNavigator<RootStackParamList>();
 
 interface AppStackProps {
