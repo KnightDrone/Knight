@@ -46,6 +46,7 @@ export default function OrderMenu({
       await order.locSearch(); // This is to call the Nominatim API to define the user location name
       console.log("Order placed: ", order);
       firestoreManager.writeData("orders", order);
+      setVisibleItemId(null); // added this so that when coming back to this screen through any navigation the card is closed
       navigation.navigate("OrderPlaced", { orderId: order.getId() });
     } else {
       console.error("Could not find user.");
