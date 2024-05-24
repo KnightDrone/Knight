@@ -6,6 +6,8 @@ import {
   Image,
   TouchableOpacity,
   Modal,
+  KeyboardAvoidingView,
+  Platform,
 } from "react-native";
 import OrderCard from "../../components/cards/OrderCard";
 import { Button } from "../../ui/Button";
@@ -225,6 +227,12 @@ const PendingOrders = ({ navigation }: any) => {
 
   return (
     <View className="mt-28" testID="pending-orders-screen">
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={{ flex: 1 }}
+      >
+        <TriangleBackground color="#A0D1E4" bottom={-800} />
+      </KeyboardAvoidingView>
       <View className="flex-row">
         <TextField
           className="w-6/12 mx-auto mt-4 bg-white ml-4"
@@ -241,12 +249,6 @@ const PendingOrders = ({ navigation }: any) => {
         </View>
       </View>
 
-      {
-        error && (
-          <TriangleBackground color="#A0D1E4" bottom={-125} />
-        ) /* These are some magic numbers that I figured out by trial and error*/
-      }
-      {!error && <TriangleBackground color="#A0D1E4" bottom={-200} />}
       {error && (
         <MessageBox
           message={error.message}

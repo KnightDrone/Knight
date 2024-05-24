@@ -6,6 +6,8 @@ import {
   Image,
   Button,
   TouchableOpacity,
+  KeyboardAvoidingView,
+  Platform,
 } from "react-native";
 import OrderCard from "../../components/cards/OrderCard";
 import { Order, OrderStatus, sortOrders } from "../../types/Order";
@@ -159,6 +161,12 @@ const OrderHistory = ({
   };
   return (
     <View className="mt-28" testID="order-history-screen">
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={{ flex: 1 }}
+      >
+        <TriangleBackground color="#A0D1E4" bottom={-800} />
+      </KeyboardAvoidingView>
       <View className="flex-row">
         <TextField
           className="w-6/12 mx-auto mt-4 bg-white ml-4"
@@ -174,12 +182,7 @@ const OrderHistory = ({
           />
         </View>
       </View>
-      {
-        error && (
-          <TriangleBackground color="#A0D1E4" bottom={-125} />
-        ) /* These are some magic numbers that I figured out by trial and error*/
-      }
-      {!error && <TriangleBackground color="#A0D1E4" bottom={-200} />}
+
       {error && (
         <MessageBox
           message={error.message}

@@ -54,7 +54,7 @@ export default function OrderMenu({
 
   return (
     <View style={styles.container} testID="order-menu-screen">
-      <TriangleBackground />
+      <TriangleBackground color="#A0D1E4" bottom={-100} />
       <Text style={styles.text} testID="order-menu-text">
         {t("order-menu.choose-item")}
       </Text>
