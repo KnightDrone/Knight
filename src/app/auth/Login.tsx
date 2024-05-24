@@ -134,6 +134,14 @@ export default function Login({ navigation }: any) {
         style="secondary"
       />
 
+      <Button
+        text={t("content.see-offline-content")}
+        imgSrc={require("../../../assets/icons/manual-book.png")}
+        onPress={() => navigation.navigate("ContentIndex")}
+        style="secondary"
+        className="mt-3"
+      />
+
       <View className="flex flex-row items-center justify-center gap-4 mt-12">
         {/* <Text>Choose your language</Text> */}
 
