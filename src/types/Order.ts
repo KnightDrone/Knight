@@ -122,6 +122,32 @@ class Order {
   getOpName(): string {
     return this.operatorName;
   }
+
+  checkOpLocInit(): boolean {
+    if (
+      this.opLocation.latitude === -999 &&
+      this.opLocation.longitude === -999
+    ) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  initAndGetArrivalTime() {
+    if (this.checkOpLocInit()) {
+      const distance = getDistanceOpToUser(this.opLocation, this.usrLocation);
+      const speed = 40; // km/h
+      const time = distance / speed; // in hours
+      const arrivalTime = new Date(
+        this.orderDate.getTime() + time * 60 * 60 * 1000
+      );
+      this.deliveryDate = arrivalTime;
+      return arrivalTime;
+    } else {
+      throw new Error("Operator location not initialized");
+    }
+  }
 }
 
 export function getDistanceOpToUser(

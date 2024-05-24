@@ -24,6 +24,7 @@ import { Picker } from "@react-native-picker/picker";
 import { TextField } from "../../ui/TextField";
 import { useTranslation } from "react-i18next";
 import { firestore, collection, onSnapshot } from "../../services/Firebase";
+import { auth } from "../../services/Firebase";
 
 // Import the useLocation hook
 import useLocation from "../../app/maps/hooks/useLocation";
@@ -37,7 +38,8 @@ const PendingOrders = ({ navigation }: any) => {
   const [searchText, setSearchText] = useState("");
   const [sortingOption, setSortingOption] = useState("ascendingDate");
   const [distance, setDistance] = useState<number>(0);
-
+  const opid = auth.currentUser?.uid;
+  const opDisplayName = auth.currentUser?.displayName;
   // Use the useLocation hook to get location data
   const {
     marker: opLocation, // Assuming the marker represents the operator's location
@@ -64,15 +66,71 @@ const PendingOrders = ({ navigation }: any) => {
     setSelectedOrder(null);
   };
 
-  const handleAcceptOrder = () => {
-    firestoreManager.updateData(
-      "orders",
-      selectedOrder!.getId(),
-      "status",
-      OrderStatus.Accepted
-    );
+  const handleAcceptOrder = async () => {
+    if (!selectedOrder) {
+      setError(new Error("No order selected"));
+      return;
+    }
 
-    setSelectedOrder(null);
+    if (!opid) {
+      setError(new Error("Operator ID is undefined"));
+      return;
+    }
+
+    if (!opLocation) {
+      setError(new Error("Operator location is undefined"));
+      return;
+    }
+
+    if (!opDisplayName) {
+      setError(new Error("Operator name is undefined"));
+      return;
+    }
+
+    try {
+      await firestoreManager.updateData(
+        "orders",
+        selectedOrder.getId(),
+        "operatorId",
+        opid
+      );
+
+      const opLocationTypecasted = {
+        latitude: opLocation.latitude,
+        longitude: opLocation.longitude,
+      };
+      await firestoreManager.updateData(
+        "orders",
+        selectedOrder.getId(),
+        "opLocation",
+        opLocationTypecasted
+      );
+      await firestoreManager.updateData(
+        "orders",
+        selectedOrder.getId(),
+        "operatorName",
+        opDisplayName
+      );
+
+      const deliveryDate = selectedOrder.initAndGetArrivalTime(); // this should only be called after the op. location has been defined
+      await firestoreManager.updateData(
+        "orders",
+        selectedOrder.getId(),
+        "deliveryDate",
+        deliveryDate
+      );
+
+      await firestoreManager.updateData(
+        "orders",
+        selectedOrder.getId(),
+        "status",
+        OrderStatus.Accepted
+      );
+
+      setSelectedOrder(null);
+    } catch (err) {
+      setError(err as Error);
+    }
   };
   // ---------------------------------------------------------
   const orderListFiltered = sortOrders(
