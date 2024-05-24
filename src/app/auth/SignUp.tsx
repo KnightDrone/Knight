@@ -137,6 +137,7 @@ export default function SignUp({ navigation }: any) {
           onChangeText={setUserName}
           type="text"
           testID="username-input"
+          maxLength={50}
         />
 
         <TextField
@@ -145,6 +146,7 @@ export default function SignUp({ navigation }: any) {
           onChangeText={setEmail}
           type="email"
           testID="email-input"
+          maxLength={50}
         />
 
         <TextField
@@ -153,6 +155,7 @@ export default function SignUp({ navigation }: any) {
           onChangeText={setPassword}
           type="password"
           testID="password-input"
+          maxLength={50}
         />
       </View>
 
