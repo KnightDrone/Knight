@@ -156,7 +156,9 @@ class Order {
       );
       this.deliveryDate = arrivalTime;
     } else {
-      throw new Error("Operator location not initialized");
+      throw new Error(
+        "Called initDeliveryDate() with uninitialized opLocation"
+      );
     }
   }
 }
