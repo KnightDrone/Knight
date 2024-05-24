@@ -90,45 +90,22 @@ const PendingOrders = ({ navigation }: any) => {
     }
 
     try {
-      await firestoreManager.updateData(
-        "orders",
-        selectedOrder.getId(),
-        "operatorId",
-        opid
-      );
+      // Note this entire thing
+      selectedOrder.setOpId(opid);
 
       const opLocationTypecasted = {
         latitude: opLocation.latitude,
         longitude: opLocation.longitude,
       };
-      await firestoreManager.updateData(
-        "orders",
-        selectedOrder.getId(),
-        "opLocation",
-        opLocationTypecasted
-      );
-      await firestoreManager.updateData(
-        "orders",
-        selectedOrder.getId(),
-        "operatorName",
-        opDisplayName
-      );
+      selectedOrder.setOpLocation(opLocationTypecasted);
 
-      const deliveryDate = selectedOrder.initAndGetArrivalTime(); // this should only be called after the op. location has been defined
-      await firestoreManager.updateData(
-        "orders",
-        selectedOrder.getId(),
-        "deliveryDate",
-        deliveryDate
-      );
+      selectedOrder.setOpName(opDisplayName);
 
-      await firestoreManager.updateData(
-        "orders",
-        selectedOrder.getId(),
-        "status",
-        OrderStatus.Accepted
-      );
+      selectedOrder.initDeliveryDate();
 
+      selectedOrder.setStatus(OrderStatus.Accepted);
+
+      await firestoreManager.writeData("orders", selectedOrder); // push local changes to Order to Firestore
       setSelectedOrder(null);
     } catch (err) {
       setError(err as Error);

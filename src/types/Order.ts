@@ -123,6 +123,18 @@ class Order {
     return this.operatorName;
   }
 
+  setOpId(opId: string) {
+    this.operatorId = opId;
+  }
+
+  setOpLocation(opLocation: OrderLocation) {
+    this.opLocation = opLocation;
+  }
+
+  setOpName(opName: string) {
+    this.operatorName = opName;
+  }
+
   checkOpLocInit(): boolean {
     if (
       this.opLocation.latitude === -999 &&
@@ -134,7 +146,7 @@ class Order {
     }
   }
 
-  initAndGetArrivalTime() {
+  initDeliveryDate() {
     if (this.checkOpLocInit()) {
       const distance = getDistanceOpToUser(this.opLocation, this.usrLocation);
       const speed = 40; // km/h
@@ -143,7 +155,6 @@ class Order {
         this.orderDate.getTime() + time * 60 * 60 * 1000
       );
       this.deliveryDate = arrivalTime;
-      return arrivalTime;
     } else {
       throw new Error("Operator location not initialized");
     }
