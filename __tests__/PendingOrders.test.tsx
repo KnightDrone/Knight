@@ -77,6 +77,16 @@ jest.mock("expo-location", () => ({
   },
 }));
 
+jest.mock("../src/services/Firebase", () => {
+  return {
+    auth: {
+      currentUser: {
+        uid: "user1",
+      },
+    },
+  };
+});
+
 describe("PendingOrders Component", () => {
   it("renders without crashing", () => {
     const { getByTestId } = render(<PendingOrders />);
