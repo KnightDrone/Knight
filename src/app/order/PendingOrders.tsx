@@ -21,7 +21,7 @@ import { Item } from "../../types/Item";
 import TriangleBackground from "../../components/TriangleBackground";
 import FirestoreManager from "../../services/FirestoreManager";
 import { MessageBox } from "../../ui/MessageBox";
-import { formatDate } from "../../components/cards/OrderCard";
+import { formatDate } from "../../types/Order";
 import { Picker } from "@react-native-picker/picker";
 import { TextField } from "../../ui/TextField";
 import { useTranslation } from "react-i18next";
@@ -125,7 +125,7 @@ const PendingOrders = ({ navigation }: any) => {
           .getUsrLocName()
           .toLowerCase()
           .includes(searchText.toLowerCase()) ||
-        formatDate(order.getOrderDate()).includes(searchText)
+        formatDate(order.getOrderDate(), false).includes(searchText)
     )
   );
 
@@ -244,6 +244,7 @@ const PendingOrders = ({ navigation }: any) => {
             opBool={false}
             testId={`order-card-${item.getId()}`}
             onClickTestId={`order-card-${item.getId()}-button`}
+            forHistory={false}
           /> // opBool is false because we want to show the user's location name
         )}
         keyExtractor={(item) => item.getId()}

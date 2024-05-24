@@ -19,50 +19,9 @@ import { MessageBox } from "../../ui/MessageBox";
 import { TextField } from "../../ui/TextField";
 import FirestoreManager from "../../services/FirestoreManager";
 import { useTranslation } from "react-i18next";
-import { formatDate } from "../../components/cards/OrderCard";
+import { formatDate } from "../../types/Order";
 import { Picker } from "@react-native-picker/picker";
 import { auth } from "../../services/Firebase";
-/* 
-NOTE: This is a temporary solution to simulate fetching orders from a server. Should be replaced with actual database calls
-*/
-// depending on the value of OP orders we should fetch orders from the history of orders, where the user was operator, or where the user was the buyer
-// Still waiting for Firestore class to be implemented
-/*const fetchOrdersForUserMock = async (
-  userId: String,
-  opOrders: Boolean
-): Promise<Order[]> => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      const orders: Order[] = [
-        new Order(
-          "user1",
-          new Item(1, "mock item1", "description1", 10, 1, 1),
-          { latitude: 46.8182, longitude: 8.2275 }, // Correct way to create an OrderLocation object
-          new Date(),
-          OrderStatus.Delivered,
-          new Date(),
-          "Mattenhorn peak #3",
-          "St. Gallen Hospital",
-          { latitude: 55, longitude: 33 } // Correct way to create an OrderLocation object
-        ),
-        new Order(
-          "user2",
-          new Item(2, "mock item2", "description2", 22, 2, 2),
-          { latitude: 40.8182, longitude: 8.2275 }, // Correct way to create an OrderLocation object
-          new Date(),
-          OrderStatus.Delivered,
-          new Date(),
-          "Zermatt waterfalls",
-          "Drone Station 1", // "Drone Station 1", "St. Gallen Hospital", "Jeffrey's Clinic"
-          { latitude: 59, longitude: 38 } // Correct way to create an OrderLocation object
-        ),
-      ];
-      resolve(orders);
-    }, 1000); // 1 second delay
-  });
-};*/
-
-// TODO: Maybe add some search bar to filter?
 
 const OrderHistory = ({
   route,
@@ -122,7 +81,7 @@ const OrderHistory = ({
           .toLowerCase()
           .includes(searchText.toLowerCase()) ||
         order.getOpName().toLowerCase().includes(searchText.toLowerCase()) ||
-        formatDate(order.getOrderDate()).includes(searchText)
+        formatDate(order.getOrderDate(), true).includes(searchText)
     )
   );
   interface SortingPickerProps {
@@ -201,6 +160,7 @@ const OrderHistory = ({
           <OrderCard
             order={item}
             opBool={!historyOp}
+            forHistory={true}
             //onClick={() => console.log(item.getId())}
           />
         )}

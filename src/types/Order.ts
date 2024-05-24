@@ -49,7 +49,7 @@ class Order {
     this.deliveryDate = deliveryDate || new Date();
     this.usrLocName =
       usrLocName ||
-      `Lat: ${usrLocation.latitude}, Long: ${usrLocation.longitude}`; //default boring name
+      `Lat: ${usrLocation.latitude.toFixed(3)}, Long: ${usrLocation.longitude.toFixed(3)}`; //default boring name
     this.operatorId = operatorId || "";
     this.operatorName = operatorName || "Unaccepted";
     this.opLocation = opLocation || { latitude: -999, longitude: -999 };
@@ -264,4 +264,37 @@ const sortOrders = (option: string, orders: Order[]) => {
       return orders;
   }
 };
+
+export const formatDate = (date: Date, forHist: boolean) => {
+  const monthNames = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+  if (!forHist) {
+    // we will return format that is more relevant for short term timings
+    const hours = date.getHours().toString().padStart(2, "0");
+    const minutes = date.getMinutes().toString().padStart(2, "0");
+    const day = date.getDate();
+    const monthIndex = date.getMonth();
+
+    return `${hours}:${minutes} ${monthNames[monthIndex]} ${day}`;
+  } else {
+    const day = date.getDate();
+    const monthIndex = date.getMonth();
+    const year = date.getFullYear();
+
+    return `${monthNames[monthIndex]} ${day}, ${year}`;
+  }
+};
+
 export { OrderStatus, OrderLocation, Order, orderConverter, sortOrders };
