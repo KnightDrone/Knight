@@ -10,6 +10,8 @@ import {
 import OpenAI from "openai";
 import { TextField } from "../ui/TextField";
 import { Button } from "../ui/Button";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { use } from "i18next";
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
@@ -82,9 +84,33 @@ const ChatScreen = () => {
     flatListRef.current?.scrollToEnd({ animated: true });
   };
 
+  const storeMessages = async (messages: Message[]) => {
+    try {
+      const jsonValue = JSON.stringify(messages);
+      await AsyncStorage.setItem("@messages", jsonValue);
+    } catch (e) {
+      console.log("Error storing messages: ", e);
+    }
+  };
+
+  const loadMessages = async () => {
+    try {
+      const jsonValue = await AsyncStorage.getItem("@messages");
+      const messages = JSON.parse(jsonValue || "[]");
+      setMessages(messages);
+    } catch (e) {
+      console.log("Error loading messages: ", e);
+    }
+  };
+
+  useEffect(() => {
+    loadMessages();
+  }, []); // call only once, when component is loaded
+
   useEffect(() => {
     scrollToBottom();
-  }, [messages]);
+    storeMessages(messages);
+  }, [messages]); // call every time messages change
 
   const handleSend = async () => {
     if (!input.trim()) return;
@@ -129,7 +155,7 @@ const ChatScreen = () => {
 
       setMessages((prevMessages) => [...prevMessages, responseMessage]);
     } catch (error) {
-      console.error("Error sending message:", error);
+      console.error("Error sending message: ", error);
     } finally {
       setLoading(false);
     }
