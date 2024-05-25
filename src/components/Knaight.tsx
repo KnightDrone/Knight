@@ -6,12 +6,15 @@ import {
   StyleSheet,
   TextInput,
   ActivityIndicator,
+  Alert,
 } from "react-native";
 import OpenAI from "openai";
 import { TextField } from "../ui/TextField";
 import { Button } from "../ui/Button";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { use } from "i18next";
+import { useNavigation } from "@react-navigation/native";
+import Icon from "react-native-vector-icons/Octicons";
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
@@ -79,6 +82,38 @@ const ChatScreen = () => {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const flatListRef = useRef<FlatList>(null);
+
+  const navigation = useNavigation();
+
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <Icon
+          name="trash"
+          onPress={() =>
+            Alert.alert(
+              "Clear chat",
+              "Are you sure you want to delete your chat history? It cannot be recovered.",
+              [
+                {
+                  text: "Cancel",
+                  onPress: () => console.log("Cancel Pressed"),
+                  style: "cancel",
+                },
+                { text: "OK", onPress: () => setMessages([]) },
+              ],
+              { cancelable: false }
+            )
+          }
+          size={26}
+          style={{
+            marginRight: 15,
+          }}
+          testID="clear-chat-button"
+        />
+      ),
+    });
+  }, [navigation]);
 
   const scrollToBottom = () => {
     flatListRef.current?.scrollToEnd({ animated: true });
