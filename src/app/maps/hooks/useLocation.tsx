@@ -26,8 +26,8 @@ type UseLocationReturnType = {
 
 const LOCATION_FILE = `${FileSystem.documentDirectory}location.json`;
 const DEFAULT_LOCATION = {
-  latitude: 37.789,
-  longitude: -122.4324,
+  latitude: 46.519040821641006,
+  longitude: 6.568773468321669,
   latitudeDelta: 0.0922,
   longitudeDelta: 0.0421,
 };
@@ -50,6 +50,7 @@ const useLocation = (): UseLocationReturnType => {
       if (savedLocation) {
         console.log("Using saved location", savedLocation);
         setCurrentRegion(savedLocation);
+        setMarker(savedLocation);
       }
 
       const allowed = await checkPermissions();
