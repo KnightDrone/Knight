@@ -23,7 +23,7 @@ const OrderCard = ({
   opBool,
   testId,
   onClickTestId,
-  forHistory,
+  forHistory, // to choose how to format date depending on whether this OrderCard is being used on a History screen or not
 }: OrderCardProps) => {
   const { t } = useTranslation();
   const item = order.getItem();
