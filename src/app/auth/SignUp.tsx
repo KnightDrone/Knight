@@ -137,7 +137,7 @@ export default function SignUp({ navigation }: any) {
           onChangeText={setUserName}
           type="text"
           testID="username-input"
-          maxLength={50}
+          maxLength={40}
         />
 
         <TextField
@@ -146,7 +146,7 @@ export default function SignUp({ navigation }: any) {
           onChangeText={setEmail}
           type="email"
           testID="email-input"
-          maxLength={50}
+          maxLength={30}
         />
 
         <TextField
