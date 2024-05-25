@@ -3,6 +3,7 @@ import { Item } from "./Item";
 
 enum OrderStatus {
   Pending = "Pending",
+  Shipped = "Shipped",
   Delivered = "Delivered",
   Cancelled = "Cancelled",
   Accepted = "Accepted",
