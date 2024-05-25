@@ -133,6 +133,7 @@ const OrderHistory = ({
           onChangeText={setSearchText}
           value={searchText}
           type="text"
+          maxLength={100}
         />
         <View className="w-40 mx-auto mt-4 bg-gray-50 ml-1 relative h-12 rounded-full border border-gray-400 pb-8">
           <SortingPicker

@@ -175,6 +175,7 @@ const ChatScreen = () => {
           type="text"
           placeholder="Type a message..."
           testID="message-input"
+          maxLength={1000}
         />
         <Button
           className="max-w-[25%]"

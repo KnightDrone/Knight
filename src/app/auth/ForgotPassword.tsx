@@ -48,6 +48,7 @@ export default function ForgotPasswordScreen() {
         value={email}
         type="email"
         testID="email-input"
+        maxLength={50}
       />
 
       <Button
