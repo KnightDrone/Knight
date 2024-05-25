@@ -62,6 +62,7 @@ describe("Order", () => {
   it("should have all order statuses", () => {
     expect(OrderStatus).toEqual({
       Pending: "Pending",
+      Shipped: "Shipped",
       Delivered: "Delivered",
       Cancelled: "Cancelled",
       Accepted: "Accepted",
