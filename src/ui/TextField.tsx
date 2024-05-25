@@ -9,6 +9,7 @@ export function TextField({
   value,
   type,
   testID,
+  maxLength,
 }: {
   className?: string;
   placeholder: string;
@@ -16,6 +17,7 @@ export function TextField({
   value: string;
   type: "email" | "password" | "text" | "number" | "phone";
   testID?: string;
+  maxLength?: number;
 }) {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -35,6 +37,7 @@ export function TextField({
         onChangeText={onChangeText}
         autoCapitalize={type === "text" ? "sentences" : "none"}
         autoCorrect={type === "text"}
+        maxLength={maxLength}
       />
       <TouchableOpacity
         testID="password-toggle"
