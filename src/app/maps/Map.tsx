@@ -29,7 +29,7 @@ const MapOverview: React.FC<{ navigation: any }> = ({ navigation }) => {
       navigation={navigation}
       testid="map-view"
       mapType="user"
-      bottomLeftButtonText={t("map.order-button")}
+      bottomRightButtonText={t("map.order-button")}
     ></SharedMap>
   );
 };

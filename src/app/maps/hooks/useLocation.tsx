@@ -1,7 +1,7 @@
-// hooks/useLocation.tsx
 import { useState, useEffect, useRef } from "react";
 import * as Location from "expo-location";
 import { Alert } from "react-native";
+import * as FileSystem from "expo-file-system";
 import { useTranslation } from "react-i18next";
 import MapView from "react-native-maps";
 
@@ -24,15 +24,19 @@ type UseLocationReturnType = {
   toggleAutoCenter: () => void;
 };
 
+const LOCATION_FILE = `${FileSystem.documentDirectory}location.json`;
+const DEFAULT_LOCATION = {
+  latitude: 37.789,
+  longitude: -122.4324,
+  latitudeDelta: 0.0922,
+  longitudeDelta: 0.0421,
+};
+
 const useLocation = (): UseLocationReturnType => {
   const { t } = useTranslation();
   const mapRef = useRef<MapView | null>(null);
-  const [currentRegion, setCurrentRegion] = useState<LocationType>({
-    latitude: 37.789,
-    longitude: -122.4324,
-    latitudeDelta: 0.0922,
-    longitudeDelta: 0.0421,
-  });
+  const [currentRegion, setCurrentRegion] =
+    useState<LocationType>(DEFAULT_LOCATION);
   const [marker, setMarker] = useState<LocationType | null>(null);
   const [loading, setLoading] = useState(true);
   const [autoCenter, setAutoCenter] = useState(true);
@@ -42,11 +46,18 @@ const useLocation = (): UseLocationReturnType => {
 
   useEffect(() => {
     const initMap = async () => {
+      const savedLocation = await loadSavedLocation();
+      if (savedLocation) {
+        console.log("Using saved location", savedLocation);
+        setCurrentRegion(savedLocation);
+      }
+
       const allowed = await checkPermissions();
       if (allowed) {
         watchLocation();
       }
     };
+
     initMap();
 
     return () => {
@@ -59,6 +70,28 @@ const useLocation = (): UseLocationReturnType => {
       mapRef.current?.animateToRegion(marker, 500);
     }
   }, [autoCenter, marker]);
+
+  const loadSavedLocation = async (): Promise<LocationType | null> => {
+    try {
+      console.log("Loading saved location from file path", LOCATION_FILE);
+      const fileContents = await FileSystem.readAsStringAsync(LOCATION_FILE);
+      return JSON.parse(fileContents);
+    } catch (error) {
+      console.log("No saved location file found, using default location.");
+      return null;
+    }
+  };
+
+  const saveLocation = async (location: LocationType) => {
+    try {
+      await FileSystem.writeAsStringAsync(
+        LOCATION_FILE,
+        JSON.stringify(location)
+      );
+    } catch (error) {
+      console.error("Error saving location to file", error);
+    }
+  };
 
   const checkPermissions = async (): Promise<boolean> => {
     let { status } = await Location.requestForegroundPermissionsAsync();
@@ -76,7 +109,7 @@ const useLocation = (): UseLocationReturnType => {
         accuracy: Location.Accuracy.BestForNavigation,
         distanceInterval: 1,
       },
-      (location) => {
+      async (location) => {
         const newLocation: LocationType = {
           latitude: location.coords.latitude,
           longitude: location.coords.longitude,
@@ -85,6 +118,8 @@ const useLocation = (): UseLocationReturnType => {
         };
         setMarker(newLocation);
         setLoading(false);
+        await saveLocation(newLocation);
+        console.log("Saved location to file", newLocation);
       }
     );
   };
