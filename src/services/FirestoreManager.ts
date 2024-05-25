@@ -213,7 +213,7 @@ export default class FirestoreManager {
         "operatorId",
         "status",
         "deliveryDate",
-        "location",
+        "opLocation",
         "operatorName",
       ],
     };

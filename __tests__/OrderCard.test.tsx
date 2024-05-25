@@ -11,17 +11,24 @@ describe("OrderCard", () => {
   const order = new Order("John Doe", item, location);
 
   it("renders correctly", () => {
-    const { getByText } = render(<OrderCard order={order} opBool={false} />);
+    const { getByText } = render(
+      <OrderCard order={order} opBool={false} forHistory={false} />
+    );
 
     expect(getByText("Test Item")).toBeTruthy();
-    expect(getByText("Lat: 0, Long: 0")).toBeTruthy();
+    expect(getByText("Lat: 0.000, Long: 0.000")).toBeTruthy();
     expect(getByText("10 CHF")).toBeTruthy();
   });
 
   it("calls onClick when pressed", () => {
     const mockOnClick = jest.fn();
     const { getByText } = render(
-      <OrderCard order={order} onClick={mockOnClick} opBool={false} />
+      <OrderCard
+        order={order}
+        onClick={mockOnClick}
+        opBool={false}
+        forHistory={false}
+      />
     );
 
     fireEvent.press(getByText("Test Item"));
@@ -29,14 +36,18 @@ describe("OrderCard", () => {
   });
 
   it("does not call onClick when not provided", () => {
-    const { getByText } = render(<OrderCard order={order} opBool={false} />);
+    const { getByText } = render(
+      <OrderCard order={order} opBool={false} forHistory={false} />
+    );
 
     fireEvent.press(getByText("Test Item"));
     // No error should be thrown
   });
 
   it("displays the correct date", () => {
-    const { getByText } = render(<OrderCard order={order} opBool={false} />);
+    const { getByText } = render(
+      <OrderCard order={order} opBool={false} forHistory={true} />
+    );
 
     const date = new Date();
     const monthNames = [
