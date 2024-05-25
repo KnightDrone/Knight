@@ -153,7 +153,7 @@ export default function OperatorSignUp({ navigation }: any) {
           onChangeText={setUserName}
           type="text"
           testID="username-input"
-          maxLength={80}
+          maxLength={40}
         />
 
         <TextField
@@ -162,7 +162,7 @@ export default function OperatorSignUp({ navigation }: any) {
           onChangeText={setEmail}
           type="email"
           testID="email-input"
-          maxLength={50}
+          maxLength={30}
         />
 
         <TextField
