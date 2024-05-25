@@ -3,29 +3,7 @@ import { View, Text, Image, StyleSheet } from "react-native";
 import { Order } from "../../types/Order";
 import { TouchableOpacity } from "react-native";
 import { useTranslation } from "react-i18next";
-
-export const formatDate = (date: Date) => {
-  const monthNames = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
-
-  const day = date.getDate();
-  const monthIndex = date.getMonth();
-  const year = date.getFullYear();
-
-  return `${monthNames[monthIndex]} ${day}, ${year}`;
-};
+import { formatDate } from "../../types/Order";
 
 // TODO: Add onClick functionality to the card + update the styles
 
@@ -35,6 +13,7 @@ interface OrderCardProps {
   opBool: boolean;
   testId?: string;
   onClickTestId?: string;
+  forHistory: boolean;
 }
 // opBool is used to determine if the location name should be the operator's name or the user's location name
 // This component is used for both PendingOrders and OrderHistory, and thus the location information chosen to be displayed should be chosen appropiately
@@ -44,6 +23,7 @@ const OrderCard = ({
   opBool,
   testId,
   onClickTestId,
+  forHistory, // to choose how to format date depending on whether this OrderCard is being used on a History screen or not
 }: OrderCardProps) => {
   const { t } = useTranslation();
   const item = order.getItem();
@@ -65,7 +45,7 @@ const OrderCard = ({
           source={require("../../../assets/icons/calendar_icon.png")}
           className="w-5 h-5"
         />
-        <Text className="ml-2">{formatDate(orderDate)}</Text>
+        <Text className="ml-2">{formatDate(orderDate, forHistory)}</Text>
       </View>
       <Text className="text-left">{locName}</Text>
     </View>

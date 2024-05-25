@@ -49,7 +49,7 @@ class Order {
     this.deliveryDate = deliveryDate || new Date();
     this.usrLocName =
       usrLocName ||
-      `Lat: ${usrLocation.latitude}, Long: ${usrLocation.longitude}`; //default boring name
+      `Lat: ${usrLocation.latitude.toFixed(3)}, Long: ${usrLocation.longitude.toFixed(3)}`; //default boring name
     this.operatorId = operatorId || "";
     this.operatorName = operatorName || "Unaccepted";
     this.opLocation = opLocation || { latitude: -999, longitude: -999 };
@@ -121,6 +121,45 @@ class Order {
 
   getOpName(): string {
     return this.operatorName;
+  }
+
+  setOpId(opId: string) {
+    this.operatorId = opId;
+  }
+
+  setOpLocation(opLocation: OrderLocation) {
+    this.opLocation = opLocation;
+  }
+
+  setOpName(opName: string) {
+    this.operatorName = opName;
+  }
+
+  checkOpLocInit(): boolean {
+    if (
+      this.opLocation.latitude === -999 &&
+      this.opLocation.longitude === -999
+    ) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  initDeliveryDate() {
+    if (this.checkOpLocInit()) {
+      const distance = getDistanceOpToUser(this.opLocation, this.usrLocation);
+      const speed = 40; // km/h
+      const time = distance / speed; // in hours
+      const arrivalTime = new Date(
+        this.orderDate.getTime() + time * 60 * 60 * 1000
+      );
+      this.deliveryDate = arrivalTime;
+    } else {
+      throw new Error(
+        "Called initDeliveryDate() with uninitialized opLocation"
+      );
+    }
   }
 }
 
@@ -227,4 +266,37 @@ const sortOrders = (option: string, orders: Order[]) => {
       return orders;
   }
 };
+
+export const formatDate = (date: Date, forHist: boolean) => {
+  const monthNames = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+  if (!forHist) {
+    // we will return format that is more relevant for short term timings
+    const hours = date.getHours().toString().padStart(2, "0");
+    const minutes = date.getMinutes().toString().padStart(2, "0");
+    const day = date.getDate();
+    const monthIndex = date.getMonth();
+
+    return `${hours}:${minutes} ${monthNames[monthIndex]} ${day}`;
+  } else {
+    const day = date.getDate();
+    const monthIndex = date.getMonth();
+    const year = date.getFullYear();
+
+    return `${monthNames[monthIndex]} ${day}, ${year}`;
+  }
+};
+
 export { OrderStatus, OrderLocation, Order, orderConverter, sortOrders };

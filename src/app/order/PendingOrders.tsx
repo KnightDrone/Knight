@@ -6,6 +6,8 @@ import {
   Image,
   TouchableOpacity,
   Modal,
+  KeyboardAvoidingView,
+  Platform,
 } from "react-native";
 import OrderCard from "../../components/cards/OrderCard";
 import { Button } from "../../ui/Button";
@@ -19,11 +21,12 @@ import { Item } from "../../types/Item";
 import TriangleBackground from "../../components/TriangleBackground";
 import FirestoreManager from "../../services/FirestoreManager";
 import { MessageBox } from "../../ui/MessageBox";
-import { formatDate } from "../../components/cards/OrderCard";
+import { formatDate } from "../../types/Order";
 import { Picker } from "@react-native-picker/picker";
 import { TextField } from "../../ui/TextField";
 import { useTranslation } from "react-i18next";
 import { firestore, collection, onSnapshot } from "../../services/Firebase";
+import { auth } from "../../services/Firebase";
 
 // Import the useLocation hook
 import useLocation from "../../app/maps/hooks/useLocation";
@@ -37,7 +40,8 @@ const PendingOrders = ({ navigation }: any) => {
   const [searchText, setSearchText] = useState("");
   const [sortingOption, setSortingOption] = useState("ascendingDate");
   const [distance, setDistance] = useState<number>(0);
-
+  const opid = auth.currentUser?.uid;
+  const opDisplayName = auth.currentUser?.displayName;
   // Use the useLocation hook to get location data
   const {
     marker: opLocation, // Assuming the marker represents the operator's location
@@ -64,15 +68,48 @@ const PendingOrders = ({ navigation }: any) => {
     setSelectedOrder(null);
   };
 
-  const handleAcceptOrder = () => {
-    firestoreManager.updateData(
-      "orders",
-      selectedOrder!.getId(),
-      "status",
-      OrderStatus.Accepted
-    );
+  const handleAcceptOrder = async () => {
+    if (!selectedOrder) {
+      setError(new Error("No order selected"));
+      return;
+    }
 
-    setSelectedOrder(null);
+    if (!opid) {
+      setError(new Error("Operator ID is undefined"));
+      return;
+    }
+
+    if (!opLocation) {
+      setError(new Error("Operator location is undefined"));
+      return;
+    }
+
+    if (!opDisplayName) {
+      setError(new Error("Operator name is undefined"));
+      return;
+    }
+
+    try {
+      // Note this entire thing
+      selectedOrder.setOpId(opid);
+
+      const opLocationTypecasted = {
+        latitude: opLocation.latitude,
+        longitude: opLocation.longitude,
+      };
+      selectedOrder.setOpLocation(opLocationTypecasted);
+
+      selectedOrder.setOpName(opDisplayName);
+
+      selectedOrder.initDeliveryDate();
+
+      selectedOrder.setStatus(OrderStatus.Accepted);
+
+      await firestoreManager.writeData("orders", selectedOrder); // push local changes to Order to Firestore
+      setSelectedOrder(null);
+    } catch (err) {
+      setError(err as Error);
+    }
   };
   // ---------------------------------------------------------
   const orderListFiltered = sortOrders(
@@ -88,7 +125,7 @@ const PendingOrders = ({ navigation }: any) => {
           .getUsrLocName()
           .toLowerCase()
           .includes(searchText.toLowerCase()) ||
-        formatDate(order.getOrderDate()).includes(searchText)
+        formatDate(order.getOrderDate(), false).includes(searchText)
     )
   );
 
@@ -167,6 +204,12 @@ const PendingOrders = ({ navigation }: any) => {
 
   return (
     <View className="mt-28" testID="pending-orders-screen">
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={{ flex: 1 }}
+      >
+        <TriangleBackground color="#A0D1E4" bottom={-800} />
+      </KeyboardAvoidingView>
       <View className="flex-row">
         <TextField
           className="w-6/12 mx-auto mt-4 bg-white ml-4"
@@ -184,12 +227,6 @@ const PendingOrders = ({ navigation }: any) => {
         </View>
       </View>
 
-      {
-        error && (
-          <TriangleBackground color="#A0D1E4" bottom={-125} />
-        ) /* These are some magic numbers that I figured out by trial and error*/
-      }
-      {!error && <TriangleBackground color="#A0D1E4" bottom={-200} />}
       {error && (
         <MessageBox
           message={error.message}
@@ -208,6 +245,7 @@ const PendingOrders = ({ navigation }: any) => {
             opBool={false}
             testId={`order-card-${item.getId()}`}
             onClickTestId={`order-card-${item.getId()}-button`}
+            forHistory={false}
           /> // opBool is false because we want to show the user's location name
         )}
         keyExtractor={(item) => item.getId()}

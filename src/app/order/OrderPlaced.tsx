@@ -108,7 +108,7 @@ const OrderPlaced = ({
       className="flex flex-col gap-3 w-full h-full p-4 justify-center items-center"
       testID="order-placed-screen"
     >
-      <TriangleBackground color="#A0D1E4" />
+      <TriangleBackground color="#A0D1E4" bottom={-200} />
       <View className="flex w-full flex-col items-center">
         <Text className=" text-3xl font-bold" testID="order-placed-message">
           {t("order-placed.on-its-way")}

@@ -6,6 +6,8 @@ import {
   Image,
   Button,
   TouchableOpacity,
+  KeyboardAvoidingView,
+  Platform,
 } from "react-native";
 import OrderCard from "../../components/cards/OrderCard";
 import { Order, OrderStatus, sortOrders } from "../../types/Order";
@@ -17,7 +19,7 @@ import { MessageBox } from "../../ui/MessageBox";
 import { TextField } from "../../ui/TextField";
 import FirestoreManager from "../../services/FirestoreManager";
 import { useTranslation } from "react-i18next";
-import { formatDate } from "../../components/cards/OrderCard";
+import { formatDate } from "../../types/Order";
 import { Picker } from "@react-native-picker/picker";
 import { auth } from "../../services/Firebase";
 
@@ -79,7 +81,7 @@ const OrderHistory = ({
           .toLowerCase()
           .includes(searchText.toLowerCase()) ||
         order.getOpName().toLowerCase().includes(searchText.toLowerCase()) ||
-        formatDate(order.getOrderDate()).includes(searchText)
+        formatDate(order.getOrderDate(), true).includes(searchText)
     )
   );
   interface SortingPickerProps {
@@ -118,6 +120,12 @@ const OrderHistory = ({
   };
   return (
     <View className="mt-28" testID="order-history-screen">
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={{ flex: 1 }}
+      >
+        <TriangleBackground color="#A0D1E4" bottom={-800} />
+      </KeyboardAvoidingView>
       <View className="flex-row">
         <TextField
           className="w-6/12 mx-auto mt-4 bg-white ml-4"
@@ -134,12 +142,7 @@ const OrderHistory = ({
           />
         </View>
       </View>
-      {
-        error && (
-          <TriangleBackground color="#A0D1E4" bottom={-125} />
-        ) /* These are some magic numbers that I figured out by trial and error*/
-      }
-      {!error && <TriangleBackground color="#A0D1E4" bottom={-200} />}
+
       {error && (
         <MessageBox
           message={error.message}
@@ -158,6 +161,7 @@ const OrderHistory = ({
           <OrderCard
             order={item}
             opBool={!historyOp}
+            forHistory={true}
             //onClick={() => console.log(item.getId())}
           />
         )}
