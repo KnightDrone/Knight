@@ -62,7 +62,6 @@ describe("Order", () => {
   it("should have all order statuses", () => {
     expect(OrderStatus).toEqual({
       Pending: "Pending",
-      Shipped: "Shipped",
       Delivered: "Delivered",
       Cancelled: "Cancelled",
       Accepted: "Accepted",
@@ -74,8 +73,8 @@ describe("Order", () => {
   });
 
   it("setStatus should set the correct status", () => {
-    order.setStatus(OrderStatus.Shipped);
-    expect(order.getStatus()).toBe(OrderStatus.Shipped);
+    order.setStatus(OrderStatus.Delivered);
+    expect(order.getStatus()).toBe(OrderStatus.Delivered);
   });
 
   it("getOrderLocation should return the correct location", () => {
