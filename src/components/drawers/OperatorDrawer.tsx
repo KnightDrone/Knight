@@ -6,8 +6,6 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import { auth, User } from "../../services/Firebase";
 
 // Drawer Navigation Screens
-import Profile from "../../app/settings/ProfileScreen";
-import Setting from "../../app/settings/Setting";
 import OrderHistory from "../../app/order/OrderHistory";
 import { CustomDrawerContent } from "./CustomDrawerContent";
 import FirestoreManager from "../../services/FirestoreManager";
@@ -15,6 +13,7 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import OperatorMap from "../../app/maps/OperatorMap";
 import PendingOrders from "../../app/order/PendingOrders";
 import { reload } from "firebase/auth";
+import { SettingsStack } from "../../app/settings/SettingsStack";
 
 const Drawer = createDrawerNavigator<DrawerParamList>();
 
@@ -33,8 +32,15 @@ export function OperatorDrawer<OperatorDrawerProps>(user: OperatorDrawerProps) {
   const updateUserProfile = async (user: User) => {
     await reload(user);
     setUserId(user.uid);
-    setName(user.displayName || "");
     setEmail(user.email || "");
+    if (user.displayName) {
+      setName(user.displayName || "");
+    } else {
+      const userData = await firestoreManager.getUser(user.uid);
+      if (userData) {
+        setName(userData.name || "");
+      }
+    }
     if (user.photoURL) {
       setPhotoURL(user.photoURL || "");
     } else {
@@ -87,33 +93,18 @@ export function OperatorDrawer<OperatorDrawerProps>(user: OperatorDrawerProps) {
         {(props: any) => <OperatorMap {...props} />}
       </Drawer.Screen>
       <Drawer.Screen
-        name="Profile"
+        name="SettingsStack"
         options={{
-          drawerIcon: ({ color, size }) => (
-            <Icon name="account" color={color} size={size} />
-          ),
-        }}
-      >
-        {(props: any) => {
-          return (
-            <Profile
-              {...props}
-              onSaveChanges={() => {
-                setChangePFP(!changePFP);
-              }}
-            />
-          );
-        }}
-      </Drawer.Screen>
-      <Drawer.Screen
-        name="Settings"
-        options={{
+          drawerLabel: "Settings",
+          header: () => null,
           drawerIcon: ({ color }) => (
             <Icon name="cog-outline" color={color} size={22} />
           ),
         }}
       >
-        {(props: any) => <Setting {...props} />}
+        {(props: any) => (
+          <SettingsStack {...props} route={{ params: { userId: userId } }} />
+        )}
       </Drawer.Screen>
       <Drawer.Screen
         name="OrderHistory"

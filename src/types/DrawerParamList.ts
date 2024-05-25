@@ -1,11 +1,5 @@
 export type DrawerParamList = {
   Map: undefined;
-  Profile: {
-    userId: string;
-  };
-  Settings: {
-    userId: string;
-  };
   OrderHistory: {
     historyOp: boolean;
     userId: string;
@@ -16,4 +10,7 @@ export type DrawerParamList = {
   };
   Knaight: undefined;
   PendingOrders: undefined;
+  SettingsStack: {
+    userId: string;
+  };
 };

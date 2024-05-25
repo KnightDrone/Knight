@@ -58,36 +58,31 @@ const SharedMap: React.FC<SharedMapProps> = ({
         </View>
       )}
 
-      {!loading && (
-        <>
-          <Button
-            testID="my-location-button"
-            className="absolute top-[60px] right-[30px] w-16 h-16"
-            onPress={toggleAutoCenter}
-            style="secondary"
-          >
-            <Icon name="my-location" size={24} color="#000" />
-          </Button>
-          <Button
-            testID="user-drawer-button"
-            className="absolute top-[60px] left-[30px] w-16 h-16"
-            onPress={() => {
-              navigation.toggleDrawer({
-                latitude: currentRegion.latitude,
-                longitude: currentRegion.longitude,
-              });
-            }}
-            style="secondary"
-          >
-            <Icon name="menu" size={24} color="#000" />
-          </Button>
-        </>
-      )}
-
-      {!loading && mapType === "user" && (
+      <Button
+        testID="my-location-button"
+        className="absolute top-[60px] right-[30px] w-16 h-16 shadow-md bg-white"
+        onPress={toggleAutoCenter}
+        style="secondary"
+      >
+        <Icon name="my-location" size={24} color="#000" />
+      </Button>
+      <Button
+        testID="user-drawer-button"
+        className="absolute top-[60px] left-[30px] w-16 h-16 shadow-md bg-white"
+        onPress={() => {
+          navigation.toggleDrawer({
+            latitude: currentRegion.latitude,
+            longitude: currentRegion.longitude,
+          });
+        }}
+        style="secondary"
+      >
+        <Icon name="menu" size={24} color="#000" />
+      </Button>
+      {mapType === "user" && (
         <Button
           testID="order-button"
-          className="absolute bottom-[40px] right-[30px] w-[100px] h-16"
+          className="absolute bottom-[40px] right-[30px] w-[100px] h-16 shadow-md"
           onPress={() => {
             navigation.navigate("OrderMenu", {
               latitude: currentRegion.latitude,

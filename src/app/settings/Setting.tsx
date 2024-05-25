@@ -22,7 +22,6 @@ interface SettingsSection {
   title: string;
   data: SettingsItem[];
 }
-
 interface SettingsItem {
   name: string;
   icon: string;
@@ -139,26 +138,42 @@ const Settings: React.FC<SettingsProps> = ({
         {
           name: "Edit profile",
           icon: "edit",
-          action: () => navigation.navigate("ProfileScreen"),
+          action: () => navigation.navigate("Profile"),
         } as { name: string; icon: string; action: () => void },
-        { name: "Security", icon: "security" },
-        { name: "Notifications", icon: "notifications" },
-        { name: "Privacy", icon: "privacy-tip" },
+        {
+          name: "Notifications",
+          icon: "notifications",
+          action: () => {
+            navigation.navigate("Notifications");
+          },
+        },
+        {
+          name: "Privacy",
+          icon: "privacy-tip",
+          action: () => {
+            navigation.navigate("Privacy");
+          },
+        },
       ],
     },
     {
       title: "Support & About",
       data: [
-        { name: "My Subscription", icon: "subscriptions" },
-        { name: "Help & Support", icon: "help" },
-        { name: "Terms and Policies", icon: "gavel" },
+        {
+          name: "FAQs",
+          icon: "help",
+          action: () => navigation.navigate("FAQs"),
+        },
+        {
+          name: "TermsAndConditions",
+          icon: "gavel",
+          action: () => navigation.navigate("TermsAndConditions"),
+        },
       ],
     },
     {
       title: "Actions",
       data: [
-        { name: "Report a problem", icon: "report-problem" },
-        { name: "Add account", icon: "person-add" },
         {
           name: `Become ${role == "operator" ? "a user" : "an operator"}`,
           id: "role-button",
@@ -225,7 +240,7 @@ const styles = StyleSheet.create({
   },
   section: {
     paddingHorizontal: 20,
-    paddingTop: 10,
+    paddingTop: 30,
     paddingBottom: 20,
     borderBottomWidth: 1,
     borderBottomColor: "#E0E0E0",
