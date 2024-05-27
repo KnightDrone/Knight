@@ -7,6 +7,7 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import { auth, User } from "../../services/Firebase";
 import OrderMenu from "../../app/order/OrderMenu";
 import MapOverview from "../../app/maps/Map";
+import OfflineMapScreen from "../../app/maps/OfflineMap";
 
 // Drawer Navigation Screens
 import Profile from "../../app/settings/ProfileScreen";
@@ -96,6 +97,19 @@ export function UserDrawer<UserDrawerProps>(user: UserDrawerProps) {
       >
         {(props: any) => <MapOverview {...props} />}
       </Drawer.Screen>
+      <Drawer.Screen
+        name="OfflineMap"
+        options={{
+          drawerLabel: "Offline Map",
+          headerTitle: "Offline Map",
+          drawerIcon: ({ color }) => (
+            <Icon name="map-marker-off" color={color} size={22} />
+          ),
+        }}
+        component={OfflineMapScreen}
+      />
+
+      {/* Rest of the Drawer.Screen components */}
       <Drawer.Screen
         name="SettingsStack"
         options={{
