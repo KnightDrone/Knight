@@ -4,7 +4,6 @@
 
 Knight is a React Native app developed for our CS-308 (Software Enterprise) class at EPFL. It functions as the Uber for hikers, enabling the delivery of essential items like first aid kits. Whether hikers have run out, forgotten theirs, or simply prefer to carry less, Knight ensures they have access to the necessities they need while on the trail.
 
-
 ## Development Setup
 
 1. Install Expo Go on your phone (you can download from the App Store or Google Play)
@@ -33,5 +32,3 @@ To run the tests, execute the command `npm run test` in this directory. This wil
 To run the tests in watch mode, execute `npm run test:watch`. This will run the tests in the `__tests__` directory and watch for changes to the files. If you save a file, the tests will automatically run again.  
 To run a specific test file, execute `npm run test <file-name>`. For example, to run the tests in `__tests__/App.test.js`, execute `npm run test App.test.js`.  
 Additionally, you can run `npm run test:coverage` to view the test coverage of the app. The coverage report is available in the `coverage` directory, and `npm run test` also produces a coverage report.
-
-
