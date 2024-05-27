@@ -77,6 +77,7 @@ export default function Login({ navigation }: any) {
           onChangeText={setEmail}
           type="email"
           testID="email-input"
+          maxLength={50}
         />
 
         <TextField
@@ -85,6 +86,7 @@ export default function Login({ navigation }: any) {
           onChangeText={setPassword}
           type="password"
           testID="password-input"
+          maxLength={50}
         />
 
         <Button

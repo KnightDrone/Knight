@@ -1,14 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   FlatList,
   View,
   Text,
   StyleSheet,
-  Button,
   TextInput,
   ActivityIndicator,
 } from "react-native";
 import OpenAI from "openai";
+import { TextField } from "../ui/TextField";
+import { Button } from "../ui/Button";
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
@@ -19,13 +20,19 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 10,
     backgroundColor: "#fff",
+    //marginBottom: 0,
   },
   userMessage: {
     alignSelf: "flex-end",
-    backgroundColor: "#0044ee",
+    backgroundColor: "#48A6C9",
     borderRadius: 5,
     padding: 10,
     marginVertical: 5,
+    marginLeft: "15%",
+  },
+  userMessageText: {
+    color: "#fff", // White text color
+    fontSize: 16,
   },
   botMessage: {
     alignSelf: "flex-start",
@@ -33,11 +40,17 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     padding: 10,
     marginVertical: 5,
+    marginRight: "15%",
+  },
+  botMessageText: {
+    color: "#000", // Black text color
+    fontSize: 16,
   },
   inputContainer: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 20,
+    padding: 0,
+    marginTop: 10,
   },
   input: {
     flex: 1,
@@ -63,6 +76,15 @@ const ChatScreen = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const flatListRef = useRef<FlatList>(null);
+
+  const scrollToBottom = () => {
+    flatListRef.current?.scrollToEnd({ animated: true });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
 
   const handleSend = async () => {
     if (!input.trim()) return;
@@ -113,6 +135,8 @@ const ChatScreen = () => {
   return (
     <View style={styles.container}>
       <FlatList
+        className="max-h-[91%]"
+        ref={flatListRef}
         testID="messages-list"
         data={messages}
         keyExtractor={(item) => item.id}
@@ -122,9 +146,19 @@ const ChatScreen = () => {
               item.sender === "user" ? styles.userMessage : styles.botMessage
             }
           >
-            <Text>{item.text}</Text>
+            <Text
+              style={
+                item.sender === "user"
+                  ? styles.userMessageText
+                  : styles.botMessageText
+              }
+            >
+              {item.text}
+            </Text>
           </View>
         )}
+        onContentSizeChange={scrollToBottom}
+        onLayout={scrollToBottom}
       />
       {loading && (
         <ActivityIndicator
@@ -133,13 +167,23 @@ const ChatScreen = () => {
         />
       )}
       <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.input}
+        <TextField
+          //style={styles.input}
+          className="max-w-[70%] mr-3"
           value={input}
           onChangeText={setInput}
+          type="text"
           placeholder="Type a message..."
+          testID="message-input"
+          maxLength={1000}
         />
-        <Button title="Send" onPress={handleSend} />
+        <Button
+          className="max-w-[25%]"
+          text="Send"
+          onPress={handleSend}
+          style="primary"
+          testID="send-button"
+        />
       </View>
     </View>
   );

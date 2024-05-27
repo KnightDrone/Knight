@@ -44,7 +44,9 @@ export default function OrderMenu({
     if (user != null) {
       const order = new Order(user.uid, item, userLocation);
       await order.locSearch(); // This is to call the Nominatim API to define the user location name
+      console.log("Order placed: ", order);
       firestoreManager.writeData("orders", order);
+      setVisibleItemId(null); // added this so that when coming back to this screen through any navigation the card is closed
       navigation.navigate("OrderPlaced", { orderId: order.getId() });
     } else {
       console.error("Could not find user.");
@@ -53,7 +55,7 @@ export default function OrderMenu({
 
   return (
     <View style={styles.container} testID="order-menu-screen">
-      <TriangleBackground />
+      <TriangleBackground color="#A0D1E4" bottom={-100} />
       <Text style={styles.text} testID="order-menu-text">
         {t("order-menu.choose-item")}
       </Text>

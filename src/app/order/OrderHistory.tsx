@@ -6,6 +6,8 @@ import {
   Image,
   Button,
   TouchableOpacity,
+  KeyboardAvoidingView,
+  Platform,
 } from "react-native";
 import OrderCard from "../../components/cards/OrderCard";
 import { Order, OrderStatus, sortOrders } from "../../types/Order";
@@ -17,50 +19,9 @@ import { MessageBox } from "../../ui/MessageBox";
 import { TextField } from "../../ui/TextField";
 import FirestoreManager from "../../services/FirestoreManager";
 import { useTranslation } from "react-i18next";
-import { formatDate } from "../../components/cards/OrderCard";
+import { formatDate } from "../../types/Order";
 import { Picker } from "@react-native-picker/picker";
 import { auth } from "../../services/Firebase";
-/* 
-NOTE: This is a temporary solution to simulate fetching orders from a server. Should be replaced with actual database calls
-*/
-// depending on the value of OP orders we should fetch orders from the history of orders, where the user was operator, or where the user was the buyer
-// Still waiting for Firestore class to be implemented
-/*const fetchOrdersForUserMock = async (
-  userId: String,
-  opOrders: Boolean
-): Promise<Order[]> => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      const orders: Order[] = [
-        new Order(
-          "user1",
-          new Item(1, "mock item1", "description1", 10, 1, 1),
-          { latitude: 46.8182, longitude: 8.2275 }, // Correct way to create an OrderLocation object
-          new Date(),
-          OrderStatus.Delivered,
-          new Date(),
-          "Mattenhorn peak #3",
-          "St. Gallen Hospital",
-          { latitude: 55, longitude: 33 } // Correct way to create an OrderLocation object
-        ),
-        new Order(
-          "user2",
-          new Item(2, "mock item2", "description2", 22, 2, 2),
-          { latitude: 40.8182, longitude: 8.2275 }, // Correct way to create an OrderLocation object
-          new Date(),
-          OrderStatus.Delivered,
-          new Date(),
-          "Zermatt waterfalls",
-          "Drone Station 1", // "Drone Station 1", "St. Gallen Hospital", "Jeffrey's Clinic"
-          { latitude: 59, longitude: 38 } // Correct way to create an OrderLocation object
-        ),
-      ];
-      resolve(orders);
-    }, 1000); // 1 second delay
-  });
-};*/
-
-// TODO: Maybe add some search bar to filter?
 
 const OrderHistory = ({
   route,
@@ -92,9 +53,13 @@ const OrderHistory = ({
       if (newOrders === null) {
         setError(new Error("Failed to fetch from database."));
       } else if (newOrders.length === 0) {
-        setError(
-          new Error("No orders have been made yet. Go place some orders :)")
-        );
+        historyOp
+          ? setError(
+              new Error("You have not accepted any orders yet as an operator.")
+            )
+          : setError(
+              new Error("No orders have been made yet. Go place some orders :)")
+            );
       } else {
         setOrders(newOrders);
         setError(null); // Clear the error if the fetch is successful
@@ -116,7 +81,7 @@ const OrderHistory = ({
           .toLowerCase()
           .includes(searchText.toLowerCase()) ||
         order.getOpName().toLowerCase().includes(searchText.toLowerCase()) ||
-        formatDate(order.getOrderDate()).includes(searchText)
+        formatDate(order.getOrderDate(), true).includes(searchText)
     )
   );
   interface SortingPickerProps {
@@ -155,6 +120,12 @@ const OrderHistory = ({
   };
   return (
     <View className="mt-28" testID="order-history-screen">
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={{ flex: 1 }}
+      >
+        <TriangleBackground color="#A0D1E4" bottom={-800} />
+      </KeyboardAvoidingView>
       <View className="flex-row">
         <TextField
           className="w-6/12 mx-auto mt-4 bg-white ml-4"
@@ -162,6 +133,7 @@ const OrderHistory = ({
           onChangeText={setSearchText}
           value={searchText}
           type="text"
+          maxLength={100}
         />
         <View className="w-40 mx-auto mt-4 bg-gray-50 ml-1 relative h-12 rounded-full border border-gray-400 pb-8">
           <SortingPicker
@@ -170,12 +142,7 @@ const OrderHistory = ({
           />
         </View>
       </View>
-      {
-        error && (
-          <TriangleBackground color="#A0D1E4" bottom={-125} />
-        ) /* These are some magic numbers that I figured out by trial and error*/
-      }
-      {!error && <TriangleBackground color="#A0D1E4" bottom={-200} />}
+
       {error && (
         <MessageBox
           message={error.message}
@@ -186,12 +153,17 @@ const OrderHistory = ({
       )}
 
       <FlatList
-        className="mt-4 min-h-full mb-6"
+        className="mt-4 max-h-[90%] min-h-[90%]"
         data={orderListFiltered}
         // if I am an operator, I want to see the user's location name
         // if I am user, I want to see where I ordered from
         renderItem={({ item }) => (
-          <OrderCard order={item} opBool={!historyOp} />
+          <OrderCard
+            order={item}
+            opBool={!historyOp}
+            forHistory={true}
+            //onClick={() => console.log(item.getId())}
+          />
         )}
         keyExtractor={(item) => item.getId()}
         onEndReached={fetchOrders}

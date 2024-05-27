@@ -92,6 +92,7 @@ export default class FirestoreManager {
    * @returns - The order with the specified id
    */
   async readData(collection: string, id: string): Promise<any | null> {
+    this.checkStaleOrders();
     const docRef = doc(firestore, collection, id).withConverter(
       this.converterDictionary[collection]
     );
@@ -117,6 +118,7 @@ export default class FirestoreManager {
    * @returns - An array of orders that match the query
    */
   async queryOrder(field: string, data: string): Promise<Order[] | null> {
+    this.checkStaleOrders();
     const validFields = ["userId", "status", "item.name", "operatorId"];
     if (validFields.includes(field)) {
       var orders: Order[] = [];
@@ -211,7 +213,7 @@ export default class FirestoreManager {
         "operatorId",
         "status",
         "deliveryDate",
-        "location",
+        "opLocation",
         "operatorName",
       ],
     };
@@ -233,6 +235,45 @@ export default class FirestoreManager {
       }
     } catch (e) {
       console.error("Error updating document in the database: ", e);
+    }
+  }
+  /**
+   * Method to check for stale orders in the database and delete them if they have been pending for more than 6 hours.
+   *
+   * @returns {Promise<void>} - A promise that resolves when the operation is complete.
+   */
+  async checkStaleOrders(): Promise<void> {
+    const sixHoursInMilliseconds = 6 * 60 * 60 * 1000;
+    const now = Date.now();
+    try {
+      const q = query(
+        collection(firestore, "orders"),
+        where("status", "==", OrderStatus.Pending)
+      ).withConverter(orderConverter);
+      const querySnapshot = await getDocs(q);
+      // print the "age" of each order
+      querySnapshot.forEach((docSnapshot) => {
+        const order = docSnapshot.data();
+        const orderDate = order.getOrderDate().getTime();
+        console.log(`Order ${order.getId()} is ${now - orderDate} ms old.`);
+      });
+      const staleOrders: Order[] = [];
+      querySnapshot.forEach((docSnapshot) => {
+        const order = docSnapshot.data();
+        const orderDate = order.getOrderDate().getTime();
+        if (now - orderDate > sixHoursInMilliseconds) {
+          staleOrders.push(order);
+        }
+      });
+
+      console.log(`Found ${staleOrders.length} stale orders.`);
+
+      for (const order of staleOrders) {
+        await this.deleteData("orders", order.getId());
+        console.log(`Deleted stale order with ID: ${order.getId()}`);
+      }
+    } catch (error) {
+      console.error("Error while checking for stale orders: ", error);
     }
   }
 }
