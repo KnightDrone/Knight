@@ -58,47 +58,57 @@ const SharedMap: React.FC<SharedMapProps> = ({
         </View>
       )}
 
-      {!loading && (
-        <>
-          <Button
-            testID="my-location-button"
-            className="absolute top-[60px] right-[30px] w-16 h-16 shadow-md bg-white"
-            onPress={toggleAutoCenter}
-            style="secondary"
-          >
-            <Icon name="my-location" size={24} color="#000" />
-          </Button>
+      <>
+        <Button
+          testID="my-location-button"
+          className={`absolute top-[60px] right-[30px] w-16 h-16 shadow-md ${loading ? "bg-transparent" : "bg-white"}`}
+          style="secondary"
+          onPress={toggleAutoCenter}
+        >
+          <Icon
+            name="my-location"
+            size={24}
+            color={loading ? "transparent" : "#000"}
+          />
+        </Button>
 
-          <Button
-            testID="user-drawer-button"
-            className="absolute top-[60px] left-[30px] w-16 h-16 shadow-md bg-white"
-            onPress={() => {
+        <Button
+          testID="user-drawer-button"
+          className={`absolute top-[60px] left-[30px] w-16 h-16 shadow-md ${loading ? "bg-transparent" : "bg-white"}`}
+          onPress={() => {
+            if (!loading) {
               navigation.toggleDrawer({
                 latitude: currentRegion.latitude,
                 longitude: currentRegion.longitude,
               });
-            }}
-            style="secondary"
-          >
-            <Icon name="menu" size={24} color="#000" />
-          </Button>
+            }
+          }}
+          style="secondary"
+        >
+          <Icon
+            name="menu"
+            size={24}
+            color={loading ? "transparent" : "#000"}
+          />
+        </Button>
 
-          {mapType === "user" && (
-            <Button
-              testID="order-button"
-              className="absolute bottom-[40px] right-[30px] w-[100px] h-16 shadow-md"
-              onPress={() => {
+        {mapType === "user" && (
+          <Button
+            testID="order-button"
+            className={`absolute bottom-[40px] right-[30px] w-[100px] h-16 shadow-md ${loading ? "opacity-0" : ""}`}
+            onPress={() => {
+              if (!loading) {
                 navigation.navigate("OrderMenu", {
                   latitude: currentRegion.latitude,
                   longitude: currentRegion.longitude,
                 });
-              }}
-              style="primary"
-              text={bottomRightButtonText}
-            />
-          )}
-        </>
-      )}
+              }
+            }}
+            style="primary"
+            text={bottomRightButtonText}
+          />
+        )}
+      </>
     </View>
   );
 };

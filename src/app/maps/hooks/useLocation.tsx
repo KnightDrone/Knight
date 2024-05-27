@@ -130,7 +130,7 @@ const useLocation = (): UseLocationReturnType => {
   };
 
   const toggleAutoCenter = () => {
-    if (marker) {
+    if (marker && !loading) {
       animateToRegion(marker, 1500);
     }
     setTimeout(() => {
