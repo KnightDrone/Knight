@@ -16,6 +16,7 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import FirestoreManager, { DBUser } from "../../services/FirestoreManager";
 import * as ImagePicker from "expo-image-picker";
 import { isValidEmail } from "../../utils/Auth";
+import { useTranslation } from "react-i18next";
 interface ProfileScreenProps {
   onSaveChanges?: () => void;
 }
@@ -29,13 +30,15 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ onSaveChanges }) => {
   const [picURL, setPicURL] = useState(photoURL || "");
   const [photoBase64, setPhotoBase64] = useState("");
 
+  const { t } = useTranslation();
+
   useEffect(() => {
     (async () => {
       if (Platform.OS !== "web") {
         const { status } =
           await ImagePicker.requestMediaLibraryPermissionsAsync();
         if (status !== "granted") {
-          alert("Sorry, we need camera roll permissions to make this work!");
+          alert(t("settings.profile.error.camera-permission"));
         }
       }
     })();
@@ -62,17 +65,15 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ onSaveChanges }) => {
           const response = await fetch(item.uri);
           const blob = await response.blob();
 
-          uploadBytes(photoRef, blob)
-            .then(async () => {
-              const url = await getDownloadURL(photoRef);
-              setPicURL(url);
-            })
-            .catch(() => {
-              Alert.alert("Error", "Failed to upload image");
-            });
+          await uploadBytes(photoRef, blob);
+
+          const url = await getDownloadURL(photoRef);
+          setPicURL(url);
         } catch (error) {
-          console.error("Error during image upload: ", error);
-          Alert.alert("Error", "Failed to upload image");
+          Alert.alert(
+            t("settings.profile.error.title"),
+            t("settings.profile.error.image-upload")
+          );
         }
       }
     }
@@ -90,7 +91,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ onSaveChanges }) => {
           auth.currentUser.email !== email &&
             updateEmail(auth.currentUser, userEmail);
         } else {
-          return alert("Invalid email address");
+          return alert(t("settings.profile.error.email-invalid"));
         }
 
         if (password) {
@@ -112,10 +113,10 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ onSaveChanges }) => {
           }
         }
 
-        alert("Changes Saved!");
+        alert(t("settings.profile.save-changes.success"));
       }
     } catch (error: any) {
-      alert(`Failed to save changes: ${error.message}`);
+      alert(`${t("settings.profile.save-changes.error")}: ${error.message}`);
     }
   };
 
@@ -139,30 +140,30 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ onSaveChanges }) => {
         />
       </TouchableOpacity>
       <View style={styles.inputContainer}>
-        <Text style={styles.label}>Name</Text>
+        <Text style={styles.label}>{t("settings.profile.name")}</Text>
         <TextInput
           style={styles.input}
-          placeholder="Name"
+          placeholder={t("settings.profile.name")}
           value={name}
           onChangeText={setName}
         />
       </View>
 
       <View style={styles.inputContainer}>
-        <Text style={styles.label}>Email</Text>
+        <Text style={styles.label}>{t("settings.profile.email")}</Text>
         <TextInput
           style={styles.input}
-          placeholder="Email"
+          placeholder={t("settings.profile.email")}
           value={userEmail}
           onChangeText={setUserEmail}
         />
       </View>
 
       <View style={styles.inputContainer}>
-        <Text style={styles.label}>Password</Text>
+        <Text style={styles.label}>{t("settings.profile.password")}</Text>
         <TextInput
           style={styles.input}
-          placeholder="Password"
+          placeholder={t("settings.profile.password")}
           secureTextEntry={true}
           value={password}
           onChangeText={setPassword}
@@ -174,7 +175,9 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ onSaveChanges }) => {
         onPress={handleSaveChanges}
         testID="save-button"
       >
-        <Text style={styles.saveButtonText}>Save changes</Text>
+        <Text style={styles.saveButtonText}>
+          {t("settings.profile.save-changes.button")}
+        </Text>
       </TouchableOpacity>
     </ScrollView>
   );

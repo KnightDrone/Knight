@@ -69,5 +69,108 @@
   "global": {
     "loading": "لوڈ ہو رہا ہے...",
     "wait": "براہ کرم انتظار کریں..."
+  },
+  "settings": {
+    "title": "ترتیبات",
+    "account": {
+      "title": "اکاؤنٹ",
+      "subsections": {
+        "edit-profile": "پروفائل میں ترمیم کریں",
+        "notifications": "اطلاعات",
+        "privacy": "رازداری"
+      }
+    },
+    "support": {
+      "title": "معاونت اور معلومات",
+      "subsections": {
+        "faq": "عمومی سوالات",
+        "tnc": "شرائط و ضوابط"
+      }
+    },
+    "actions": {
+      "title": "اعمال",
+      "actions": {
+        "logout": "لاگ آوٹ",
+        "become-operator": "آپریٹر بنیں",
+        "become-user": "صارف بنیں"
+      }
+    },
+    "popups": {
+      "become-operator": {
+        "title": "آپریٹر بنیں",
+        "message": "کیا آپ واقعی آپریٹر بننا چاہتے ہیں؟ آپ لاگ آوٹ ہو جائیں گے۔",
+        "success": "آپ اب آپریٹر ہیں۔ براہ کرم دوبارہ لاگ ان کریں۔",
+        "already-operator": "آپ پہلے ہی آپریٹر ہیں۔"
+      },
+      "become-user": {
+        "title": "صارف بنیں",
+        "message": "کیا آپ واقعی صارف بننا چاہتے ہیں؟ آپ لاگ آوٹ ہو جائیں گے۔",
+        "success": "آپ اب صارف ہیں۔ براہ کرم دوبارہ لاگ ان کریں۔",
+        "already-user": "آپ پہلے ہی صارف ہیں۔"
+      },
+      "logout": {
+        "title": "لاگ آوٹ",
+        "message": "کیا آپ واقعی لاگ آوٹ ہونا چاہتے ہیں؟"
+      },
+      "confirm": "ٹھیک ہے",
+      "cancel": "منسوخ کریں",
+      "error": "خرابی",
+      "success": "کامیابی",
+      "user-not-found": "صارف نہیں ملا"
+    },
+    "notifications": {
+      "order-tracking": {
+        "title": "آرڈر کی پیروی",
+        "description": "اپنے آرڈر کی وقتاً فوقتاً تازہ کاری حاصل کریں"
+      },
+      "offers": {
+        "title": "رعایتیں اور آفرز",
+        "description": "جب رعایتیں اور آفرز ہوں تو مطلع کیا جائے"
+      },
+      "new-items": {
+        "title": "نئی اشیاء",
+        "description": "جب نئی اشیاء دستیاب ہوں تو مطلع کیا جائے"
+      }
+    },
+    "privacy-bad": {
+      "dataTracking": "ڈیٹا کی نگرانی",
+      "dataTrackingDescription": "یہ کنٹرول کریں کہ کون سا ڈیٹا شخصی بنانے کے لئے استعمال ہوتا ہے",
+      "personalizedAds": "ذاتی نوعیت کے اشتہارات",
+      "personalizedAdsDescription": "زیادہ ذاتی نوعیت کے اشتہارات کے تجربے کے لئے",
+      "shareLiveLocation": "لائیو مقام کا اشتراک کریں",
+      "shareLiveLocationDescription": "ہنگامی صورتحال میں آپ کے مقام تک رسائی کی اجازت دیں",
+      "termsOfService": "خدمات کی شرائط"
+    },
+    "privacy": {
+      "data-tracking": {
+        "title": "ڈیٹا کی نگرانی",
+        "description": "یہ کنٹرول کریں کہ کون سا ڈیٹا شخصی بنانے کے لئے استعمال ہوتا ہے"
+      },
+      "personalized-ads": {
+        "title": "ذاتی نوعیت کے اشتہارات",
+        "description": "زیادہ ذاتی نوعیت کے اشتہارات کے تجربے کے لئے"
+      },
+      "share-live-location": {
+        "title": "لائیو مقام کا اشتراک کریں",
+        "description": "ہنگامی صورتحال میں آپ کے مقام تک رسائی کی اجازت دیں"
+      },
+      "terms-of-service": "خدمات کی شرائط"
+    },
+    "profile": {
+      "error": {
+        "title": "خرابی",
+        "camera-permission": "معذرت، ہمیں اس کام کے لئے کیمرہ رول کی اجازتیں درکار ہیں!",
+        "image-upload": "تصویر اپلوڈ کرنے میں ناکام",
+        "email-invalid": "غلط ای میل پتہ"
+      },
+      "save-changes": {
+        "button": "تبدیلیاں محفوظ کریں",
+        "error": "تبدیلیاں محفوظ کرنے میں ناکام",
+        "success": "تبدیلیاں کامیابی سے محفوظ ہو گئیں"
+      },
+      "name": "نام",
+      "email": "ای میل",
+      "password": "پاس ورڈ"
+    }
   }
 }

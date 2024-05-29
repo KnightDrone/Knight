@@ -1,6 +1,11 @@
 import React from "react";
 import { render, fireEvent } from "@testing-library/react-native";
 import PrivacyScreen from "../src/app/settings/PrivacyScreen";
+import { initI18n } from "../src/lang/i18n";
+
+beforeAll(() => {
+  initI18n();
+});
 
 describe("PrivacyScreen", () => {
   const navigation = { navigate: jest.fn() };
