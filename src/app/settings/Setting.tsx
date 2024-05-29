@@ -8,12 +8,15 @@ import {
   TouchableOpacity,
   SafeAreaView,
   Alert,
+  TouchableWithoutFeedback,
+  Image,
 } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { auth } from "../../services/Firebase";
 import { logoutUser } from "../../utils/Auth";
 import FirestoreManager from "../../services/FirestoreManager";
 import { useTranslation } from "react-i18next";
+import { langIcons, locales, useLocale } from "../../lang/i18n";
 
 interface SettingsProps {
   onItemPress?: any;
@@ -37,6 +40,8 @@ const Settings: React.FC<SettingsProps> = ({
   const firestoreManager = new FirestoreManager();
   const [role, setRole] = useState<string>("");
   const { t } = useTranslation();
+
+  const [locale, setLocale] = useLocale();
 
   const handleBecomeOperator = async () => {
     Alert.alert(
@@ -247,6 +252,21 @@ const Settings: React.FC<SettingsProps> = ({
             ))}
           </View>
         ))}
+
+        <View className="flex flex-row items-center justify-center gap-4 mt-12">
+          {locales.map((lang) => (
+            <TouchableWithoutFeedback
+              key={lang}
+              onPress={() => setLocale(lang)}
+            >
+              <Image
+                key={lang}
+                className={`w-6 h-6 transition-opacity ${locale != lang && "opacity-40"}`}
+                source={langIcons[lang]}
+              />
+            </TouchableWithoutFeedback>
+          ))}
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
