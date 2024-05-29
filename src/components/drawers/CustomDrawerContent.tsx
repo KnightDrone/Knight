@@ -43,7 +43,7 @@ export const CustomDrawerContent = ({
 
         {isOperator && (
           <View className="flex flex-row items-center justify-center p-2 bg-blue-800 mt-1 rounded-xl">
-            <Text className="text-sm text-gray-500">Operator</Text>
+            <Text className="text-sm text-white">Operator</Text>
           </View>
         )}
       </View>
