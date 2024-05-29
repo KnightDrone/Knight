@@ -10,8 +10,7 @@ export type DrawerParamList = {
   };
   Knaight: undefined;
   PendingOrders: undefined;
-  SettingsStack: {
-    userId: string;
-  };
+  Profile: undefined;
+  Settings: undefined;
   "Hiking Guides": undefined;
 };
