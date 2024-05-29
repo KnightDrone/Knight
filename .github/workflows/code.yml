@@ -1,5 +1,5 @@
 name: Code Quality Checks
-on: pull_request
+on: [push, pull_request]
 
 concurrency:
     group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
@@ -71,7 +71,7 @@ jobs:
             - name: Run Jest Tests
               run: npm run test
 
-            - name: Upload coverage reports to Codecov # Waiting for access
+            - name: Upload coverage reports to Codecov
               uses: codecov/codecov-action@v4.0.1
               with:
                 token: ${{ secrets.CODECOV_TOKEN }}

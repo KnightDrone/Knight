@@ -140,6 +140,20 @@ const Settings: React.FC<SettingsProps> = ({
           icon: "edit",
           action: () => navigation.navigate("Profile"),
         } as { name: string; icon: string; action: () => void },
+        {
+          name: "Notifications",
+          icon: "notifications",
+          action: () => {
+            navigation.navigate("Notifications");
+          },
+        },
+        {
+          name: "Privacy",
+          icon: "privacy-tip",
+          action: () => {
+            navigation.navigate("Privacy");
+          },
+        },
       ],
     },
     {
@@ -151,9 +165,9 @@ const Settings: React.FC<SettingsProps> = ({
           action: () => navigation.navigate("FAQs"),
         },
         {
-          name: "Terms and Conditions",
+          name: "TermsAndConditions",
           icon: "gavel",
-          action: () => navigation.navigate("Terms and Conditions"),
+          action: () => navigation.navigate("TermsAndConditions"),
         },
       ],
     },
@@ -226,7 +240,7 @@ const styles = StyleSheet.create({
   },
   section: {
     paddingHorizontal: 20,
-    paddingTop: 10,
+    paddingTop: 30,
     paddingBottom: 20,
     borderBottomWidth: 1,
     borderBottomColor: "#E0E0E0",
