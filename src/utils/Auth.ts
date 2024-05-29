@@ -30,16 +30,25 @@ export const logInWithGoogle = (
       };
 
       firestoreManager.createUser(result.user.uid, userData).then(() => {
-        navigation.navigate("UserDrawer");
+        navigation.reset({
+          index: 0,
+          routes: [{ name: "UserDrawer" }],
+        });
       });
     } else {
       firestoreManager
         .getUser(result.user.uid)
         .then((user) => {
           if (user && user.role === "operator") {
-            navigation.navigate("OperatorDrawer");
+            navigation.reset({
+              index: 0,
+              routes: [{ name: "OperatorDrawer" }],
+            });
           } else {
-            navigation.navigate("UserDrawer");
+            navigation.reset({
+              index: 0,
+              routes: [{ name: "UserDrawer" }],
+            });
           }
         })
         .catch(() => {
@@ -53,7 +62,10 @@ export const logInWithGoogle = (
               createdAt: new Date(),
             })
             .then(() => {
-              navigation.navigate("UserDrawer");
+              navigation.reset({
+                index: 0,
+                routes: [{ name: "UserDrawer" }],
+              });
             });
         });
     }
@@ -84,13 +96,22 @@ export const logInWithEmail = async (
                 createdAt: new Date(),
               })
               .then(() => {
-                navigation.navigate("UserDrawer");
+                navigation.reset({
+                  index: 0,
+                  routes: [{ name: "UserDrawer" }],
+                });
               });
           });
         if (user && user.role === "operator") {
-          navigation.navigate("OperatorDrawer");
+          navigation.reset({
+            index: 0,
+            routes: [{ name: "OperatorDrawer" }],
+          });
         } else {
-          navigation.navigate("UserDrawer");
+          navigation.reset({
+            index: 0,
+            routes: [{ name: "UserDrawer" }],
+          });
         }
       } else {
         setError("Invalid credentials");
@@ -123,7 +144,10 @@ export const signUpWithEmail = async (
         firestoreManager
           .createUser(userCredential.user.uid, userData)
           .then(() => {
-            navigation.navigate("UserDrawer");
+            navigation.reset({
+              index: 0,
+              routes: [{ name: "UserDrawer" }],
+            });
           });
       })
       .catch((error) => {
