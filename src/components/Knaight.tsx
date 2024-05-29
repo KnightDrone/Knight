@@ -124,7 +124,7 @@ const ChatScreen = () => {
       const jsonValue = JSON.stringify(messages);
       await AsyncStorage.setItem("@messages", jsonValue);
     } catch (e) {
-      console.log("Error storing messages: ", e);
+      console.error("Error storing messages: ", e);
     }
   };
 
@@ -134,7 +134,7 @@ const ChatScreen = () => {
       const messages = JSON.parse(jsonValue || "[]");
       setMessages(messages);
     } catch (e) {
-      console.log("Error loading messages: ", e);
+      console.error("Error loading messages: ", e);
     }
   };
 
