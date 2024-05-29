@@ -1,6 +1,11 @@
 import React from "react";
 import { render, fireEvent } from "@testing-library/react-native";
 import NotificationsScreen from "../src/app/settings/NotificationsScreen";
+import { initI18n } from "../src/lang/i18n";
+
+beforeAll(() => {
+  initI18n();
+});
 
 describe("NotificationsScreen", () => {
   it("renders correctly", () => {

@@ -69,5 +69,108 @@
   "global": {
     "loading": "Se încarcă...",
     "wait": "Vă rugăm să așteptați..."
+  },
+  "settings": {
+    "title": "Setări",
+    "account": {
+      "title": "Cont",
+      "subsections": {
+        "edit-profile": "Editează profilul",
+        "notifications": "Notificări",
+        "privacy": "Confidențialitate"
+      }
+    },
+    "support": {
+      "title": "Suport & Despre",
+      "subsections": {
+        "faq": "Întrebări frecvente",
+        "tnc": "Termeni și condiții"
+      }
+    },
+    "actions": {
+      "title": "Acțiuni",
+      "actions": {
+        "logout": "Deconectare",
+        "become-operator": "Deveniți operator",
+        "become-user": "Deveniți utilizator"
+      }
+    },
+    "popups": {
+      "become-operator": {
+        "title": "Deveniți operator",
+        "message": "Ești sigur că vrei să devii operator? Vei fi deconectat.",
+        "success": "Acum ești operator. Te rog să te autentifici din nou.",
+        "already-operator": "Ești deja operator."
+      },
+      "become-user": {
+        "title": "Deveniți utilizator",
+        "message": "Ești sigur că vrei să devii utilizator? Vei fi deconectat.",
+        "success": "Acum ești utilizator. Te rog să te autentifici din nou.",
+        "already-user": "Ești deja utilizator."
+      },
+      "logout": {
+        "title": "Deconectare",
+        "message": "Ești sigur că vrei să te deconectezi?"
+      },
+      "confirm": "Ok",
+      "cancel": "Anulare",
+      "error": "Eroare",
+      "success": "Succes",
+      "user-not-found": "Utilizator negăsit"
+    },
+    "notifications": {
+      "order-tracking": {
+        "title": "Urmărire Comandă",
+        "description": "Primește actualizări periodice despre comanda ta"
+      },
+      "offers": {
+        "title": "Reduceri și Oferte",
+        "description": "Primește notificări când există reduceri și oferte"
+      },
+      "new-items": {
+        "title": "Articole Noi",
+        "description": "Primește notificări când sunt disponibile articole noi"
+      }
+    },
+    "privacy-bad": {
+      "dataTracking": "Urmărire Date",
+      "dataTrackingDescription": "Controlează ce date sunt folosite pentru personalizare",
+      "personalizedAds": "Reclame Personalizate",
+      "personalizedAdsDescription": "Pentru o experiență publicitară mai personalizată",
+      "shareLiveLocation": "Partajează Locația în Timp Real",
+      "shareLiveLocationDescription": "Permite accesul la locația ta în caz de urgență",
+      "termsOfService": "Termeni de Serviciu"
+    },
+    "privacy": {
+      "data-tracking": {
+        "title": "Urmărire Date",
+        "description": "Controlează ce date sunt folosite pentru personalizare"
+      },
+      "personalized-ads": {
+        "title": "Reclame Personalizate",
+        "description": "Pentru o experiență publicitară mai personalizată"
+      },
+      "share-live-location": {
+        "title": "Partajează Locația în Timp Real",
+        "description": "Permite accesul la locația ta în caz de urgență"
+      },
+      "terms-of-service": "Termeni de Serviciu"
+    },
+    "profile": {
+      "error": {
+        "title": "Eroare",
+        "camera-permission": "Ne pare rău, avem nevoie de permisiuni pentru camera foto pentru a face acest lucru!",
+        "image-upload": "Încărcarea imaginii a eșuat",
+        "email-invalid": "Adresă de email invalidă"
+      },
+      "save-changes": {
+        "button": "Salvează modificările",
+        "error": "Salvarea modificărilor a eșuat",
+        "success": "Modificările au fost salvate cu succes"
+      },
+      "name": "Nume",
+      "email": "Email",
+      "password": "Parolă"
+    }
   }
 }

@@ -74,8 +74,8 @@ describe("Order", () => {
   });
 
   it("setStatus should set the correct status", () => {
-    order.setStatus(OrderStatus.Shipped);
-    expect(order.getStatus()).toBe(OrderStatus.Shipped);
+    order.setStatus(OrderStatus.Delivered);
+    expect(order.getStatus()).toBe(OrderStatus.Delivered);
   });
 
   it("getOrderLocation should return the correct location", () => {

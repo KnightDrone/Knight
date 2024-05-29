@@ -69,5 +69,108 @@
   "global": {
     "loading": "جار التحميل...",
     "wait": "الرجاء الانتظار..."
+  },
+  "settings": {
+    "title": "الإعدادات",
+    "account": {
+      "title": "الحساب",
+      "subsections": {
+        "edit-profile": "تعديل الملف الشخصي",
+        "notifications": "الإشعارات",
+        "privacy": "الخصوصية"
+      }
+    },
+    "support": {
+      "title": "الدعم والمعلومات",
+      "subsections": {
+        "faq": "الأسئلة الشائعة",
+        "tnc": "الشروط والأحكام"
+      }
+    },
+    "actions": {
+      "title": "الإجراءات",
+      "actions": {
+        "logout": "تسجيل الخروج",
+        "become-operator": "كن مشغلًا",
+        "become-user": "كن مستخدمًا"
+      }
+    },
+    "popups": {
+      "become-operator": {
+        "title": "كن مشغلًا",
+        "message": "هل أنت متأكد أنك تريد أن تصبح مشغلًا؟ سيتم تسجيل خروجك.",
+        "success": "أنت الآن مشغل. يرجى تسجيل الدخول مرة أخرى.",
+        "already-operator": "أنت بالفعل مشغل."
+      },
+      "become-user": {
+        "title": "كن مستخدمًا",
+        "message": "هل أنت متأكد أنك تريد أن تصبح مستخدمًا؟ سيتم تسجيل خروجك.",
+        "success": "أنت الآن مستخدم. يرجى تسجيل الدخول مرة أخرى.",
+        "already-user": "أنت بالفعل مستخدم."
+      },
+      "logout": {
+        "title": "تسجيل الخروج",
+        "message": "هل أنت متأكد أنك تريد تسجيل الخروج؟"
+      },
+      "confirm": "موافق",
+      "cancel": "إلغاء",
+      "error": "خطأ",
+      "success": "نجاح",
+      "user-not-found": "المستخدم غير موجود"
+    },
+    "notifications": {
+      "order-tracking": {
+        "title": "تتبع الطلب",
+        "description": "تلقي تحديثات دورية حول طلبك"
+      },
+      "offers": {
+        "title": "الخصومات والعروض",
+        "description": "احصل على إشعارات عند وجود خصومات وعروض"
+      },
+      "new-items": {
+        "title": "عناصر جديدة",
+        "description": "احصل على إشعارات عندما تكون هناك عناصر جديدة متاحة"
+      }
+    },
+    "privacy-bad": {
+      "dataTracking": "تتبع البيانات",
+      "dataTrackingDescription": "تحكم في البيانات التي تستخدم للتخصيص",
+      "personalizedAds": "إعلانات مخصصة",
+      "personalizedAdsDescription": "لتجربة إعلانية أكثر تخصيصًا",
+      "shareLiveLocation": "مشاركة الموقع الحي",
+      "shareLiveLocationDescription": "السماح بالوصول إلى موقعك في حالة الطوارئ",
+      "termsOfService": "شروط الخدمة"
+    },
+    "privacy": {
+      "data-tracking": {
+        "title": "تتبع البيانات",
+        "description": "تحكم في البيانات التي تستخدم للتخصيص"
+      },
+      "personalized-ads": {
+        "title": "إعلانات مخصصة",
+        "description": "لتجربة إعلانية أكثر تخصيصًا"
+      },
+      "share-live-location": {
+        "title": "مشاركة الموقع الحي",
+        "description": "السماح بالوصول إلى موقعك في حالة الطوارئ"
+      },
+      "terms-of-service": "شروط الخدمة"
+    },
+    "profile": {
+      "error": {
+        "title": "خطأ",
+        "camera-permission": "عذرًا، نحن بحاجة إلى أذونات الوصول إلى الكاميرا لتشغيل هذا!",
+        "image-upload": "فشل في تحميل الصورة",
+        "email-invalid": "عنوان البريد الإلكتروني غير صالح"
+      },
+      "save-changes": {
+        "button": "حفظ التغييرات",
+        "error": "فشل في حفظ التغييرات",
+        "success": "تم حفظ التغييرات بنجاح"
+      },
+      "name": "الاسم",
+      "email": "البريد الإلكتروني",
+      "password": "كلمة المرور"
+    }
   }
 }
