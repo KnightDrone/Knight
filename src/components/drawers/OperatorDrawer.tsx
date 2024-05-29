@@ -13,7 +13,8 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import OperatorMap from "../../app/maps/OperatorMap";
 import PendingOrders from "../../app/order/PendingOrders";
 import { reload } from "firebase/auth";
-import { SettingsStack } from "../../app/settings/SettingsStack";
+import ProfileScreen from "../../app/settings/ProfileScreen";
+import Settings from "../../app/settings/Setting";
 
 const Drawer = createDrawerNavigator<DrawerParamList>();
 
@@ -80,6 +81,21 @@ export function OperatorDrawer<OperatorDrawerProps>(user: OperatorDrawerProps) {
       }}
     >
       <Drawer.Screen
+        name="Profile"
+        options={{
+          drawerIcon: ({ color, size }) => (
+            <Icon name="account" color={color} size={size} />
+          ),
+        }}
+      >
+        {(props: any) => (
+          <ProfileScreen
+            {...props}
+            onSaveChanges={() => setChangePFP(!changePFP)}
+          />
+        )}
+      </Drawer.Screen>
+      <Drawer.Screen
         name="Map"
         options={{
           headerShown: false,
@@ -93,18 +109,17 @@ export function OperatorDrawer<OperatorDrawerProps>(user: OperatorDrawerProps) {
         {(props: any) => <OperatorMap {...props} />}
       </Drawer.Screen>
       <Drawer.Screen
-        name="SettingsStack"
+        name="Settings"
         options={{
           drawerLabel: "Settings",
-          header: () => null,
+          headerTransparent: false,
+          headerTitle: "Settings",
           drawerIcon: ({ color }) => (
             <Icon name="cog-outline" color={color} size={22} />
           ),
         }}
       >
-        {(props: any) => (
-          <SettingsStack {...props} route={{ params: { userId: userId } }} />
-        )}
+        {(props: any) => <Settings {...props} />}
       </Drawer.Screen>
       <Drawer.Screen
         name="OrderHistory"
