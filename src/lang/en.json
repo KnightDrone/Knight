@@ -122,7 +122,7 @@
     },
     "notifications": {
       "order-tracking": {
-        "title": "Order tracking",
+        "title": "Order Tracking",
         "description": "Get periodic updates on your order"
       },
       "offers": {
