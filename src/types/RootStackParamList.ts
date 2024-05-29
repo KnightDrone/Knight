@@ -25,4 +25,13 @@ export type RootStackParamList = {
   Guide3: undefined;
   Guide4: undefined;
   Guide5: undefined;
+  Profile: {
+    userId: string;
+  };
+  Setting: undefined;
+  FAQs: undefined;
+  TermsAndConditions: undefined;
+  Privacy: undefined;
+  Notifications: undefined;
+  Map: undefined;
 };
