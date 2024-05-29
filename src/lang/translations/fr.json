@@ -69,5 +69,108 @@
   "global": {
     "loading": "Loading...",
     "wait": "Please wait..."
+  },
+  "settings": {
+    "title": "Paramètres",
+    "account": {
+      "title": "Compte",
+      "subsections": {
+        "edit-profile": "Modifier le profil",
+        "notifications": "Notifications",
+        "privacy": "Confidentialité"
+      }
+    },
+    "support": {
+      "title": "Support & À propos",
+      "subsections": {
+        "faq": "FAQ",
+        "tnc": "Conditions générales"
+      }
+    },
+    "actions": {
+      "title": "Actions",
+      "actions": {
+        "logout": "Se déconnecter",
+        "become-operator": "Devenir opérateur",
+        "become-user": "Devenir utilisateur"
+      }
+    },
+    "popups": {
+      "become-operator": {
+        "title": "Devenir opérateur",
+        "message": "Êtes-vous sûr de vouloir devenir opérateur ? Vous serez déconnecté.",
+        "success": "Vous êtes maintenant opérateur. Veuillez vous reconnecter.",
+        "already-operator": "Vous êtes déjà opérateur."
+      },
+      "become-user": {
+        "title": "Devenir utilisateur",
+        "message": "Êtes-vous sûr de vouloir devenir utilisateur ? Vous serez déconnecté.",
+        "success": "Vous êtes maintenant utilisateur. Veuillez vous reconnecter.",
+        "already-user": "Vous êtes déjà utilisateur."
+      },
+      "logout": {
+        "title": "Se déconnecter",
+        "message": "Êtes-vous sûr de vouloir vous déconnecter ?"
+      },
+      "confirm": "Ok",
+      "cancel": "Annuler",
+      "error": "Erreur",
+      "success": "Succès",
+      "user-not-found": "Utilisateur non trouvé"
+    },
+    "notifications": {
+      "order-tracking": {
+        "title": "Suivi de commande",
+        "description": "Recevez des mises à jour périodiques sur votre commande"
+      },
+      "offers": {
+        "title": "Offres et promotions",
+        "description": "Soyez informé lorsque des offres et promotions sont disponibles"
+      },
+      "new-items": {
+        "title": "Nouveaux articles",
+        "description": "Soyez informé lorsque de nouveaux articles sont disponibles"
+      }
+    },
+    "privacy-bad": {
+      "dataTracking": "Suivi des données",
+      "dataTrackingDescription": "Contrôlez les données utilisées pour la personnalisation",
+      "personalizedAds": "Publicités personnalisées",
+      "personalizedAdsDescription": "Pour une expérience publicitaire plus personnalisée",
+      "shareLiveLocation": "Partager la position en direct",
+      "shareLiveLocationDescription": "Autoriser l'accès à votre position en cas d'urgence",
+      "termsOfService": "Conditions de service"
+    },
+    "privacy": {
+      "data-tracking": {
+        "title": "Suivi des données",
+        "description": "Contrôlez les données utilisées pour la personnalisation"
+      },
+      "personalized-ads": {
+        "title": "Publicités personnalisées",
+        "description": "Pour une expérience publicitaire plus personnalisée"
+      },
+      "share-live-location": {
+        "title": "Partager la position en direct",
+        "description": "Autoriser l'accès à votre position en cas d'urgence"
+      },
+      "terms-of-service": "Conditions de service"
+    },
+    "profile": {
+      "error": {
+        "title": "Erreur",
+        "camera-permission": "Désolé, nous avons besoin des permissions pour accéder à la caméra pour fonctionner !",
+        "image-upload": "Échec du téléchargement de l'image",
+        "email-invalid": "Adresse e-mail invalide"
+      },
+      "save-changes": {
+        "button": "Sauvegarder les modifications",
+        "error": "Échec de la sauvegarde des modifications",
+        "success": "Modifications enregistrées avec succès"
+      },
+      "name": "Nom",
+      "email": "E-mail",
+      "password": "Mot de passe"
+    }
   }
 }

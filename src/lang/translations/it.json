@@ -69,5 +69,108 @@
   "global": {
     "loading": "Caricamento...",
     "wait": "Attendere prego..."
+  },
+  "settings": {
+    "title": "Impostazioni",
+    "account": {
+      "title": "Account",
+      "subsections": {
+        "edit-profile": "Modifica profilo",
+        "notifications": "Notifiche",
+        "privacy": "Privacy"
+      }
+    },
+    "support": {
+      "title": "Supporto e Informazioni",
+      "subsections": {
+        "faq": "FAQ",
+        "tnc": "Termini e Condizioni"
+      }
+    },
+    "actions": {
+      "title": "Azioni",
+      "actions": {
+        "logout": "Disconnettersi",
+        "become-operator": "Diventa un operatore",
+        "become-user": "Diventa un utente"
+      }
+    },
+    "popups": {
+      "become-operator": {
+        "title": "Diventa un operatore",
+        "message": "Sei sicuro di voler diventare un operatore? Verrai disconnesso.",
+        "success": "Ora sei un operatore. Per favore, accedi di nuovo.",
+        "already-operator": "Sei già un operatore."
+      },
+      "become-user": {
+        "title": "Diventa un utente",
+        "message": "Sei sicuro di voler diventare un utente? Verrai disconnesso.",
+        "success": "Ora sei un utente. Per favore, accedi di nuovo.",
+        "already-user": "Sei già un utente."
+      },
+      "logout": {
+        "title": "Disconnettersi",
+        "message": "Sei sicuro di voler uscire?"
+      },
+      "confirm": "Ok",
+      "cancel": "Annulla",
+      "error": "Errore",
+      "success": "Successo",
+      "user-not-found": "Utente non trovato"
+    },
+    "notifications": {
+      "order-tracking": {
+        "title": "Monitoraggio Ordine",
+        "description": "Ricevi aggiornamenti periodici sul tuo ordine"
+      },
+      "offers": {
+        "title": "Sconti e Offerte",
+        "description": "Ricevi notifiche quando ci sono sconti e offerte"
+      },
+      "new-items": {
+        "title": "Nuovi Articoli",
+        "description": "Ricevi notifiche quando ci sono nuovi articoli disponibili"
+      }
+    },
+    "privacy-bad": {
+      "dataTracking": "Tracciamento dei Dati",
+      "dataTrackingDescription": "Controlla quali dati vengono utilizzati per la personalizzazione",
+      "personalizedAds": "Annunci Personalizzati",
+      "personalizedAdsDescription": "Per un'esperienza pubblicitaria più mirata",
+      "shareLiveLocation": "Condividi la Posizione in Tempo Reale",
+      "shareLiveLocationDescription": "Consenti l'accesso alla tua posizione in caso di emergenza",
+      "termsOfService": "Termini di Servizio"
+    },
+    "privacy": {
+      "data-tracking": {
+        "title": "Tracciamento dei Dati",
+        "description": "Controlla quali dati vengono utilizzati per la personalizzazione"
+      },
+      "personalized-ads": {
+        "title": "Annunci Personalizzati",
+        "description": "Per un'esperienza pubblicitaria più mirata"
+      },
+      "share-live-location": {
+        "title": "Condividi la Posizione in Tempo Reale",
+        "description": "Consenti l'accesso alla tua posizione in caso di emergenza"
+      },
+      "terms-of-service": "Termini di Servizio"
+    },
+    "profile": {
+      "error": {
+        "title": "Errore",
+        "camera-permission": "Spiacente, abbiamo bisogno dei permessi della fotocamera per farlo funzionare!",
+        "image-upload": "Caricamento dell'immagine fallito",
+        "email-invalid": "Indirizzo email non valido"
+      },
+      "save-changes": {
+        "button": "Salva modifiche",
+        "error": "Salvataggio delle modifiche fallito",
+        "success": "Modifiche salvate con successo"
+      },
+      "name": "Nome",
+      "email": "Email",
+      "password": "Password"
+    }
   }
 }
