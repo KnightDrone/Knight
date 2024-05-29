@@ -13,6 +13,7 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 import { auth } from "../../services/Firebase";
 import { logoutUser } from "../../utils/Auth";
 import FirestoreManager from "../../services/FirestoreManager";
+import { useTranslation } from "react-i18next";
 
 interface SettingsProps {
   onItemPress?: any;
@@ -35,18 +36,22 @@ const Settings: React.FC<SettingsProps> = ({
 }: any) => {
   const firestoreManager = new FirestoreManager();
   const [role, setRole] = useState<string>("");
+  const { t } = useTranslation();
 
   const handleBecomeOperator = async () => {
     Alert.alert(
-      "Confirm",
-      "Are you sure you want to become an operator? You will be logged out.",
+      t("settings.popups.become-operator.title"),
+      t("settings.popups.become-operator.message"),
       [
         {
-          text: "Cancel",
+          text: t("settings.popups.cancel"),
           onPress: () => console.log("Cancel Pressed"),
           style: "cancel",
         },
-        { text: "OK", onPress: () => updateOperatorRole() },
+        {
+          text: t("settings.popups.confirm"),
+          onPress: () => updateOperatorRole(),
+        },
       ],
       { cancelable: false }
     );
@@ -57,29 +62,37 @@ const Settings: React.FC<SettingsProps> = ({
     if (user != null) {
       const userData = await firestoreManager.getUser(user.uid);
       if (userData && userData.role === "operator") {
-        Alert.alert("Already an operator", "You are already an operator.");
+        Alert.alert(
+          t("settings.popups.error"),
+          t("settings.popups.become-operator.already-operator")
+        );
       } else {
         firestoreManager.updateUser(user.uid, { role: "operator" });
-        Alert.alert("Success", "You are now an operator.", [
-          { text: "OK", onPress: () => logoutUser(navigation) },
-        ]);
+        Alert.alert(
+          t("settings.popups.success"),
+          t("settings.popups.become-operator.success"),
+          [{ text: "OK", onPress: () => logoutUser(navigation) }]
+        );
       }
     } else {
-      Alert.alert("Error", "Could not find user.");
+      Alert.alert(
+        t("settings.popups.error"),
+        t("settings.popups.user-not-found")
+      );
     }
   };
 
   const handleBecomeUser = async () => {
     Alert.alert(
-      "Confirm",
-      "Are you sure you want to become a user? You will be logged out.",
+      t("settings.popups.become-user.title"),
+      t("settings.popups.become-user.message"),
       [
         {
-          text: "Cancel",
+          text: t("settings.popups.cancel"),
           onPress: () => console.log("Cancel Pressed"),
           style: "cancel",
         },
-        { text: "OK", onPress: () => updateUserRole() },
+        { text: t("settings.popups.confirm"), onPress: () => updateUserRole() },
       ],
       { cancelable: false }
     );
@@ -90,29 +103,40 @@ const Settings: React.FC<SettingsProps> = ({
     if (user != null) {
       const userData = await firestoreManager.getUser(user.uid);
       if (userData && userData.role === "user") {
-        Alert.alert("Already a user", "You are already a user.");
+        Alert.alert(
+          t("settings.popups.error"),
+          t("settings.popups.become-user.already-user")
+        );
       } else {
         firestoreManager.updateUser(user.uid, { role: "user" });
-        Alert.alert("Success", "You are now a user.", [
-          { text: "OK", onPress: () => logoutUser(navigation) },
-        ]);
+        Alert.alert(
+          t("settings.popups.success"),
+          t("settings.popups.become-user.success"),
+          [{ text: "OK", onPress: () => logoutUser(navigation) }]
+        );
       }
     } else {
-      Alert.alert("Error", "Could not find user.");
+      Alert.alert(
+        t("settings.popups.error"),
+        t("settings.popups.user-not-found")
+      );
     }
   };
 
   const handleLogout = () => {
     Alert.alert(
-      "Confirm Logout",
-      "Are you sure you want to logout?",
+      t("settings.popups.logout.title"),
+      t("settings.popups.logout.message"),
       [
         {
-          text: "Cancel",
+          text: t("settings.popups.cancel"),
           onPress: () => console.log("Cancel Pressed"),
           style: "cancel",
         },
-        { text: "OK", onPress: () => logoutUser(navigation) },
+        {
+          text: t("settings.popups.confirm"),
+          onPress: () => logoutUser(navigation),
+        },
       ],
       { cancelable: false }
     );
@@ -133,22 +157,22 @@ const Settings: React.FC<SettingsProps> = ({
 
   const settingsSections: SettingsSection[] = [
     {
-      title: "Account",
+      title: t("settings.account.title"),
       data: [
         {
-          name: "Edit profile",
+          name: t("settings.account.subsections.edit-profile"),
           icon: "edit",
           action: () => navigation.navigate("Profile"),
         } as { name: string; icon: string; action: () => void },
         {
-          name: "Notifications",
+          name: t("settings.account.subsections.notifications"),
           icon: "notifications",
           action: () => {
             navigation.navigate("Notifications");
           },
         },
         {
-          name: "Privacy",
+          name: t("settings.account.subsections.privacy"),
           icon: "privacy-tip",
           action: () => {
             navigation.navigate("Privacy");
@@ -157,30 +181,37 @@ const Settings: React.FC<SettingsProps> = ({
       ],
     },
     {
-      title: "Support & About",
+      title: t("settings.support.title"),
       data: [
         {
-          name: "FAQs",
+          name: t("settings.support.subsections.faq"),
           icon: "help",
           action: () => navigation.navigate("FAQs"),
         },
         {
-          name: "TermsAndConditions",
+          name: t("settings.support.subsections.tnc"),
           icon: "gavel",
           action: () => navigation.navigate("TermsAndConditions"),
         },
       ],
     },
     {
-      title: "Actions",
+      title: t("settings.actions.title"),
       data: [
         {
-          name: `Become ${role == "operator" ? "a user" : "an operator"}`,
+          name:
+            role == "user"
+              ? t("settings.actions.actions.become-operator")
+              : t("settings.actions.actions.become-user"),
           id: "role-button",
           action: role == "operator" ? handleBecomeUser : handleBecomeOperator,
           icon: "work",
         },
-        { name: "Log out", action: handleLogout, icon: "logout" },
+        {
+          name: t("settings.actions.actions.logout"),
+          action: handleLogout,
+          icon: "logout",
+        },
       ],
     },
   ];

@@ -71,5 +71,183 @@
   "global": {
     "loading": "Loading...",
     "wait": "Please wait..."
-  }
+  },
+  "settings": {
+    "title": "Settings",
+    "account": {
+      "title": "Account",
+      "subsections": {
+        "edit-profile": "Edit profile",
+        "notifications": "Notifications",
+        "privacy": "Privacy"
+      }
+    },
+    "support": {
+      "title": "Support & About",
+      "subsections": {
+        "faq": "FAQ",
+        "tnc": "Terms & Conditions"
+      }
+    },
+    "actions": {
+      "title": "Actions",
+      "actions": {
+        "logout": "Log out",
+        "become-operator": "Become an operator",
+        "become-user": "Become a user"
+      }
+    },
+    "popups": {
+      "become-operator": {
+        "title": "Become an operator",
+        "message": "Are you sure you want to become an operator? You will be logged out.",
+        "success": "You are now an operator. Please log in again.",
+        "already-operator": "You are already an operator."
+      },
+      "become-user": {
+        "title": "Become a user",
+        "message": "Are you sure you want to become a user? You will be logged out.",
+        "success": "You are now a user. Please log in again.",
+        "already-user": "You are already a user."
+      },
+      "logout": {
+        "title": "Log out",
+        "message": "Are you sure you want to log out?"
+      },
+      "confirm": "Ok",
+      "cancel": "Cancel",
+      "error": "Error",
+      "success": "Success",
+      "user-not-found": "User not found"
+    },
+    "notifications": {
+      "order-tracking": {
+        "title": "Order Tracking",
+        "description": "Get periodic updates on your order"
+      },
+      "offers": {
+        "title": "Discounts and Offers",
+        "description": "Get notified when there are discounts and offers"
+      },
+      "new-items": {
+        "title": "New Items",
+        "description": "Get notified when there are new items available"
+      }
+    },
+    "privacy-bad": {
+      "dataTracking": "Data Tracking",
+      "dataTrackingDescription": "Control what data is used for personalization",
+      "personalizedAds": "Personalized Ads",
+      "personalizedAdsDescription": "For a more tailored ad experience",
+      "shareLiveLocation": "Share Live Location",
+      "shareLiveLocationDescription": "Allow access to your location in case of emergency",
+      "termsOfService": "Terms of Service"
+    },
+    "privacy": {
+      "data-tracking": {
+        "title": "Data Tracking",
+        "description": "Control what data is used for personalization"
+      },
+      "personalized-ads": {
+        "title": "Personalized Ads",
+        "description": "For a more tailored ad experience"
+      },
+      "share-live-location": {
+        "title": "Share Live Location",
+        "description": "Allow access to your location in case of emergency"
+      },
+      "terms-of-service": "Terms of Service"
+    },
+    "profile": {
+      "error": {
+        "title": "Error",
+        "camera-permission": "Sorry, we need camera roll permissions to make this work!",
+        "image-upload": "Failed to upload image",
+        "email-invalid": "Invalid email address"
+      },
+      "save-changes": {
+        "button": "Save changes",
+        "error": "Failed to save changes",
+        "success": "Changes saved successfully"
+      },
+      "name": "Name",
+      "email": "Email",
+      "password": "Password"
+    }
+  },
+  "faq": {
+    "1": {
+      "question": "What is Wild Knight?",
+      "answer": "Wild Knight is an app designed for mountaineers and outdoor enthusiasts to request essential items such as first aid kits, power banks, and other small products. These items are delivered quickly via drone, typically within a minute."
+    },
+    "2": {
+      "question": "How does Wild Knight work?",
+      "answer": "Users can open the Wild Knight app, select the items they need from the available list, and place an order. A nearby drone will then deliver the requested items to the user's location."
+    },
+    "3": {
+      "question": "What items can I order through Wild Knight?",
+      "answer": "You can order various essential items including first aid kits, power banks, snacks, water, and other small, portable products that may be useful during mountaineering or other outdoor activities."
+    },
+    "4": {
+      "question": "How do I place an order?",
+      "answer": "To place an order, open the Wild Knight app, browse the available items, add the desired products to your cart, and complete the checkout process. The app will then send a drone to deliver your items to your current location."
+    },
+    "5": {
+      "question": "How quickly can I expect my order to arrive?",
+      "answer": "Wild Knight aims to deliver orders within one minute, thanks to our fast and efficient drone delivery system."
+    },
+    "6": {
+      "question": "What should I do if my order doesn't arrive?",
+      "answer": "If your order doesn't arrive within the expected timeframe, you can contact our customer support through the app. We will investigate the issue and ensure that your items are delivered as quickly as possible."
+    },
+    "7": {
+      "question": "Is it safe to use drones for delivery in mountainous areas?",
+      "answer": "Yes, our drones are equipped with advanced navigation and obstacle-avoidance technologies to ensure safe and reliable delivery, even in challenging terrain."
+    },
+    "8": {
+      "question": "What happens if the weather is bad?",
+      "answer": "While our drones are designed to operate in various weather conditions, extremely severe weather may affect delivery times. In such cases, we will notify you of any delays and ensure your items are delivered as soon as it is safe to do so."
+    },
+    "9": {
+      "question": "How do I know if a drone can reach my location?",
+      "answer": "Wild Knight uses advanced GPS and mapping technologies to determine if a drone can safely reach your location. If there are any issues, the app will notify you and suggest alternative solutions."
+    },
+    "10": {
+      "question": "How do I pay for my order?",
+      "answer": "You can pay for your order directly through the Wild Knight app using a variety of payment methods, including credit/debit cards, mobile wallets, and other secure payment options."
+    },
+    "11": {
+      "question": "Are there any additional delivery charges?",
+      "answer": "Delivery charges may vary depending on your location and the items ordered. The total cost, including any delivery fees, will be displayed at checkout before you place your order."
+    },
+    "12": {
+      "question": "How do I create an account?",
+      "answer": "To create an account, download the Wild Knight app, open it, and follow the registration prompts. You will need to provide basic information such as your name, email address, and phone number."
+    },
+    "13": {
+      "question": "What if I forget my password?",
+      "answer": "If you forget your password, you can reset it by clicking the \"Forgot Password\" link on the login screen. Follow the instructions to receive a password reset link via email."
+    },
+    "14": {
+      "question": "How can I contact customer support?",
+      "answer": "You can contact customer support through the Wild Knight app by navigating to the Support or Help section. Our support team is available to assist you with any issues or questions you may have."
+    },
+    "15": {
+      "question": "Can I track the drone during delivery?",
+      "answer": "Yes, the Wild Knight app provides real-time tracking so you can monitor the drone's progress and estimated arrival time."
+    },
+    "16": {
+      "question": "Can I cancel my order?",
+      "answer": "Orders can be canceled within a certain timeframe after placement. If you need to cancel an order, go to the Orders section in the app and follow the cancellation instructions. Please note that cancellations may not be possible once the drone is en route."
+    },
+    "17": {
+      "question": "What areas does Wild Knight serve?",
+      "answer": "Wild Knight is currently available in select mountainous regions. We are continually expanding our service areas, so stay tuned for updates on new locations."
+    },
+    "18": {
+      "question": "Are there any limitations on the weight or size of items that can be delivered?",
+      "answer": "Yes, due to the capabilities of our drones, there are limitations on the weight and size of items that can be delivered. The app will automatically restrict items that exceed these limits."
+    }
+  },
+  "terms-and-conditions": "Effective Date: September 1, 2024\n\n1. Acceptance of Terms\n\nBy accessing and using the Wild Knight app, you accept and agree to be bound by the terms and provision of this agreement. If you do not agree to abide by these terms, please do not use this app.\n\n2. Changes to Terms\n\nWild Knight reserves the right to modify these terms at any time. We will notify you of any changes by posting the new terms on the app and updating the effective date. Your continued use of the app after any changes constitutes your acceptance of the new terms.\n\n3. Use of the App\n\nYou agree to use the Wild Knight app only for lawful purposes and in accordance with these terms. You agree not to use the app:\n- In any way that violates any applicable federal, state, local, or international law or regulation.\n- For the purpose of exploiting, harming, or attempting to exploit or harm minors in any way by exposing them to inappropriate content or otherwise.\n- To transmit, or procure the sending of, any advertising or promotional material without our prior written consent.\n\n4. Account Security\n\nYou are responsible for maintaining the confidentiality of your account and password and for restricting access to your device. You agree to accept responsibility for all activities that occur under your account or password.\n\n5. Orders and Payments\n\nAll orders placed through the Wild Knight app are subject to our acceptance. We reserve the right to refuse or cancel any order for any reason. You agree to provide current, complete, and accurate purchase and account information for all purchases made via our app.\n\n6. Delivery\n\nWild Knight will make every effort to deliver your items within the promised timeframe. However, we are not liable for any delays or failure to deliver due to circumstances beyond our control.\n\n7. Intellectual Property Rights\n\nThe app and its original content, features, and functionality are and will remain the exclusive property of Wild Knight and its licensors. The app is protected by copyright, trademark, and other laws of both the United States and foreign countries.\n\n8. Limitation of Liability\n\nIn no event shall Wild Knight, nor its directors, employees, partners, agents, suppliers, or affiliates, be liable for any indirect, incidental, special, consequential or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other intangible losses, resulting from (i) your use or inability to use the app; (ii) any unauthorized access to or use of our servers and/or any personal information stored therein; and (iii) any bugs, viruses, trojan horses, or the like that may be transmitted to or through our app by any third party.\n\n9. Governing Law\n\nThese terms shall be governed and construed in accordance with the laws of Switzerland, without regard to its conflict of law provisions.\n\n10. Contact Us\n\nIf you have any questions about these Terms and Conditions, please contact us at yourknightsolution.com.\n\nThank you for using Wild Knight!"
 }

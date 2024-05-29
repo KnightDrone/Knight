@@ -1,9 +1,11 @@
 import React from "react";
 import ProfileScreen from "../src/app/settings/ProfileScreen";
 import { render, fireEvent, waitFor } from "@testing-library/react-native";
+import { initI18n } from "../src/lang/i18n";
 
 beforeAll(() => {
   global.alert = jest.fn();
+  initI18n();
 });
 
 jest.mock("../src/services/Firebase", () => {
