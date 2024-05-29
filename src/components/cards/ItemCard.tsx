@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, Image, TouchableOpacity } from "react-native";
 import { Item } from "../../types/Item";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { BlurView } from "expo-blur";
@@ -27,28 +27,35 @@ function ItemCard({
   }
 
   return (
-    <View style={styles.visibleCard} testID={`item-card-view-${item.getId()}`}>
-      <BlurView intensity={10} style={styles.blurContainer} testID="blur-view">
-        <View style={styles.card}>
+    <View
+      className="absolute top-0 left-0 right-0 bottom-0 z-10 justify-center items-center"
+      testID={`item-card-view-${item.getId()}`}
+    >
+      <BlurView
+        intensity={10}
+        className="absolute top-0 left-0 right-0 bottom-0 justify-center items-center"
+        testID="blur-view"
+      >
+        <View className="bg-white rounded-2xl p-5 items-center justify-center shadow-lg w-[90%] h-[55%] self-center">
           <TouchableOpacity
-            style={styles.closeButton}
+            className="self-start"
             onPress={handleClose}
             testID="close-button"
           >
             <Icon name="close" size={20} color="#000" testID="close-icon" />
           </TouchableOpacity>
-          <Text style={styles.title}>
+          <Text className="text-2xl font-bold my-2 text-center">
             {t(item.getName() as TranslationKeys)}
           </Text>
-          <Text style={styles.description}>
+          <Text className="text-lg text-center my-2">
             {t(item.getDescription() as TranslationKeys)}
           </Text>
           <Image
-            style={styles.image}
+            className="w-50 h-50 my-2"
             source={item.getImage()}
             testID="item-image"
           />
-          <View style={styles.bottomRow}>
+          <View className="flex-row items-center justify-between w-full">
             <PayButton
               amount={item.getPrice() * 100}
               onSuccessfulPayment={handleOrder}
@@ -59,96 +66,4 @@ function ItemCard({
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  visibleCard: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    zIndex: 1,
-    elevation: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  blurContainer: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    justifyContent: "center", // Ensure the content of BlurView is also centered
-    alignItems: "center", // This will center the card horizontally and vertically
-  },
-  card: {
-    backgroundColor: "#fff",
-    borderRadius: 20,
-    padding: 20,
-    alignItems: "center",
-    justifyContent: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-    width: "90%",
-    height: "55%",
-    alignSelf: "center",
-  },
-  closeButton: {
-    alignSelf: "flex-start",
-  },
-  closeButtonText: {
-    fontSize: 18,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginVertical: 8,
-    justifyContent: "center",
-    textAlign: "center",
-  },
-  description: {
-    fontSize: 16,
-    textAlign: "center",
-    marginVertical: 8,
-  },
-  image: {
-    width: 200,
-    height: 200,
-    marginVertical: 8,
-  },
-  price: {
-    fontSize: 18,
-    marginVertical: 8,
-  },
-  orderButton: {
-    backgroundColor: "blue",
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    borderRadius: 10,
-    marginVertical: 8,
-  },
-  orderButtonText: {
-    fontSize: 18,
-    color: "#fff",
-    textAlign: "center",
-  },
-  bottomRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    width: "100%",
-  },
-});
-
 export default ItemCard;

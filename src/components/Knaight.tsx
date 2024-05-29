@@ -3,102 +3,41 @@ import {
   FlatList,
   View,
   Text,
-  StyleSheet,
   TextInput,
   ActivityIndicator,
 } from "react-native";
 import OpenAI from "openai";
 import { TextField } from "../ui/TextField";
 import { Button } from "../ui/Button";
-
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 10,
-    backgroundColor: "#fff",
-    //marginBottom: 0,
-  },
-  userMessage: {
-    alignSelf: "flex-end",
-    backgroundColor: "#48A6C9",
-    borderRadius: 5,
-    padding: 10,
-    marginVertical: 5,
-    marginLeft: "15%",
-  },
-  userMessageText: {
-    color: "#fff", // White text color
-    fontSize: 16,
-  },
-  botMessage: {
-    alignSelf: "flex-start",
-    backgroundColor: "#f1f0f0",
-    borderRadius: 5,
-    padding: 10,
-    marginVertical: 5,
-    marginRight: "15%",
-  },
-  botMessageText: {
-    color: "#000", // Black text color
-    fontSize: 16,
-  },
-  inputContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    padding: 0,
-    marginTop: 10,
-  },
-  input: {
-    flex: 1,
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 5,
-    padding: 10,
-    marginVertical: 10,
-    marginRight: 10,
-  },
-  loadingIndicator: {
-    marginVertical: 10,
-  },
-});
-
 type Message = {
   id: string;
   text: string;
   sender: "user" | "assistant";
 };
-
 const ChatScreen = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const flatListRef = useRef<FlatList>(null);
-
   const scrollToBottom = () => {
     flatListRef.current?.scrollToEnd({ animated: true });
   };
-
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
-
   const handleSend = async () => {
     if (!input.trim()) return;
-
     const newMessage: Message = {
       id: Date.now().toString(),
       text: input,
       sender: "user",
     };
-
     setMessages([...messages, newMessage]);
     setInput("");
     setLoading(true);
-
     try {
       const completion = await openai.chat.completions.create({
         messages: [
@@ -115,15 +54,13 @@ const ChatScreen = () => {
           ...messages.map((msg) => ({ role: msg.sender, content: msg.text })),
           { role: "user", content: input },
         ],
-        model: "gpt-3.5-turbo",
+        model: "gpt-4o",
       });
-
       const responseMessage: Message = {
         id: Date.now().toString(),
         text: completion.choices[0].message.content as string,
         sender: "assistant",
       };
-
       setMessages((prevMessages) => [...prevMessages, responseMessage]);
     } catch (error) {
       console.error("Error sending message:", error);
@@ -131,9 +68,8 @@ const ChatScreen = () => {
       setLoading(false);
     }
   };
-
   return (
-    <View style={styles.container}>
+    <View className="flex-1 p-2 bg-white">
       <FlatList
         className="max-h-[91%]"
         ref={flatListRef}
@@ -142,16 +78,18 @@ const ChatScreen = () => {
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <View
-            style={
-              item.sender === "user" ? styles.userMessage : styles.botMessage
-            }
+            className={`${
+              item.sender === "user"
+                ? "self-end bg-[#48A6C9] rounded p-2 my-1 ml-[15%]"
+                : "self-start bg-[#f1f0f0] rounded p-2 my-1 mr-[15%]"
+            }`}
           >
             <Text
-              style={
+              className={`${
                 item.sender === "user"
-                  ? styles.userMessageText
-                  : styles.botMessageText
-              }
+                  ? "text-white text-lg"
+                  : "text-black text-lg"
+              }`}
             >
               {item.text}
             </Text>
@@ -161,15 +99,11 @@ const ChatScreen = () => {
         onLayout={scrollToBottom}
       />
       {loading && (
-        <ActivityIndicator
-          style={styles.loadingIndicator}
-          testID="loading-indicator"
-        />
+        <ActivityIndicator className="my-2" testID="loading-indicator" />
       )}
-      <View style={styles.inputContainer}>
+      <View className="flex-row items-center mt-2">
         <TextField
-          //style={styles.input}
-          className="max-w-[70%] mr-3"
+          className="flex-1 border border-gray-300 rounded p-2 mr-2"
           value={input}
           onChangeText={setInput}
           type="text"
@@ -188,5 +122,4 @@ const ChatScreen = () => {
     </View>
   );
 };
-
 export default ChatScreen;

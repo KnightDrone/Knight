@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, Platform } from "react-native";
+import { Text, View, Platform } from "react-native";
 // ------------- FIREBASE IMPORTS ----------------
 import {
   auth,

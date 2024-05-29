@@ -1,5 +1,5 @@
 import React from "react";
-import { ScrollView, View, Text, StyleSheet, SafeAreaView } from "react-native";
+import { ScrollView, View, Text, SafeAreaView } from "react-native";
 
 const FAQs = () => {
   const faqs = [
@@ -97,47 +97,22 @@ const FAQs = () => {
   ];
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView className="flex-1 bg-gray-100 px-5 py-2.5">
       <ScrollView>
         {faqs.map((faq, index) => (
-          <View key={index} style={styles.faqItem}>
-            <Text style={styles.question}>{faq.question}</Text>
-            <Text style={styles.answer}>{faq.answer}</Text>
+          <View
+            key={index}
+            className="bg-white rounded-lg p-4 mb-2.5 shadow-md"
+          >
+            <Text className="text-lg font-bold mb-1.5 text-gray-800">
+              {faq.question}
+            </Text>
+            <Text className="text-base text-gray-600">{faq.answer}</Text>
           </View>
         ))}
       </ScrollView>
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#f7f7f7",
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-  },
-  faqItem: {
-    backgroundColor: "#ffffff",
-    borderRadius: 8,
-    padding: 15,
-    marginBottom: 10,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 5,
-    elevation: 3,
-  },
-  question: {
-    fontSize: 18,
-    fontWeight: "bold",
-    marginBottom: 5,
-    color: "#333",
-  },
-  answer: {
-    fontSize: 16,
-    color: "#666",
-  },
-});
 
 export default FAQs;
