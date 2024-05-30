@@ -15,6 +15,30 @@
     "email": "Enter your email",
     "button": "Reset password"
   },
+  "content": {
+    "see-offline-content": "See our offline Hiker guides",
+    "title": "Offline guides",
+    "guide-1": {
+      "title": "Essential Gear for Every Hiker",
+      "content": "Before you set out on your hiking adventures, it’s crucial to have the right gear. The essentials start with a sturdy pair of hiking boots that provide good ankle support and have a solid grip. Break them in before hitting the trail to avoid blisters. Alongside your boots, a comfortable backpack is key. Opt for one with multiple compartments and a hydration reservoir to keep your gear organized and water accessible.\n\nNext, dress in layers to prepare for changing weather conditions. Start with moisture-wicking base layers to keep sweat away from your skin, add insulating mid-layers for warmth, and finish with a waterproof, windproof outer layer. Don’t forget a hat and gloves, even in warmer weather, as temperatures can drop unexpectedly, especially at higher elevations. Include a sun hat and sunglasses to protect against UV rays, and consider wearing gaiters to keep debris out of your boots.\n\nOther must-haves include a reliable map and compass or a GPS device. Learning to use these tools effectively is crucial for navigating unfamiliar terrain. A first aid kit is indispensable; it should include bandages, antiseptics, blister treatment, and any personal medications. A multi-tool can be a lifesaver for various tasks, from gear repair to food preparation. Lastly, pack high-energy snacks such as nuts, dried fruit, and energy bars, along with plenty of water to stay fueled and hydrated throughout your hike. Consider carrying a water filter or purification tablets if you'll be hiking near natural water sources."
+    },
+    "guide-2": {
+      "title": "Map Reading and Compass Skills",
+      "content": "Understanding how to read a map and use a compass is an essential skill for any hiker, ensuring you can navigate safely through unfamiliar terrain. Start by familiarizing yourself with topographic maps, which show the shape and features of the land. Learn to read contour lines, which indicate elevation changes, and understand the map’s legend and scale. Pay attention to symbols for trails, water sources, and landmarks.\n\nUsing a compass in conjunction with a map can help you pinpoint your location and find your way. Begin by setting your map to true north, aligning the north on the map with the north on your compass. Practice taking bearings by pointing the compass at a landmark and reading the degrees. Then, use this bearing to navigate by keeping the red needle on the compass aligned with the direction of travel arrow. Regularly check your position against the map to ensure you stay on course, and make note of any changes in terrain or direction.\n\nFor more advanced navigation, learn to triangulate your position using landmarks. This involves taking bearings on two or more distinct features and plotting them on your map to find your exact location. Practice these skills in a safe environment before relying on them in the wilderness. Additionally, consider learning how to use a GPS device or a smartphone app designed for hiking, as these can provide valuable backup information. However, always carry a physical map and compass, as electronic devices can fail or run out of battery."
+    },
+    "guide-3": {
+      "title": "Tips for Wilderness Survival",
+      "content": "Hiking can sometimes take unexpected turns, so knowing basic wilderness survival skills is vital. Start with understanding the principles of Leave No Trace, which help preserve the natural environment. Always tell someone your plans, including your route and expected return time, to ensure someone knows where you are.\n\nIf you get lost, remember the STOP principle: Stop, Think, Observe, and Plan. Avoid panicking and stay put if possible. Use your map and compass to reorient yourself. In case of an emergency, having a whistle, signal mirror, or flare can help rescuers find you. Learn how to build a shelter using natural materials like branches and leaves, or carry a lightweight emergency shelter. Knowing how to start a fire using a fire starter kit or waterproof matches is crucial for warmth and signaling. Practice these skills before your hike.\n\nStaying hydrated is critical, so know how to find and purify water in the wild. Carry a water filter, purification tablets, or learn how to boil water effectively. Familiarize yourself with edible plants and basic foraging, but also know which plants to avoid. Understanding how to deal with wildlife encounters, such as bear or snake safety, can also prevent dangerous situations. Lastly, always carry a well-stocked first aid kit and know basic first aid procedures for treating injuries, hypothermia, and heat exhaustion."
+    },
+    "guide-4": {
+      "title": "Respecting Nature and Fellow Hikers",
+      "content": "Good trail etiquette ensures a pleasant experience for everyone on the trail. Always yield to uphill hikers and step aside to let them pass. When hiking in a group, keep to a single file on narrow trails and avoid blocking the path. If you bring pets, keep them on a leash and under control at all times. Ensure that your pets are also trail-ready and carry enough supplies for them.\n\nRespect wildlife by observing from a distance and never feeding animals. Stick to designated trails to protect fragile ecosystems and avoid damaging vegetation. Pack out all trash, including biodegradable items like fruit peels, and follow the Leave No Trace principles to minimize your impact on the environment. This includes properly disposing of human waste by digging a cathole at least 6-8 inches deep and at least 200 feet away from water sources, trails, and campsites.\n\nGreeting fellow hikers with a friendly nod or hello can enhance the sense of community on the trail. Be considerate of noise levels to preserve the tranquility of nature for others. If you encounter mountain bikers or horseback riders, step to the downhill side of the trail to give them the right of way. Remember that trail etiquette also involves being prepared and self-sufficient, carrying all the necessary gear to avoid having to rely on others in an emergency."
+    },
+    "guide-5": {
+      "title": "Conditioning Your Body for the Trail",
+      "content": "Preparing your body for the physical demands of hiking can enhance your experience and reduce the risk of injury. Start with cardiovascular exercises like walking, running, or cycling to build stamina. Aim for at least 30 minutes of cardio three times a week, gradually increasing the intensity and duration as your fitness improves.\n\nStrength training is also essential, focusing on your legs, core, and upper body. Exercises like squats, lunges, and planks can improve your stability and endurance on uneven terrain. Add weight training to strengthen muscles that support your joints, such as your quadriceps, hamstrings, and calves. Incorporate flexibility exercises such as yoga or stretching routines to increase your range of motion and prevent stiffness, which can be particularly beneficial after long hikes.\n\nBefore hitting the trail, do a few practice hikes with a loaded backpack to simulate real conditions. Gradually increase the distance and difficulty of your hikes to build confidence and physical readiness. Hydrate well and fuel your body with nutritious foods to maintain energy levels during your hikes. Pay attention to your body and rest if you feel any pain or discomfort to avoid overuse injuries. Additionally, learning proper hiking techniques, such as how to ascend and descend steep terrain, can help you move more efficiently and reduce strain on your body."
+    }
+  },
   "signup": {
     "title": "Sign up",
     "username": "Enter your username",
@@ -71,5 +95,183 @@
   "global": {
     "loading": "Loading...",
     "wait": "Please wait..."
-  }
+  },
+  "settings": {
+    "title": "Settings",
+    "account": {
+      "title": "Account",
+      "subsections": {
+        "edit-profile": "Edit profile",
+        "notifications": "Notifications",
+        "privacy": "Privacy"
+      }
+    },
+    "support": {
+      "title": "Support & About",
+      "subsections": {
+        "faq": "FAQ",
+        "tnc": "Terms & Conditions"
+      }
+    },
+    "actions": {
+      "title": "Actions",
+      "actions": {
+        "logout": "Log out",
+        "become-operator": "Become an operator",
+        "become-user": "Become a user"
+      }
+    },
+    "popups": {
+      "become-operator": {
+        "title": "Become an operator",
+        "message": "Are you sure you want to become an operator? You will be logged out.",
+        "success": "You are now an operator. Please log in again.",
+        "already-operator": "You are already an operator."
+      },
+      "become-user": {
+        "title": "Become a user",
+        "message": "Are you sure you want to become a user? You will be logged out.",
+        "success": "You are now a user. Please log in again.",
+        "already-user": "You are already a user."
+      },
+      "logout": {
+        "title": "Log out",
+        "message": "Are you sure you want to log out?"
+      },
+      "confirm": "Ok",
+      "cancel": "Cancel",
+      "error": "Error",
+      "success": "Success",
+      "user-not-found": "User not found"
+    },
+    "notifications": {
+      "order-tracking": {
+        "title": "Order Tracking",
+        "description": "Get periodic updates on your order"
+      },
+      "offers": {
+        "title": "Discounts and Offers",
+        "description": "Get notified when there are discounts and offers"
+      },
+      "new-items": {
+        "title": "New Items",
+        "description": "Get notified when there are new items available"
+      }
+    },
+    "privacy-bad": {
+      "dataTracking": "Data Tracking",
+      "dataTrackingDescription": "Control what data is used for personalization",
+      "personalizedAds": "Personalized Ads",
+      "personalizedAdsDescription": "For a more tailored ad experience",
+      "shareLiveLocation": "Share Live Location",
+      "shareLiveLocationDescription": "Allow access to your location in case of emergency",
+      "termsOfService": "Terms of Service"
+    },
+    "privacy": {
+      "data-tracking": {
+        "title": "Data Tracking",
+        "description": "Control what data is used for personalization"
+      },
+      "personalized-ads": {
+        "title": "Personalized Ads",
+        "description": "For a more tailored ad experience"
+      },
+      "share-live-location": {
+        "title": "Share Live Location",
+        "description": "Allow access to your location in case of emergency"
+      },
+      "terms-of-service": "Terms of Service"
+    },
+    "profile": {
+      "error": {
+        "title": "Error",
+        "camera-permission": "Sorry, we need camera roll permissions to make this work!",
+        "image-upload": "Failed to upload image",
+        "email-invalid": "Invalid email address"
+      },
+      "save-changes": {
+        "button": "Save changes",
+        "error": "Failed to save changes",
+        "success": "Changes saved successfully"
+      },
+      "name": "Name",
+      "email": "Email",
+      "password": "Password"
+    }
+  },
+  "faq": {
+    "1": {
+      "question": "What is Wild Knight?",
+      "answer": "Wild Knight is an app designed for mountaineers and outdoor enthusiasts to request essential items such as first aid kits, power banks, and other small products. These items are delivered quickly via drone, typically within a minute."
+    },
+    "2": {
+      "question": "How does Wild Knight work?",
+      "answer": "Users can open the Wild Knight app, select the items they need from the available list, and place an order. A nearby drone will then deliver the requested items to the user's location."
+    },
+    "3": {
+      "question": "What items can I order through Wild Knight?",
+      "answer": "You can order various essential items including first aid kits, power banks, snacks, water, and other small, portable products that may be useful during mountaineering or other outdoor activities."
+    },
+    "4": {
+      "question": "How do I place an order?",
+      "answer": "To place an order, open the Wild Knight app, browse the available items, add the desired products to your cart, and complete the checkout process. The app will then send a drone to deliver your items to your current location."
+    },
+    "5": {
+      "question": "How quickly can I expect my order to arrive?",
+      "answer": "Wild Knight aims to deliver orders within one minute, thanks to our fast and efficient drone delivery system."
+    },
+    "6": {
+      "question": "What should I do if my order doesn't arrive?",
+      "answer": "If your order doesn't arrive within the expected timeframe, you can contact our customer support through the app. We will investigate the issue and ensure that your items are delivered as quickly as possible."
+    },
+    "7": {
+      "question": "Is it safe to use drones for delivery in mountainous areas?",
+      "answer": "Yes, our drones are equipped with advanced navigation and obstacle-avoidance technologies to ensure safe and reliable delivery, even in challenging terrain."
+    },
+    "8": {
+      "question": "What happens if the weather is bad?",
+      "answer": "While our drones are designed to operate in various weather conditions, extremely severe weather may affect delivery times. In such cases, we will notify you of any delays and ensure your items are delivered as soon as it is safe to do so."
+    },
+    "9": {
+      "question": "How do I know if a drone can reach my location?",
+      "answer": "Wild Knight uses advanced GPS and mapping technologies to determine if a drone can safely reach your location. If there are any issues, the app will notify you and suggest alternative solutions."
+    },
+    "10": {
+      "question": "How do I pay for my order?",
+      "answer": "You can pay for your order directly through the Wild Knight app using a variety of payment methods, including credit/debit cards, mobile wallets, and other secure payment options."
+    },
+    "11": {
+      "question": "Are there any additional delivery charges?",
+      "answer": "Delivery charges may vary depending on your location and the items ordered. The total cost, including any delivery fees, will be displayed at checkout before you place your order."
+    },
+    "12": {
+      "question": "How do I create an account?",
+      "answer": "To create an account, download the Wild Knight app, open it, and follow the registration prompts. You will need to provide basic information such as your name, email address, and phone number."
+    },
+    "13": {
+      "question": "What if I forget my password?",
+      "answer": "If you forget your password, you can reset it by clicking the \"Forgot Password\" link on the login screen. Follow the instructions to receive a password reset link via email."
+    },
+    "14": {
+      "question": "How can I contact customer support?",
+      "answer": "You can contact customer support through the Wild Knight app by navigating to the Support or Help section. Our support team is available to assist you with any issues or questions you may have."
+    },
+    "15": {
+      "question": "Can I track the drone during delivery?",
+      "answer": "Yes, the Wild Knight app provides real-time tracking so you can monitor the drone's progress and estimated arrival time."
+    },
+    "16": {
+      "question": "Can I cancel my order?",
+      "answer": "Orders can be canceled within a certain timeframe after placement. If you need to cancel an order, go to the Orders section in the app and follow the cancellation instructions. Please note that cancellations may not be possible once the drone is en route."
+    },
+    "17": {
+      "question": "What areas does Wild Knight serve?",
+      "answer": "Wild Knight is currently available in select mountainous regions. We are continually expanding our service areas, so stay tuned for updates on new locations."
+    },
+    "18": {
+      "question": "Are there any limitations on the weight or size of items that can be delivered?",
+      "answer": "Yes, due to the capabilities of our drones, there are limitations on the weight and size of items that can be delivered. The app will automatically restrict items that exceed these limits."
+    }
+  },
+  "terms-and-conditions": "Effective Date: September 1, 2024\n\n1. Acceptance of Terms\n\nBy accessing and using the Wild Knight app, you accept and agree to be bound by the terms and provision of this agreement. If you do not agree to abide by these terms, please do not use this app.\n\n2. Changes to Terms\n\nWild Knight reserves the right to modify these terms at any time. We will notify you of any changes by posting the new terms on the app and updating the effective date. Your continued use of the app after any changes constitutes your acceptance of the new terms.\n\n3. Use of the App\n\nYou agree to use the Wild Knight app only for lawful purposes and in accordance with these terms. You agree not to use the app:\n- In any way that violates any applicable federal, state, local, or international law or regulation.\n- For the purpose of exploiting, harming, or attempting to exploit or harm minors in any way by exposing them to inappropriate content or otherwise.\n- To transmit, or procure the sending of, any advertising or promotional material without our prior written consent.\n\n4. Account Security\n\nYou are responsible for maintaining the confidentiality of your account and password and for restricting access to your device. You agree to accept responsibility for all activities that occur under your account or password.\n\n5. Orders and Payments\n\nAll orders placed through the Wild Knight app are subject to our acceptance. We reserve the right to refuse or cancel any order for any reason. You agree to provide current, complete, and accurate purchase and account information for all purchases made via our app.\n\n6. Delivery\n\nWild Knight will make every effort to deliver your items within the promised timeframe. However, we are not liable for any delays or failure to deliver due to circumstances beyond our control.\n\n7. Intellectual Property Rights\n\nThe app and its original content, features, and functionality are and will remain the exclusive property of Wild Knight and its licensors. The app is protected by copyright, trademark, and other laws of both the United States and foreign countries.\n\n8. Limitation of Liability\n\nIn no event shall Wild Knight, nor its directors, employees, partners, agents, suppliers, or affiliates, be liable for any indirect, incidental, special, consequential or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other intangible losses, resulting from (i) your use or inability to use the app; (ii) any unauthorized access to or use of our servers and/or any personal information stored therein; and (iii) any bugs, viruses, trojan horses, or the like that may be transmitted to or through our app by any third party.\n\n9. Governing Law\n\nThese terms shall be governed and construed in accordance with the laws of Switzerland, without regard to its conflict of law provisions.\n\n10. Contact Us\n\nIf you have any questions about these Terms and Conditions, please contact us at yourknightsolution.com.\n\nThank you for using Wild Knight!"
 }

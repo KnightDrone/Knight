@@ -3,8 +3,13 @@ import React from "react";
 import { render, fireEvent, waitFor } from "@testing-library/react-native";
 import Settings from "../src/app/settings/Setting";
 import { Alert } from "react-native";
+import { initI18n } from "../src/lang/i18n";
 
 jest.spyOn(Alert, "alert");
+
+beforeAll(() => {
+  initI18n();
+});
 
 describe("Settings Component", () => {
   it("renders correctly", () => {
@@ -29,7 +34,7 @@ describe("Settings Component", () => {
       expect(Alert.alert).toHaveBeenCalled();
       const lastAlertCall = (Alert.alert as jest.Mock).mock.calls[0];
       const buttons = lastAlertCall[2];
-      const confirm = buttons.find((button: any) => button.text === "OK");
+      const confirm = buttons.find((button: any) => button.text === "Ok");
       confirm.onPress();
     });
   });

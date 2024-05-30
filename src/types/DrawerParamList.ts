@@ -15,4 +15,5 @@ export type DrawerParamList = {
   };
   OfflineMap: undefined;
   OfflineMapSettings: undefined;
+  "Hiking Guides": undefined;
 };

@@ -20,6 +20,7 @@ import { reload } from "firebase/auth";
 import FAQs from "../../app/settings/FAQs";
 import TermsAndConditions from "../../app/settings/TermsAndConditions";
 import { SettingsStack } from "../../app/settings/SettingsStack";
+import { ContentIndex } from "../../app/content/ContentIndex";
 import { OfflineMapStack } from "../../app/maps/offline/OfflineStack";
 
 const Drawer = createDrawerNavigator<DrawerParamList>();
@@ -166,6 +167,16 @@ export function UserDrawer<UserDrawerProps>(user: UserDrawerProps) {
           ),
         }}
         component={ChatScreen}
+      />
+      <Drawer.Screen
+        name="Hiking Guides"
+        options={{
+          drawerLabel: "Hiker's Guides",
+          drawerIcon: ({ color }) => (
+            <Icon name="hiking" color={color} size={22} />
+          ),
+        }}
+        component={ContentIndex}
       />
     </Drawer.Navigator>
   );
