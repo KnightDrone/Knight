@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, Image, TouchableOpacity } from "react-native";
+import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import { Item } from "../../types/Item";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { BlurView } from "expo-blur";
@@ -28,34 +28,34 @@ function ItemCard({
 
   return (
     <View
-      className="absolute top-0 left-0 right-0 bottom-0 z-10 justify-center items-center"
+      className="absolute top-2/3 z-10 justify-center items-center"
       testID={`item-card-view-${item.getId()}`}
     >
       <BlurView
+        className="absolute h-screen justify-center items-center"
         intensity={10}
-        className="absolute top-0 left-0 right-0 bottom-0 justify-center items-center"
         testID="blur-view"
       >
-        <View className="bg-white rounded-2xl p-5 items-center justify-center shadow-lg w-[90%] h-[55%] self-center">
+        <View className="bg-white w-2/3 h-auto rounded-2xl p-5 items-center justify-center shadow-lg ">
           <TouchableOpacity
-            className="self-start"
+            className="absolute top-5 right-5"
             onPress={handleClose}
             testID="close-button"
           >
             <Icon name="close" size={20} color="#000" testID="close-icon" />
           </TouchableOpacity>
+          <Image
+            className="w-40 h-40 my-2"
+            source={item.getImage()}
+            testID="item-image"
+          />
           <Text className="text-2xl font-bold my-2 text-center">
             {t(item.getName() as TranslationKeys)}
           </Text>
           <Text className="text-lg text-center my-2">
             {t(item.getDescription() as TranslationKeys)}
           </Text>
-          <Image
-            className="w-50 h-50 my-2"
-            source={item.getImage()}
-            testID="item-image"
-          />
-          <View className="flex-row items-center justify-between w-full">
+          <View className="w-full mt-4">
             <PayButton
               amount={item.getPrice() * 100}
               onSuccessfulPayment={handleOrder}
@@ -66,4 +66,5 @@ function ItemCard({
     </View>
   );
 }
+
 export default ItemCard;

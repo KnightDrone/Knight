@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
-  StyleSheet,
   ScrollView,
   Image,
   TouchableOpacity,
@@ -121,9 +120,9 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ onSaveChanges }) => {
   };
 
   return (
-    <ScrollView style={styles.container} testID="profile-screen">
+    <ScrollView className="flex-1 px-5 bg-white" testID="profile-screen">
       <TouchableOpacity
-        className="justify-center items-center mb-7.5 h-50"
+        className="justify-center items-center mb-7.5 h-45"
         onPress={pickImage}
         testID="profile-image-button"
       >
@@ -136,32 +135,37 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ onSaveChanges }) => {
                 : require("../../../assets/images/profile.png")
           }
           testID="profile-image"
-          style={styles.profileImage}
+          className="w-2/3 h-4/5 rounded-full border-4 border-gray-300"
         />
       </TouchableOpacity>
-      <View style={styles.inputContainer}>
-        <Text style={styles.label}>{t("settings.profile.name")}</Text>
+      <View className="my-5 bg-gray-100 rounded-lg h-20 px-2.5 py-1.25">
+        <Text className="text-base font-bold mb-1.25">
+          {t("settings.profile.name")}
+        </Text>
         <TextInput
-          style={styles.input}
+          className="h-10 p-2.5 bg-white rounded"
           placeholder={t("settings.profile.name")}
           value={name}
           onChangeText={setName}
         />
       </View>
-      <View style={styles.inputContainer}>
-        <Text style={styles.label}>{t("settings.profile.email")}</Text>
+      <View className="mb-5 bg-gray-100 rounded-lg h-20  px-2.5 py-1.25">
+        <Text className="text-base font-bold mb-1.25">
+          {t("settings.profile.email")}
+        </Text>
         <TextInput
-          style={styles.input}
+          className="h-10 p-2.5 bg-white rounded"
           placeholder={t("settings.profile.email")}
           value={userEmail}
           onChangeText={setUserEmail}
         />
       </View>
-
-      <View style={styles.inputContainer}>
-        <Text style={styles.label}>{t("settings.profile.password")}</Text>
+      <View className="mb-5 bg-gray-100 rounded-lg h-20 px-2.5 py-1.25">
+        <Text className="text-base font-bold mb-1.25">
+          {t("settings.profile.password")}
+        </Text>
         <TextInput
-          style={styles.input}
+          className="h-10 p-2.5 bg-white rounded"
           placeholder={t("settings.profile.password")}
           secureTextEntry={true}
           value={password}
@@ -181,63 +185,5 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ onSaveChanges }) => {
     </ScrollView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-    backgroundColor: "#fff",
-  },
-  profileImageContainer: {
-    justifyContent: "center",
-    alignItems: "center",
-    marginBottom: 30,
-    height: 200,
-  },
-  profileImage: {
-    width: 180,
-    height: 180,
-    borderRadius: 90,
-    borderWidth: 4,
-    borderColor: "#ddd",
-  },
-  inputContainer: {
-    marginBottom: 20,
-    backgroundColor: "#f7f7f7",
-    borderRadius: 10,
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-  },
-  label: {
-    fontSize: 16,
-    fontWeight: "bold",
-    marginBottom: 5,
-  },
-  input: {
-    height: 40,
-    padding: 10,
-    backgroundColor: "white",
-    borderRadius: 5,
-  },
-  picker: {
-    height: 50,
-    width: "100%",
-    backgroundColor: "white",
-    borderRadius: 5,
-  },
-  saveButton: {
-    backgroundColor: "#007AFF", // iOS blue button color
-    borderRadius: 10,
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-    alignItems: "center",
-    marginTop: 10,
-  },
-  saveButtonText: {
-    color: "white",
-    fontSize: 18,
-    fontWeight: "bold",
-  },
-});
 
 export default ProfileScreen;
