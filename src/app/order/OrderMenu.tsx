@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import OrderButton from "../../components/buttons/OrderButton";
 import { Text, StyleSheet, View, Button, Alert } from "react-native";
 import TriangleBackground from "../../components/TriangleBackground";
@@ -21,7 +21,7 @@ export default function OrderMenu({ navigation }: { navigation: any }) {
     loading: locationLoading,
     toggleAutoCenter,
   } = useLocation();
-
+  const [usrLocation, setUsrLocation] = useState<OrderLocation | null>(null);
   const getUsrLocation = (): OrderLocation => {
     if (!location) {
       Alert.alert("Location not found", "Please enable location services.");
@@ -36,7 +36,11 @@ export default function OrderMenu({ navigation }: { navigation: any }) {
       };
     }
   };
-  let usrLocation = getUsrLocation();
+  useEffect(() => {
+    if (!locationLoading) {
+      setUsrLocation(getUsrLocation());
+    }
+  }, [locationLoading]);
 
   const firestoreManager = new FirestoreManager();
 
@@ -57,7 +61,7 @@ export default function OrderMenu({ navigation }: { navigation: any }) {
     const item = button.item;
     const user = auth.currentUser;
 
-    if (user != null) {
+    if (user != null && usrLocation) {
       try {
         console.log("User is placing order ", user.uid);
         const order = new Order(user.uid, item, usrLocation);
@@ -67,9 +71,11 @@ export default function OrderMenu({ navigation }: { navigation: any }) {
         setVisibleItemId(null); // added this so that when coming back to this screen through any navigation the card is closed
         navigation.navigate("OrderPlaced", { orderId: order.getId() });
       } catch (error) {
+        Alert.alert("Failed to place order, please try again later ;(");
         console.error("Failed to place order: ", error);
       }
     } else {
+      Alert.alert("Failed to place order, please try again later ;(");
       console.error("Could not find user.");
     }
   };
