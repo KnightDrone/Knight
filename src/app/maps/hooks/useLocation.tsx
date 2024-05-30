@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 import MapView from "react-native-maps";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-type LocationType = {
+export type LocationType = {
   latitude: number;
   longitude: number;
   latitudeDelta: number;
@@ -26,7 +26,7 @@ type UseLocationReturnType = {
 };
 
 const LOCATION_FILE = `${FileSystem.documentDirectory}location.json`;
-const DEFAULT_LOCATION = {
+export const DEFAULT_LOCATION = {
   latitude: 46.519040821641006,
   longitude: 6.568773468321669,
   latitudeDelta: 0.0922,
