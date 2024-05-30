@@ -18,6 +18,13 @@ import { OperatorDrawer } from "../components/drawers/OperatorDrawer";
 
 // Back button
 import BackButton from "../components/buttons/BackButton";
+import { ContentIndex } from "./content/ContentIndex";
+
+import Guide1 from "./content/Guide1";
+import Guide2 from "./content/Guide2";
+import Guide3 from "./content/Guide3";
+import Guide4 from "./content/Guide4";
+import Guide5 from "./content/Guide5";
 
 const { Navigator, Screen, Group } = createStackNavigator<RootStackParamList>();
 
@@ -44,6 +51,42 @@ export const AppStack: React.FC<AppStackProps> = ({ isLoggedIn, user }) => {
         <Group>
           <Screen name="Login" options={{ title: "Login to Wild Knight" }}>
             {(props: any) => <Login {...props} />}
+          </Screen>
+          <Screen
+            name="ContentIndex"
+            options={{ title: "Wild Knight's Hiker Guide" }}
+          >
+            {(props: any) => <ContentIndex {...props} />}
+          </Screen>
+          <Screen
+            name="Guide1"
+            options={{ title: "Wild Knight's Hiker Guide" }}
+          >
+            {(props: any) => <Guide1 {...props} />}
+          </Screen>
+          <Screen
+            name="Guide2"
+            options={{ title: "Wild Knight's Hiker Guide" }}
+          >
+            {(props: any) => <Guide2 {...props} />}
+          </Screen>
+          <Screen
+            name="Guide3"
+            options={{ title: "Wild Knight's Hiker Guide" }}
+          >
+            {(props: any) => <Guide3 {...props} />}
+          </Screen>
+          <Screen
+            name="Guide4"
+            options={{ title: "Wild Knight's Hiker Guide" }}
+          >
+            {(props: any) => <Guide4 {...props} />}
+          </Screen>
+          <Screen
+            name="Guide5"
+            options={{ title: "Wild Knight's Hiker Guide" }}
+          >
+            {(props: any) => <Guide5 {...props} />}
           </Screen>
           <Screen
             name="SignUp"

@@ -69,5 +69,108 @@
   "global": {
     "loading": "Laden...",
     "wait": "Bitte warten..."
+  },
+  "settings": {
+    "title": "Einstellungen",
+    "account": {
+      "title": "Konto",
+      "subsections": {
+        "edit-profile": "Profil bearbeiten",
+        "notifications": "Benachrichtigungen",
+        "privacy": "Datenschutz"
+      }
+    },
+    "support": {
+      "title": "Support & Über",
+      "subsections": {
+        "faq": "FAQ",
+        "tnc": "AGB"
+      }
+    },
+    "actions": {
+      "title": "Aktionen",
+      "actions": {
+        "logout": "Abmelden",
+        "become-operator": "Betreiber werden",
+        "become-user": "Benutzer werden"
+      }
+    },
+    "popups": {
+      "become-operator": {
+        "title": "Betreiber werden",
+        "message": "Sind Sie sicher, dass Sie Betreiber werden möchten? Sie werden abgemeldet.",
+        "success": "Sie sind jetzt Betreiber. Bitte melden Sie sich erneut an.",
+        "already-operator": "Sie sind bereits Betreiber."
+      },
+      "become-user": {
+        "title": "Benutzer werden",
+        "message": "Sind Sie sicher, dass Sie Benutzer werden möchten? Sie werden abgemeldet.",
+        "success": "Sie sind jetzt Benutzer. Bitte melden Sie sich erneut an.",
+        "already-user": "Sie sind bereits Benutzer."
+      },
+      "logout": {
+        "title": "Abmelden",
+        "message": "Sind Sie sicher, dass Sie sich abmelden möchten?"
+      },
+      "confirm": "Ok",
+      "cancel": "Abbrechen",
+      "error": "Fehler",
+      "success": "Erfolg",
+      "user-not-found": "Benutzer nicht gefunden"
+    },
+    "notifications": {
+      "order-tracking": {
+        "title": "Bestellverfolgung",
+        "description": "Erhalten Sie regelmäßige Updates zu Ihrer Bestellung"
+      },
+      "offers": {
+        "title": "Rabatte und Angebote",
+        "description": "Erhalten Sie Benachrichtigungen, wenn es Rabatte und Angebote gibt"
+      },
+      "new-items": {
+        "title": "Neue Artikel",
+        "description": "Erhalten Sie Benachrichtigungen, wenn neue Artikel verfügbar sind"
+      }
+    },
+    "privacy-bad": {
+      "dataTracking": "Datenverfolgung",
+      "dataTrackingDescription": "Kontrollieren Sie, welche Daten für die Personalisierung verwendet werden",
+      "personalizedAds": "Personalisierte Anzeigen",
+      "personalizedAdsDescription": "Für eine maßgeschneiderte Anzeigenerfahrung",
+      "shareLiveLocation": "Live-Standort teilen",
+      "shareLiveLocationDescription": "Erlauben Sie den Zugriff auf Ihren Standort im Notfall",
+      "termsOfService": "Nutzungsbedingungen"
+    },
+    "privacy": {
+      "data-tracking": {
+        "title": "Datenverfolgung",
+        "description": "Kontrollieren Sie, welche Daten für die Personalisierung verwendet werden"
+      },
+      "personalized-ads": {
+        "title": "Personalisierte Anzeigen",
+        "description": "Für eine maßgeschneiderte Anzeigenerfahrung"
+      },
+      "share-live-location": {
+        "title": "Live-Standort teilen",
+        "description": "Erlauben Sie den Zugriff auf Ihren Standort im Notfall"
+      },
+      "terms-of-service": "Nutzungsbedingungen"
+    },
+    "profile": {
+      "error": {
+        "title": "Fehler",
+        "camera-permission": "Entschuldigung, wir benötigen Kamera-Roll-Berechtigungen, um dies zu ermöglichen!",
+        "image-upload": "Bild hochladen fehlgeschlagen",
+        "email-invalid": "Ungültige E-Mail-Adresse"
+      },
+      "save-changes": {
+        "button": "Änderungen speichern",
+        "error": "Änderungen speichern fehlgeschlagen",
+        "success": "Änderungen erfolgreich gespeichert"
+      },
+      "name": "Name",
+      "email": "E-Mail",
+      "password": "Passwort"
+    }
   }
 }

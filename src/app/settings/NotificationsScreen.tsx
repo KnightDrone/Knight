@@ -1,5 +1,6 @@
 import React from "react";
 import { View, TouchableOpacity, Text, Switch } from "react-native";
+import { useTranslation } from "react-i18next";
 
 const NotificationsScreen = () => {
   const [isOffersEnabled, setIsOffersEnabled] = React.useState(true);
@@ -12,6 +13,8 @@ const NotificationsScreen = () => {
     setIsOrderEnabled((previousState) => !previousState);
   const toggleItem = () => setIsItemEnabled((previousState) => !previousState);
 
+  const { t } = useTranslation();
+
   return (
     <View className="flex-1 bg-gray-100 px-5 py-2.5">
       <View className="mt-25">
@@ -21,10 +24,10 @@ const NotificationsScreen = () => {
         >
           <View className="flex-col">
             <Text className="text-lg text-gray-800" testID="order-text">
-              Order Tracking
+              {t("settings.notifications.order-tracking.title")}
             </Text>
             <Text className="text-xs text-gray-600" testID="order-subtext">
-              Get periodic updates on your order
+              {t("settings.notifications.order-tracking.description")}
             </Text>
           </View>
           <Switch
@@ -38,10 +41,10 @@ const NotificationsScreen = () => {
         <TouchableOpacity className="bg-white rounded-lg p-4 mb-2.5 shadow-md flex-row items-center justify-between">
           <View className="flex-col">
             <Text className="text-lg text-gray-800" testID="offers-text">
-              Discounts and Offers
+              {t("settings.notifications.offers.title")}
             </Text>
             <Text className="text-xs text-gray-600" testID="offers-subtext">
-              Get notified when there are discounts and offers
+              {t("settings.notifications.offers.description")}
             </Text>
           </View>
           <Switch
@@ -58,10 +61,10 @@ const NotificationsScreen = () => {
         >
           <View className="flex-col">
             <Text className="text-lg text-gray-800" testID="item-text">
-              New Items
+              {t("settings.notifications.new-items.title")}
             </Text>
             <Text className="text-xs text-gray-600" testID="item-subtext">
-              Get notified when there are new items available
+              {t("settings.notifications.new-items.description")}
             </Text>
           </View>
           <Switch

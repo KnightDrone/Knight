@@ -1,5 +1,6 @@
 import React from "react";
 import { View, TouchableOpacity, Text, Switch } from "react-native";
+import { useTranslation } from "react-i18next";
 
 const PrivacyScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
   const [isAdsEnabled, setIsAdsEnabled] = React.useState(true);
@@ -12,6 +13,8 @@ const PrivacyScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
   const toggleLocation = () =>
     setIsLocationEnabled((previousState) => !previousState);
 
+  const { t } = useTranslation();
+
   return (
     <View className="flex-1 bg-gray-100 px-5 py-2.5">
       <View className="mt-25">
@@ -21,10 +24,10 @@ const PrivacyScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
         >
           <View className="flex-col">
             <Text className="text-lg text-gray-800" testID="data-text">
-              Data Tracking
+              {t("settings.privacy.data-tracking.title")}
             </Text>
             <Text className="text-xs text-gray-600" testID="data-subtext">
-              Control what data is used for personalization
+              {t("settings.privacy.data-tracking.description")}
             </Text>
           </View>
           <Switch
@@ -38,10 +41,10 @@ const PrivacyScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
         <TouchableOpacity className="bg-white rounded-lg p-4 mb-2.5 shadow-md flex-row items-center justify-between">
           <View className="flex-col">
             <Text className="text-lg text-gray-800" testID="ad-text">
-              Personalized Ads
+              {t("settings.privacy.personalized-ads.title")}
             </Text>
             <Text className="text-xs text-gray-600" testID="ad-subtext">
-              For a more tailored ad experience
+              {t("settings.privacy.personalized-ads.description")}
             </Text>
           </View>
           <Switch
@@ -58,10 +61,10 @@ const PrivacyScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
         >
           <View className="flex-col">
             <Text className="text-lg text-gray-800" testID="location-text">
-              Share Live Location
+              {t("settings.privacy.share-live-location.title")}
             </Text>
             <Text className="text-xs text-gray-600" testID="location-subtext">
-              Allow access to your location in case of emergency
+              {t("settings.privacy.share-live-location.description")}
             </Text>
           </View>
           <Switch
@@ -78,7 +81,7 @@ const PrivacyScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
           testID="tos-button"
         >
           <Text className="text-lg text-gray-800" testID="tos-text">
-            Terms of Service
+            {t("settings.privacy.terms-of-service")}
           </Text>
         </TouchableOpacity>
       </View>
