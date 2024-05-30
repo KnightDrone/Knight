@@ -84,9 +84,6 @@ describe("MapOverview", () => {
 
     fireEvent.press(getByTestId("order-button"));
 
-    expect(navigate).toHaveBeenCalledWith("OrderMenu", {
-      latitude: undefined,
-      longitude: undefined,
-    });
+    expect(navigate).toHaveBeenCalledWith("OrderMenu");
   });
 });
