@@ -11,6 +11,7 @@ import { initI18n } from "../lang/i18n";
 import { AppStack } from "./AppStack";
 import { StripeProvider } from "@stripe/stripe-react-native";
 import FirestoreManager from "../services/FirestoreManager";
+import { usePushNotifications } from "./notification/hook/usePushNotifications";
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -22,6 +23,18 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState<
     "Login" | "UserDrawer" | "OperatorDrawer"
   >("Login");
+
+  const { expoPushToken, notification } = usePushNotifications();
+  const data = JSON.stringify(notification, undefined, 2);
+
+  useEffect(() => {
+    if (notification) {
+      alert(data);
+    }
+    if (expoPushToken) {
+      alert("expoPushToken" + expoPushToken);
+    }
+  }, [notification, expoPushToken]);
 
   const saveUserRole = async (role: string) => {
     try {
