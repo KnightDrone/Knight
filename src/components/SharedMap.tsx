@@ -49,7 +49,7 @@ const SharedMap: React.FC<SharedMapProps> = ({
       </MapView>
 
       {loading && (
-        <View style={styles.loadingContainer}>
+        <View className="flex-1 justify-center items-center">
           <Text>Loading your location...</Text>
         </View>
       )}

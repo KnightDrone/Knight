@@ -122,7 +122,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ onSaveChanges }) => {
   return (
     <ScrollView style={styles.container} testID="profile-screen">
       <TouchableOpacity
-        style={styles.profileImageContainer}
+        className="justify-center items-center mb-7.5 h-50"
         onPress={pickImage}
         testID="profile-image-button"
       >
@@ -138,43 +138,44 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ onSaveChanges }) => {
           style={styles.profileImage}
         />
       </TouchableOpacity>
-      <View style={styles.inputContainer}>
-        <Text style={styles.label}>Name</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Name"
-          value={name}
-          onChangeText={setName}
-        />
-      </View>
 
-      <View style={styles.inputContainer}>
-        <Text style={styles.label}>Email</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Email"
-          value={userEmail}
-          onChangeText={setUserEmail}
-        />
-      </View>
-
-      <View style={styles.inputContainer}>
-        <Text style={styles.label}>Password</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Password"
-          secureTextEntry={true}
-          value={password}
-          onChangeText={setPassword}
-        />
+      <View className="flex space-y-5 my-5">
+        <View className="h-auto mb-5 bg-gray-100 rounded-lg px-2.5 py-1.25">
+          <Text className="text-base font-bold mb-1.25">Name</Text>
+          <TextInput
+            className="p-2.5 bg-white rounded"
+            placeholder="Name"
+            value={name}
+            onChangeText={setName}
+          />
+        </View>
+        <View className="mb-5 bg-gray-100 rounded-lg px-2.5 py-1.25">
+          <Text className="text-base font-bold mb-1.25">Email</Text>
+          <TextInput
+            className="h-10 p-2.5 bg-white rounded"
+            placeholder="Email"
+            value={userEmail}
+            onChangeText={setUserEmail}
+          />
+        </View>
+        <View className="mb-5 bg-gray-100 rounded-lg px-2.5 py-1.25">
+          <Text className="text-base font-bold mb-1.25">Password</Text>
+          <TextInput
+            className="p-2.5 bg-white rounded"
+            placeholder="Password"
+            secureTextEntry={true}
+            value={password}
+            onChangeText={setPassword}
+          />
+        </View>
       </View>
 
       <TouchableOpacity
-        style={styles.saveButton}
+        className="bg-blue-500 rounded-lg py-3 px-5 items-center mt-2.5"
         onPress={handleSaveChanges}
         testID="save-button"
       >
-        <Text style={styles.saveButtonText}>Save changes</Text>
+        <Text className="text-white text-lg font-bold">Save changes</Text>
       </TouchableOpacity>
     </ScrollView>
   );

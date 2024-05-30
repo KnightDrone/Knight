@@ -1,5 +1,5 @@
 import React from "react";
-import { ScrollView, View, Text, StyleSheet, SafeAreaView } from "react-native";
+import { ScrollView, View, Text, SafeAreaView } from "react-native";
 
 const TermsAndConditions = () => {
   const termsAndConditions = `
@@ -52,45 +52,16 @@ const TermsAndConditions = () => {
   `;
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView className="flex-1 bg-gray-100 px-5 py-2.5">
       <ScrollView>
-        <View style={styles.section}>
-          <Text style={styles.content}>{termsAndConditions}</Text>
+        <View className="bg-white rounded-lg p-4 shadow-md">
+          <Text className="text-base text-gray-600 leading-6">
+            {termsAndConditions}
+          </Text>
         </View>
       </ScrollView>
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#f7f7f7",
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-  },
-  section: {
-    backgroundColor: "#ffffff",
-    borderRadius: 8,
-    padding: 15,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 5,
-    elevation: 3,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 10,
-    color: "#333",
-    textAlign: "center",
-  },
-  content: {
-    fontSize: 16,
-    color: "#666",
-    lineHeight: 24,
-  },
-});
 
 export default TermsAndConditions;

@@ -6,11 +6,7 @@ import TermsAndConditions from "./TermsAndConditions";
 import PrivacyScreen from "./PrivacyScreen";
 import NotificationsScreen from "./NotificationsScreen";
 import { SettingsStackParamList } from "../../types/SettingsStackParamList";
-import { View, StyleSheet } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-
-const { Navigator, Screen, Group } =
-  createStackNavigator<SettingsStackParamList>();
+import { View } from "react-native";
 
 const Stack = createStackNavigator<SettingsStackParamList>();
 
@@ -20,7 +16,7 @@ interface SettingsStackProps {
 
 export const SettingsStack: React.FC<SettingsStackProps> = ({ userId }) => {
   return (
-    <View style={styles.container}>
+    <View className="flex-1">
       <Stack.Navigator initialRouteName="Settings">
         <Stack.Screen
           name="Settings"
@@ -46,10 +42,3 @@ export const SettingsStack: React.FC<SettingsStackProps> = ({ userId }) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: 20,
-  },
-});
