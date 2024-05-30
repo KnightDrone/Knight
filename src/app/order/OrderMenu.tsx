@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import OrderButton from "../../components/buttons/OrderButton";
 import { Text, StyleSheet, View, Button } from "react-native";
+import { ScrollView } from "react-native-reanimated/lib/typescript/Animated";
 import TriangleBackground from "../../components/TriangleBackground";
 import { productButtons, ProductButton } from "../../types/ProductButtons";
 import ItemCard from "../../components/cards/ItemCard";
@@ -54,32 +55,34 @@ export default function OrderMenu({
   };
 
   return (
-    <View style={styles.container} testID="order-menu-screen">
-      <TriangleBackground color="#A0D1E4" bottom={-100} />
-      <Text style={styles.text} testID="order-menu-text">
-        {t("order-menu.choose-item")}
-      </Text>
-      {productButtons.map((button) => (
-        <OrderButton
-          title={t(button.item.getName() as TranslationKeys)}
-          icon={button.item.getIcon()}
-          onPress={() => handleOpenCard(button.item.getId())}
-          key={button.item.getId()}
-        />
-      ))}
-      {productButtons.map((button) => {
-        const isVisible = button.item.getId() === visibleItemId;
-        return (
-          <ItemCard
-            isVisible={isVisible}
-            handleClose={handleCloseCard}
-            handleOrder={() => handleOrderCard(button)}
-            item={button.item}
-            key={`card-${button.item.getId()}`}
+    <ScrollView>
+      <View style={styles.container} testID="order-menu-screen">
+        <TriangleBackground color="#A0D1E4" bottom={-100} />
+        <Text style={styles.text} testID="order-menu-text">
+          {t("order-menu.choose-item")}
+        </Text>
+        {productButtons.map((button) => (
+          <OrderButton
+            title={t(button.item.getName() as TranslationKeys)}
+            icon={button.item.getIcon()}
+            onPress={() => handleOpenCard(button.item.getId())}
+            key={button.item.getId()}
           />
-        );
-      })}
-    </View>
+        ))}
+        {productButtons.map((button) => {
+          const isVisible = button.item.getId() === visibleItemId;
+          return (
+            <ItemCard
+              isVisible={isVisible}
+              handleClose={handleCloseCard}
+              handleOrder={() => handleOrderCard(button)}
+              item={button.item}
+              key={`card-${button.item.getId()}`}
+            />
+          );
+        })}
+      </View>
+    </ScrollView>
   );
 }
 
