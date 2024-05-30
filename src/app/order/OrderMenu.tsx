@@ -19,7 +19,6 @@ export default function OrderMenu({ navigation }: { navigation: any }) {
   const {
     marker: location, // Assuming the marker represents the operator's location
     loading: locationLoading,
-    toggleAutoCenter,
   } = useLocation();
   const [usrLocation, setUsrLocation] = useState<OrderLocation | null>(null);
   const getUsrLocation = (): OrderLocation => {
