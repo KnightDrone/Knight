@@ -239,7 +239,7 @@ export const OfflineMap = ({
         ref={horizontalScrollViewRef}
         contentContainerStyle={styles.scrollContainer}
         maximumZoomScale={3}
-        minimumZoomScale={1}
+        minimumZoomScale={0.3}
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
         horizontal
@@ -248,7 +248,7 @@ export const OfflineMap = ({
           ref={verticalScrollViewRef}
           contentContainerStyle={styles.scrollContainer}
           maximumZoomScale={3}
-          minimumZoomScale={1}
+          minimumZoomScale={0.3}
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
         >

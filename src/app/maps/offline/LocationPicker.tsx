@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { View, StyleSheet, Button, Alert } from "react-native";
+import { View, StyleSheet, Alert } from "react-native";
 import MapView, { Region } from "react-native-maps";
 import { Ionicons } from "@expo/vector-icons";
 import { downloadTiles } from "./DownloadTiles";
 import { waitFor } from "@testing-library/react-native";
+import { Button } from "../../../ui/Button";
 
 const LocationPicker: React.FC = () => {
   const [name, setName] = useState<string>("");
@@ -21,7 +22,7 @@ const LocationPicker: React.FC = () => {
 
   const givename = () => {
     return new Promise((resolve) => {
-      Alert.prompt("Enter name", "Enter a name for this location", (name) => {
+      Alert.prompt("Enter name", "Enter a name for this map", (name) => {
         setName(name);
         resolve(name);
       });
@@ -44,7 +45,12 @@ const LocationPicker: React.FC = () => {
         <Ionicons name="location" size={48} color="black" />
       </View>
       <View style={styles.buttonContainer}>
-        <Button title="Save Location" onPress={handleSaveLocation} />
+        <Button
+          text="Save Map"
+          onPress={handleSaveLocation}
+          style="primary"
+          className={`absolute bottom-[40px] right-[30px] w-[120px] h-16 shadow-md`}
+        />
       </View>
     </View>
   );
