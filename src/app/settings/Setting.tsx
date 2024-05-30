@@ -222,11 +222,11 @@ const Settings: React.FC<SettingsProps> = ({
 
   return (
     <SafeAreaView className="flex-1 bg-gray-100" testID="settings-screen">
-      <ScrollView>
+      <ScrollView className="bg-white py-6">
         {settingsSections.map((section, index) => (
           <View
             key={index}
-            className="px-5 pt-7.5 pb-5 border-b border-gray-300 bg-white"
+            className="px-5 py-6 border-b border-gray-300 bg-white"
           >
             <Text className="text-lg font-bold py-2.5 text-black">
               {section.title}
@@ -254,7 +254,7 @@ const Settings: React.FC<SettingsProps> = ({
           </View>
         ))}
 
-        <View className="flex flex-row items-center justify-center gap-4 mt-12">
+        <View className="flex flex-row items-center justify-center gap-4 py-6">
           {locales.map((lang) => (
             <TouchableWithoutFeedback
               key={lang}
