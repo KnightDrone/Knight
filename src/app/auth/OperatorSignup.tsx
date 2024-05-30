@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Text, View } from "react-native";
-import { ScrollView } from "react-native-reanimated/lib/typescript/Animated";
+import { Text, ScrollView, View } from "react-native";
 // ------------- FIREBASE IMPORTS ----------------
 import { auth, createUserWithEmailAndPassword } from "../../services/Firebase";
 // -----------------------------------------------

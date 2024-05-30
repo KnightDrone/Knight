@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, Image, TouchableOpacity, Platform } from "react-native";
+import {
+  Text,
+  ScrollView,
+  View,
+  Image,
+  TouchableOpacity,
+  Platform,
+} from "react-native";
 import {
   auth,
   GoogleAuthProvider,
@@ -19,7 +26,6 @@ import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import GoogleAuthConfig from "../../types/GoogleAuthConfig";
 import { logInWithEmail, logInWithGoogle } from "../../utils/Auth";
 import FirestoreManager from "../../services/FirestoreManager";
-import { ScrollView } from "react-native-reanimated/lib/typescript/Animated";
 
 export default function Login({ navigation }: any) {
   const [email, setEmail] = useState("");
@@ -53,14 +59,14 @@ export default function Login({ navigation }: any) {
   return (
     <ScrollView>
       <View
-        className="flex-1 bg-white items-center justify-center px-8"
+        className="flex-1 bg-white items-center justify-center px-8 py-8"
         testID="login-screen"
       >
         <Image
           className="w-64 h-64"
           source={require("../../../assets/images/usedLogo.png")}
         />
-        <Text className="text-4xl font-bold mb-16 text-center">
+        <Text className="text-4xl font-bold mb-8 text-center">
           {t("login.app-name")}
         </Text>
 

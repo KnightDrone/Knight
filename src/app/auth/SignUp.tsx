@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, Platform } from "react-native";
-import { ScrollView } from "react-native-reanimated/lib/typescript/Animated";
+import { Text, ScrollView, View, Platform } from "react-native";
 // ------------- FIREBASE IMPORTS ----------------
 import {
   auth,
@@ -122,11 +121,11 @@ export default function SignUp({ navigation }: any) {
   return (
     <ScrollView>
       <View
-        className="flex-1 bg-white items-center justify-center px-8"
+        className="flex-1 bg-white items-center justify-center px-8 pt-16 pb-8"
         testID="sign-up-screen"
       >
         <Text
-          className="text-4xl font-bold mb-16 text-center"
+          className="text-4xl font-bold mb-8 text-center"
           testID="signup-title"
         >
           {t("signup.title")}

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { Text, View } from "react-native";
-import { ScrollView } from "react-native-reanimated/lib/typescript/Animated";
+import { Text, ScrollView, View } from "react-native";
 import { auth, sendPasswordResetEmail } from "../../services/Firebase";
 import { TextField } from "../../ui/TextField";
 import { Button } from "../../ui/Button";
@@ -31,17 +30,17 @@ export default function ForgotPasswordScreen() {
   return (
     <ScrollView>
       <View
-        className="flex flex-col p-8 bg-white items-center justify-center h-full"
+        className="flex flex-col p-8 bg-white items-center justify-center h-screen"
         testID="forgot-password-screen"
       >
         <Text
-          className="text-3xl font-bold mb-12 text-center"
+          className="text-3xl font-bold mb-6 text-center"
           testID="title-text"
         >
           {t("reset-password.title")}
         </Text>
 
-        <Text className="mb-12 text-xl text-center" testID="email-text">
+        <Text className="mb-6 text-xl text-center" testID="email-text">
           {t("reset-password.description")}
         </Text>
         <TextField
