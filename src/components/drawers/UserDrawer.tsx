@@ -7,7 +7,6 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import { auth, User } from "../../services/Firebase";
 import OrderMenu from "../../app/order/OrderMenu";
 import MapOverview from "../../app/maps/Map";
-import OfflineMapScreen from "../../app/maps/OfflineMap";
 
 // Drawer Navigation Screens
 import Profile from "../../app/settings/ProfileScreen";
@@ -21,6 +20,7 @@ import { reload } from "firebase/auth";
 import FAQs from "../../app/settings/FAQs";
 import TermsAndConditions from "../../app/settings/TermsAndConditions";
 import { SettingsStack } from "../../app/settings/SettingsStack";
+import { OfflineMapStack } from "../../app/maps/offline/OfflineStack";
 
 const Drawer = createDrawerNavigator<DrawerParamList>();
 
@@ -100,16 +100,15 @@ export function UserDrawer<UserDrawerProps>(user: UserDrawerProps) {
       <Drawer.Screen
         name="OfflineMap"
         options={{
-          drawerLabel: "Offline Map",
-          headerTitle: "Offline Map",
+          drawerLabel: "Offline Maps",
+          headerTitle: "Offline Maps",
           drawerIcon: ({ color }) => (
             <Icon name="map-marker-off" color={color} size={22} />
           ),
         }}
-        component={OfflineMapScreen}
+        component={OfflineMapStack}
       />
 
-      {/* Rest of the Drawer.Screen components */}
       <Drawer.Screen
         name="SettingsStack"
         options={{

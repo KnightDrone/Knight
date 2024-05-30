@@ -14,4 +14,5 @@ export type DrawerParamList = {
     userId: string;
   };
   OfflineMap: undefined;
+  OfflineMapSettings: undefined;
 };
