@@ -1,6 +1,6 @@
 import React from "react";
-import { View, TouchableOpacity, Text, Switch } from "react-native";
 import { useTranslation } from "react-i18next";
+import { View, TouchableOpacity, Text, Switch } from "react-native";
 
 const NotificationsScreen = () => {
   const [isOffersEnabled, setIsOffersEnabled] = React.useState(true);

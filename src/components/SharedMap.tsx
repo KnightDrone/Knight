@@ -80,10 +80,7 @@ const SharedMap: React.FC<SharedMapProps> = ({
           testID="order-button"
           className="absolute bottom-[40px] right-[30px] w-[100px] h-16 shadow-md"
           onPress={() => {
-            navigation.navigate("OrderMenu", {
-              latitude: currentRegion.latitude,
-              longitude: currentRegion.longitude,
-            });
+            navigation.navigate("OrderMenu");
           }}
           style="primary"
           text={bottomLeftButtonText}
