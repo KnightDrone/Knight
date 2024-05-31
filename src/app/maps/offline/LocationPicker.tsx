@@ -76,23 +76,31 @@ const LocationPicker: React.FC<{ navigation: any }> = ({ navigation }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={StyleSheet.absoluteFillObject}>
       <MapView
-        style={styles.map}
+        style={StyleSheet.absoluteFillObject}
         initialRegion={region}
         onRegionChangeComplete={handleRegionChangeComplete}
       />
       <View style={styles.markerFixed}>
         <Icon name="location-on" size={48} color="black" />
       </View>
-      <View style={styles.buttonContainer}>
-        <Button
-          text="Save Map"
-          onPress={handleSaveLocation}
-          style="primary"
-          className={`absolute bottom-[40px] right-[30px] w-[120px] h-16 shadow-md`}
-        />
-      </View>
+      <Button
+        testID="user-drawer-button"
+        className={`absolute top-[60px] left-[30px] w-20 h-12 shadow-md bg-white`}
+        onPress={() => {
+          navigation.goBack();
+        }}
+        style="secondary"
+      >
+        <Text>Cancel</Text>
+      </Button>
+      <Button
+        text="Save Map"
+        onPress={handleSaveLocation}
+        style="primary"
+        className={`absolute bottom-[40px] right-[30px] w-[120px] h-16 shadow-md`}
+      />
       {isLoading && <LoadingScreen progress={downloadProgress} />}
     </View>
   );
@@ -128,14 +136,14 @@ const styles = StyleSheet.create({
     marginLeft: -24,
     marginTop: -48,
   },
-  buttonContainer: {
-    position: "absolute",
-    bottom: 20,
-    right: 20,
-    backgroundColor: "rgba(255, 255, 255, 0.8)",
-    borderRadius: 20,
-    padding: 10,
-  },
+  // buttonContainer: {
+  //   position: "absolute",
+  //   bottom: 20,
+  //   right: 20,
+  //   backgroundColor: "rgba(255, 255, 255, 0.8)",
+  //   borderRadius: 20,
+  //   padding: 10,
+  // },
   loadingContainer: {
     ...StyleSheet.absoluteFillObject,
     backgroundColor: "rgba(0, 0, 0, 0.5)",

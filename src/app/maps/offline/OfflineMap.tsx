@@ -1,8 +1,17 @@
 import React, { useEffect, useState, useRef } from "react";
-import { View, Image, StyleSheet, Dimensions, ScrollView } from "react-native";
+import {
+  View,
+  Image,
+  StyleSheet,
+  Dimensions,
+  ScrollView,
+  Text,
+} from "react-native";
 import * as FileSystem from "expo-file-system";
 import { OfflineStackParamList } from "./OfflineStack";
-import { RouteProp } from "@react-navigation/native";
+import { RouteProp, useNavigation } from "@react-navigation/native";
+import { Button } from "../../../ui/Button";
+import Icon from "react-native-vector-icons/MaterialIcons";
 
 const TILE_SIZE = 256;
 const TILES_PER_SIDE = 15;
@@ -11,6 +20,7 @@ interface OfflineMapProps {
   route: {
     params: {
       name: string;
+      navigation: any;
     };
   };
 }
@@ -21,7 +31,7 @@ export const OfflineMap = ({
   route: RouteProp<OfflineStackParamList, "OfflineMap">;
 }) => {
   const { name } = route.params;
-
+  const navigation = useNavigation();
   const [tiles, setTiles] = useState<string[]>([]);
   const horizontalScrollViewRef = useRef<ScrollView>(null);
   const verticalScrollViewRef = useRef<ScrollView>(null);
@@ -73,7 +83,26 @@ export const OfflineMap = ({
   };
 
   return (
-    <View style={styles.container}>
+    <View style={StyleSheet.absoluteFillObject}>
+      <View className="absolute top-[60px] left-[30px] flex-row items-center z-10">
+        <Button
+          testID="user-drawer-button"
+          className="w-16 h-16 shadow-md bg-white rounded-full"
+          onPress={() => {
+            navigation.goBack();
+          }}
+          style="secondary"
+        >
+          <Icon name="keyboard-arrow-left" size={28} color={"#000"} />
+        </Button>
+      </View>
+      <View
+        className="absolute top-[68px] left-1/2 transform -translate-x-1/2 px-4 py-2 rounded-full shadow-md z-10"
+        style={{ backgroundColor: "rgba(255, 255, 255, 1)" }}
+      >
+        <Text className="text-lg font-bold">{name}</Text>
+      </View>
+
       <ScrollView
         ref={horizontalScrollViewRef}
         contentContainerStyle={styles.scrollContainer}

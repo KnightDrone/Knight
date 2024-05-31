@@ -102,7 +102,7 @@ export function UserDrawer<UserDrawerProps>(user: UserDrawerProps) {
         name="OfflineMap"
         options={{
           drawerLabel: "Offline Maps",
-          headerTitle: "Offline Maps",
+          headerShown: false,
           drawerIcon: ({ color }) => (
             <Icon name="map-marker-off" color={color} size={22} />
           ),
