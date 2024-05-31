@@ -34,17 +34,14 @@ const OrderPlaced = ({
 
   const [orderedItem, setOrderedItem] = useState<Item>();
   const [placedAt, setPlacedAt] = useState<Date>(new Date());
-  const [userLocation, setUserLocation] = useState<OrderLocation>({
-    latitude: -999,
-    longitude: -999,
-  });
+  const [estimatedTime, setEstimatedTime] = useState<Number>(new Number());
 
   useEffect(() => {
     const fetchOrder = async () => {
       const order = await firestoreManager.readData("orders", orderId);
       setOrderedItem(order.getItem());
       setPlacedAt(order.getOrderDate());
-      setUserLocation(order.getUsrLocation());
+      setEstimatedTime(order.calculateDroneArrivalTime());
     };
 
     fetchOrder();
@@ -54,14 +51,18 @@ const OrderPlaced = ({
 
   useEffect(() => {
     const additionalMinutes: number = 10 + secureRandom() * 15;
-    const arrivalTime = placedAt.getTime() + additionalMinutes * 60 * 1000;
-    setArrivalTime(arrivalTime);
-    firestoreManager.updateData(
-      "orders",
-      orderId,
-      "deliveryDate",
-      new Date(arrivalTime)
-    );
+    const fetchOrder = async () => {
+      const order = await firestoreManager.readData("orders", orderId);
+      const arrivalTime = order.calculateDroneArrivalTime();
+      setArrivalTime(arrivalTime);
+      firestoreManager.updateData(
+        "orders",
+        orderId,
+        "deliveryDate",
+        arrivalTime
+      );
+    };
+    fetchOrder();
   }, [placedAt]);
 
   const [completion, setCompletion] = useState(0);
@@ -117,8 +118,10 @@ const OrderPlaced = ({
           <Text className="text-lg my-2" testID="arrival-time">
             {getFormattedArrivalTime(new Date(arrivalTime))}
           </Text>
+          <Text className="text-lg my-2" testID="drone-arrival-time">
+            {estimatedTime}
+          </Text>
         </View>
-
         {/* Loading bar and helicopter icon */}
         <View className="w-11/12 bg-gray-200 rounded-lg relative">
           <View
@@ -136,7 +139,6 @@ const OrderPlaced = ({
             <Icon name="helicopter-ambulance" size={50} color="#000000" />
           </View>
         </View>
-
         <View
           className="p-4 rounded-lg mt-24  w-11/12 justify-center items-center"
           style={{ backgroundColor: "#FFFBF1" }}
@@ -147,9 +149,6 @@ const OrderPlaced = ({
           <Text className="text-xl my-2" testID="ordered-item-name">
             {orderedItem ? t(orderedItem.getName() as any) : "Loading..."}
           </Text>
-          {/* <Text className="text-lg" testID="user-location">
-            Location: {orderedItem ? userLocation : { latitude: -999, longitude: -999 }}
-          </Text> */}
           <Image
             className="w-64 h-64 rounded-lg"
             testID="ordered-item-image"
@@ -160,7 +159,6 @@ const OrderPlaced = ({
             }
           />
         </View>
-
         <Animated.View
           className="w-11/12 p-4 rounded-lg mt-2 justify-center items-center"
           style={{
@@ -173,12 +171,6 @@ const OrderPlaced = ({
           <Text className="text-lg" testID="order-complete-message">
             {t("order-placed.thanks")}
           </Text>
-          {/* <TouchableOpacity>
-            <Text className="text-red-500" testID="report-issue">
-              Report an issue
-            </Text>
-          </TouchableOpacity> */}
-
           <TouchableOpacity
             className="bg-blue-700 mt-4 w-4/5 rounded-lg p-2 text-white items-center"
             onPress={() => navigation.navigate("UserDrawer")}
@@ -189,7 +181,6 @@ const OrderPlaced = ({
             <Text className="text-white">Continue</Text>
           </TouchableOpacity>
         </Animated.View>
-
         <TouchableOpacity
           className="mt-4"
           testID="view-order-history"

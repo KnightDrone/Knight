@@ -161,6 +161,14 @@ class Order {
       );
     }
   }
+
+  calculateDroneArrivalTime(): number {
+    const distance = getDistanceOpToUser(this.opLocation, this.usrLocation);
+    const speed = 8; // km/h
+    const timeInHours = distance / speed; // time in hours
+    const timeInMinutes = timeInHours * 60; // time in minutes
+    return timeInMinutes;
+  }
 }
 
 export function getDistanceOpToUser(
