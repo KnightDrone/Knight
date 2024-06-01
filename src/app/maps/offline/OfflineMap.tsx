@@ -127,7 +127,7 @@ export const OfflineMap = ({
       ) : (
         <ScrollView
           ref={verticalScrollViewRef}
-          contentContainerStyle={styles.scrollContainer}
+          contentContainerStyle={{ height: TILE_SIZE * TILES_PER_SIDE }}
           maximumZoomScale={4}
           minimumZoomScale={0.3}
           showsHorizontalScrollIndicator={false}
@@ -135,12 +135,13 @@ export const OfflineMap = ({
         >
           <ScrollView
             ref={horizontalScrollViewRef}
-            contentContainerStyle={styles.scrollContainer}
+            contentContainerStyle={{ width: TILE_SIZE * TILES_PER_SIDE }}
+            nestedScrollEnabled={true}
             maximumZoomScale={4}
             minimumZoomScale={0.3}
             showsHorizontalScrollIndicator={false}
             showsVerticalScrollIndicator={false}
-            horizontal
+            horizontal={true}
           >
             <View style={styles.map}>
               <View style={styles.tileContainer}>{renderTiles()}</View>
@@ -157,10 +158,10 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "white",
   },
-  scrollContainer: {
-    width: TILE_SIZE * TILES_PER_SIDE,
-    height: TILE_SIZE * TILES_PER_SIDE,
-  },
+  // scrollContainer: {
+  //   width: TILE_SIZE * TILES_PER_SIDE,
+  //   height: TILE_SIZE * TILES_PER_SIDE,
+  // },
   map: {
     width: "100%",
     height: "100%",
