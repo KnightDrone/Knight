@@ -11,6 +11,7 @@ import { initI18n } from "../lang/i18n";
 import { AppStack } from "./AppStack";
 import { StripeProvider } from "@stripe/stripe-react-native";
 import FirestoreManager from "../services/FirestoreManager";
+import registerNNPushToken from "native-notify";
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -22,6 +23,10 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState<
     "Login" | "UserDrawer" | "OperatorDrawer"
   >("Login");
+
+  const NN_APP_ID = process.env.NN_APP_ID || "";
+  const NN_APP_TOKEN = process.env.NN_APP_TOKEN || "";
+  registerNNPushToken(NN_APP_ID, NN_APP_TOKEN);
 
   const saveUserRole = async (role: string) => {
     try {
