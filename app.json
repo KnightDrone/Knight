@@ -26,10 +26,10 @@
       },
       "permissions": [
         "android.permission.DETECT_SCREEN_CAPTURE",
-        "READ_EXTERNAL_STORAGE",
-        "WRITE_EXTERNAL_STORAGE",
-        "INTERNET",
-        "MANAGE_DOCUMENTS"
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.WRITE_EXTERNAL_STORAGE",
+        "android.permission.INTERNET",
+        "android.permission.MANAGE_DOCUMENTS"
       ],
       "package": "com.swent.knight"
     },
