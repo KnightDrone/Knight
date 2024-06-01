@@ -84,7 +84,7 @@ const SharedMap: React.FC<SharedMapProps> = ({
             navigation.navigate("OrderMenu");
           }}
           style="primary"
-          text={bottomLeftButtonText}
+          text={bottomRightButtonText}
         ></Button>
       )}
     </View>
