@@ -94,6 +94,7 @@ const LocationPicker: React.FC<{ navigation: any }> = ({ navigation }) => {
           <View style={styles.modalContent}>
             <Text style={styles.modalTitle}>Enter name</Text>
             <TextInput
+              testID="map-name-input"
               style={styles.textInput}
               placeholder="Enter a name for this map"
               value={mapName}

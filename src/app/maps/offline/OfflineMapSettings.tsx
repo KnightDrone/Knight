@@ -118,6 +118,7 @@ const OfflineMapSettings: React.FC<{ navigation: any }> = ({ navigation }) => {
       <TouchableOpacity
         style={styles.deleteButton}
         onPress={() => handleDeleteMap(mapName)}
+        testID={`${mapName}-delete-button`}
       >
         <Icon name="delete" size={26} color="grey" />
       </TouchableOpacity>
@@ -160,7 +161,7 @@ const OfflineMapSettings: React.FC<{ navigation: any }> = ({ navigation }) => {
         />
       )}
       <Button
-        testID="my-location-button"
+        testID="add-map-button"
         className={`absolute bottom-[30px] right-[30px] w-16 h-16 shadow-md "bg-white"}`}
         style="primary"
         onPress={() => navigation.navigate("LocationPicker")}
