@@ -6,6 +6,8 @@ import {
   TextInput,
   ActivityIndicator,
   Alert,
+  KeyboardAvoidingView,
+  Platform,
 } from "react-native";
 import OpenAI from "openai";
 import { TextField } from "../ui/TextField";
@@ -63,7 +65,9 @@ const ChatScreen = () => {
   }, [navigation]);
 
   const scrollToBottom = () => {
-    flatListRef.current?.scrollToEnd({ animated: true });
+    setTimeout(() => {
+      flatListRef.current?.scrollToEnd({ animated: true });
+    }, 100); // Adding a slight delay
   };
 
   const storeMessages = async (messages: Message[]) => {
@@ -89,6 +93,7 @@ const ChatScreen = () => {
     loadMessages();
   }, []); // call only once, when component is loaded
   useEffect(() => {
+    scrollToBottom();
     storeMessages(messages);
   }, [messages]); // call every time messages change
 
@@ -121,7 +126,7 @@ const ChatScreen = () => {
           ...messages.map((msg) => ({ role: msg.sender, content: msg.text })),
           { role: "user", content: input },
         ],
-        model: "gpt-4o",
+        model: "gpt-3.5-turbo",
       });
       const responseMessage: Message = {
         id: Date.now().toString(),
@@ -138,7 +143,7 @@ const ChatScreen = () => {
   return (
     <View className="flex-1 p-2 bg-white">
       <FlatList
-        className="max-h-[91%]"
+        className="flex-1 mb-6"
         ref={flatListRef}
         testID="messages-list"
         data={messages}
@@ -165,12 +170,14 @@ const ChatScreen = () => {
         onContentSizeChange={scrollToBottom}
         onLayout={scrollToBottom}
       />
+
       {loading && (
         <ActivityIndicator className="my-2" testID="loading-indicator" />
       )}
-      <View className="flex-row items-center mt-2">
+
+      <View className="flex-row items-center pb-4">
         <TextField
-          className="flex-1 border border-gray-300 rounded p-2 mr-2"
+          className="flex-1 border border-gray-300 rounded-full p-2 mr-2"
           value={input}
           onChangeText={setInput}
           type="text"
