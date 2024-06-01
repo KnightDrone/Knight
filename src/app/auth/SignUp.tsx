@@ -38,12 +38,14 @@ export default function SignUp({ navigation }: any) {
 
   const [showPassword, setShowPassword] = useState(false);
 
+  // Choose the correct Google Auth config based on the platform
   const config = Platform.select({
     web: GoogleAuthConfig.web,
     ios: GoogleAuthConfig.ios,
     android: GoogleAuthConfig.android,
   });
 
+  // Google login
   const [request, response, promptAsync] = Google.useAuthRequest(config);
 
   useEffect(() => {

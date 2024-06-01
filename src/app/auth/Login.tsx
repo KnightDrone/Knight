@@ -9,12 +9,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from "react-native";
-import {
-  auth,
-  GoogleAuthProvider,
-  signInWithCredential,
-  signInWithEmailAndPassword,
-} from "../../services/Firebase";
+import { GoogleAuthProvider } from "../../services/Firebase";
 import * as Google from "expo-auth-session/providers/google";
 import { TextField } from "../../ui/TextField";
 import { Button } from "../../ui/Button";
@@ -37,6 +32,7 @@ export default function Login({ navigation }: any) {
     android: GoogleAuthConfig.android,
   });
 
+  // Google login
   const [request, response, promptAsync] = Google.useAuthRequest(config);
 
   const firestoreManager = new FirestoreManager();
@@ -51,8 +47,9 @@ export default function Login({ navigation }: any) {
 
   const [showPassword, setShowPassword] = useState(false);
 
+  // Translation
   const { t } = useTranslation();
-
+  // Locale
   const [locale, setLocale] = useLocale();
 
   return (

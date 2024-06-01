@@ -4,7 +4,6 @@ import {
   View,
   Text,
   StyleSheet,
-  TextInput,
   ActivityIndicator,
   Alert,
 } from "react-native";
@@ -12,7 +11,6 @@ import OpenAI from "openai";
 import { TextField } from "../ui/TextField";
 import { Button } from "../ui/Button";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { use } from "i18next";
 import { useNavigation } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/Octicons";
 

@@ -1,16 +1,22 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
   DrawerContentScrollView,
-  DrawerItem,
   DrawerItemList,
 } from "@react-navigation/drawer";
-import { View, Text, Image, Alert, Touchable } from "react-native";
+import { View, Text, Image } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import FirestoreManager from "../../services/FirestoreManager";
-import { auth } from "../../services/Firebase";
-import { logoutUser } from "../../utils/Auth";
-import { TouchableOpacity } from "react-native-gesture-handler";
 
+/**
+ *  Custom Drawer Content Component that displays the user's name, email, and photo.
+ * It also displays a badge if the user is an operator.
+ *
+ * @component
+ * @param {string} name - The user's name.
+ * @param {string} email - The user's email.
+ * @param {string} photoURL - The user's photo URL.
+ * @param {boolean} isOperator - Whether the user is an operator.
+ * @param {any} props - The props passed to the component.q
+ */
 export const CustomDrawerContent = ({
   name,
   email,

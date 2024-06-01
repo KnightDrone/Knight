@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import OrderButton from "../../components/buttons/OrderButton";
-import { Text, StyleSheet, View, Button, Alert } from "react-native";
+import { Text, StyleSheet, View, Alert } from "react-native";
 import TriangleBackground from "../../components/TriangleBackground";
 import { productButtons, ProductButton } from "../../types/ProductButtons";
 import ItemCard from "../../components/cards/ItemCard";
@@ -9,8 +9,6 @@ import { TranslationKeys } from "../../types/translation-keys";
 import FirestoreManager from "../../services/FirestoreManager";
 import { Order, OrderLocation } from "../../types/Order";
 import { auth } from "../../services/Firebase";
-import { RouteProp } from "@react-navigation/native";
-import { RootStackParamList } from "../../types/RootStackParamList";
 import { notifyNewOrderPlaced } from "../../utils/NotificationHandler";
 import useLocation from "../maps/hooks/useLocation";
 
@@ -27,7 +25,7 @@ export default function OrderMenu({ navigation }: { navigation: any }) {
       return {
         latitude: -999,
         longitude: -999,
-      }; // idk about this one
+      };
     } else {
       return {
         latitude: location.latitude,

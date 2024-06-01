@@ -8,11 +8,22 @@ import {
 import FirestoreManager, { DBUser } from "../services/FirestoreManager";
 import { registerIndieID, unregisterIndieDevice } from "native-notify";
 
-export function isValidEmail(email: string) {
+/**
+ * Checks if the given email is valid.
+ * @param email - The email to validate.
+ * @returns True if the email is valid, false otherwise.
+ */
+export function isValidEmail(email: string): boolean {
   var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
   return regex.test(email);
 }
 
+/**
+ * Logs in the user with Google credentials.
+ * @param credential - The Google credential.
+ * @param navigation - The navigation object.
+ * @param firestoreManager - The FirestoreManager instance.
+ */
 export const logInWithGoogle = (
   credential: any,
   navigation: any,
@@ -81,6 +92,14 @@ export const logInWithGoogle = (
   });
 };
 
+/**
+ * Logs in the user with email and password.
+ * @param email - The user's email.
+ * @param password - The user's password.
+ * @param firestoreManager - The FirestoreManager instance.
+ * @param navigation - The navigation object.
+ * @param setError - The function to set an error message.
+ */
 export const logInWithEmail = async (
   email: string,
   password: string,
@@ -137,6 +156,15 @@ export const logInWithEmail = async (
   }
 };
 
+/**
+ * Signs up a new user with email and password.
+ * @param userName - The user's name.
+ * @param email - The user's email.
+ * @param password - The user's password.
+ * @param firestoreManager - The FirestoreManager instance.
+ * @param navigation - The navigation object.
+ * @param setError - The function to set an error message.
+ */
 export const signUpWithEmail = async (
   userName: string,
   email: string,
@@ -175,6 +203,10 @@ export const signUpWithEmail = async (
   }
 };
 
+/**
+ * Logs out the current user.
+ * @param navigation - The navigation object.
+ */
 export const logoutUser = async (navigation: any) => {
   try {
     const userId = auth.currentUser?.uid || "";
