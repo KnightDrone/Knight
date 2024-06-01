@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import OrderButton from "../../components/buttons/OrderButton";
-import { Text, StyleSheet, View, Button } from "react-native";
+import { Text, StyleSheet, View } from "react-native";
 import TriangleBackground from "../../components/TriangleBackground";
 import { productButtons, ProductButton } from "../../types/ProductButtons";
 import ItemCard from "../../components/cards/ItemCard";
@@ -11,7 +11,7 @@ import { Order, OrderLocation } from "../../types/Order";
 import { auth } from "../../services/Firebase";
 import { RouteProp } from "@react-navigation/native";
 import { RootStackParamList } from "../../types/RootStackParamList";
-import { signOut } from "firebase/auth";
+import { notifyNewOrderPlaced } from "../../utils/NotificationHandler";
 
 export default function OrderMenu({
   route,
@@ -46,6 +46,7 @@ export default function OrderMenu({
       await order.locSearch(); // This is to call the Nominatim API to define the user location name
       console.log("Order placed: ", order);
       firestoreManager.writeData("orders", order);
+      await notifyNewOrderPlaced();
       setVisibleItemId(null); // added this so that when coming back to this screen through any navigation the card is closed
       navigation.navigate("OrderPlaced", { orderId: order.getId() });
     } else {

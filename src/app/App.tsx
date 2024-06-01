@@ -12,6 +12,7 @@ import { AppStack } from "./AppStack";
 import { StripeProvider } from "@stripe/stripe-react-native";
 import FirestoreManager from "../services/FirestoreManager";
 import registerNNPushToken from "native-notify";
+import { registerIndieID } from "native-notify";
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -81,8 +82,10 @@ function App() {
         }
         if (role === "operator") {
           setIsLoggedIn("OperatorDrawer");
+          await registerIndieID("operator" + user.uid, NN_APP_ID, NN_APP_TOKEN);
         } else {
           setIsLoggedIn("UserDrawer");
+          await registerIndieID("user" + user.uid, NN_APP_ID, NN_APP_TOKEN);
         }
       } else {
         setUserInfo(null);

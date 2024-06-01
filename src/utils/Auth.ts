@@ -6,6 +6,7 @@ import {
   signInWithEmailAndPassword,
 } from "../services/Firebase";
 import FirestoreManager, { DBUser } from "../services/FirestoreManager";
+import { registerIndieID, unregisterIndieDevice } from "native-notify";
 
 export function isValidEmail(email: string) {
   var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
@@ -29,17 +30,32 @@ export const logInWithGoogle = (
         createdAt: new Date(),
       };
 
-      firestoreManager.createUser(result.user.uid, userData).then(() => {
+      firestoreManager.createUser(result.user.uid, userData).then(async () => {
         navigation.navigate("UserDrawer");
+        registerIndieID(
+          userData.role + result.user.uid,
+          process.env.NN_APP_ID || "",
+          process.env.NN_APP_TOKEN || ""
+        );
       });
     } else {
       firestoreManager
         .getUser(result.user.uid)
-        .then((user) => {
+        .then(async (user) => {
           if (user && user.role === "operator") {
             navigation.navigate("OperatorDrawer");
+            registerIndieID(
+              "operator" + result.user.uid,
+              process.env.NN_APP_ID || "",
+              process.env.NN_APP_TOKEN || ""
+            );
           } else {
             navigation.navigate("UserDrawer");
+            registerIndieID(
+              "user" + result.user.uid,
+              process.env.NN_APP_ID || "",
+              process.env.NN_APP_TOKEN || ""
+            );
           }
         })
         .catch(() => {
@@ -52,8 +68,13 @@ export const logInWithGoogle = (
               role: "user",
               createdAt: new Date(),
             })
-            .then(() => {
+            .then(async () => {
               navigation.navigate("UserDrawer");
+              registerIndieID(
+                "user" + result.user.uid,
+                process.env.NN_APP_ID || "",
+                process.env.NN_APP_TOKEN || ""
+              );
             });
         });
     }
@@ -83,14 +104,29 @@ export const logInWithEmail = async (
                 role: "user",
                 createdAt: new Date(),
               })
-              .then(() => {
+              .then(async () => {
                 navigation.navigate("UserDrawer");
+                registerIndieID(
+                  "user" + response.user.uid,
+                  process.env.NN_APP_ID || "",
+                  process.env.NN_APP_TOKEN || ""
+                );
               });
           });
         if (user && user.role === "operator") {
           navigation.navigate("OperatorDrawer");
+          registerIndieID(
+            "operator" + response.user.uid,
+            process.env.NN_APP_ID || "",
+            process.env.NN_APP_TOKEN || ""
+          );
         } else {
           navigation.navigate("UserDrawer");
+          registerIndieID(
+            "user" + response.user.uid,
+            process.env.NN_APP_ID || "",
+            process.env.NN_APP_TOKEN || ""
+          );
         }
       } else {
         setError("Invalid credentials");
@@ -122,8 +158,13 @@ export const signUpWithEmail = async (
 
         firestoreManager
           .createUser(userCredential.user.uid, userData)
-          .then(() => {
+          .then(async () => {
             navigation.navigate("UserDrawer");
+            registerIndieID(
+              "user" + userCredential.user.uid,
+              process.env.NN_APP_ID || "",
+              process.env.NN_APP_TOKEN || ""
+            );
           });
       })
       .catch((error) => {
@@ -136,6 +177,17 @@ export const signUpWithEmail = async (
 
 export const logoutUser = async (navigation: any) => {
   try {
+    const userId = auth.currentUser?.uid || "";
+    await unregisterIndieDevice(
+      "user" + userId,
+      process.env.NN_APP_ID || "",
+      process.env.NN_APP_TOKEN || ""
+    );
+    await unregisterIndieDevice(
+      "operator" + userId,
+      process.env.NN_APP_ID || "",
+      process.env.NN_APP_TOKEN || ""
+    );
     await auth.signOut();
     navigation.reset({
       index: 0,
