@@ -222,12 +222,9 @@ const Settings: React.FC<SettingsProps> = ({
 
   return (
     <SafeAreaView className="flex-1 bg-gray-100" testID="settings-screen">
-      <ScrollView className="bg-white py-6">
+      <ScrollView className="bg-white">
         {settingsSections.map((section, index) => (
-          <View
-            key={index}
-            className="px-5 py-6 border-b border-gray-300 bg-white"
-          >
+          <View key={index} className="px-5 border-b border-gray-300 bg-white">
             <Text className="text-lg font-bold py-2.5 text-black">
               {section.title}
             </Text>

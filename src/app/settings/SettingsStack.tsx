@@ -16,7 +16,7 @@ interface SettingsStackProps {
 
 export const SettingsStack: React.FC<SettingsStackProps> = ({ userId }) => {
   return (
-    <View className="flex-1">
+    <View className="flex-1 mt-10">
       <Stack.Navigator initialRouteName="Settings">
         <Stack.Screen
           name="Settings"
