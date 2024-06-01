@@ -98,7 +98,9 @@ const LocationPicker: React.FC<{ navigation: any }> = ({ navigation }) => {
               placeholder="Enter a name for this map"
               value={mapName}
               onChangeText={setMapName}
+              maxLength={30}
             />
+            <Text style={styles.characterCount}>{`${mapName.length}/30`}</Text>
             <View style={styles.modalButtons}>
               <Button
                 text="Cancel"
@@ -153,6 +155,12 @@ const styles = StyleSheet.create({
     left: "50%",
     marginLeft: -24,
     marginTop: -48,
+  },
+  characterCount: {
+    alignSelf: "flex-end",
+    marginBottom: 10,
+    fontSize: 12,
+    color: "gray",
   },
   loadingContainer: {
     ...StyleSheet.absoluteFillObject,

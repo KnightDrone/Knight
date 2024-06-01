@@ -97,7 +97,7 @@ export const OfflineMap = ({
     <View style={StyleSheet.absoluteFillObject}>
       <View className="absolute top-[60px] left-[30px] flex-row items-center z-10">
         <Button
-          testID="user-drawer-button"
+          testID="om-back-button"
           className="w-16 h-16 shadow-md bg-white rounded-full"
           onPress={() => {
             navigation.goBack();
@@ -111,11 +111,13 @@ export const OfflineMap = ({
         className="absolute top-[68px] left-1/2 transform -translate-x-1/2 px-4 py-2 rounded-full shadow-md z-10"
         style={{ backgroundColor: "rgba(255, 255, 255, 1)" }}
       >
-        <Text className="text-lg font-bold">{name}</Text>
+        <Text className="text-lg font-bold">
+          {name.length > 15 ? `${name.slice(0, 17)}...` : name}
+        </Text>
       </View>
       {isLoading ? (
         <View style={styles.loadingContainer}>
-          <Text>Loading Map ({loadingProgress}%)</Text>
+          <Text>Rendering Map ({loadingProgress}%)</Text>
         </View>
       ) : (
         <ScrollView

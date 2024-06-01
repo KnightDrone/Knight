@@ -49,7 +49,6 @@ const useLocation = (): UseLocationReturnType => {
     const initMap = async () => {
       const savedLocation = await loadSavedLocation();
       if (savedLocation) {
-        console.log("Using saved location", savedLocation);
         setCurrentRegion(savedLocation);
         setMarker(savedLocation);
       }
@@ -74,7 +73,6 @@ const useLocation = (): UseLocationReturnType => {
 
   const loadSavedLocation = async (): Promise<LocationType | null> => {
     try {
-      console.log("Loading saved location from file path", LOCATION_FILE);
       const fileContents = await FileSystem.readAsStringAsync(LOCATION_FILE);
       return JSON.parse(fileContents);
     } catch (error) {
