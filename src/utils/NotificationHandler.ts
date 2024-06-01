@@ -15,7 +15,7 @@ export const notifySubId = async (
 };
 
 export const notifyGroup = async (
-  group: [string],
+  group: string[],
   title: string,
   message: string
 ) => {
@@ -29,16 +29,19 @@ export const notifyGroup = async (
 };
 
 export const notifyNewOrderPlaced = async () => {
-  const allSubs = await getAllSubs();
-  console.log("ALL SUBS", allSubs);
+  const allSubs: string[] = await getAllSubs();
+  const subs: string[] = allSubs.map((sub: any) => sub.sub_id);
+
+  const title = "New Order Placed";
+  const message = "A new order has been placed. Please check the orders tab.";
+
+  // Send to all for testing purposes
+  subs.forEach(async (sub) => {
+    await notifySubId(sub, title, message);
+  });
 };
 
 export const getAllSubs = async () => {
-  console.log(
-    "GETTING ALL SUBS",
-    process.env.NN_APP_ID,
-    process.env.NN_APP_TOKEN
-  );
   const url = `https://app.nativenotify.com/api/expo/indie/subs/21613/05aBcZfbAB8NN0DGW8UNJ8`;
   const response = await axios.get(
     //`https://app.nativenotify.com/api/expo/indie/subs/${process.env.NN_APP_ID}/${process.env.NN_APP_TOKEN}`
