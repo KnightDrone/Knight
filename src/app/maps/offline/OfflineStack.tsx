@@ -29,11 +29,8 @@ export const OfflineMapStack = () => {
         <Stack.Screen
           name="LocationPicker"
           component={LocationPicker}
-          options={({ navigation }) => ({
+          options={() => ({
             header: () => null,
-            // headerLeft: () => (
-            //   <Button onPress={() => navigation.goBack()} title="Cancel" />
-            // ),
           })}
         />
         <Stack.Screen

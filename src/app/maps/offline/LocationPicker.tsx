@@ -127,7 +127,7 @@ const LocationPicker: React.FC<{ navigation: any }> = ({ navigation }) => {
 const LoadingScreen = ({ progress }: { progress: number }) => {
   return (
     <View style={styles.loadingContainer}>
-      <Text style={styles.loadingText}>Downloading tiles...</Text>
+      <Text style={styles.loadingText}>Downloading Map Tiles...</Text>
       <View style={styles.progressBarContainer}>
         <View style={[styles.progressBar, { width: `${progress * 100}%` }]} />
       </View>

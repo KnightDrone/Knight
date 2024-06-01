@@ -1,12 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import {
-  View,
-  Image,
-  StyleSheet,
-  Dimensions,
-  ScrollView,
-  Text,
-} from "react-native";
+import { View, Image, StyleSheet, ScrollView, Text } from "react-native";
 import * as FileSystem from "expo-file-system";
 import { OfflineStackParamList } from "./OfflineStack";
 import { RouteProp, useNavigation } from "@react-navigation/native";
@@ -158,10 +151,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "white",
   },
-  // scrollContainer: {
-  //   width: TILE_SIZE * TILES_PER_SIDE,
-  //   height: TILE_SIZE * TILES_PER_SIDE,
-  // },
   map: {
     width: "100%",
     height: "100%",
