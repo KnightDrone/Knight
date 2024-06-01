@@ -1,5 +1,3 @@
-const { default: OpenAI } = require("openai");
-
 jest.mock("@react-native-async-storage/async-storage", () =>
   require("@react-native-async-storage/async-storage/jest/async-storage-mock")
 );
@@ -200,4 +198,11 @@ jest.mock("openai", () => ({
       },
     }),
   })),
+}));
+
+jest.mock("native-notify", () => ({
+  __esModule: true,
+  default: jest.fn(),
+  registerIndieID: jest.fn(),
+  unregisterIndieDevice: jest.fn(),
 }));
