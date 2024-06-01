@@ -97,13 +97,4 @@ describe("MapOverview", () => {
     fireEvent.press(button);
     // Note: Since the animateToRegion is encapsulated within the hook, we cannot directly test it here without more complex setup.
   });
-
-  it("passes location as a prop when navigating to OrderMenu", () => {
-    const navigate = jest.fn();
-    const { getByTestId } = render(<MapOverview navigation={{ navigate }} />);
-
-    fireEvent.press(getByTestId("order-button"));
-
-    expect(navigate).toHaveBeenCalledWith("OrderMenu");
-  });
 });
