@@ -6,6 +6,7 @@ import {
   Dimensions,
   ScrollView,
   Text,
+  ActivityIndicator,
 } from "react-native";
 import * as FileSystem from "expo-file-system";
 import { OfflineStackParamList } from "./OfflineStack";
@@ -32,7 +33,8 @@ export const OfflineMap = ({
 }) => {
   const { name } = route.params;
   const navigation = useNavigation();
-  const [tiles, setTiles] = useState<string[]>([]);
+  const [tiles, setTiles] = useState<{ base64: string; index: number }[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const horizontalScrollViewRef = useRef<ScrollView>(null);
   const verticalScrollViewRef = useRef<ScrollView>(null);
 
@@ -44,30 +46,41 @@ export const OfflineMap = ({
     const tilesDir = `${FileSystem.documentDirectory}offline-maps/${name}`;
     try {
       const files = await FileSystem.readDirectoryAsync(tilesDir);
-      setTiles(files);
+      const base64Tiles = await Promise.all(
+        files.map(async (file) => {
+          const index = getIndexFromFilename(file);
+          const tilePath = `${tilesDir}/${file}`;
+          const base64 = await FileSystem.readAsStringAsync(tilePath, {
+            encoding: FileSystem.EncodingType.Base64,
+          });
+          return { base64: `data:image/png;base64,${base64}`, index };
+        })
+      );
+      setTiles(base64Tiles);
+      setIsLoading(false);
     } catch (error) {
       console.error("Error reading tiles directory:", error);
+      setIsLoading(false);
     }
   };
 
   const getIndexFromFilename = (filename: string) => {
     const matches = filename.match(/(\d+)\.png$/);
-    return matches ? parseInt(matches[1], 10) : -1;
+    const ret = matches ? parseInt(matches[1], 10) : -1;
+    return ret;
   };
 
   const renderTiles = () => {
     if (!tiles.length) return null;
 
-    const tileImages = tiles.map((tile) => {
-      const index = getIndexFromFilename(tile);
+    const tileImages = tiles.map(({ base64, index }) => {
       const col = Math.floor(index / TILES_PER_SIDE);
       const row = index % TILES_PER_SIDE;
-      const tilePath = `${FileSystem.documentDirectory}offline-maps/${name}/${tile}`;
 
       return (
         <Image
-          key={tile}
-          source={{ uri: tilePath }}
+          key={index}
+          source={{ uri: base64 }}
           style={{
             width: TILE_SIZE,
             height: TILE_SIZE,
@@ -102,29 +115,34 @@ export const OfflineMap = ({
       >
         <Text className="text-lg font-bold">{name}</Text>
       </View>
-
-      <ScrollView
-        ref={horizontalScrollViewRef}
-        contentContainerStyle={styles.scrollContainer}
-        maximumZoomScale={4}
-        minimumZoomScale={0.3}
-        showsHorizontalScrollIndicator={false}
-        showsVerticalScrollIndicator={false}
-        horizontal
-      >
+      {isLoading ? (
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color="#000" />
+        </View>
+      ) : (
         <ScrollView
-          ref={verticalScrollViewRef}
+          ref={horizontalScrollViewRef}
           contentContainerStyle={styles.scrollContainer}
           maximumZoomScale={4}
           minimumZoomScale={0.3}
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
         >
-          <View style={styles.map}>
-            <View style={styles.tileContainer}>{renderTiles()}</View>
-          </View>
+          <ScrollView
+            ref={horizontalScrollViewRef}
+            contentContainerStyle={styles.scrollContainer}
+            maximumZoomScale={4}
+            minimumZoomScale={0.3}
+            showsHorizontalScrollIndicator={false}
+            showsVerticalScrollIndicator={false}
+            horizontal
+          >
+            <View style={styles.map}>
+              <View style={styles.tileContainer}>{renderTiles()}</View>
+            </View>
+          </ScrollView>
         </ScrollView>
-      </ScrollView>
+      )}
     </View>
   );
 };
@@ -149,6 +167,11 @@ const styles = StyleSheet.create({
     left: 0,
     width: TILE_SIZE * TILES_PER_SIDE,
     height: TILE_SIZE * TILES_PER_SIDE,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 

@@ -45,16 +45,21 @@ export const downloadTiles = async (
     const path = `${tilesDir}/${ZOOM_LEVEL}-${x}-${y}-${index}.png`;
     const { exists } = await FileSystem.getInfoAsync(path);
     if (!exists) {
-      await FileSystem.downloadAsync(url, path);
+      // Custom user-agent
+      const headers = {
+        "User-Agent":
+          "Mozilla/5.0 (compatible; OpenStreetMapTileDownloader/1.0)",
+      };
+      await FileSystem.downloadAsync(url, path, { headers: headers });
     }
   };
 
   const halfSide = Math.floor(TILES_PER_SIDE / 2);
   const downloadPromises = [];
-
   let index = 0;
   let completedTiles = 0;
   let totalTiles = TILES_PER_SIDE * TILES_PER_SIDE;
+
   for (let dx = -halfSide; dx <= halfSide; dx++) {
     for (let dy = -halfSide; dy <= halfSide; dy++) {
       const x = centerX + dx;
