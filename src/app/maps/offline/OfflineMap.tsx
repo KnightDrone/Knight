@@ -6,7 +6,6 @@ import {
   Dimensions,
   ScrollView,
   Text,
-  ActivityIndicator,
 } from "react-native";
 import * as FileSystem from "expo-file-system";
 import { OfflineStackParamList } from "./OfflineStack";
@@ -37,6 +36,7 @@ export const OfflineMap = ({
   const [isLoading, setIsLoading] = useState(true);
   const horizontalScrollViewRef = useRef<ScrollView>(null);
   const verticalScrollViewRef = useRef<ScrollView>(null);
+  const [loadingProgress, setLoadingProgress] = useState(0);
 
   useEffect(() => {
     loadTiles();
@@ -46,6 +46,9 @@ export const OfflineMap = ({
     const tilesDir = `${FileSystem.documentDirectory}offline-maps/${name}`;
     try {
       const files = await FileSystem.readDirectoryAsync(tilesDir);
+      const totalTiles = files.length;
+      let loadedTiles = 0;
+
       const base64Tiles = await Promise.all(
         files.map(async (file) => {
           const index = getIndexFromFilename(file);
@@ -53,6 +56,8 @@ export const OfflineMap = ({
           const base64 = await FileSystem.readAsStringAsync(tilePath, {
             encoding: FileSystem.EncodingType.Base64,
           });
+          loadedTiles++;
+          setLoadingProgress(Math.floor((loadedTiles / totalTiles) * 100));
           return { base64: `data:image/png;base64,${base64}`, index };
         })
       );
@@ -117,11 +122,11 @@ export const OfflineMap = ({
       </View>
       {isLoading ? (
         <View style={styles.loadingContainer}>
-          <ActivityIndicator size="large" color="#000" />
+          <Text>Loading Map ({loadingProgress}%)</Text>
         </View>
       ) : (
         <ScrollView
-          ref={horizontalScrollViewRef}
+          ref={verticalScrollViewRef}
           contentContainerStyle={styles.scrollContainer}
           maximumZoomScale={4}
           minimumZoomScale={0.3}

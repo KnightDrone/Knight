@@ -45,7 +45,6 @@ export const downloadTiles = async (
     const path = `${tilesDir}/${ZOOM_LEVEL}-${x}-${y}-${index}.png`;
     const { exists } = await FileSystem.getInfoAsync(path);
     if (!exists) {
-      // Custom user-agent
       const headers = {
         "User-Agent":
           "Mozilla/5.0 (compatible; OpenStreetMapTileDownloader/1.0)",
