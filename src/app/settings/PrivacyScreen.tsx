@@ -1,6 +1,6 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { View, StyleSheet, TouchableOpacity, Text, Switch } from "react-native";
+import { View, TouchableOpacity, Text, Switch } from "react-native";
 
 const PrivacyScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
   const [isAdsEnabled, setIsAdsEnabled] = React.useState(true);
@@ -16,50 +16,59 @@ const PrivacyScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
   const { t } = useTranslation();
 
   return (
-    <View style={styles.container}>
-      <View style={styles.boxes}>
-        <TouchableOpacity style={styles.buttons} testID="data-button">
-          <View style={styles.textView}>
-            <Text style={styles.text} testID="data-text">
+    <View className="flex-1 bg-gray-100 px-5 py-2.5">
+      <View className="mt-25">
+        <TouchableOpacity
+          className="bg-white rounded-lg p-4 mb-2.5 shadow-md flex-row items-center justify-between"
+          testID="data-button"
+        >
+          <View className="flex-col">
+            <Text className="text-lg text-gray-800" testID="data-text">
               {t("settings.privacy.data-tracking.title")}
             </Text>
-            <Text style={styles.subtext} testID="data-subtext">
+            <Text className="text-xs text-gray-600" testID="data-subtext">
               {t("settings.privacy.data-tracking.description")}
             </Text>
           </View>
           <Switch
+            className="ml-auto"
             trackColor={{ false: "#767577", true: "#A0D1E4" }}
             onValueChange={toggleTracking}
             value={isTrackingEnabled}
             testID="data-switch"
           />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.buttons}>
-          <View style={styles.textView}>
-            <Text style={styles.text} testID="ad-text">
+        <TouchableOpacity className="bg-white rounded-lg p-4 mb-2.5 shadow-md flex-row items-center justify-between">
+          <View className="flex-col">
+            <Text className="text-lg text-gray-800" testID="ad-text">
               {t("settings.privacy.personalized-ads.title")}
             </Text>
-            <Text style={styles.subtext} testID="ad-subtext">
+            <Text className="text-xs text-gray-600" testID="ad-subtext">
               {t("settings.privacy.personalized-ads.description")}
             </Text>
           </View>
           <Switch
+            className="ml-auto"
             trackColor={{ false: "#767577", true: "#A0D1E4" }}
             onValueChange={toggleAds}
             value={isAdsEnabled}
             testID="ad-switch"
           />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.buttons} testID="location-button">
-          <View style={styles.textView}>
-            <Text style={styles.text} testID="location-text">
+        <TouchableOpacity
+          className="bg-white rounded-lg p-4 mb-2.5 shadow-md flex-row items-center justify-between"
+          testID="location-button"
+        >
+          <View className="flex-col">
+            <Text className="text-lg text-gray-800" testID="location-text">
               {t("settings.privacy.share-live-location.title")}
             </Text>
-            <Text style={styles.subtext} testID="location-subtext">
+            <Text className="text-xs text-gray-600" testID="location-subtext">
               {t("settings.privacy.share-live-location.description")}
             </Text>
           </View>
           <Switch
+            className="ml-auto"
             trackColor={{ false: "#767577", true: "#A0D1E4" }}
             onValueChange={toggleLocation}
             value={isLocationEnabled}
@@ -68,10 +77,10 @@ const PrivacyScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => navigation.navigate("TermsAndConditions")}
-          style={styles.buttons}
+          className="bg-white rounded-lg p-4 mb-2.5 shadow-md flex-row items-center justify-between"
           testID="tos-button"
         >
-          <Text style={styles.text} testID="tos-text">
+          <Text className="text-lg text-gray-800" testID="tos-text">
             {t("settings.privacy.terms-of-service")}
           </Text>
         </TouchableOpacity>
@@ -79,42 +88,5 @@ const PrivacyScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#f7f7f7",
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-  },
-  textView: {
-    flexDirection: "column",
-  },
-  boxes: {
-    marginTop: 100,
-  },
-  buttons: {
-    backgroundColor: "#ffffff",
-    borderRadius: 8,
-    padding: 15,
-    marginBottom: 10,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 5,
-    elevation: 3,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-  },
-  text: {
-    fontSize: 18,
-    color: "#333",
-  },
-  subtext: {
-    fontSize: 12,
-    color: "#666",
-  },
-});
 
 export default PrivacyScreen;
