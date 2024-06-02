@@ -1,4 +1,3 @@
-import { Alert } from "react-native";
 import {
   auth,
   createUserWithEmailAndPassword,
@@ -6,6 +5,8 @@ import {
   signInWithEmailAndPassword,
 } from "../services/Firebase";
 import FirestoreManager, { DBUser } from "../services/FirestoreManager";
+import { FirebaseError } from "firebase/app";
+import { TFunction } from "i18next";
 import { registerIndieID, unregisterIndieDevice } from "native-notify";
 
 /**
@@ -24,12 +25,15 @@ export function isValidEmail(email: string): boolean {
  * @param navigation - The navigation object.
  * @param firestoreManager - The FirestoreManager instance.
  */
-export const logInWithGoogle = (
+export const logInWithGoogle = async (
   credential: any,
   navigation: any,
-  firestoreManager: FirestoreManager
+  firestoreManager: FirestoreManager,
+  setError: SetErrorFunction,
+  t: TFunction
 ) => {
-  signInWithCredential(auth, credential).then((result) => {
+  try {
+    const result = await signInWithCredential(auth, credential);
     const newUser =
       result.user.metadata.creationTime === result.user.metadata.lastSignInTime;
     if (newUser) {
@@ -89,7 +93,9 @@ export const logInWithGoogle = (
             });
         });
     }
-  });
+  } catch (error) {
+    handleFirebaseError(error, setError, t);
+  }
 };
 
 /**
@@ -105,7 +111,8 @@ export const logInWithEmail = async (
   password: string,
   firestoreManager: FirestoreManager,
   navigation: any,
-  setError: any
+  setError: SetErrorFunction,
+  t: TFunction
 ) => {
   if (email && password) {
     try {
@@ -132,6 +139,7 @@ export const logInWithEmail = async (
                 );
               });
           });
+
         if (user && user.role === "operator") {
           navigation.navigate("OperatorDrawer");
           registerIndieID(
@@ -147,12 +155,16 @@ export const logInWithEmail = async (
             process.env.NN_APP_TOKEN || ""
           );
         }
-      } else {
-        setError("Invalid credentials");
       }
-    } catch (e) {
-      setError("Login failed. Please check your credentials.");
+    } catch (error) {
+      handleFirebaseError(error, setError, t);
     }
+  } else {
+    handleFirebaseError(
+      new AppError("auth/missing-credentials", "Missing credentials"),
+      setError,
+      t
+    );
   }
 };
 
@@ -171,35 +183,46 @@ export const signUpWithEmail = async (
   password: string,
   firestoreManager: FirestoreManager,
   navigation: any,
-  setError: any
+  setError: SetErrorFunction,
+  t: TFunction
 ) => {
   if (userName && email && password) {
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const userData: DBUser = {
-          name: userName,
-          email: email,
-          photoURL: "",
-          role: "user",
-          createdAt: new Date(),
-        };
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const userData: DBUser = {
+        name: userName,
+        email: email,
+        photoURL: "",
+        role: "user",
+        createdAt: new Date(),
+      };
 
-        firestoreManager
-          .createUser(userCredential.user.uid, userData)
-          .then(async () => {
-            navigation.navigate("UserDrawer");
-            registerIndieID(
-              "user" + userCredential.user.uid,
-              process.env.NN_APP_ID || "",
-              process.env.NN_APP_TOKEN || ""
-            );
-          });
-      })
-      .catch((error) => {
-        setError("Sign Up failed. Please check your credentials.");
-      });
+      firestoreManager
+        .createUser(userCredential.user.uid, userData)
+        .then(async () => {
+          navigation.navigate("UserDrawer");
+          registerIndieID(
+            "user" + userCredential.user.uid,
+            process.env.NN_APP_ID || "",
+            process.env.NN_APP_TOKEN || ""
+          );
+        })
+        .catch((error) => {
+          handleFirebaseError(error, setError, t);
+        });
+    } catch (error) {
+      handleFirebaseError(error, setError, t);
+    }
   } else {
-    setError("Please input email and password.");
+    handleFirebaseError(
+      new AppError("auth/missing-credentials", "Missing credentials"),
+      setError,
+      t
+    );
   }
 };
 
@@ -207,7 +230,11 @@ export const signUpWithEmail = async (
  * Logs out the current user.
  * @param navigation - The navigation object.
  */
-export const logoutUser = async (navigation: any) => {
+export const logoutUser = async (
+  navigation: any,
+  setError?: SetErrorFunction,
+  t?: TFunction
+) => {
   try {
     const userId = auth.currentUser?.uid || "";
     await unregisterIndieDevice(
@@ -226,6 +253,71 @@ export const logoutUser = async (navigation: any) => {
       routes: [{ name: "Login" }],
     });
   } catch (error) {
-    Alert.alert("Logout Failed", "Unable to logout at this time.");
+    if (setError && t) {
+      handleFirebaseError(error, setError, t);
+    }
+  }
+};
+
+type SetErrorFunction = (message: string) => void;
+
+class AppError extends Error {
+  code: string;
+  constructor(code: string, message: string) {
+    super(message);
+    this.code = code;
+  }
+}
+
+export const handleFirebaseError = (
+  error: unknown,
+  setError: SetErrorFunction,
+  t: TFunction
+) => {
+  //console.log("Error code:", error instanceof FirebaseError ? error.code : "unknown error");
+
+  if (error instanceof FirebaseError || error instanceof AppError) {
+    switch (error.code) {
+      case "auth/invalid-email":
+        setError(t("error.invalid-email"));
+        break;
+      case "auth/user-disabled":
+        setError(t("error.user-disabled"));
+        break;
+      case "auth/user-not-found":
+        setError(t("error.user-not-found"));
+        break;
+      case "auth/wrong-password":
+        setError(t("error.wrong-password"));
+        break;
+      case "auth/email-already-in-use":
+        setError(t("error.email-already-in-use"));
+        break;
+      case "auth/operation-not-allowed":
+        setError(t("error.operation-not-allowed"));
+        break;
+      case "auth/weak-password":
+        setError(t("error.weak-password"));
+        break;
+      case "auth/requires-recent-login":
+        setError(t("error.requires-recent-login"));
+        break;
+      case "auth/network-request-failed":
+        setError(t("error.network-request-failed"));
+        break;
+      case "auth/too-many-requests":
+        setError(t("error.too-many-requests"));
+        break;
+      case "auth/missing-credentials":
+        setError(t("error.missing-credentials"));
+        break;
+      case "auth/invalid-credential":
+        setError(t("error.invalid-credential"));
+        break;
+      default:
+        setError(t("error.default"));
+    }
+  } else {
+    setError(t("error.unknown"));
   }
 };
