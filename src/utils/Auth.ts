@@ -217,14 +217,14 @@ export const signUpWithEmail = async (
         .createUser(userCredential.user.uid, userData)
         .then(async () => {
           navigation.reset({
-              index: 0,
-              routes: [{ name: "UserDrawer" }],
-            });
-            registerIndieID(
-              "user" + userCredential.user.uid,
-              process.env.NN_APP_ID || "",
-              process.env.NN_APP_TOKEN || ""
-            );
+            index: 0,
+            routes: [{ name: "UserDrawer" }],
+          });
+          registerIndieID(
+            "user" + userCredential.user.uid,
+            process.env.NN_APP_ID || "",
+            process.env.NN_APP_TOKEN || ""
+          );
         })
         .catch((error) => {
           handleFirebaseError(error, setError, t);
