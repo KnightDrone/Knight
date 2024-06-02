@@ -148,7 +148,12 @@ const LoadingScreen = ({ progress }: { progress: number }) => {
   return (
     <View
       className="absolute inset-0 bg-black justify-center items-center"
-      style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}
+      style={{
+        ...StyleSheet.absoluteFillObject,
+        backgroundColor: "rgba(0, 0, 0, 0.5)",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
     >
       <Text className="text-white text-lg mb-2.5">
         {t("offline-map.location-picker.downloading-tiles")}
