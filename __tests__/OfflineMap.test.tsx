@@ -24,7 +24,7 @@ describe("OfflineMap", () => {
       name: "OfflineMap",
     };
     const { getByText } = render(<OfflineMap route={route as any} />);
-    expect(getByText("Rendering Map (0%)")).toBeDefined();
+    expect(getByText("offline-map.render-map (0%)")).toBeDefined();
   });
 
   it("loads and renders tiles when the component mounts", async () => {

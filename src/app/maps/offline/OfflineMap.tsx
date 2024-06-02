@@ -1,10 +1,13 @@
 import React, { useEffect, useState, useRef } from "react";
-import { View, Image, StyleSheet, ScrollView, Text } from "react-native";
+import { View, Image, ScrollView, Text } from "react-native";
 import * as FileSystem from "expo-file-system";
 import { OfflineStackParamList } from "./OfflineStack";
 import { RouteProp, useNavigation } from "@react-navigation/native";
 import { Button } from "../../../ui/Button";
 import Icon from "react-native-vector-icons/MaterialIcons";
+import { twMerge } from "tailwind-merge";
+import { StyleSheet } from "react-native";
+import { useTranslation } from "react-i18next";
 
 const TILE_SIZE = 256;
 const TILES_PER_SIDE = 15;
@@ -30,6 +33,7 @@ export const OfflineMap = ({
   const horizontalScrollViewRef = useRef<ScrollView>(null);
   const verticalScrollViewRef = useRef<ScrollView>(null);
   const [loadingProgress, setLoadingProgress] = useState(0);
+  const { t } = useTranslation();
 
   useEffect(() => {
     loadTiles();
@@ -79,10 +83,10 @@ export const OfflineMap = ({
         <Image
           key={index}
           source={{ uri: base64 }}
+          className="absolute"
           style={{
             width: TILE_SIZE,
             height: TILE_SIZE,
-            position: "absolute",
             top: row * TILE_SIZE,
             left: col * TILE_SIZE,
           }}
@@ -116,8 +120,12 @@ export const OfflineMap = ({
         </Text>
       </View>
       {isLoading ? (
-        <View style={styles.loadingContainer}>
-          <Text>Rendering Map ({loadingProgress}%)</Text>
+        <View
+          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+        >
+          <Text>
+            {t("offline-map.render-map")} ({loadingProgress}%)
+          </Text>
         </View>
       ) : (
         <ScrollView
@@ -138,8 +146,16 @@ export const OfflineMap = ({
             showsVerticalScrollIndicator={false}
             horizontal={true}
           >
-            <View style={styles.map}>
-              <View style={styles.tileContainer}>{renderTiles()}</View>
+            <View className="w-full h-full bg-white">
+              <View
+                className="absolute top-0 left-0"
+                style={{
+                  width: TILE_SIZE * TILES_PER_SIDE,
+                  height: TILE_SIZE * TILES_PER_SIDE,
+                }}
+              >
+                {renderTiles()}
+              </View>
             </View>
           </ScrollView>
         </ScrollView>
@@ -147,29 +163,5 @@ export const OfflineMap = ({
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "white",
-  },
-  map: {
-    width: "100%",
-    height: "100%",
-    backgroundColor: "white",
-  },
-  tileContainer: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    width: TILE_SIZE * TILES_PER_SIDE,
-    height: TILE_SIZE * TILES_PER_SIDE,
-  },
-  loadingContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-});
 
 export default OfflineMap;
