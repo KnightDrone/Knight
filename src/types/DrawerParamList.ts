@@ -13,5 +13,7 @@ export type DrawerParamList = {
   SettingsStack: {
     userId: string;
   };
+  OfflineMapStack: undefined;
+  OfflineMapSettings: undefined;
   "Hiking Guides": undefined;
 };

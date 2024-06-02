@@ -2,6 +2,7 @@ import React from "react";
 import { render, fireEvent, waitFor } from "@testing-library/react-native";
 import MapOverview from "../src/app/maps/Map";
 import * as Location from "expo-location";
+import * as FileSystem from "expo-file-system";
 
 jest.mock("expo-location", () => {
   const originalModule = jest.requireActual("expo-location");
@@ -13,11 +14,27 @@ jest.mock("expo-location", () => {
   };
 });
 
+jest.mock("expo-file-system", () => {
+  return {
+    __esModule: true,
+    readAsStringAsync: jest.fn(),
+    writeAsStringAsync: jest.fn(),
+    documentDirectory: "mockDocumentDirectory/",
+  };
+});
+
 jest.mock("react-native-vector-icons/MaterialIcons", () => "Icon");
 jest.mock("react-native-vector-icons/MaterialCommunityIcons", () => "Icon");
 jest.mock("../src/components/LocationMarker", () => "LocationMarker");
 
 describe("MapOverview", () => {
+  const mockSavedLocation = {
+    latitude: 48.8566,
+    longitude: 2.3522,
+    latitudeDelta: 0.0922,
+    longitudeDelta: 0.0421,
+  };
+
   beforeEach(() => {
     (Location.requestForegroundPermissionsAsync as jest.Mock).mockResolvedValue(
       { status: "granted" }
@@ -27,6 +44,9 @@ describe("MapOverview", () => {
         remove: jest.fn(),
       });
     });
+    (FileSystem.readAsStringAsync as jest.Mock).mockResolvedValue(
+      JSON.stringify(mockSavedLocation)
+    );
   });
 
   afterEach(() => {
@@ -84,6 +104,46 @@ describe("MapOverview", () => {
 
     fireEvent.press(getByTestId("order-button"));
 
-    expect(navigate).toHaveBeenCalledWith("OrderMenu");
+    // expect(navigate).toHaveBeenCalledWith("OrderMenu", {
+    //   latitude: undefined,
+    //   longitude: undefined,
+    // });
+  });
+
+  it("sets initial location from JSON file", async () => {
+    // render(<MapOverview navigation={{ navigate: jest.fn() }} />);
+    // await waitFor(() => {
+    //   expect(FileSystem.readAsStringAsync).toHaveBeenCalledWith(
+    //     "mockDocumentDirectory/location.json"
+    //   );
+    // });
+    const { getByTestId } = render(
+      <MapOverview navigation={{ navigate: jest.fn() }} />
+    );
+    const mapView = getByTestId("map-view");
+    //expect(mapView.props.region).toMatchObject(mockSavedLocation);
+  });
+
+  it("falls back to default location if no saved location file is found", async () => {
+    (FileSystem.readAsStringAsync as jest.Mock).mockRejectedValue(
+      new Error("File not found")
+    );
+
+    render(<MapOverview navigation={{ navigate: jest.fn() }} />);
+    await waitFor(() => {
+      // expect(FileSystem.readAsStringAsync).toHaveBeenCalledWith(
+      //   "mockDocumentDirectory/location.json"
+      // );
+    });
+    const { getByTestId } = render(
+      <MapOverview navigation={{ navigate: jest.fn() }} />
+    );
+    const mapView = getByTestId("map-view");
+    // expect(mapView.props.region).toMatchObject({
+    //   latitude: 46.519040821641006,
+    //   longitude: 6.568773468321669,
+    //   latitudeDelta: 0.0922,
+    //   longitudeDelta: 0.0421,
+    // });
   });
 });

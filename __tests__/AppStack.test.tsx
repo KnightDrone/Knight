@@ -226,12 +226,29 @@ describe("AppStack Navigation Tests", () => {
     });
   });
 
+  const mockLocation = {
+    coords: {
+      latitude: 37.7749,
+      longitude: -122.4194,
+      altitude: 0,
+      accuracy: 5,
+      altitudeAccuracy: 5,
+      heading: 0,
+      speed: 0,
+    },
+    timestamp: Date.now(),
+  };
+  (Location.getCurrentPositionAsync as jest.Mock).mockResolvedValue(
+    mockLocation
+  );
+
   it("navigates Map->OrderMenu", async () => {
     const { queryByTestId } = render(<AppStack isLoggedIn={"UserDrawer"} />);
     // Wait for the loading state to complete
     await waitFor(() => {
       expect(queryByTestId("map-view")).toBeTruthy();
     });
+
     fireEvent.press(queryByTestId("order-button"));
     await waitFor(() => {
       expect(screen.queryByTestId("order-menu-screen")).toBeTruthy();
