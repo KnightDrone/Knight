@@ -22,28 +22,19 @@ const ChatScreen = () => {
   const [loading, setLoading] = useState(false);
   const flatListRef = useRef<FlatList>(null);
 
-  const navigation = useNavigation();
+  const scrollToBottom = () => {
+    setTimeout(() => {
+      flatListRef.current?.scrollToEnd({ animated: true });
+    }, 100); // Adding a slight delay
+  };
 
-  React.useLayoutEffect(() => {
+  const navigation = useNavigation();
+  useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
         <Icon
           name="trash"
-          onPress={() =>
-            Alert.alert(
-              "Clear chat",
-              "Are you sure you want to delete your chat history? It cannot be recovered.",
-              [
-                {
-                  text: "Cancel",
-                  onPress: () => console.log("Cancel Pressed"),
-                  style: "cancel",
-                },
-                { text: "OK", onPress: () => setMessages([]) },
-              ],
-              { cancelable: false }
-            )
-          }
+          onPress={handleClearChat}
           size={26}
           style={{
             marginRight: 15,
@@ -53,12 +44,6 @@ const ChatScreen = () => {
       ),
     });
   }, [navigation]);
-
-  const scrollToBottom = () => {
-    setTimeout(() => {
-      flatListRef.current?.scrollToEnd({ animated: true });
-    }, 100); // Adding a slight delay
-  };
 
   const storeMessages = async (messages: Message[]) => {
     try {
@@ -129,6 +114,22 @@ const ChatScreen = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleClearChat = () => {
+    Alert.alert(
+      "Clear chat",
+      "Are you sure you want to delete your chat history? It cannot be recovered.",
+      [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel",
+        },
+        { text: "OK", onPress: () => setMessages([]) },
+      ],
+      { cancelable: false }
+    );
   };
   return (
     <View className="flex-1 p-2 bg-white">

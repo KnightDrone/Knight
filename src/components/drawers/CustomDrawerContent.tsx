@@ -48,12 +48,9 @@ export const CustomDrawerContent = ({
         <Text style={{ color: "gray" }}>{email}</Text>
 
         {isOperator && (
-          <Text
-            className="text-sm text-white rounded-xl p-1 bg-blue-800 mt-1"
-            style={{ color: "gray" }}
-          >
-            Operator
-          </Text>
+          <View className="flex flex-row items-center justify-center p-2 bg-blue-800 mt-1 rounded-xl">
+            <Text className="text-sm text-white">Operator</Text>
+          </View>
         )}
       </View>
       <DrawerItemList {...props} />

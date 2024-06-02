@@ -45,8 +45,11 @@ export const logInWithGoogle = async (
         createdAt: new Date(),
       };
 
-      firestoreManager.createUser(result.user.uid, userData).then(async () => {
-        navigation.navigate("UserDrawer");
+      firestoreManager.createUser(result.user.uid, userData).then(() => {
+        navigation.reset({
+          index: 0,
+          routes: [{ name: "UserDrawer" }],
+        });
         registerIndieID(
           userData.role + result.user.uid,
           process.env.NN_APP_ID || "",
@@ -58,14 +61,20 @@ export const logInWithGoogle = async (
         .getUser(result.user.uid)
         .then(async (user) => {
           if (user && user.role === "operator") {
-            navigation.navigate("OperatorDrawer");
+            navigation.reset({
+              index: 0,
+              routes: [{ name: "OperatorDrawer" }],
+            });
             registerIndieID(
               "operator" + result.user.uid,
               process.env.NN_APP_ID || "",
               process.env.NN_APP_TOKEN || ""
             );
           } else {
-            navigation.navigate("UserDrawer");
+            navigation.reset({
+              index: 0,
+              routes: [{ name: "UserDrawer" }],
+            });
             registerIndieID(
               "user" + result.user.uid,
               process.env.NN_APP_ID || "",
@@ -84,7 +93,10 @@ export const logInWithGoogle = async (
               createdAt: new Date(),
             })
             .then(async () => {
-              navigation.navigate("UserDrawer");
+              navigation.reset({
+                index: 0,
+                routes: [{ name: "UserDrawer" }],
+              });
               registerIndieID(
                 "user" + result.user.uid,
                 process.env.NN_APP_ID || "",
@@ -204,7 +216,10 @@ export const signUpWithEmail = async (
       firestoreManager
         .createUser(userCredential.user.uid, userData)
         .then(async () => {
-          navigation.navigate("UserDrawer");
+          navigation.reset({
+            index: 0,
+            routes: [{ name: "UserDrawer" }],
+          });
           registerIndieID(
             "user" + userCredential.user.uid,
             process.env.NN_APP_ID || "",
