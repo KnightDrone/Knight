@@ -5,7 +5,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import OfflineMapSettings from "./OfflineMapSettings";
 import { OfflineMap } from "./OfflineMap";
 import React from "react";
-import { HeaderBackButton } from "@react-navigation/elements";
+
 export type OfflineStackParamList = {
   OfflineMapSettings: undefined;
   LocationPicker: undefined;
@@ -29,11 +29,8 @@ export const OfflineMapStack = () => {
         <Stack.Screen
           name="LocationPicker"
           component={LocationPicker}
-          options={({ navigation }) => ({
+          options={() => ({
             header: () => null,
-            // headerLeft: () => (
-            //   <Button onPress={() => navigation.goBack()} title="Cancel" />
-            // ),
           })}
         />
         <Stack.Screen

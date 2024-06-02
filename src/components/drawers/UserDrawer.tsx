@@ -99,7 +99,7 @@ export function UserDrawer<UserDrawerProps>(user: UserDrawerProps) {
         {(props: any) => <MapOverview {...props} />}
       </Drawer.Screen>
       <Drawer.Screen
-        name="OfflineMap"
+        name="OfflineMapStack"
         options={{
           drawerLabel: "Offline Maps",
           headerShown: false,
