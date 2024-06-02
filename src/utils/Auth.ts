@@ -210,16 +210,21 @@ export const signUpWithEmail = async (
 export const logoutUser = async (navigation: any) => {
   try {
     const userId = auth.currentUser?.uid || "";
-    await unregisterIndieDevice(
-      "user" + userId,
-      process.env.NN_APP_ID || "",
-      process.env.NN_APP_TOKEN || ""
-    );
-    await unregisterIndieDevice(
-      "operator" + userId,
-      process.env.NN_APP_ID || "",
-      process.env.NN_APP_TOKEN || ""
-    );
+    try {
+      await unregisterIndieDevice(
+        "user" + userId,
+        process.env.NN_APP_ID || "",
+        process.env.NN_APP_TOKEN || ""
+      );
+      await unregisterIndieDevice(
+        "operator" + userId,
+        process.env.NN_APP_ID || "",
+        process.env.NN_APP_TOKEN || ""
+      );
+    } catch (error) {
+      // Do nothing because the device might not be registered yet
+    }
+
     await auth.signOut();
     navigation.reset({
       index: 0,
