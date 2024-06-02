@@ -10,6 +10,8 @@ export type DrawerParamList = {
   };
   Knaight: undefined;
   PendingOrders: undefined;
+  Profile: undefined;
+  Settings: undefined;
   SettingsStack: {
     userId: string;
   };

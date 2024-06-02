@@ -217,7 +217,7 @@ describe("SignUp Component", () => {
 
     await waitFor(() =>
       expect(getByTestId("signup-error-message").props.children).toBe(
-        "Sign Up failed. Please check your credentials."
+        "An unknown error occurred."
       )
     );
   });

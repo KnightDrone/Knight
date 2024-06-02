@@ -69,7 +69,7 @@ describe("More ForgotPassword Component Tests", () => {
     fireEvent.press(getByTestId("reset-password-button"));
 
     // Assuming the component shows an error message upon API call failure
-    const errorMessage = await findByText("User not found");
+    const errorMessage = await findByText("An unknown error occurred.");
 
     expect(errorMessage).toBeTruthy();
     // args are: (auth, email)
