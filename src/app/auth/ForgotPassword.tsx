@@ -18,7 +18,6 @@ export default function ForgotPasswordScreen() {
     sendPasswordResetEmail(auth, email)
       .then(() => {
         // Password reset email sent!
-        // showing a toast is better (library: react-native-toast-message, react-native-notifier)
         setSuccess(true);
         setError("");
         setSuccessMessage("Password reset email sent!");

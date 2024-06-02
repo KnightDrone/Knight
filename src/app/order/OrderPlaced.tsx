@@ -11,13 +11,8 @@ import FirestoreManager from "../../services/FirestoreManager";
 import { Item } from "../../types/Item";
 import { OrderLocation } from "../../types/Order";
 import { images } from "../../types/ProductButtons";
-import { auth } from "../../services/Firebase";
 
-interface OrderPlacedProps {
-  orderId: string;
-}
 import { useTranslation } from "react-i18next";
-import { TranslationKeys } from "../../types/translation-keys";
 
 const OrderPlaced = ({
   navigation,
@@ -53,6 +48,7 @@ const OrderPlaced = ({
   const [arrivalTime, setArrivalTime] = useState<number>(0);
 
   useEffect(() => {
+    // Generate a random arrival time between 10 and 25 minutes
     const additionalMinutes: number = 10 + secureRandom() * 15;
     const arrivalTime = placedAt.getTime() + additionalMinutes * 60 * 1000;
     setArrivalTime(arrivalTime);
@@ -67,6 +63,7 @@ const OrderPlaced = ({
   const [completion, setCompletion] = useState(0);
 
   useEffect(() => {
+    // Update the completion percentage every 50ms
     const interval = setInterval(() => {
       const now = Date.now();
       const elapsed = now - placedAt.valueOf();
@@ -147,9 +144,6 @@ const OrderPlaced = ({
           <Text className="text-xl my-2" testID="ordered-item-name">
             {orderedItem ? t(orderedItem.getName() as any) : "Loading..."}
           </Text>
-          {/* <Text className="text-lg" testID="user-location">
-            Location: {orderedItem ? userLocation : { latitude: -999, longitude: -999 }}
-          </Text> */}
           <Image
             className="w-64 h-64 rounded-lg"
             testID="ordered-item-image"
@@ -173,11 +167,6 @@ const OrderPlaced = ({
           <Text className="text-lg" testID="order-complete-message">
             {t("order-placed.thanks")}
           </Text>
-          {/* <TouchableOpacity>
-            <Text className="text-red-500" testID="report-issue">
-              Report an issue
-            </Text>
-          </TouchableOpacity> */}
 
           <TouchableOpacity
             className="bg-blue-700 mt-4 w-4/5 rounded-lg p-2 text-white items-center"

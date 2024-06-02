@@ -1,20 +1,10 @@
 import React, { useState, useRef, useEffect } from "react";
-import {
-  FlatList,
-  View,
-  Text,
-  TextInput,
-  ActivityIndicator,
-  Alert,
-  KeyboardAvoidingView,
-  Platform,
-} from "react-native";
+import { FlatList, View, Text, ActivityIndicator, Alert } from "react-native";
 import OpenAI from "openai";
 import { TextField } from "../ui/TextField";
 import { Button } from "../ui/Button";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { use } from "i18next";
 import { useNavigation } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/Octicons";
 

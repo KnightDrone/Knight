@@ -9,12 +9,24 @@ import FirestoreManager, { DBUser } from "../services/FirestoreManager";
 import { FirebaseError } from "firebase/app";
 import { useTranslation } from "react-i18next";
 import { TFunction } from "i18next";
+import { registerIndieID, unregisterIndieDevice } from "native-notify";
 
-export function isValidEmail(email: string) {
+/**
+ * Checks if the given email is valid.
+ * @param email - The email to validate.
+ * @returns True if the email is valid, false otherwise.
+ */
+export function isValidEmail(email: string): boolean {
   var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
   return regex.test(email);
 }
 
+/**
+ * Logs in the user with Google credentials.
+ * @param credential - The Google credential.
+ * @param navigation - The navigation object.
+ * @param firestoreManager - The FirestoreManager instance.
+ */
 export const logInWithGoogle = async (
   credential: any,
   navigation: any,
@@ -35,21 +47,67 @@ export const logInWithGoogle = async (
         createdAt: new Date(),
       };
 
-      await firestoreManager.createUser(result.user.uid, userData);
-      navigation.navigate("UserDrawer");
-    } else {
-      const user = await firestoreManager.getUser(result.user.uid);
-      if (user && user.role === "operator") {
-        navigation.navigate("OperatorDrawer");
-      } else {
+      firestoreManager.createUser(result.user.uid, userData).then(async () => {
         navigation.navigate("UserDrawer");
-      }
+        registerIndieID(
+          userData.role + result.user.uid,
+          process.env.NN_APP_ID || "",
+          process.env.NN_APP_TOKEN || ""
+        );
+      });
+    } else {
+      firestoreManager
+        .getUser(result.user.uid)
+        .then(async (user) => {
+          if (user && user.role === "operator") {
+            navigation.navigate("OperatorDrawer");
+            registerIndieID(
+              "operator" + result.user.uid,
+              process.env.NN_APP_ID || "",
+              process.env.NN_APP_TOKEN || ""
+            );
+          } else {
+            navigation.navigate("UserDrawer");
+            registerIndieID(
+              "user" + result.user.uid,
+              process.env.NN_APP_ID || "",
+              process.env.NN_APP_TOKEN || ""
+            );
+          }
+        })
+        .catch(() => {
+          // User might not exist in the database
+          firestoreManager
+            .createUser(result.user.uid, {
+              name: result.user.displayName || "",
+              email: result.user.email || "",
+              photoURL: result.user.photoURL || "",
+              role: "user",
+              createdAt: new Date(),
+            })
+            .then(async () => {
+              navigation.navigate("UserDrawer");
+              registerIndieID(
+                "user" + result.user.uid,
+                process.env.NN_APP_ID || "",
+                process.env.NN_APP_TOKEN || ""
+              );
+            });
+        });
     }
   } catch (error) {
     handleFirebaseError(error, setError, t);
   }
 };
 
+/**
+ * Logs in the user with email and password.
+ * @param email - The user's email.
+ * @param password - The user's password.
+ * @param firestoreManager - The FirestoreManager instance.
+ * @param navigation - The navigation object.
+ * @param setError - The function to set an error message.
+ */
 export const logInWithEmail = async (
   email: string,
   password: string,
@@ -64,22 +122,40 @@ export const logInWithEmail = async (
       if (response.user) {
         const user = await firestoreManager
           .getUser(response.user.uid)
-          .catch(async () => {
-            const userData: DBUser = {
-              name: response.user.displayName || "",
-              email: response.user.email || "",
-              photoURL: response.user.photoURL || "",
-              role: "user",
-              createdAt: new Date(),
-            };
-            await firestoreManager.createUser(response.user.uid, userData);
-            navigation.navigate("UserDrawer");
+          .catch(() => {
+            // User might not exist in the database
+            firestoreManager
+              .createUser(response.user.uid, {
+                name: response.user.displayName || "",
+                email: response.user.email || "",
+                photoURL: response.user.photoURL || "",
+                role: "user",
+                createdAt: new Date(),
+              })
+              .then(async () => {
+                navigation.navigate("UserDrawer");
+                registerIndieID(
+                  "user" + response.user.uid,
+                  process.env.NN_APP_ID || "",
+                  process.env.NN_APP_TOKEN || ""
+                );
+              });
           });
 
         if (user && user.role === "operator") {
           navigation.navigate("OperatorDrawer");
+          registerIndieID(
+            "operator" + response.user.uid,
+            process.env.NN_APP_ID || "",
+            process.env.NN_APP_TOKEN || ""
+          );
         } else {
           navigation.navigate("UserDrawer");
+          registerIndieID(
+            "user" + response.user.uid,
+            process.env.NN_APP_ID || "",
+            process.env.NN_APP_TOKEN || ""
+          );
         }
       }
     } catch (error) {
@@ -94,6 +170,15 @@ export const logInWithEmail = async (
   }
 };
 
+/**
+ * Signs up a new user with email and password.
+ * @param userName - The user's name.
+ * @param email - The user's email.
+ * @param password - The user's password.
+ * @param firestoreManager - The FirestoreManager instance.
+ * @param navigation - The navigation object.
+ * @param setError - The function to set an error message.
+ */
 export const signUpWithEmail = async (
   userName: string,
   email: string,
@@ -118,8 +203,19 @@ export const signUpWithEmail = async (
         createdAt: new Date(),
       };
 
-      await firestoreManager.createUser(userCredential.user.uid, userData);
-      navigation.navigate("UserDrawer");
+      firestoreManager
+        .createUser(userCredential.user.uid, userData)
+        .then(async () => {
+          navigation.navigate("UserDrawer");
+          registerIndieID(
+            "user" + userCredential.user.uid,
+            process.env.NN_APP_ID || "",
+            process.env.NN_APP_TOKEN || ""
+          );
+        })
+        .catch((error) => {
+          handleFirebaseError(error, setError, t);
+        });
     } catch (error) {
       handleFirebaseError(error, setError, t);
     }
@@ -132,12 +228,27 @@ export const signUpWithEmail = async (
   }
 };
 
+/**
+ * Logs out the current user.
+ * @param navigation - The navigation object.
+ */
 export const logoutUser = async (
   navigation: any,
   setError: SetErrorFunction,
   t: TFunction
 ) => {
   try {
+    const userId = auth.currentUser?.uid || "";
+    await unregisterIndieDevice(
+      "user" + userId,
+      process.env.NN_APP_ID || "",
+      process.env.NN_APP_TOKEN || ""
+    );
+    await unregisterIndieDevice(
+      "operator" + userId,
+      process.env.NN_APP_ID || "",
+      process.env.NN_APP_TOKEN || ""
+    );
     await auth.signOut();
     navigation.reset({
       index: 0,

@@ -96,6 +96,19 @@
     "loading": "Loading...",
     "wait": "Please wait..."
   },
+  "offline-map": {
+    "settings-header": "Downloaded Maps",
+    "location-picker": {
+      "save-map": "Save Map",
+      "downloading-tiles": "Downloading Map Tiles",
+      "alert-title": "Enter name",
+      "alert-message": "Enter a name for this map",
+      "cancel": "Cancel",
+      "OK": "OK"
+    },
+    "render-map": "Rendering Map",
+    "no-downloaded-maps": "No downloaded maps"
+  },
   "settings": {
     "title": "Settings",
     "account": {

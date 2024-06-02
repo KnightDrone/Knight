@@ -1,12 +1,5 @@
 import React, { useState, useLayoutEffect } from "react";
-import {
-  View,
-  Text,
-  FlatList,
-  TouchableOpacity,
-  Alert,
-  StyleSheet,
-} from "react-native";
+import { View, Text, FlatList, TouchableOpacity, Alert } from "react-native";
 import * as FileSystem from "expo-file-system";
 import TriangleBackground from "../../../components/TriangleBackground";
 import { Button } from "../../../ui/Button";
@@ -14,17 +7,21 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 import { useFocusEffect } from "@react-navigation/native";
 import Swipeable from "react-native-gesture-handler/Swipeable";
 import HeaderBackButton from "../../../components/buttons/BackButton";
+import { twMerge } from "tailwind-merge";
+import { useTranslation } from "react-i18next";
 
 const OfflineMapSettings: React.FC<{ navigation: any }> = ({ navigation }) => {
   const [downloadedMaps, setDownloadedMaps] = useState<
     { name: string; size: number }[]
   >([]);
+  const { t } = useTranslation();
+  let headerTitle = t("offline-map.settings-header");
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerTitle: "Downloaded Maps",
+      headerTitle: headerTitle,
       headerLeft: () => (
-        <View style={{ paddingLeft: 16 }}>
+        <View className="pl-4">
           <HeaderBackButton onPress={() => navigation.toggleDrawer()} />
         </View>
       ),
@@ -116,7 +113,7 @@ const OfflineMapSettings: React.FC<{ navigation: any }> = ({ navigation }) => {
   const renderRightActions = (mapName: string) => {
     return (
       <TouchableOpacity
-        style={styles.deleteButton}
+        className="bg-transparent justify-center items-center px-3 rounded-tr-lg rounded-br-lg my-2 mr-2 min-w-[75px]"
         onPress={() => handleDeleteMap(mapName)}
         testID={`${mapName}-delete-button`}
       >
@@ -132,23 +129,43 @@ const OfflineMapSettings: React.FC<{ navigation: any }> = ({ navigation }) => {
   }) => (
     <Swipeable renderRightActions={() => renderRightActions(item.name)}>
       <TouchableOpacity
-        style={styles.mapItem}
+        style={{
+          backgroundColor: "#F5F5F5",
+          borderRadius: 8,
+          shadowColor: "#000",
+          shadowOffset: {
+            width: 0,
+            height: 1,
+          },
+          shadowOpacity: 0.22,
+          shadowRadius: 2.22,
+          elevation: 3,
+          margin: 8,
+          paddingVertical: 16,
+          paddingHorizontal: 12,
+          borderWidth: 1,
+          borderColor: "#E0E0E0",
+        }}
         onPress={() => handleMapPress(item.name)}
       >
-        <View style={styles.mapContent}>
-          <Text style={styles.mapName}>{item.name}</Text>
-          <Text style={styles.mapSize}>{item.size.toFixed(1)} MB</Text>
+        <View className="flex-row justify-between items-center">
+          <Text className="text-base font-bold">{item.name}</Text>
+          <Text className="text-sm text-gray-500">
+            {item.size.toFixed(1)} MB
+          </Text>
         </View>
       </TouchableOpacity>
     </Swipeable>
   );
 
   return (
-    <View testID="offline-map-settings-screen" style={styles.container}>
+    <View testID="offline-map-settings-screen" className="flex-1">
       <TriangleBackground color="#A0D1E4" bottom={-100} />
       {downloadedMaps.length === 0 ? (
-        <View style={styles.emptyContainer}>
-          <Text style={styles.emptyText}>No downloaded maps</Text>
+        <View className="flex-1 justify-center items-center">
+          <Text className="text-lg text-gray-500">
+            {t("offline-map.no-downloaded-maps")}
+          </Text>
         </View>
       ) : (
         <FlatList
@@ -171,61 +188,5 @@ const OfflineMapSettings: React.FC<{ navigation: any }> = ({ navigation }) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  mapItem: {
-    backgroundColor: "#F5F5F5",
-    borderRadius: 8,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.22,
-    shadowRadius: 2.22,
-    elevation: 3,
-    margin: 8,
-    paddingVertical: 16,
-    paddingHorizontal: 12,
-    borderWidth: 1,
-    borderColor: "#E0E0E0",
-  },
-  mapContent: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  mapName: {
-    fontSize: 16,
-    fontWeight: "bold",
-  },
-  mapSize: {
-    fontSize: 14,
-    color: "#888",
-  },
-  deleteButton: {
-    backgroundColor: "transparent",
-    justifyContent: "center",
-    alignItems: "center",
-    paddingHorizontal: 12,
-    borderTopRightRadius: 8,
-    borderBottomRightRadius: 8,
-    marginVertical: 8,
-    marginRight: 8,
-    minWidth: 75,
-  },
-  emptyContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  emptyText: {
-    fontSize: 18,
-    color: "#888",
-  },
-});
 
 export default OfflineMapSettings;

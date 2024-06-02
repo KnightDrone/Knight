@@ -158,12 +158,7 @@ const OrderHistory = ({
         // if I am an operator, I want to see the user's location name
         // if I am user, I want to see where I ordered from
         renderItem={({ item }) => (
-          <OrderCard
-            order={item}
-            opBool={!historyOp}
-            forHistory={true}
-            //onClick={() => console.log(item.getId())}
-          />
+          <OrderCard order={item} opBool={!historyOp} forHistory={true} />
         )}
         keyExtractor={(item) => item.getId()}
         onEndReached={fetchOrders}
