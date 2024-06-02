@@ -135,110 +135,113 @@ export default function OperatorSignUp({ navigation }: any) {
   const { t } = useTranslation();
 
   return (
-    <ScrollView>
-      <View
-        className="flex-1 bg-white items-center justify-center px-8"
-        testID="sign-up-screen"
+    <ScrollView
+      className="flex-1 bg-white px-8 mt-10"
+      contentContainerStyle={{
+        // this is necessary for ScrollView, cannot be done through Nativewind
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+      testID="sign-up-screen"
+    >
+      <Text
+        className="text-4xl font-bold mb-8 text-center pt-5"
+        testID="signup-title"
       >
-        <Text
-          className="text-4xl font-bold mb-16 text-center"
-          testID="signup-title"
-        >
-          {"Operator Sign Up"}
-        </Text>
+        {"Operator Sign Up"}
+      </Text>
 
-        <View className="flex flex-col gap-3">
-          <TextField
-            placeholder={t("signup.username")}
-            value={userName}
-            onChangeText={setUserName}
-            type="text"
-            testID="username-input"
-            maxLength={40}
-          />
-
-          <TextField
-            placeholder={t("signup.email")}
-            value={email}
-            onChangeText={setEmail}
-            type="email"
-            testID="email-input"
-            maxLength={30}
-          />
-
-          <TextField
-            placeholder={t("signup.password")}
-            value={password}
-            onChangeText={setPassword}
-            type="password"
-            testID="password-input"
-            maxLength={50}
-          />
-
-          <TextField
-            placeholder={t("signup.phone-number", {
-              defaultValue: "Enter your phone number",
-            })}
-            value={phoneNumber}
-            onChangeText={setPhoneNumber}
-            type="text"
-            testID="phone-number-input"
-            maxLength={20}
-          />
-        </View>
-
-        <View className="w-full my-8 flex flex-col items-center bg-gray-100 p-4 rounded-lg">
-          <Text testID="pw-strength" className="text-lg text-center">
-            {strength}
-          </Text>
-          <View className="w-full h-4 bg-gray-300 rounded-lg m-2">
-            <View
-              className="h-full rounded-lg"
-              style={{
-                width: getStrengthWidth(),
-                backgroundColor: getStrengthColor(),
-              }}
-            />
-          </View>
-          <View>
-            {suggestions.map((suggestion, index) => (
-              <Text key={index} className="text-red-500 m-1">
-                {suggestion}
-              </Text>
-            ))}
-          </View>
-        </View>
-        <Button
-          text={"Upload Photo ID"}
-          onPress={pickImage}
-          style="secondary"
-          testID="upload-photo-button"
-        />
-        <View
-          style={{
-            height: 1,
-            width: "100%",
-            backgroundColor: "#ccc",
-            marginVertical: 20,
-          }}
-        />
-        <Button
-          text={t("signup.signup-button")}
-          onPress={signUpWithEmail}
-          style="primary"
-          testID="sign-up-button"
+      <View className="flex flex-col gap-3">
+        <TextField
+          placeholder={t("signup.username")}
+          value={userName}
+          onChangeText={setUserName}
+          type="text"
+          testID="username-input"
+          maxLength={40}
         />
 
-        {error && (
-          <MessageBox
-            message={error}
-            style="error"
-            onClose={() => setError("")}
-            testID="signup-error-message"
-            className="mt-8"
-          />
-        )}
+        <TextField
+          placeholder={t("signup.email")}
+          value={email}
+          onChangeText={setEmail}
+          type="email"
+          testID="email-input"
+          maxLength={30}
+        />
+
+        <TextField
+          placeholder={t("signup.password")}
+          value={password}
+          onChangeText={setPassword}
+          type="password"
+          testID="password-input"
+          maxLength={50}
+        />
+
+        <TextField
+          placeholder={t("signup.phone-number", {
+            defaultValue: "Enter your phone number",
+          })}
+          value={phoneNumber}
+          onChangeText={setPhoneNumber}
+          type="text"
+          testID="phone-number-input"
+          maxLength={20}
+        />
       </View>
+
+      <View className="w-full my-8 flex flex-col items-center bg-gray-100 p-4 rounded-lg">
+        <Text testID="pw-strength" className="text-lg text-center">
+          {strength}
+        </Text>
+        <View className="w-full h-4 bg-gray-300 rounded-lg m-2">
+          <View
+            className="h-full rounded-lg"
+            style={{
+              width: getStrengthWidth(),
+              backgroundColor: getStrengthColor(),
+            }}
+          />
+        </View>
+        <View>
+          {suggestions.map((suggestion, index) => (
+            <Text key={index} className="text-red-500 m-1">
+              {suggestion}
+            </Text>
+          ))}
+        </View>
+      </View>
+      <Button
+        text={"Upload Photo ID"}
+        onPress={pickImage}
+        style="secondary"
+        testID="upload-photo-button"
+      />
+      <View
+        style={{
+          height: 1,
+          width: "100%",
+          backgroundColor: "#ccc",
+          marginVertical: 20,
+        }}
+      />
+      <Button
+        text={t("signup.signup-button")}
+        onPress={signUpWithEmail}
+        style="primary"
+        testID="sign-up-button"
+      />
+
+      {error && (
+        <MessageBox
+          message={error}
+          style="error"
+          onClose={() => setError("")}
+          testID="signup-error-message"
+          className="mt-8"
+        />
+      )}
     </ScrollView>
   );
 }
