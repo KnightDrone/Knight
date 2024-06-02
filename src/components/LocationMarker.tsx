@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, View, Animated } from "react-native";
+import { View, Animated } from "react-native";
 import * as Location from "expo-location";
 import { Marker } from "react-native-maps";
 
@@ -75,64 +75,25 @@ const LocationMarker: React.FC<LocationMarkerProps> = ({ coordinate }) => {
 
   return (
     <Marker coordinate={coordinate}>
-      <View style={styles.container}>
-        <View style={styles.innerCircle} />
+      <View className="items-center justify-center w-12 h-12">
+        <View className="w-4 h-4 rounded-full bg-blue-500" />
         <Animated.View
           testID="marker"
-          style={[
-            styles.directionalLight,
-            {
-              opacity: fadeAnim,
-              transform: [{ scale: scaleAnim }],
-            },
-          ]}
+          className="absolute w-9 h-9 bg-blue-300 rounded-full"
+          style={{
+            opacity: fadeAnim,
+            transform: [{ scale: scaleAnim }],
+          }}
         />
         <Animated.View
-          style={[
-            styles.arrow,
-            {
-              transform: [{ rotate: `${heading}deg` }, { translateY: -16 }],
-            },
-          ]}
+          className="absolute w-0 h-0 border-l-[3px] border-r-[3px] border-b-[8px] border-solid bg-transparent border-l-transparent border-r-transparent border-b-blue-500"
+          style={{
+            transform: [{ rotate: `${heading}deg` }, { translateY: -16 }],
+          }}
         />
       </View>
     </Marker>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    alignItems: "center",
-    justifyContent: "center",
-    width: 50,
-    height: 50,
-  },
-  directionalLight: {
-    position: "absolute",
-    width: 35,
-    height: 35,
-    backgroundColor: "rgba(0,122,255,0.3)",
-    borderRadius: 20,
-  },
-  innerCircle: {
-    width: 15,
-    height: 15,
-    borderRadius: 10,
-    backgroundColor: "rgb(0, 122, 255)",
-  },
-  arrow: {
-    position: "absolute",
-    width: 0,
-    height: 0,
-    borderLeftWidth: 3,
-    borderRightWidth: 3,
-    borderBottomWidth: 8,
-    borderStyle: "solid",
-    backgroundColor: "transparent",
-    borderLeftColor: "transparent",
-    borderRightColor: "transparent",
-    borderBottomColor: "rgb(0, 122, 255)",
-  },
-});
 
 export default LocationMarker;

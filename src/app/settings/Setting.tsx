@@ -4,7 +4,6 @@ import {
   ScrollView,
   View,
   Text,
-  StyleSheet,
   TouchableOpacity,
   SafeAreaView,
   Alert,
@@ -222,15 +221,17 @@ const Settings: React.FC<SettingsProps> = ({
   ];
 
   return (
-    <SafeAreaView style={styles.container} testID="settings-screen">
-      <ScrollView>
+    <SafeAreaView className="flex-1 bg-gray-100" testID="settings-screen">
+      <ScrollView className="bg-white">
         {settingsSections.map((section, index) => (
-          <View key={index} style={styles.section}>
-            <Text style={styles.header}>{section.title}</Text>
+          <View key={index} className="px-5 border-b border-gray-300 bg-white">
+            <Text className="text-lg font-bold py-2.5 text-black">
+              {section.title}
+            </Text>
             {section.data.map((item, itemIndex) => (
               <TouchableOpacity
                 key={itemIndex}
-                style={styles.item}
+                className="flex-row items-center py-2.5"
                 onPress={
                   item.action
                     ? item.action
@@ -241,19 +242,16 @@ const Settings: React.FC<SettingsProps> = ({
                 }
                 testID={item.id ? `${item.id}` : `${item.name}-button`}
               >
-                <Icon
-                  name={item.icon}
-                  size={24}
-                  style={styles.icon}
-                  testID={`${item.icon}-icon`}
-                />
-                <Text style={styles.text}>{item.name}</Text>
+                <Icon name={item.icon} size={24} testID={`${item.icon}-icon`} />
+                <Text className="ml-3 text-base text-gray-700">
+                  {item.name}
+                </Text>
               </TouchableOpacity>
             ))}
           </View>
         ))}
 
-        <View className="flex flex-row items-center justify-center gap-4 mt-12">
+        <View className="flex flex-row items-center justify-center gap-4 py-6">
           {locales.map((lang) => (
             <TouchableWithoutFeedback
               key={lang}
@@ -271,51 +269,5 @@ const Settings: React.FC<SettingsProps> = ({
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#F9F9F9",
-  },
-  mainHeader: {
-    fontSize: 22,
-    fontWeight: "bold",
-    textAlign: "center",
-    paddingVertical: 20,
-    backgroundColor: "#fff",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 1.5,
-    elevation: 3,
-  },
-  section: {
-    paddingHorizontal: 20,
-    paddingTop: 30,
-    paddingBottom: 20,
-    borderBottomWidth: 1,
-    borderBottomColor: "#E0E0E0",
-    backgroundColor: "#FFF",
-  },
-  header: {
-    fontSize: 18,
-    fontWeight: "bold",
-    paddingVertical: 10,
-    color: "#000",
-  },
-  item: {
-    flexDirection: "row",
-    alignItems: "center",
-    paddingVertical: 10,
-  },
-  icon: {
-    color: "#757575",
-    marginRight: 20,
-  },
-  text: {
-    fontSize: 16,
-    color: "#424242",
-  },
-});
 
 export default Settings;

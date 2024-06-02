@@ -14,15 +14,12 @@ import {
   signInWithEmailAndPassword,
 } from "../../services/Firebase";
 import * as Google from "expo-auth-session/providers/google";
-
-// Navigation imports
 import { TextField } from "../../ui/TextField";
 import { Button } from "../../ui/Button";
 import { MessageBox } from "../../ui/MessageBox";
 import { OrSeparator } from "../../components/OrSeparator";
 import { useTranslation } from "react-i18next";
 import { langIcons, locales, useLocale } from "../../lang/i18n";
-import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import GoogleAuthConfig from "../../types/GoogleAuthConfig";
 import { logInWithEmail, logInWithGoogle } from "../../utils/Auth";
 import FirestoreManager from "../../services/FirestoreManager";

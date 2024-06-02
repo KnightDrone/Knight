@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
-  StyleSheet,
   ScrollView,
   Image,
   TouchableOpacity,
@@ -17,6 +16,7 @@ import FirestoreManager, { DBUser } from "../../services/FirestoreManager";
 import * as ImagePicker from "expo-image-picker";
 import { isValidEmail } from "../../utils/Auth";
 import { useTranslation } from "react-i18next";
+
 interface ProfileScreenProps {
   onSaveChanges?: () => void;
 }
@@ -121,9 +121,9 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ onSaveChanges }) => {
   };
 
   return (
-    <ScrollView style={styles.container} testID="profile-screen">
+    <ScrollView className="flex-1 p-4 bg-white" testID="profile-screen">
       <TouchableOpacity
-        style={styles.profileImageContainer}
+        className="justify-center items-center mb-6 h-48"
         onPress={pickImage}
         testID="profile-image-button"
       >
@@ -136,33 +136,33 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ onSaveChanges }) => {
                 : require("../../../assets/images/profile.png")
           }
           testID="profile-image"
-          style={styles.profileImage}
+          className="w-48 h-48 rounded-full border-4 border-gray-300"
         />
       </TouchableOpacity>
-      <View style={styles.inputContainer}>
-        <Text style={styles.label}>{t("settings.profile.name")}</Text>
+      <View className="mb-4 bg-gray-100 rounded-lg px-4 py-2">
+        <Text className="font-bold mb-1">{t("settings.profile.name")}</Text>
         <TextInput
-          style={styles.input}
+          className="h-10 px-3 bg-white rounded"
           placeholder={t("settings.profile.name")}
           value={name}
           onChangeText={setName}
         />
       </View>
 
-      <View style={styles.inputContainer}>
-        <Text style={styles.label}>{t("settings.profile.email")}</Text>
+      <View className="mb-4 bg-gray-100 rounded-lg px-4 py-2">
+        <Text className="font-bold mb-1">{t("settings.profile.email")}</Text>
         <TextInput
-          style={styles.input}
+          className="h-10 px-3 bg-white rounded"
           placeholder={t("settings.profile.email")}
           value={userEmail}
           onChangeText={setUserEmail}
         />
       </View>
 
-      <View style={styles.inputContainer}>
-        <Text style={styles.label}>{t("settings.profile.password")}</Text>
+      <View className="mb-4 bg-gray-100 rounded-lg px-4 py-2">
+        <Text className="font-bold mb-1">{t("settings.profile.password")}</Text>
         <TextInput
-          style={styles.input}
+          className="h-10 px-3 bg-white rounded"
           placeholder={t("settings.profile.password")}
           secureTextEntry={true}
           value={password}
@@ -171,74 +171,16 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ onSaveChanges }) => {
       </View>
 
       <TouchableOpacity
-        style={styles.saveButton}
+        className="bg-primary-400 rounded-full py-3 px-6 items-center w-[70%] mx-auto"
         onPress={handleSaveChanges}
         testID="save-button"
       >
-        <Text style={styles.saveButtonText}>
+        <Text className="text-white font-bold">
           {t("settings.profile.save-changes.button")}
         </Text>
       </TouchableOpacity>
     </ScrollView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-    backgroundColor: "#fff",
-  },
-  profileImageContainer: {
-    justifyContent: "center",
-    alignItems: "center",
-    marginBottom: 30,
-    height: 200,
-  },
-  profileImage: {
-    width: 180,
-    height: 180,
-    borderRadius: 90,
-    borderWidth: 4,
-    borderColor: "#ddd",
-  },
-  inputContainer: {
-    marginBottom: 20,
-    backgroundColor: "#f7f7f7",
-    borderRadius: 10,
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-  },
-  label: {
-    fontSize: 16,
-    fontWeight: "bold",
-    marginBottom: 5,
-  },
-  input: {
-    height: 40,
-    padding: 10,
-    backgroundColor: "white",
-    borderRadius: 5,
-  },
-  picker: {
-    height: 50,
-    width: "100%",
-    backgroundColor: "white",
-    borderRadius: 5,
-  },
-  saveButton: {
-    backgroundColor: "#007AFF", // iOS blue button color
-    borderRadius: 10,
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-    alignItems: "center",
-    marginTop: 10,
-  },
-  saveButtonText: {
-    color: "white",
-    fontSize: 18,
-    fontWeight: "bold",
-  },
-});
 
 export default ProfileScreen;
