@@ -25,6 +25,11 @@ import Guide2 from "./content/Guide2";
 import Guide3 from "./content/Guide3";
 import Guide4 from "./content/Guide4";
 import Guide5 from "./content/Guide5";
+import TermsAndConditions from "./settings/TermsAndConditions";
+import ProfileScreen from "./settings/ProfileScreen";
+import PrivacyScreen from "./settings/PrivacyScreen";
+import FAQs from "./settings/FAQs";
+import NotificationsScreen from "./settings/NotificationsScreen";
 
 const { Navigator, Screen, Group } = createStackNavigator<RootStackParamList>();
 
@@ -152,6 +157,38 @@ export const AppStack: React.FC<AppStackProps> = ({ isLoggedIn, user }) => {
           <Screen name="PendingOrders">
             {(props: any) => <PendingOrders {...props} />}
           </Screen>
+          <Screen
+            options={{
+              headerShown: true,
+              headerBackTitle: "Back",
+            }}
+            name="FAQs"
+            component={FAQs}
+          />
+          <Screen
+            options={{
+              headerShown: true,
+              headerBackTitle: "Back",
+            }}
+            name="TermsAndConditions"
+            component={TermsAndConditions}
+          />
+          <Screen
+            options={{
+              headerShown: true,
+              headerBackTitle: "Back",
+            }}
+            name="Privacy"
+            component={PrivacyScreen}
+          />
+          <Screen
+            options={{
+              headerShown: true,
+              headerBackTitle: "Back",
+            }}
+            name="Notifications"
+            component={NotificationsScreen}
+          />
         </Group>
       </Navigator>
     </NavigationContainer>

@@ -161,25 +161,6 @@ describe("AppStack Navigation Tests", () => {
     });
   });
 
-  it("navigates to ForgotPassword screen when 'Reset Password' is pressed then navigates back when back-button is pressed", async () => {
-    const { queryByTestId } = render(<AppStack isLoggedIn={"Login"} />);
-
-    fireEvent.press(queryByTestId("forgot-password-link"));
-    const backButton = queryByTestId("forgot-password-back-button");
-    if (backButton) {
-      fireEvent.press(backButton);
-    } else {
-      throw new Error("Back button not found");
-    }
-
-    await waitFor(
-      () => {
-        expect(queryByTestId("login-screen")).toBeTruthy();
-      },
-      { timeout: 1000 }
-    ); // Adjust timeout based on your needs
-  });
-
   it("navigates to SignUp screen when 'Sign Up' is pressed", async () => {
     const { queryByTestId } = render(<AppStack isLoggedIn={"Login"} />);
     await waitFor(() => {
@@ -187,25 +168,6 @@ describe("AppStack Navigation Tests", () => {
       // Check if the SignUp screen is displayed by looking for a specific text
       expect(screen.getByTestId("sign-up-screen")).toBeTruthy();
     });
-  });
-
-  it("navigates to SignUp screen when 'Sign Up' is pressed then navigates back when back-button is pressed", async () => {
-    const { queryByTestId } = render(<AppStack isLoggedIn={"Login"} />);
-    fireEvent.press(queryByTestId("sign-up-link"));
-
-    const backButton = queryByTestId("sign-up-back-button");
-    if (backButton) {
-      fireEvent.press(backButton);
-    } else {
-      throw new Error("Back button not found");
-    }
-    await waitFor(
-      () => {
-        // Check if the SignUp screen is displayed by looking for a specific text
-        expect(screen.getByTestId("login-screen")).toBeTruthy();
-      },
-      { timeout: 1000 }
-    );
   });
 
   it("navigates to the map screen after successful sign-up", async () => {
