@@ -6,6 +6,7 @@ import {
   Image,
   TouchableOpacity,
   Platform,
+  TouchableWithoutFeedback,
 } from "react-native";
 import {
   auth,
