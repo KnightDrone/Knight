@@ -16,37 +16,39 @@ const NotificationsScreen = () => {
   const { t } = useTranslation();
 
   return (
-    <View className="flex-1 bg-gray-100 px-5 py-2">
-      <View className="mt-24">
+    <View className="flex-1 bg-gray-100 px-5 py-2.5">
+      <View className="mt-25">
         <TouchableOpacity
-          className="bg-white rounded-lg p-4 mb-2 shadow-md flex-row items-center justify-between"
+          className="bg-white rounded-lg p-4 mb-2.5 shadow-md flex-row items-center justify-between"
           testID="order-button"
         >
-          <View className="flex-1">
-            <Text className="text-lg text-gray-900" testID="order-text">
+          <View className="flex-col">
+            <Text className="text-lg text-gray-800" testID="order-text">
               {t("settings.notifications.order-tracking.title")}
             </Text>
-            <Text className="text-sm text-gray-600" testID="order-subtext">
+            <Text className="text-xs text-gray-600" testID="order-subtext">
               {t("settings.notifications.order-tracking.description")}
             </Text>
           </View>
           <Switch
+            className="ml-auto"
             trackColor={{ false: "#767577", true: "#A0D1E4" }}
             onValueChange={toggleOrder}
             value={isOrderEnabled}
             testID="order-switch"
           />
         </TouchableOpacity>
-        <TouchableOpacity className="bg-white rounded-lg p-4 mb-2 shadow-md flex-row items-center justify-between">
-          <View className="flex-1">
-            <Text className="text-lg text-gray-900" testID="offers-text">
+        <TouchableOpacity className="bg-white rounded-lg p-4 mb-2.5 shadow-md flex-row items-center justify-between">
+          <View className="flex-col">
+            <Text className="text-lg text-gray-800" testID="offers-text">
               {t("settings.notifications.offers.title")}
             </Text>
-            <Text className="text-sm text-gray-600" testID="offers-subtext">
+            <Text className="text-xs text-gray-600" testID="offers-subtext">
               {t("settings.notifications.offers.description")}
             </Text>
           </View>
           <Switch
+            className="ml-auto"
             trackColor={{ false: "#767577", true: "#A0D1E4" }}
             onValueChange={toggleOffers}
             value={isOffersEnabled}
@@ -54,18 +56,19 @@ const NotificationsScreen = () => {
           />
         </TouchableOpacity>
         <TouchableOpacity
-          className="bg-white rounded-lg p-4 mb-2 shadow-md flex-row items-center justify-between"
+          className="bg-white rounded-lg p-4 mb-2.5 shadow-md flex-row items-center justify-between"
           testID="item-button"
         >
-          <View className="flex-1">
-            <Text className="text-lg text-gray-900" testID="item-text">
+          <View className="flex-col">
+            <Text className="text-lg text-gray-800" testID="item-text">
               {t("settings.notifications.new-items.title")}
             </Text>
-            <Text className="text-sm text-gray-600" testID="item-subtext">
+            <Text className="text-xs text-gray-600" testID="item-subtext">
               {t("settings.notifications.new-items.description")}
             </Text>
           </View>
           <Switch
+            className="ml-auto"
             trackColor={{ false: "#767577", true: "#A0D1E4" }}
             onValueChange={toggleItem}
             value={isItemEnabled}

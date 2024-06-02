@@ -25,8 +25,7 @@
         "backgroundColor": "#ffffff"
       },
       "permissions": ["android.permission.DETECT_SCREEN_CAPTURE"],
-      "package": "com.swent.knight",
-      "softwareKeyboardLayoutMode": "pan"
+      "package": "com.swent.knight"
     },
     "web": {
       "favicon": "./assets/images/favicon.png",

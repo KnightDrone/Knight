@@ -1,29 +1,13 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { View } from "react-native";
 
 const TriangleBackground = ({ color = "#93D39D", bottom = -350 }) => {
-  const style = StyleSheet.create({
-    triangle: {
-      width: 0,
-      height: 0,
-      backgroundColor: "transparent",
-      borderStyle: "solid",
-      borderTopWidth: 0,
-      borderRightWidth: 460, // Width of the triangle
-      borderBottomWidth: 750, // Height of the triangle
-      borderLeftWidth: 0, // Width of the triangle
-      borderTopColor: "transparent",
-      borderRightColor: "transparent",
-      borderBottomColor: color, // Dynamic color
-      opacity: 0.35,
-      borderLeftColor: "transparent",
-      position: "absolute",
-      bottom: bottom,
-      left: -23,
-    },
-  });
-
-  return <View style={style.triangle}></View>;
+  return (
+    <View
+      className="w-0 h-0 bg-transparent border-solid border-t-0 border-r-[460px] border-b-[750px] border-l-0 border-t-transparent border-r-transparent opacity-35 border-l-transparent absolute"
+      style={{ borderBottomColor: color, bottom: bottom, left: -23 }}
+    ></View>
+  );
 };
 
 export default TriangleBackground;

@@ -1,15 +1,9 @@
 import React, { useState, useRef, useEffect } from "react";
-import {
-  FlatList,
-  View,
-  Text,
-  StyleSheet,
-  ActivityIndicator,
-  Alert,
-} from "react-native";
+import { FlatList, View, Text, ActivityIndicator, Alert } from "react-native";
 import OpenAI from "openai";
 import { TextField } from "../ui/TextField";
 import { Button } from "../ui/Button";
+
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/Octicons";
@@ -17,64 +11,11 @@ import Icon from "react-native-vector-icons/Octicons";
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 10,
-    backgroundColor: "#fff",
-    //marginBottom: 0,
-  },
-  userMessage: {
-    alignSelf: "flex-end",
-    backgroundColor: "#48A6C9",
-    borderRadius: 5,
-    padding: 10,
-    marginVertical: 5,
-    marginLeft: "15%",
-  },
-  userMessageText: {
-    color: "#fff", // White text color
-    fontSize: 16,
-  },
-  botMessage: {
-    alignSelf: "flex-start",
-    backgroundColor: "#f1f0f0",
-    borderRadius: 5,
-    padding: 10,
-    marginVertical: 5,
-    marginRight: "15%",
-  },
-  botMessageText: {
-    color: "#000", // Black text color
-    fontSize: 16,
-  },
-  inputContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    padding: 0,
-    marginTop: 10,
-  },
-  input: {
-    flex: 1,
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 5,
-    padding: 10,
-    marginVertical: 10,
-    marginRight: 10,
-  },
-  loadingIndicator: {
-    marginVertical: 10,
-  },
-});
-
 type Message = {
   id: string;
   text: string;
   sender: "user" | "assistant";
 };
-
 const ChatScreen = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
@@ -114,7 +55,9 @@ const ChatScreen = () => {
   }, [navigation]);
 
   const scrollToBottom = () => {
-    flatListRef.current?.scrollToEnd({ animated: true });
+    setTimeout(() => {
+      flatListRef.current?.scrollToEnd({ animated: true });
+    }, 100); // Adding a slight delay
   };
 
   const storeMessages = async (messages: Message[]) => {
@@ -139,7 +82,6 @@ const ChatScreen = () => {
   useEffect(() => {
     loadMessages();
   }, []); // call only once, when component is loaded
-
   useEffect(() => {
     scrollToBottom();
     storeMessages(messages);
@@ -147,17 +89,14 @@ const ChatScreen = () => {
 
   const handleSend = async () => {
     if (!input.trim()) return;
-
     const newMessage: Message = {
       id: Date.now().toString(),
       text: input,
       sender: "user",
     };
-
     setMessages([...messages, newMessage]);
     setInput("");
     setLoading(true);
-
     try {
       const completion = await openai.chat.completions.create({
         messages: [
@@ -179,13 +118,11 @@ const ChatScreen = () => {
         ],
         model: "gpt-3.5-turbo",
       });
-
       const responseMessage: Message = {
         id: Date.now().toString(),
         text: completion.choices[0].message.content as string,
         sender: "assistant",
       };
-
       setMessages((prevMessages) => [...prevMessages, responseMessage]);
     } catch (error) {
       console.error("Error sending message: ", error);
@@ -193,27 +130,28 @@ const ChatScreen = () => {
       setLoading(false);
     }
   };
-
   return (
-    <View style={styles.container}>
+    <View className="flex-1 p-2 bg-white">
       <FlatList
-        className="max-h-[91%]"
+        className="flex-1 mb-6"
         ref={flatListRef}
         testID="messages-list"
         data={messages}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <View
-            style={
-              item.sender === "user" ? styles.userMessage : styles.botMessage
-            }
+            className={`${
+              item.sender === "user"
+                ? "self-end bg-[#48A6C9] rounded p-2 my-1 ml-[15%]"
+                : "self-start bg-[#f1f0f0] rounded p-2 my-1 mr-[15%]"
+            }`}
           >
             <Text
-              style={
+              className={`${
                 item.sender === "user"
-                  ? styles.userMessageText
-                  : styles.botMessageText
-              }
+                  ? "text-white text-lg"
+                  : "text-black text-lg"
+              }`}
             >
               {item.text}
             </Text>
@@ -222,16 +160,14 @@ const ChatScreen = () => {
         onContentSizeChange={scrollToBottom}
         onLayout={scrollToBottom}
       />
+
       {loading && (
-        <ActivityIndicator
-          style={styles.loadingIndicator}
-          testID="loading-indicator"
-        />
+        <ActivityIndicator className="my-2" testID="loading-indicator" />
       )}
-      <View style={styles.inputContainer}>
+
+      <View className="flex-row items-center pb-4">
         <TextField
-          //style={styles.input}
-          className="max-w-[70%] mr-3"
+          className="flex-1 border border-gray-300 rounded-full p-2 mr-2"
           value={input}
           onChangeText={setInput}
           type="text"
@@ -250,5 +186,4 @@ const ChatScreen = () => {
     </View>
   );
 };
-
 export default ChatScreen;

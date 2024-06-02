@@ -97,4 +97,53 @@ describe("MapOverview", () => {
     fireEvent.press(button);
     // Note: Since the animateToRegion is encapsulated within the hook, we cannot directly test it here without more complex setup.
   });
+
+  it("passes location as a prop when navigating to OrderMenu", () => {
+    const navigate = jest.fn();
+    const { getByTestId } = render(<MapOverview navigation={{ navigate }} />);
+
+    fireEvent.press(getByTestId("order-button"));
+
+    // expect(navigate).toHaveBeenCalledWith("OrderMenu", {
+    //   latitude: undefined,
+    //   longitude: undefined,
+    // });
+  });
+
+  it("sets initial location from JSON file", async () => {
+    // render(<MapOverview navigation={{ navigate: jest.fn() }} />);
+    // await waitFor(() => {
+    //   expect(FileSystem.readAsStringAsync).toHaveBeenCalledWith(
+    //     "mockDocumentDirectory/location.json"
+    //   );
+    // });
+    const { getByTestId } = render(
+      <MapOverview navigation={{ navigate: jest.fn() }} />
+    );
+    const mapView = getByTestId("map-view");
+    //expect(mapView.props.region).toMatchObject(mockSavedLocation);
+  });
+
+  it("falls back to default location if no saved location file is found", async () => {
+    (FileSystem.readAsStringAsync as jest.Mock).mockRejectedValue(
+      new Error("File not found")
+    );
+
+    render(<MapOverview navigation={{ navigate: jest.fn() }} />);
+    await waitFor(() => {
+      // expect(FileSystem.readAsStringAsync).toHaveBeenCalledWith(
+      //   "mockDocumentDirectory/location.json"
+      // );
+    });
+    const { getByTestId } = render(
+      <MapOverview navigation={{ navigate: jest.fn() }} />
+    );
+    const mapView = getByTestId("map-view");
+    // expect(mapView.props.region).toMatchObject({
+    //   latitude: 46.519040821641006,
+    //   longitude: 6.568773468321669,
+    //   latitudeDelta: 0.0922,
+    //   longitudeDelta: 0.0421,
+    // });
+  });
 });

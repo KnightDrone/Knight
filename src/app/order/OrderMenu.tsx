@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import OrderButton from "../../components/buttons/OrderButton";
-import { Text, StyleSheet, View, Alert } from "react-native";
+import { Text, View, Alert } from "react-native";
 import TriangleBackground from "../../components/TriangleBackground";
 import { productButtons, ProductButton } from "../../types/ProductButtons";
 import ItemCard from "../../components/cards/ItemCard";
@@ -79,9 +79,15 @@ export default function OrderMenu({ navigation }: { navigation: any }) {
   };
 
   return (
-    <View style={styles.container} testID="order-menu-screen">
+    <View
+      className="flex-1 w-full h-full flex flex-col items-center pt-40"
+      testID="order-menu-screen"
+    >
       <TriangleBackground color="#A0D1E4" bottom={-100} />
-      <Text style={styles.text} testID="order-menu-text">
+      <Text
+        className="text-4xl mb-8 leading-10 self-center"
+        testID="order-menu-text"
+      >
         {t("order-menu.choose-item")}
       </Text>
       {productButtons.map((button) => (
@@ -107,22 +113,3 @@ export default function OrderMenu({ navigation }: { navigation: any }) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    width: "100%",
-    height: "100%",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    //justifyContent: "flex-start",
-    paddingTop: 160,
-  },
-  text: {
-    fontSize: 36,
-    marginBottom: 33,
-    lineHeight: 40,
-    alignSelf: "center",
-  },
-});
