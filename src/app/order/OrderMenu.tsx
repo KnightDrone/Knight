@@ -9,6 +9,7 @@ import { TranslationKeys } from "../../types/translation-keys";
 import FirestoreManager from "../../services/FirestoreManager";
 import { Order, OrderLocation } from "../../types/Order";
 import { auth } from "../../services/Firebase";
+import { notifyNewOrderPlaced } from "../../utils/NotificationHandler";
 import useLocation from "../maps/hooks/useLocation";
 
 export default function OrderMenu({ navigation }: { navigation: any }) {
@@ -24,7 +25,7 @@ export default function OrderMenu({ navigation }: { navigation: any }) {
       return {
         latitude: -999,
         longitude: -999,
-      }; // idk about this one
+      };
     } else {
       return {
         latitude: location.latitude,
@@ -64,6 +65,7 @@ export default function OrderMenu({ navigation }: { navigation: any }) {
         await order.locSearch(); // This is to call the Nominatim API to define the user location name
         console.log("Order placed: ", order);
         firestoreManager.writeData("orders", order);
+        await notifyNewOrderPlaced();
         setVisibleItemId(null); // added this so that when coming back to this screen through any navigation the card is closed
         navigation.navigate("OrderPlaced", { orderId: order.getId() });
       } catch (error) {

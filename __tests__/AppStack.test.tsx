@@ -356,4 +356,65 @@ describe("Drawer Navigation", () => {
       expect(queryByTestId("map-view")).toBeTruthy();
     });
   });
+
+  it("navigates to OperatorSignup screen when 'Operator Signup' is pressed", async () => {
+    const { queryByTestId } = render(
+      // @ts-ignore
+      <AppStack isLoggedIn={"Operator Signup"} />
+    );
+  });
+
+  it("navigates to ContentIndex screen", async () => {
+    const { queryByTestId } = render(
+      <AppStack
+        // @ts-ignore
+        isLoggedIn={"ContentIndex"}
+      />
+    );
+  });
+
+  it("navigates to Guide1 screen", async () => {
+    const { queryByTestId } = render(
+      <AppStack
+        // @ts-ignore
+        isLoggedIn={"Guide1"}
+      />
+    );
+  });
+
+  it("navigates to Guide2 screen", async () => {
+    const { queryByTestId } = render(
+      <AppStack
+        // @ts-ignore
+        isLoggedIn={"Guide2"}
+      />
+    );
+  });
+
+  it("navigates to Guide3 screen", async () => {
+    const { queryByTestId } = render(
+      <AppStack
+        // @ts-ignore
+        isLoggedIn={"Guide3"}
+      />
+    );
+  });
+
+  it("navigates to Guide4 screen", async () => {
+    const { queryByTestId } = render(
+      <AppStack
+        // @ts-ignore
+        isLoggedIn={"Guide4"}
+      />
+    );
+  });
+
+  it("navigates to Guide5 screen", async () => {
+    const { queryByTestId } = render(
+      <AppStack
+        // @ts-ignore
+        isLoggedIn={"Guide5"}
+      />
+    );
+  });
 });

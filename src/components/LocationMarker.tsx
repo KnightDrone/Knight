@@ -10,6 +10,14 @@ interface LocationMarkerProps {
   };
 }
 
+/**
+ * LocationMarker component displays a marker on a map at a specific coordinate.
+ *
+ * @component
+ * @param {LocationMarkerProps} props - The props for the LocationMarker component.
+ * @param {Coordinate} props.coordinate - The coordinate where the marker should be placed.
+ * @returns {JSX.Element} The LocationMarker component.
+ */
 const LocationMarker: React.FC<LocationMarkerProps> = ({ coordinate }) => {
   const [heading, setHeading] = useState(0);
   const fadeAnim = useState(new Animated.Value(0))[0];

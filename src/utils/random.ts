@@ -1,5 +1,9 @@
 import * as Crypto from "expo-crypto";
 
+/**
+ * Generates a random number in the range [0, 1] using a secure random number generator.
+ * @returns A random number in the range [0, 1].
+ */
 export function secureRandom() {
   const randomBytesBuffer = Crypto.getRandomBytes(4);
   const dataView = new DataView(randomBytesBuffer.buffer);
