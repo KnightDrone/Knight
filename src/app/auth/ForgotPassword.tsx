@@ -5,6 +5,7 @@ import { TextField } from "../../ui/TextField";
 import { Button } from "../../ui/Button";
 import { MessageBox } from "../../ui/MessageBox";
 import { useTranslation } from "react-i18next";
+import { handleFirebaseError } from "../../utils/Auth";
 
 export default function ForgotPasswordScreen() {
   const [email, setEmail] = useState("");
@@ -23,7 +24,7 @@ export default function ForgotPasswordScreen() {
         setSuccessMessage("Password reset email sent!");
       })
       .catch((error) => {
-        setError(error.message);
+        handleFirebaseError(error, setError, t);
       });
   };
 
