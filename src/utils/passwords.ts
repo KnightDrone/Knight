@@ -1,3 +1,4 @@
+// An arrqay of passwords for testing.
 const passwordsForTesting = [
   "pass",
   "password",

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, Platform } from "react-native";
+import { Text, ScrollView, View, Platform } from "react-native";
 // ------------- FIREBASE IMPORTS ----------------
 import {
   auth,
@@ -31,12 +31,14 @@ export default function SignUp({ navigation }: any) {
 
   const [showPassword, setShowPassword] = useState(false);
 
+  // Choose the correct Google Auth config based on the platform
   const config = Platform.select({
     web: GoogleAuthConfig.web,
     ios: GoogleAuthConfig.ios,
     android: GoogleAuthConfig.android,
   });
 
+  // Google login
   const [request, response, promptAsync] = Google.useAuthRequest(config);
 
   useEffect(() => {
@@ -119,12 +121,17 @@ export default function SignUp({ navigation }: any) {
   const { t } = useTranslation();
 
   return (
-    <View
-      className="flex-1 bg-white items-center justify-center px-8"
+    <ScrollView
+      className="flex-1 bg-white px-8 mt-10"
+      contentContainerStyle={{
+        // this is necessary for ScrollView, cannot be done through Nativewind
+        alignItems: "center",
+        justifyContent: "center",
+      }}
       testID="sign-up-screen"
     >
       <Text
-        className="text-4xl font-bold mb-16 text-center"
+        className="text-4xl font-bold mb-8 text-center pt-5"
         testID="signup-title"
       >
         {t("signup.title")}
@@ -221,6 +228,6 @@ export default function SignUp({ navigation }: any) {
           className="mt-8"
         />
       )}
-    </View>
+    </ScrollView>
   );
 }

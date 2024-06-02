@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Text, View } from "react-native";
+import { Text, ScrollView, View } from "react-native";
 import { auth, sendPasswordResetEmail } from "../../services/Firebase";
 import { TextField } from "../../ui/TextField";
 import { Button } from "../../ui/Button";
@@ -17,7 +17,6 @@ export default function ForgotPasswordScreen() {
     sendPasswordResetEmail(auth, email)
       .then(() => {
         // Password reset email sent!
-        // showing a toast is better (library: react-native-toast-message, react-native-notifier)
         setSuccess(true);
         setError("");
         setSuccessMessage("Password reset email sent!");
@@ -28,18 +27,21 @@ export default function ForgotPasswordScreen() {
   };
 
   return (
-    <View
-      className="flex flex-col p-8 bg-white items-center justify-center h-full"
+    <ScrollView
+      className="flex-1 p-8 bg-white"
+      contentContainerStyle={{
+        // this is necessary for ScrollView, cannot be done through Nativewind
+        alignItems: "center",
+        justifyContent: "center",
+        flexGrow: 1,
+      }}
       testID="forgot-password-screen"
     >
-      <Text
-        className="text-3xl font-bold mb-12 text-center"
-        testID="title-text"
-      >
+      <Text className="text-3xl font-bold mb-6 text-center" testID="title-text">
         {t("reset-password.title")}
       </Text>
 
-      <Text className="mb-12 text-xl text-center" testID="email-text">
+      <Text className="mb-6 text-xl text-center" testID="email-text">
         {t("reset-password.description")}
       </Text>
       <TextField
@@ -77,6 +79,6 @@ export default function ForgotPasswordScreen() {
           testID="success-message"
         />
       )}
-    </View>
+    </ScrollView>
   );
 }

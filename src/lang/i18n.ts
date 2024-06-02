@@ -47,7 +47,9 @@ declare module "i18next" {
     resources: (typeof resources)["en"];
   }
 }
-
+/**
+ * Initializes the i18n instance with the resources and the default language.
+ */
 export function initI18n() {
   i18n
     .use(initReactI18next) // passes i18n down to react-i18next
@@ -84,6 +86,9 @@ export function useLocale() {
   return [locale, setLocale] as [Locale, (locale: Locale) => void];
 }
 
+/**
+ * Object that maps language codes to their respective icon paths.
+ */
 export const langIcons = {
   en: require(`../../assets/icons/lang/en-uk.png`),
   de: require(`../../assets/icons/lang/de.png`),

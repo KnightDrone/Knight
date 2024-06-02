@@ -3,7 +3,6 @@ import useLocation from "./hooks/useLocation";
 import SharedMap from "../../components/SharedMap";
 import { Button } from "../../ui/Button";
 import { useTranslation } from "react-i18next";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 const MapOverview: React.FC<{ navigation: any }> = ({ navigation }) => {
   const { t } = useTranslation();
@@ -29,7 +28,7 @@ const MapOverview: React.FC<{ navigation: any }> = ({ navigation }) => {
       navigation={navigation}
       testid="map-view"
       mapType="user"
-      bottomLeftButtonText={t("map.order-button")}
+      bottomRightButtonText={t("map.order-button")}
     ></SharedMap>
   );
 };

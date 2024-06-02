@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Text, View } from "react-native";
+import { Text, ScrollView, View } from "react-native";
 // ------------- FIREBASE IMPORTS ----------------
 import { auth, createUserWithEmailAndPassword } from "../../services/Firebase";
 // -----------------------------------------------
@@ -135,12 +135,17 @@ export default function OperatorSignUp({ navigation }: any) {
   const { t } = useTranslation();
 
   return (
-    <View
-      className="flex-1 bg-white items-center justify-center px-8"
+    <ScrollView
+      className="flex-1 bg-white px-8 mt-10"
+      contentContainerStyle={{
+        // this is necessary for ScrollView, cannot be done through Nativewind
+        alignItems: "center",
+        justifyContent: "center",
+      }}
       testID="sign-up-screen"
     >
       <Text
-        className="text-4xl font-bold mb-16 text-center"
+        className="text-4xl font-bold mb-8 text-center pt-5"
         testID="signup-title"
       >
         {"Operator Sign Up"}
@@ -237,6 +242,6 @@ export default function OperatorSignUp({ navigation }: any) {
           className="mt-8"
         />
       )}
-    </View>
+    </ScrollView>
   );
 }

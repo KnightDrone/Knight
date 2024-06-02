@@ -17,6 +17,7 @@ import { reload } from "firebase/auth";
 import { ContentIndex } from "../../app/content/ContentIndex";
 import Settings from "../../app/settings/Setting";
 import ProfileScreen from "../../app/settings/ProfileScreen";
+import { OfflineMapStack } from "../../app/maps/offline/OfflineStack";
 
 const Drawer = createDrawerNavigator<DrawerParamList>();
 
@@ -108,6 +109,17 @@ export function UserDrawer<UserDrawerProps>(user: UserDrawerProps) {
           />
         )}
       </Drawer.Screen>
+      <Drawer.Screen
+        name="OfflineMapStack"
+        options={{
+          drawerLabel: "Offline Maps",
+          headerShown: false,
+          drawerIcon: ({ color }) => (
+            <Icon name="map-marker-off" color={color} size={22} />
+          ),
+        }}
+        component={OfflineMapStack}
+      />
       <Drawer.Screen
         name="Settings"
         options={{

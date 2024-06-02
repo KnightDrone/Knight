@@ -12,5 +12,10 @@ export type DrawerParamList = {
   PendingOrders: undefined;
   Profile: undefined;
   Settings: undefined;
+  SettingsStack: {
+    userId: string;
+  };
+  OfflineMapStack: undefined;
+  OfflineMapSettings: undefined;
   "Hiking Guides": undefined;
 };

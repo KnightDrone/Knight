@@ -22,6 +22,12 @@ interface OperatorDrawerProps {
   user?: User | null;
 }
 
+/**
+ * Renders the OperatorDrawer component.
+ *
+ * @param {OperatorDrawerProps} user - The user props.
+ * @returns {JSX.Element} The rendered OperatorDrawer component.
+ */
 export function OperatorDrawer<OperatorDrawerProps>(user: OperatorDrawerProps) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");

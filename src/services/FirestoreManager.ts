@@ -17,6 +17,7 @@ import {
 } from "../types/Order";
 import { FirestoreDataConverter } from "@firebase/firestore";
 
+// A local type for representing the user in db
 export type DBUser = {
   name: string;
   email: string;

@@ -18,6 +18,26 @@ jest.mock("../src/components/buttons/PayButton", () => ({
   },
 }));
 
+jest.mock("expo-location", () => ({
+  requestForegroundPermissionsAsync: jest.fn().mockResolvedValue({
+    status: "granted",
+  }),
+  watchPositionAsync: jest.fn().mockImplementation((options, callback) => {
+    callback({
+      coords: {
+        latitude: 37.789,
+        longitude: -122.4324,
+      },
+    });
+    return {
+      remove: jest.fn(),
+    };
+  }),
+  Accuracy: {
+    BestForNavigation: 5,
+  },
+}));
+
 beforeAll(() => {
   global.alert = jest.fn();
   jest.spyOn(console, "error").mockImplementation(() => {});
@@ -35,13 +55,7 @@ const OrderMenuTest = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName={"OrderMenu"}>
-        <Stack.Screen
-          name="OrderMenu"
-          initialParams={{
-            latitude: -999,
-            longitude: -999,
-          }}
-        >
+        <Stack.Screen name="OrderMenu">
           {(props) => <OrderMenu {...props} />}
         </Stack.Screen>
         <Stack.Screen name="OrderPlaced">

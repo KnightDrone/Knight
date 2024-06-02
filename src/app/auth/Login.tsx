@@ -1,21 +1,21 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, Image, TouchableOpacity, Platform } from "react-native";
 import {
-  auth,
-  GoogleAuthProvider,
-  signInWithCredential,
-  signInWithEmailAndPassword,
-} from "../../services/Firebase";
+  Text,
+  ScrollView,
+  View,
+  Image,
+  TouchableOpacity,
+  Platform,
+  TouchableWithoutFeedback,
+} from "react-native";
+import { GoogleAuthProvider } from "../../services/Firebase";
 import * as Google from "expo-auth-session/providers/google";
-
-// Navigation imports
 import { TextField } from "../../ui/TextField";
 import { Button } from "../../ui/Button";
 import { MessageBox } from "../../ui/MessageBox";
 import { OrSeparator } from "../../components/OrSeparator";
 import { useTranslation } from "react-i18next";
 import { langIcons, locales, useLocale } from "../../lang/i18n";
-import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import GoogleAuthConfig from "../../types/GoogleAuthConfig";
 import { logInWithEmail, logInWithGoogle } from "../../utils/Auth";
 import FirestoreManager from "../../services/FirestoreManager";
@@ -31,6 +31,7 @@ export default function Login({ navigation }: any) {
     android: GoogleAuthConfig.android,
   });
 
+  // Google login
   const [request, response, promptAsync] = Google.useAuthRequest(config);
 
   const firestoreManager = new FirestoreManager();
@@ -45,20 +46,26 @@ export default function Login({ navigation }: any) {
 
   const [showPassword, setShowPassword] = useState(false);
 
+  // Translation
   const { t } = useTranslation();
-
+  // Locale
   const [locale, setLocale] = useLocale();
 
   return (
-    <View
-      className="flex-1 bg-white items-center justify-center px-8"
+    <ScrollView
+      className="flex-1 bg-white px-8 mt-10"
+      contentContainerStyle={{
+        // this is necessary for ScrollView, cannot be done through Nativewind
+        alignItems: "center",
+        justifyContent: "center",
+      }}
       testID="login-screen"
     >
       <Image
         className="w-64 h-64"
         source={require("../../../assets/images/usedLogo.png")}
       />
-      <Text className="text-4xl font-bold mb-16 text-center">
+      <Text className="text-4xl font-bold mb-8 text-center">
         {t("login.app-name")}
       </Text>
 
@@ -157,6 +164,6 @@ export default function Login({ navigation }: any) {
           </TouchableWithoutFeedback>
         ))}
       </View>
-    </View>
+    </ScrollView>
   );
 }

@@ -6,12 +6,24 @@ import {
   signInWithEmailAndPassword,
 } from "../services/Firebase";
 import FirestoreManager, { DBUser } from "../services/FirestoreManager";
+import { registerIndieID, unregisterIndieDevice } from "native-notify";
 
-export function isValidEmail(email: string) {
+/**
+ * Checks if the given email is valid.
+ * @param email - The email to validate.
+ * @returns True if the email is valid, false otherwise.
+ */
+export function isValidEmail(email: string): boolean {
   var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
   return regex.test(email);
 }
 
+/**
+ * Logs in the user with Google credentials.
+ * @param credential - The Google credential.
+ * @param navigation - The navigation object.
+ * @param firestoreManager - The FirestoreManager instance.
+ */
 export const logInWithGoogle = (
   credential: any,
   navigation: any,
@@ -34,21 +46,36 @@ export const logInWithGoogle = (
           index: 0,
           routes: [{ name: "UserDrawer" }],
         });
+        registerIndieID(
+          userData.role + result.user.uid,
+          process.env.NN_APP_ID || "",
+          process.env.NN_APP_TOKEN || ""
+        );
       });
     } else {
       firestoreManager
         .getUser(result.user.uid)
-        .then((user) => {
+        .then(async (user) => {
           if (user && user.role === "operator") {
             navigation.reset({
               index: 0,
               routes: [{ name: "OperatorDrawer" }],
             });
+            registerIndieID(
+              "operator" + result.user.uid,
+              process.env.NN_APP_ID || "",
+              process.env.NN_APP_TOKEN || ""
+            );
           } else {
             navigation.reset({
               index: 0,
               routes: [{ name: "UserDrawer" }],
             });
+            registerIndieID(
+              "user" + result.user.uid,
+              process.env.NN_APP_ID || "",
+              process.env.NN_APP_TOKEN || ""
+            );
           }
         })
         .catch(() => {
@@ -61,17 +88,30 @@ export const logInWithGoogle = (
               role: "user",
               createdAt: new Date(),
             })
-            .then(() => {
+            .then(async () => {
               navigation.reset({
                 index: 0,
                 routes: [{ name: "UserDrawer" }],
               });
+              registerIndieID(
+                "user" + result.user.uid,
+                process.env.NN_APP_ID || "",
+                process.env.NN_APP_TOKEN || ""
+              );
             });
         });
     }
   });
 };
 
+/**
+ * Logs in the user with email and password.
+ * @param email - The user's email.
+ * @param password - The user's password.
+ * @param firestoreManager - The FirestoreManager instance.
+ * @param navigation - The navigation object.
+ * @param setError - The function to set an error message.
+ */
 export const logInWithEmail = async (
   email: string,
   password: string,
@@ -95,23 +135,29 @@ export const logInWithEmail = async (
                 role: "user",
                 createdAt: new Date(),
               })
-              .then(() => {
-                navigation.reset({
-                  index: 0,
-                  routes: [{ name: "UserDrawer" }],
-                });
+              .then(async () => {
+                navigation.navigate("UserDrawer");
+                registerIndieID(
+                  "user" + response.user.uid,
+                  process.env.NN_APP_ID || "",
+                  process.env.NN_APP_TOKEN || ""
+                );
               });
           });
         if (user && user.role === "operator") {
-          navigation.reset({
-            index: 0,
-            routes: [{ name: "OperatorDrawer" }],
-          });
+          navigation.navigate("OperatorDrawer");
+          registerIndieID(
+            "operator" + response.user.uid,
+            process.env.NN_APP_ID || "",
+            process.env.NN_APP_TOKEN || ""
+          );
         } else {
-          navigation.reset({
-            index: 0,
-            routes: [{ name: "UserDrawer" }],
-          });
+          navigation.navigate("UserDrawer");
+          registerIndieID(
+            "user" + response.user.uid,
+            process.env.NN_APP_ID || "",
+            process.env.NN_APP_TOKEN || ""
+          );
         }
       } else {
         setError("Invalid credentials");
@@ -122,6 +168,15 @@ export const logInWithEmail = async (
   }
 };
 
+/**
+ * Signs up a new user with email and password.
+ * @param userName - The user's name.
+ * @param email - The user's email.
+ * @param password - The user's password.
+ * @param firestoreManager - The FirestoreManager instance.
+ * @param navigation - The navigation object.
+ * @param setError - The function to set an error message.
+ */
 export const signUpWithEmail = async (
   userName: string,
   email: string,
@@ -148,6 +203,11 @@ export const signUpWithEmail = async (
               index: 0,
               routes: [{ name: "UserDrawer" }],
             });
+            registerIndieID(
+              "user" + userCredential.user.uid,
+              process.env.NN_APP_ID || "",
+              process.env.NN_APP_TOKEN || ""
+            );
           });
       })
       .catch((error) => {
@@ -158,8 +218,23 @@ export const signUpWithEmail = async (
   }
 };
 
+/**
+ * Logs out the current user.
+ * @param navigation - The navigation object.
+ */
 export const logoutUser = async (navigation: any) => {
   try {
+    const userId = auth.currentUser?.uid || "";
+    await unregisterIndieDevice(
+      "user" + userId,
+      process.env.NN_APP_ID || "",
+      process.env.NN_APP_TOKEN || ""
+    );
+    await unregisterIndieDevice(
+      "operator" + userId,
+      process.env.NN_APP_ID || "",
+      process.env.NN_APP_TOKEN || ""
+    );
     await auth.signOut();
     navigation.reset({
       index: 0,

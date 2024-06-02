@@ -6,10 +6,7 @@ export type RootStackParamList = {
   SignUp: undefined;
   OperatorSignup: undefined;
   ForgotPassword: undefined;
-  OrderMenu: {
-    latitude: number;
-    longitude: number;
-  };
+  OrderMenu: undefined;
   OrderPlaced: {
     orderId: string;
   };

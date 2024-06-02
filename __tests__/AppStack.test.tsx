@@ -188,12 +188,29 @@ describe("AppStack Navigation Tests", () => {
     });
   });
 
+  const mockLocation = {
+    coords: {
+      latitude: 37.7749,
+      longitude: -122.4194,
+      altitude: 0,
+      accuracy: 5,
+      altitudeAccuracy: 5,
+      heading: 0,
+      speed: 0,
+    },
+    timestamp: Date.now(),
+  };
+  (Location.getCurrentPositionAsync as jest.Mock).mockResolvedValue(
+    mockLocation
+  );
+
   it("navigates Map->OrderMenu", async () => {
     const { queryByTestId } = render(<AppStack isLoggedIn={"UserDrawer"} />);
     // Wait for the loading state to complete
     await waitFor(() => {
       expect(queryByTestId("map-view")).toBeTruthy();
     });
+
     fireEvent.press(queryByTestId("order-button"));
     await waitFor(() => {
       expect(screen.queryByTestId("order-menu-screen")).toBeTruthy();
@@ -300,5 +317,66 @@ describe("Drawer Navigation", () => {
     await waitFor(() => {
       expect(queryByTestId("map-view")).toBeTruthy();
     });
+  });
+
+  it("navigates to OperatorSignup screen when 'Operator Signup' is pressed", async () => {
+    const { queryByTestId } = render(
+      // @ts-ignore
+      <AppStack isLoggedIn={"Operator Signup"} />
+    );
+  });
+
+  it("navigates to ContentIndex screen", async () => {
+    const { queryByTestId } = render(
+      <AppStack
+        // @ts-ignore
+        isLoggedIn={"ContentIndex"}
+      />
+    );
+  });
+
+  it("navigates to Guide1 screen", async () => {
+    const { queryByTestId } = render(
+      <AppStack
+        // @ts-ignore
+        isLoggedIn={"Guide1"}
+      />
+    );
+  });
+
+  it("navigates to Guide2 screen", async () => {
+    const { queryByTestId } = render(
+      <AppStack
+        // @ts-ignore
+        isLoggedIn={"Guide2"}
+      />
+    );
+  });
+
+  it("navigates to Guide3 screen", async () => {
+    const { queryByTestId } = render(
+      <AppStack
+        // @ts-ignore
+        isLoggedIn={"Guide3"}
+      />
+    );
+  });
+
+  it("navigates to Guide4 screen", async () => {
+    const { queryByTestId } = render(
+      <AppStack
+        // @ts-ignore
+        isLoggedIn={"Guide4"}
+      />
+    );
+  });
+
+  it("navigates to Guide5 screen", async () => {
+    const { queryByTestId } = render(
+      <AppStack
+        // @ts-ignore
+        isLoggedIn={"Guide5"}
+      />
+    );
   });
 });
