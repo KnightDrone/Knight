@@ -1,4 +1,3 @@
-import { Alert } from "react-native";
 import {
   auth,
   createUserWithEmailAndPassword,
@@ -7,7 +6,6 @@ import {
 } from "../services/Firebase";
 import FirestoreManager, { DBUser } from "../services/FirestoreManager";
 import { FirebaseError } from "firebase/app";
-import { useTranslation } from "react-i18next";
 import { TFunction } from "i18next";
 import { registerIndieID, unregisterIndieDevice } from "native-notify";
 
@@ -234,8 +232,8 @@ export const signUpWithEmail = async (
  */
 export const logoutUser = async (
   navigation: any,
-  setError: SetErrorFunction,
-  t: TFunction
+  setError?: SetErrorFunction,
+  t?: TFunction
 ) => {
   try {
     const userId = auth.currentUser?.uid || "";
@@ -255,7 +253,9 @@ export const logoutUser = async (
       routes: [{ name: "Login" }],
     });
   } catch (error) {
-    handleFirebaseError(error, setError, t);
+    if (setError && t) {
+      handleFirebaseError(error, setError, t);
+    }
   }
 };
 
