@@ -8,15 +8,18 @@ import { useFocusEffect } from "@react-navigation/native";
 import Swipeable from "react-native-gesture-handler/Swipeable";
 import HeaderBackButton from "../../../components/buttons/BackButton";
 import { twMerge } from "tailwind-merge";
+import { useTranslation } from "react-i18next";
 
 const OfflineMapSettings: React.FC<{ navigation: any }> = ({ navigation }) => {
   const [downloadedMaps, setDownloadedMaps] = useState<
     { name: string; size: number }[]
   >([]);
+  const { t } = useTranslation();
+  let headerTitle = t("offline-map.settings-header");
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerTitle: "Downloaded Maps",
+      headerTitle: headerTitle,
       headerLeft: () => (
         <View className="pl-4">
           <HeaderBackButton onPress={() => navigation.toggleDrawer()} />
@@ -160,7 +163,9 @@ const OfflineMapSettings: React.FC<{ navigation: any }> = ({ navigation }) => {
       <TriangleBackground color="#A0D1E4" bottom={-100} />
       {downloadedMaps.length === 0 ? (
         <View className="flex-1 justify-center items-center">
-          <Text className="text-lg text-gray-500">No downloaded maps</Text>
+          <Text className="text-lg text-gray-500">
+            {t("offline-map.no-downloaded-maps")}
+          </Text>
         </View>
       ) : (
         <FlatList

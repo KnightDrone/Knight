@@ -7,6 +7,7 @@ import { Button } from "../../../ui/Button";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { twMerge } from "tailwind-merge";
 import { StyleSheet } from "react-native";
+import { useTranslation } from "react-i18next";
 
 const TILE_SIZE = 256;
 const TILES_PER_SIDE = 15;
@@ -32,6 +33,7 @@ export const OfflineMap = ({
   const horizontalScrollViewRef = useRef<ScrollView>(null);
   const verticalScrollViewRef = useRef<ScrollView>(null);
   const [loadingProgress, setLoadingProgress] = useState(0);
+  const { t } = useTranslation();
 
   useEffect(() => {
     loadTiles();
@@ -121,7 +123,9 @@ export const OfflineMap = ({
         <View
           style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
         >
-          <Text>Rendering Map ({loadingProgress}%)</Text>
+          <Text>
+            {t("offline-map.render-map")} ({loadingProgress}%)
+          </Text>
         </View>
       ) : (
         <ScrollView

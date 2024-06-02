@@ -8,8 +8,11 @@ import * as FileSystem from "expo-file-system";
 import { LocationType, DEFAULT_LOCATION } from "../hooks/useLocation";
 import { twMerge } from "tailwind-merge";
 import { StyleSheet } from "react-native";
+import { useTranslation } from "react-i18next";
 
 const LocationPicker: React.FC<{ navigation: any }> = ({ navigation }) => {
+  const { t } = useTranslation();
+
   const [region, setRegion] = useState<LocationType>(DEFAULT_LOCATION);
   const [isLoading, setIsLoading] = useState(false);
   const [downloadProgress, setDownloadProgress] = useState(0);
@@ -79,7 +82,7 @@ const LocationPicker: React.FC<{ navigation: any }> = ({ navigation }) => {
         </Text>
       </Button>
       <Button
-        text="Save Map"
+        text={t("offline-map.location-picker.save-map")}
         onPress={() => setModalVisible(true)}
         className={twMerge(
           "absolute bottom-[40px] right-[30px] w-[120px] h-16 shadow-md",
@@ -100,11 +103,13 @@ const LocationPicker: React.FC<{ navigation: any }> = ({ navigation }) => {
           style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}
         >
           <View className="bg-white p-5 rounded-lg w-4/5 items-center">
-            <Text className="text-lg font-bold mb-2.5">Enter name</Text>
+            <Text className="text-lg font-bold mb-2.5">
+              {t("offline-map.location-picker.alert-title")}
+            </Text>
             <TextInput
               testID="map-name-input"
               className="w-full p-2.5 border border-gray-400 rounded-lg mb-5"
-              placeholder="Enter a name for this map"
+              placeholder={t("offline-map.location-picker.alert-message")}
               value={mapName}
               onChangeText={setMapName}
               maxLength={30}
@@ -114,13 +119,13 @@ const LocationPicker: React.FC<{ navigation: any }> = ({ navigation }) => {
             </Text>
             <View className="flex-row justify-center w-1/2">
               <Button
-                text="Cancel"
+                text={t("offline-map.location-picker.cancel")}
                 onPress={() => setModalVisible(false)}
                 className={twMerge("mr-4")}
                 style="secondary"
               />
               <Button
-                text="OK"
+                text={t("offline-map.location-picker.OK")}
                 onPress={async () => {
                   if (mapName) {
                     setModalVisible(false);
@@ -138,13 +143,15 @@ const LocationPicker: React.FC<{ navigation: any }> = ({ navigation }) => {
 };
 
 const LoadingScreen = ({ progress }: { progress: number }) => {
+  const { t } = useTranslation();
+
   return (
     <View
       className="absolute inset-0 bg-black justify-center items-center"
       style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}
     >
       <Text className="text-white text-lg mb-2.5">
-        Downloading Map Tiles...
+        {t("offline-map.location-picker.downloading-tiles")}
       </Text>
       <View className="w-4/5 h-2.5 bg-gray-200 rounded-lg mb-2.5">
         <View
