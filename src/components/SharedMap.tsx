@@ -50,43 +50,65 @@ const SharedMap: React.FC<SharedMapProps> = ({
       </MapView>
 
       {loading && (
-        <View className="flex-1 justify-center items-center">
+        <View
+          className={twMerge("flex-1 justify-center items-center")}
+          style={{ backgroundColor: "rgba(255, 255, 255, 0.5)" }}
+        >
           <Text>Loading your location...</Text>
         </View>
       )}
 
-      <Button
-        testID="my-location-button"
-        className="absolute top-[60px] right-[30px] w-16 h-16 shadow-md bg-white"
-        onPress={toggleAutoCenter}
-        style="secondary"
-      >
-        <Icon name="my-location" size={24} color="#000" />
-      </Button>
-      <Button
-        testID="user-drawer-button"
-        className="absolute top-[60px] left-[30px] w-16 h-16 shadow-md bg-white"
-        onPress={() => {
-          navigation.toggleDrawer({
-            latitude: currentRegion.latitude,
-            longitude: currentRegion.longitude,
-          });
-        }}
-        style="secondary"
-      >
-        <Icon name="menu" size={24} color="#000" />
-      </Button>
-      {mapType === "user" && (
+      <>
         <Button
-          testID="order-button"
-          className="absolute bottom-[40px] right-[30px] w-[100px] h-16 shadow-md"
+          testID="my-location-button"
+          className={`absolute top-[60px] right-[30px] w-16 h-16 shadow-md ${loading ? "bg-transparent" : "bg-white"}`}
+          style="secondary"
+          onPress={toggleAutoCenter}
+        >
+          <Icon
+            name="my-location"
+            size={24}
+            color={loading ? "transparent" : "#000"}
+          />
+        </Button>
+
+        <Button
+          testID="user-drawer-button"
+          className={`absolute top-[60px] left-[30px] w-16 h-16 shadow-md ${loading ? "bg-transparent" : "bg-white"}`}
           onPress={() => {
-            navigation.navigate("OrderMenu");
+            if (!loading) {
+              navigation.toggleDrawer({
+                latitude: currentRegion.latitude,
+                longitude: currentRegion.longitude,
+              });
+            }
           }}
-          style="primary"
-          text={bottomRightButtonText}
-        ></Button>
-      )}
+          style="secondary"
+        >
+          <Icon
+            name="menu"
+            size={24}
+            color={loading ? "transparent" : "#000"}
+          />
+        </Button>
+
+        {mapType === "user" && (
+          <Button
+            testID="order-button"
+            className={`absolute bottom-[40px] right-[30px] w-[100px] h-16 shadow-md ${loading ? "opacity-0" : ""}`}
+            onPress={() => {
+              if (!loading) {
+                navigation.navigate("OrderMenu", {
+                  latitude: currentRegion.latitude,
+                  longitude: currentRegion.longitude,
+                });
+              }
+            }}
+            style="primary"
+            text={bottomRightButtonText}
+          />
+        )}
+      </>
     </View>
   );
 };
