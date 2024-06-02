@@ -127,59 +127,15 @@ export default function Login({ navigation }: any) {
           </Text>
         </TouchableOpacity>
 
-        {error && (
-          <MessageBox
-            message={error}
-            style="error"
-            onClose={() => setError("")}
-          />
-        )}
-
-        <View className="flex flex-col gap-3 w-full">
-          <TextField
-            placeholder={t("login.username")}
-            value={email}
-            onChangeText={setEmail}
-            type="email"
-            testID="email-input"
-            maxLength={50}
-          />
-
-          <TextField
-            placeholder={t("login.password")}
-            value={password}
-            onChangeText={setPassword}
-            type="password"
-            testID="password-input"
-            maxLength={50}
-          />
-
-          <Button
-            text={t("login.login-button")}
-            onPress={() =>
-              logInWithEmail(
-                email,
-                password,
-                firestoreManager,
-                navigation,
-                setError,
-                t
-              )
-            }
-            style="primary"
-            testID="login-button"
-          />
-
-          <TouchableOpacity>
-            <Text
-              className="text-primary-500 text-center mt-2.5"
-              onPress={() => navigation.navigate("SignUp")}
-              testID="sign-up-link"
-            >
-              {t("login.create-account")}
-            </Text>
-          </TouchableOpacity>
-        </View>
+        <TouchableOpacity>
+          <Text
+            className="text-primary-500 text-center mt-2.5"
+            onPress={() => navigation.navigate("SignUp")}
+            testID="sign-up-link"
+          >
+            {t("login.create-account")}
+          </Text>
+        </TouchableOpacity>
       </View>
 
       <OrSeparator />
