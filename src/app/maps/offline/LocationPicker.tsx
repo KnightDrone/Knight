@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet, Text, Modal, TextInput } from "react-native";
+import { View, Text, Modal, TextInput } from "react-native";
 import MapView, { Region } from "react-native-maps";
 import { downloadTiles } from "./DownloadTiles";
 import { Button } from "../../../ui/Button";
@@ -7,6 +7,7 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 import * as FileSystem from "expo-file-system";
 import { LocationType, DEFAULT_LOCATION } from "../hooks/useLocation";
 import { twMerge } from "tailwind-merge";
+import { StyleSheet } from "react-native";
 
 const LocationPicker: React.FC<{ navigation: any }> = ({ navigation }) => {
   const [region, setRegion] = useState<LocationType>(DEFAULT_LOCATION);
@@ -59,28 +60,32 @@ const LocationPicker: React.FC<{ navigation: any }> = ({ navigation }) => {
           onRegionChangeComplete={handleRegionChangeComplete}
         />
       )}
-      <View style={styles.markerFixed}>
+      <View className="absolute top-1/2 left-1/2 -ml-6 -mt-12">
         <Icon name="location-on" size={48} color="black" />
       </View>
       <Button
         testID="user-drawer-button"
-        className={`absolute top-[60px] left-[30px] w-24 h-12 shadow-md bg-white`}
+        style="secondary"
+        className={twMerge(
+          "absolute top-[60px] left-[30px] w-24 h-12 shadow-md bg-white",
+          "secondary"
+        )}
         onPress={() => {
           navigation.goBack();
         }}
-        style="secondary"
       >
-        <Text
-          className={twMerge("text-lg text-center", "text-black font-bold")}
-        >
-          {"Cancel"}
+        <Text className={twMerge("text-lg text-center text-black font-bold")}>
+          Cancel
         </Text>
       </Button>
       <Button
         text="Save Map"
         onPress={() => setModalVisible(true)}
+        className={twMerge(
+          "absolute bottom-[40px] right-[30px] w-[120px] h-16 shadow-md",
+          "primary"
+        )}
         style="primary"
-        className={`absolute bottom-[40px] right-[30px] w-[120px] h-16 shadow-md`}
       />
       {isLoading && <LoadingScreen progress={downloadProgress} />}
 
@@ -90,24 +95,29 @@ const LocationPicker: React.FC<{ navigation: any }> = ({ navigation }) => {
         animationType="slide"
         onRequestClose={() => setModalVisible(false)}
       >
-        <View style={styles.modalContainer}>
-          <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>Enter name</Text>
+        <View
+          className="flex-1 justify-center items-center"
+          style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}
+        >
+          <View className="bg-white p-5 rounded-lg w-4/5 items-center">
+            <Text className="text-lg font-bold mb-2.5">Enter name</Text>
             <TextInput
               testID="map-name-input"
-              style={styles.textInput}
+              className="w-full p-2.5 border border-gray-400 rounded-lg mb-5"
               placeholder="Enter a name for this map"
               value={mapName}
               onChangeText={setMapName}
               maxLength={30}
             />
-            <Text style={styles.characterCount}>{`${mapName.length}/30`}</Text>
-            <View style={styles.modalButtons}>
+            <Text className="self-end mb-2.5 text-xs text-gray-500">
+              {`${mapName.length}/30`}
+            </Text>
+            <View className="flex-row justify-center w-1/2">
               <Button
                 text="Cancel"
                 onPress={() => setModalVisible(false)}
+                className={twMerge("mr-4")}
                 style="secondary"
-                className="mr-4"
               />
               <Button
                 text="OK"
@@ -129,98 +139,24 @@ const LocationPicker: React.FC<{ navigation: any }> = ({ navigation }) => {
 
 const LoadingScreen = ({ progress }: { progress: number }) => {
   return (
-    <View style={styles.loadingContainer}>
-      <Text style={styles.loadingText}>Downloading Map Tiles...</Text>
-      <View style={styles.progressBarContainer}>
-        <View style={[styles.progressBar, { width: `${progress * 100}%` }]} />
+    <View
+      className="absolute inset-0 bg-black justify-center items-center"
+      style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}
+    >
+      <Text className="text-white text-lg mb-2.5">
+        Downloading Map Tiles...
+      </Text>
+      <View className="w-4/5 h-2.5 bg-gray-200 rounded-lg mb-2.5">
+        <View
+          className="h-full bg-green-500 rounded-lg"
+          style={{ width: `${progress * 100}%` }}
+        />
       </View>
-      <Text
-        style={styles.progressText}
-      >{`${Math.round(progress * 100)}%`}</Text>
+      <Text className="text-white text-base">
+        {`${Math.round(progress * 100)}%`}
+      </Text>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    ...StyleSheet.absoluteFillObject,
-    justifyContent: "flex-end",
-    alignItems: "center",
-  },
-  map: {
-    ...StyleSheet.absoluteFillObject,
-  },
-  markerFixed: {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    marginLeft: -24,
-    marginTop: -48,
-  },
-  characterCount: {
-    alignSelf: "flex-end",
-    marginBottom: 10,
-    fontSize: 12,
-    color: "gray",
-  },
-  loadingContainer: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  loadingText: {
-    color: "#ffffff",
-    fontSize: 18,
-    marginBottom: 10,
-  },
-  progressBarContainer: {
-    width: "80%",
-    height: 10,
-    backgroundColor: "#e0e0e0",
-    borderRadius: 5,
-    marginBottom: 10,
-  },
-  progressBar: {
-    height: "100%",
-    backgroundColor: "#4caf50",
-    borderRadius: 5,
-  },
-  progressText: {
-    color: "#ffffff",
-    fontSize: 16,
-  },
-  modalContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-  },
-  modalContent: {
-    backgroundColor: "white",
-    padding: 20,
-    borderRadius: 10,
-    width: "80%",
-    alignItems: "center",
-  },
-  modalTitle: {
-    fontSize: 18,
-    fontWeight: "bold",
-    marginBottom: 10,
-  },
-  textInput: {
-    width: "100%",
-    padding: 10,
-    borderColor: "gray",
-    borderWidth: 1,
-    borderRadius: 5,
-    marginBottom: 20,
-  },
-  modalButtons: {
-    flexDirection: "row",
-    justifyContent: "center",
-    width: "50%",
-  },
-});
 
 export default LocationPicker;
