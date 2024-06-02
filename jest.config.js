@@ -29,6 +29,7 @@ module.exports = {
     "!src/**/*.test.tsx",
     "!src/lang/**",
     "!src/types/**",
+    "!src/utils/**",
   ],
   coverageDirectory: "coverage",
   coverageReporters: ["text", "lcov"],
