@@ -40,7 +40,7 @@ export default function Login({ navigation }: any) {
     if (response?.type === "success") {
       const { id_token } = response.params;
       const credential = GoogleAuthProvider.credential(id_token);
-      logInWithGoogle(credential, navigation, firestoreManager);
+      logInWithGoogle(credential, navigation, firestoreManager, setError, t);
     }
   }, [response]);
 
@@ -104,7 +104,8 @@ export default function Login({ navigation }: any) {
               password,
               firestoreManager,
               navigation,
-              setError
+              setError,
+              t
             )
           }
           style="primary"

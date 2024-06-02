@@ -9,6 +9,7 @@ jest.mock("firebase/app", () => ({
   }),
   getApps: jest.fn(() => []),
   getApp: jest.fn(),
+  FirebaseError: jest.fn(),
 }));
 
 jest.mock("firebase/storage", () => ({

@@ -45,7 +45,7 @@ export default function SignUp({ navigation }: any) {
     if (response?.type === "success") {
       const { id_token } = response.params;
       const credential = GoogleAuthProvider.credential(id_token);
-      logInWithGoogle(credential, navigation, firestoreManager);
+      logInWithGoogle(credential, navigation, firestoreManager, setError, t);
     }
   }, [response]);
 
@@ -187,7 +187,6 @@ export default function SignUp({ navigation }: any) {
           ))}
         </View>
       </View>
-
       <Button
         text={t("signup.signup-button")}
         onPress={() =>
@@ -197,7 +196,8 @@ export default function SignUp({ navigation }: any) {
             password,
             firestoreManager,
             navigation,
-            setError
+            setError,
+            t
           )
         }
         style="primary"
@@ -212,6 +212,7 @@ export default function SignUp({ navigation }: any) {
         onPress={() => promptAsync()}
         style="secondary"
       />
+
       <Button
         text={"Operator Sign up"}
         onPress={() => navigation.navigate("OperatorSignup")}
