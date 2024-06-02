@@ -53,7 +53,7 @@ describe("OfflineMapSettings", () => {
     );
 
     await waitFor(() => {
-      expect(getByText("No downloaded maps")).toBeDefined();
+      expect(getByText("offline-map.no-downloaded-maps")).toBeTruthy();
     });
   });
 

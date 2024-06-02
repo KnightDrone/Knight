@@ -67,10 +67,10 @@ describe("LocationPicker", () => {
     const { getByText, getByTestId } = render(
       <LocationPicker navigation={{ goBack: jest.fn() }} />
     );
-    fireEvent.press(getByText("Save Map"));
+    fireEvent.press(getByText("offline-map.location-picker.save-map"));
     fireEvent.changeText(getByTestId("map-name-input"), mockMapName);
 
-    fireEvent.press(getByText("OK"));
+    fireEvent.press(getByText("offline-map.location-picker.OK"));
 
     await waitFor(() =>
       expect(downloadTiles).toHaveBeenCalledWith(
