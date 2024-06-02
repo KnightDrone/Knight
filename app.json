@@ -24,7 +24,13 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "permissions": ["android.permission.DETECT_SCREEN_CAPTURE"],
+      "permissions": [
+        "android.permission.DETECT_SCREEN_CAPTURE",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE",
+        "INTERNET",
+        "MANAGE_DOCUMENTS"
+      ],
       "package": "com.swent.knight"
     },
     "web": {

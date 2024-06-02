@@ -4,8 +4,9 @@ import { Alert } from "react-native";
 import * as FileSystem from "expo-file-system";
 import { useTranslation } from "react-i18next";
 import MapView from "react-native-maps";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-type LocationType = {
+export type LocationType = {
   latitude: number;
   longitude: number;
   latitudeDelta: number;
@@ -25,7 +26,7 @@ type UseLocationReturnType = {
 };
 
 const LOCATION_FILE = `${FileSystem.documentDirectory}location.json`;
-const DEFAULT_LOCATION = {
+export const DEFAULT_LOCATION = {
   latitude: 46.519040821641006,
   longitude: 6.568773468321669,
   latitudeDelta: 0.0922,
@@ -48,7 +49,6 @@ const useLocation = (): UseLocationReturnType => {
     const initMap = async () => {
       const savedLocation = await loadSavedLocation();
       if (savedLocation) {
-        console.log("Using saved location", savedLocation);
         setCurrentRegion(savedLocation);
         setMarker(savedLocation);
       }
@@ -60,7 +60,6 @@ const useLocation = (): UseLocationReturnType => {
     };
 
     initMap();
-
     return () => {
       locationWatcher?.remove();
     };
@@ -74,7 +73,6 @@ const useLocation = (): UseLocationReturnType => {
 
   const loadSavedLocation = async (): Promise<LocationType | null> => {
     try {
-      console.log("Loading saved location from file path", LOCATION_FILE);
       const fileContents = await FileSystem.readAsStringAsync(LOCATION_FILE);
       return JSON.parse(fileContents);
     } catch (error) {
@@ -120,11 +118,9 @@ const useLocation = (): UseLocationReturnType => {
         setMarker(newLocation);
         setLoading(false);
         await saveLocation(newLocation);
-        console.log("Saved location to file", newLocation);
       }
     );
   };
-
   const animateToRegion = (marker: LocationType, duration: number = 500) => {
     mapRef.current?.animateToRegion(marker, duration);
   };

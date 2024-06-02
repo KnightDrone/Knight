@@ -21,6 +21,7 @@ import FAQs from "../../app/settings/FAQs";
 import TermsAndConditions from "../../app/settings/TermsAndConditions";
 import { SettingsStack } from "../../app/settings/SettingsStack";
 import { ContentIndex } from "../../app/content/ContentIndex";
+import { OfflineMapStack } from "../../app/maps/offline/OfflineStack";
 
 const Drawer = createDrawerNavigator<DrawerParamList>();
 
@@ -97,6 +98,18 @@ export function UserDrawer<UserDrawerProps>(user: UserDrawerProps) {
       >
         {(props: any) => <MapOverview {...props} />}
       </Drawer.Screen>
+      <Drawer.Screen
+        name="OfflineMapStack"
+        options={{
+          drawerLabel: "Offline Maps",
+          headerShown: false,
+          drawerIcon: ({ color }) => (
+            <Icon name="map-marker-off" color={color} size={22} />
+          ),
+        }}
+        component={OfflineMapStack}
+      />
+
       <Drawer.Screen
         name="SettingsStack"
         options={{
