@@ -210,6 +210,13 @@ export const signUpWithEmail = async (
 export const logoutUser = async (navigation: any) => {
   try {
     const userId = auth.currentUser?.uid || "";
+    await auth.signOut();
+    navigation.reset({
+      index: 0,
+      routes: [{ name: "Login" }],
+    });
+
+    // After signing out, unregister the device from the push notification service
     try {
       await unregisterIndieDevice(
         "user" + userId,
@@ -222,14 +229,11 @@ export const logoutUser = async (navigation: any) => {
         process.env.NN_APP_TOKEN || ""
       );
     } catch (error) {
-      // Do nothing because the device might not be registered yet
+      Alert.alert(
+        "Push Notification Unregister Failed",
+        "Unable to unregister device at this time."
+      );
     }
-
-    await auth.signOut();
-    navigation.reset({
-      index: 0,
-      routes: [{ name: "Login" }],
-    });
   } catch (error) {
     Alert.alert("Logout Failed", "Unable to logout at this time.");
   }
