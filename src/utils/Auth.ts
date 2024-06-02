@@ -252,21 +252,30 @@ export const logoutUser = async (
 ) => {
   try {
     const userId = auth.currentUser?.uid || "";
-    await unregisterIndieDevice(
-      "user" + userId,
-      process.env.NN_APP_ID || "",
-      process.env.NN_APP_TOKEN || ""
-    );
-    await unregisterIndieDevice(
-      "operator" + userId,
-      process.env.NN_APP_ID || "",
-      process.env.NN_APP_TOKEN || ""
-    );
     await auth.signOut();
     navigation.reset({
       index: 0,
       routes: [{ name: "Login" }],
     });
+
+    // After signing out, unregister the device from the push notification service
+    try {
+      await unregisterIndieDevice(
+        "user" + userId,
+        process.env.NN_APP_ID || "",
+        process.env.NN_APP_TOKEN || ""
+      );
+      await unregisterIndieDevice(
+        "operator" + userId,
+        process.env.NN_APP_ID || "",
+        process.env.NN_APP_TOKEN || ""
+      );
+    } catch (error) {
+      Alert.alert(
+        "Push Notification Unregister Failed",
+        "Unable to unregister device at this time."
+      );
+    }
   } catch (error) {
     if (setError && t) {
       handleFirebaseError(error, setError, t);
