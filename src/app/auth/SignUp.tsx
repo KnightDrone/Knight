@@ -185,30 +185,31 @@ export default function SignUp({ navigation }: any) {
           ))}
         </View>
       </View>
-        <Button
-          text={t("signup.signup-button")}
-          onPress={() =>
-            signUpWithEmail(
-              userName,
-              email,
-              password,
-              firestoreManager,
-              navigation,
-              setError,
-              t
-            )
-          }
-          style="primary"
-          testID="sign-up-button"
-        />
+      <Button
+        text={t("signup.signup-button")}
+        onPress={() =>
+          signUpWithEmail(
+            userName,
+            email,
+            password,
+            firestoreManager,
+            navigation,
+            setError,
+            t
+          )
+        }
+        style="primary"
+        testID="sign-up-button"
+      />
 
-        <OrSeparator />
+      <OrSeparator />
 
-        <Button
-          text={t("signup.google-login")}
-          imgSrc={require("../../../assets/images/google-icon.png")}
-          onPress={() => promptAsync()}
-          style="secondary"
+      <Button
+        text={t("signup.google-login")}
+        imgSrc={require("../../../assets/images/google-icon.png")}
+        onPress={() => promptAsync()}
+        style="secondary"
+      />
 
       <Button
         text={"Operator Sign up"}
