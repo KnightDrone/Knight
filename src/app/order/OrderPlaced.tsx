@@ -34,7 +34,16 @@ const OrderPlaced = ({
 
   const [orderedItem, setOrderedItem] = useState<Item>();
   const [placedAt, setPlacedAt] = useState<Date>(new Date());
-  const [estimatedTime, setEstimatedTime] = useState<Number>(new Number());
+  const [estimatedTime, setEstimatedTime] = useState<number>(0);
+  useEffect(() => {
+    const fetchOrder = async () => {
+      const order = await firestoreManager.readData("orders", orderId);
+      setOrderedItem(order.getItem());
+      setPlacedAt(order.getOrderDate());
+      setEstimatedTime(order.calculateDroneArrivalTime());
+    };
+    fetchOrder();
+  }, [orderId]);
 
   useEffect(() => {
     const fetchOrder = async () => {
@@ -66,21 +75,17 @@ const OrderPlaced = ({
   }, [placedAt]);
 
   const [completion, setCompletion] = useState(0);
-
   useEffect(() => {
     const interval = setInterval(() => {
       const now = Date.now();
       const elapsed = now - placedAt.valueOf();
       const totalDuration = arrivalTime - placedAt.valueOf();
       const newCompletion = Math.min(100, (elapsed / totalDuration) * 100);
-
       setCompletion(newCompletion);
-
       if (newCompletion >= 100) {
         clearInterval(interval);
       }
     }, 50);
-
     return () => clearInterval(interval);
   }, [placedAt, arrivalTime]);
 
